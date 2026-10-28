@@ -1235,7 +1235,9 @@
           var htGoalPct = calcFirstHalfGoalPct(home, away, h2h);
 
           var h2hHtml = "";
-          if (h2h.length > 0) {
+          if (h2h.length === 0) {
+            h2hHtml = "<div class=\"fixture-h2h-empty\">No Previous Meetings Currently in The Database</div>";
+          } else if (h2h.length > 0) {
             var recent = h2h.slice(-6);
             var rows = recent.map(function(m) {
               var res = m[M.FTR] === "H" ? "W" : m[M.FTR] === "A" ? "L" : "D";
