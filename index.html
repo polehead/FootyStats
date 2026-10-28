@@ -1121,60 +1121,200 @@
           $main.innerHTML = parts.join("");
         }
 
-        function renderFixtureCard(fix) {
-          const home = fix.home;
-          const away = fix.away;
+        // ── Decimal → Fractional odds conversion ─────────────────────
+        function decimalToFractional(dec) {
+          if (!dec || dec <= 1) return "—";
+          var num = Math.round((dec - 1) * 100);
+          var den = 100;
+          var g = gcd(num, den);
+          return (num / g) + "/" + (den / g);
+        }
 
-          let homeStats = "";
-          let awayStats = "";
+        function gcd(a, b) {
+          return b === 0 ? a : gcd(b, a % b);
+        }
+
+        // ── H2H history: home team at home vs away team ───────────────
+        function getH2HAtHome(homeTeam, awayTeam) {
+          if (!D || !D.m) return [];
+          var results = [];
+          for (var i = 0, len = D.m.length; i < len; i++) {
+            var m = D.m[i];
+            var h = teamName(m[M.HOME]);
+            var a = teamName(m[M.AWAY]);
+            if (h === homeTeam && a === awayTeam) {
+              results.push(m);
+            }
+          }
+          results.sort(function(a, b) { return a[M.DATE].localeCompare(b[M.DATE]); });
+          return results;
+        }
+
+        // ── First-half goal % calculation ─────────────────────────────
+        function calcFirstHalfGoalPct(homeTeam, awayTeam, h2h) {
+          var homeHtRate = null;
+          var awayHtRate = null;
+
+          if (D && D.m) {
+            var homeHtTotal = 0, homeHtGoal = 0;
+            var awayHtTotal = 0, awayHtGoal = 0;
+
+            for (var i = 0, len = D.m.length; i < len; i++) {
+              var m = D.m[i];
+              var h = teamName(m[M.HOME]);
+              var a = teamName(m[M.AWAY]);
+
+              if (h === homeTeam) {
+                homeHtTotal++;
+                if (m[M.HTHG] + m[M.HTAG] > 0) homeHtGoal++;
+              }
+              if (a === awayTeam) {
+                awayHtTotal++;
+                if (m[M.HTHG] + m[M.HTAG] > 0) awayHtGoal++;
+              }
+            }
+
+            if (homeHtTotal >= 3) homeHtRate = homeHtGoal / homeHtTotal;
+            if (awayHtTotal >= 3) awayHtRate = awayHtGoal / awayHtTotal;
+          }
+
+          var h2hHtRate = null;
+          if (h2h.length >= 2) {
+            var h2hGoal = h2h.filter(function(m) { return m[M.HTHG] + m[M.HTAG] > 0; }).length;
+            h2hHtRate = h2hGoal / h2h.length;
+          }
+
+          var signals = [];
+          if (homeHtRate !== null) signals.push(homeHtRate);
+          if (awayHtRate !== null) signals.push(awayHtRate);
+          if (h2hHtRate !== null) signals.push(h2hHtRate);
+          if (!signals.length) return null;
+
+          var avg = signals.reduce(function(s, v) { return s + v; }, 0) / signals.length;
+          return Math.round(avg * 100);
+        }
+
+        function renderFixtureCard(fix) {
+          var home = fix.home;
+          var away = fix.away;
+
+          var homeStats = "";
+          var awayStats = "";
 
           if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches > 0) {
-            const pct = Math.round(
+            var pctH = Math.round(
               (TEAM_STATS[home].w2h / TEAM_STATS[home].homeMatches) * 100,
             );
-            homeStats = `<span class="fixture-stats-hint">Home 2+ W: <strong>${pct}%</strong></span>`;
+            homeStats = "<span class=\"fixture-stats-hint\">Home 2+ W: <strong>" + pctH + "%</strong></span>";
           }
           if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches > 0) {
-            const pct = Math.round(
+            var pctA = Math.round(
               (TEAM_STATS[away].w2a / TEAM_STATS[away].awayMatches) * 100,
             );
-            awayStats = `<span class="fixture-stats-hint">Away 2+ W: <strong>${pct}%</strong></span>`;
+            awayStats = "<span class=\"fixture-stats-hint\">Away 2+ W: <strong>" + pctA + "%</strong></span>";
           }
 
-          let oddsHtml = "";
+          // Fractional odds
+          var oddsHtml = "";
           if (fix.odds && (fix.odds.h || fix.odds.d || fix.odds.a)) {
+            var fh = decimalToFractional(fix.odds.h);
+            var fd = decimalToFractional(fix.odds.d);
+            var fa = decimalToFractional(fix.odds.a);
             oddsHtml =
-              `<div class="fixture-odds-strip" title="Market 1X2 Odds">` +
-              `<div class="odds-item"><span class="odds-label">1</span> <span class="odds-val">${fix.odds.h ? fix.odds.h.toFixed(2) : "—"}</span></div>` +
-              `<div class="odds-item"><span class="odds-label">X</span> <span class="odds-val">${fix.odds.d ? fix.odds.d.toFixed(2) : "—"}</span></div>` +
-              `<div class="odds-item"><span class="odds-label">2</span> <span class="odds-val">${fix.odds.a ? fix.odds.a.toFixed(2) : "—"}</span></div>` +
-              `</div>`;
+              "<div class=\"fixture-odds-strip\" title=\"Market 1X2 Odds (fractional)\">" +
+              "<div class=\"odds-item\"><span class=\"odds-label\">Home</span><span class=\"odds-val\">" + fh + "</span></div>" +
+              "<div class=\"odds-divider\"></div>" +
+              "<div class=\"odds-item\"><span class=\"odds-label\">Draw</span><span class=\"odds-val\">" + fd + "</span></div>" +
+              "<div class=\"odds-divider\"></div>" +
+              "<div class=\"odds-item\"><span class=\"odds-label\">Away</span><span class=\"odds-val\">" + fa + "</span></div>" +
+              "</div>";
+          }
+
+          // H2H (home team at home vs away team)
+          var h2h = getH2HAtHome(home, away);
+          var htGoalPct = calcFirstHalfGoalPct(home, away, h2h);
+
+          var h2hHtml = "";
+          if (h2h.length > 0) {
+            var recent = h2h.slice(-6);
+            var rows = recent.map(function(m) {
+              var res = m[M.FTR] === "H" ? "W" : m[M.FTR] === "A" ? "L" : "D";
+              var resCls = res === "W" ? "bw" : res === "L" ? "bl" : "bd";
+              var htGoals = m[M.HTHG] + m[M.HTAG];
+              var htFlag = htGoals > 0
+                ? "<span class=\"h2h-ht-goal\">\u26bd HT</span>"
+                : "<span class=\"h2h-ht-nil\">0-0 HT</span>";
+              return "<tr>" +
+                "<td class=\"h2h-date\">" + esc(m[M.DATE]) + "</td>" +
+                "<td class=\"h2h-score\">" + m[M.FTHG] + "\u2013" + m[M.FTAG] + "</td>" +
+                "<td class=\"h2h-ht\">" + m[M.HTHG] + "\u2013" + m[M.HTAG] + "</td>" +
+                "<td>" + htFlag + "</td>" +
+                "<td><span class=\"b " + resCls + "\">" + res + "</span></td>" +
+                "</tr>";
+            }).join("");
+
+            h2hHtml =
+              "<div class=\"fixture-h2h\">" +
+              "<div class=\"h2h-header\">" +
+              "<span class=\"h2h-title\">\ud83d\udcca H2H at Home</span>" +
+              "<span class=\"h2h-count\">" + h2h.length + " previous</span>" +
+              "</div>" +
+              "<table class=\"h2h-table\"><thead><tr>" +
+              "<th>Date</th><th>FT</th><th>HT</th><th>1st Half</th><th>Res</th>" +
+              "</tr></thead><tbody>" + rows + "</tbody></table>" +
+              "</div>";
+          }
+
+          // First-half goal probability
+          var htProbHtml = "";
+          if (htGoalPct !== null) {
+            var barColor = htGoalPct >= 70
+              ? "var(--neon-green)"
+              : htGoalPct >= 45
+              ? "var(--neon-yellow)"
+              : "var(--neon-red)";
+            var sources = [];
+            if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches >= 3) sources.push(esc(home) + " (home)");
+            if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches >= 3) sources.push(esc(away) + " (away)");
+            if (h2h.length >= 2) sources.push("H2H (" + h2h.length + ")");
+            htProbHtml =
+              "<div class=\"fixture-ht-prob\">" +
+              "<div class=\"ht-prob-label\">" +
+              "<span>\u26bd 1st Half Goal Probability</span>" +
+              "<span class=\"ht-prob-pct\" style=\"color:" + barColor + "\">" + htGoalPct + "%</span>" +
+              "</div>" +
+              "<div class=\"ht-prob-bar-bg\">" +
+              "<div class=\"ht-prob-bar-fill\" style=\"width:" + htGoalPct + "%;background:" + barColor + "\"></div>" +
+              "</div>" +
+              "<div class=\"ht-prob-sources\">" + sources.join(" \u00b7 ") + "</div>" +
+              "</div>";
           }
 
           return (
-            `<div class="fixture-card">` +
-            `<div class="fixture-header">` +
-            `<div class="fixture-date-chip">` +
-            `<span>📅 ${esc(fix.date)}</span>` +
-            `<span class="fixture-time-badge">${esc(fix.time)}</span>` +
-            `</div>` +
-            `</div>` +
-            `<div class="fixture-teams">` +
-            `<div class="fixture-team home">` +
-            `<span class="fixture-team-name">${esc(home)}</span>` +
+            "<div class=\"fixture-card\">" +
+            "<div class=\"fixture-header\">" +
+            "<div class=\"fixture-date-chip\">" +
+            "<span>\ud83d\udcc5 " + esc(fix.date) + "</span>" +
+            "<span class=\"fixture-time-badge\">" + esc(fix.time) + "</span>" +
+            "</div>" +
+            "</div>" +
+            "<div class=\"fixture-teams\">" +
+            "<div class=\"fixture-team home\">" +
+            "<span class=\"fixture-team-name\">" + esc(home) + "</span>" +
             homeStats +
-            `</div>` +
-            `<div class="fixture-vs">VS</div>` +
-            `<div class="fixture-team away">` +
-            `<span class="fixture-team-name">${esc(away)}</span>` +
+            "</div>" +
+            "<div class=\"fixture-vs\">VS</div>" +
+            "<div class=\"fixture-team away\">" +
+            "<span class=\"fixture-team-name\">" + esc(away) + "</span>" +
             awayStats +
-            `</div>` +
-            `</div>` +
+            "</div>" +
+            "</div>" +
             oddsHtml +
-            `</div>`
+            h2hHtml +
+            htProbHtml +
+            "</div>"
           );
         }
-
         function esc(s) {
           const d = document.createElement("div");
           d.textContent = s;
