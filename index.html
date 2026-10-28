@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FootyStats Analyser | Match Intelligence</title>
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#00f0ff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="FootyStats" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <meta
+      name="description"
+      content="Football match analysis across 19 European leagues, seasons 2023-2026. Wins with 2+ goals and 10+ corner matches."
+    />
+    <link rel="icon" type="image/png" href="icons/FootyStats.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo">FootyStats<span>Analyser</span></div>
+        <nav class="tab-bar" role="tablist" aria-label="Analysis sections">
+          <button
+            class="tab-btn active"
+            data-tab="wins"
+            role="tab"
+            aria-selected="true"
+            id="tab-wins"
+          >
+            Wins 2+ Goals
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="custom"
+            role="tab"
+            aria-selected="false"
+            id="tab-custom"
+          >
+            Custom<span class="tab-custom-count" id="custom-match-badge"
+              >0</span
+            >
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="corners"
+            role="tab"
+            aria-selected="false"
+            id="tab-corners"
+          >
+            10+ Corners
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="fixtures"
+            role="tab"
+            aria-selected="false"
+            id="tab-fixtures"
+          >
+            Upcoming Fixtures
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <section class="search-panel" aria-label="Search and filter">
+      <div class="search-grid">
+        <div class="field-group">
+          <label class="field-label" for="search-team">Team Search</label>
+          <input
+            class="field-input"
+            type="text"
+            id="search-team"
+            placeholder="e.g. Arsenal, Barcelona..."
+            autocomplete="off"
+            list="dl-teams"
+          />
+          <datalist id="dl-teams"></datalist>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="search-opponent">vs Opponent</label>
+          <input
+            class="field-input"
+            type="text"
+            id="search-opponent"
+            placeholder="e.g. Liverpool, Real Madrid..."
+            autocomplete="off"
+            list="dl-opps"
+          />
+          <datalist id="dl-opps"></datalist>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="filter-league">League</label>
+          <select class="field-select" id="filter-league">
+            <option value="">All Leagues</option>
+          </select>
+        </div>
+        <button class="btn-reset" id="btn-reset" type="button">Clear</button>
+      </div>
+
+      <!-- Scoreline Filters -->
+      <div class="filter-bar" id="filter-bar">
+        <div class="filter-bar-header" id="filter-bar-header">
+          <span class="filter-bar-title">Scoreline Filters</span>
+          <span
+            class="filter-count"
+            id="filter-active-count"
+            style="display: none"
+            >0 active</span
+          >
+          <span class="filter-bar-toggle">&#9660;</span>
+        </div>
+        <div class="filter-bar-body">
+          <div class="filter-row">
+            <span class="filter-row-label">Half-Time</span>
+            <label class="pill-toggle">
+              <input type="checkbox" id="filter-ht-00" />
+              <span class="pill-track"></span>
+              <span class="pill-label">Show only 0 – 0</span>
+            </label>
+          </div>
+          <div class="filter-row">
+            <span class="filter-row-label">HT Score</span>
+            <div class="score-input-group ht-score-inputs">
+              <div class="score-input-pair">
+                <span class="score-input-label">Home</span>
+                <input
+                  class="score-number-input"
+                  type="number"
+                  id="ht-home-goals"
+                  min="0"
+                  max="20"
+                  placeholder="—"
+                  autocomplete="off"
+                />
+              </div>
+              <span class="score-separator">–</span>
+              <div class="score-input-pair">
+                <input
+                  class="score-number-input"
+                  type="number"
+                  id="ht-away-goals"
+                  min="0"
+                  max="20"
+                  placeholder="—"
+                  autocomplete="off"
+                />
+                <span class="score-input-label">Away</span>
+              </div>
+              <span class="ht-score-preview" id="ht-score-preview"></span>
+              <button
+                class="filter-clear-chips"
+                id="btn-clear-ht"
+                type="button"
+                style="display: none"
+              >
+                Clear HT
+              </button>
+            </div>
+          </div>
+          <div class="filter-row">
+            <span class="filter-row-label">FT Score</span>
+            <div class="score-input-group">
+              <div class="score-input-pair">
+                <span class="score-input-label">Home</span>
+                <input
+                  class="score-number-input"
+                  type="number"
+                  id="ft-home-goals"
+                  min="0"
+                  max="20"
+                  placeholder="—"
+                  autocomplete="off"
+                />
+              </div>
+              <span class="score-separator">–</span>
+              <div class="score-input-pair">
+                <input
+                  class="score-number-input"
+                  type="number"
+                  id="ft-away-goals"
+                  min="0"
+                  max="20"
+                  placeholder="—"
+                  autocomplete="off"
+                />
+                <span class="score-input-label">Away</span>
+              </div>
+              <span class="score-preview" id="ft-score-preview"></span>
+              <button
+                class="filter-clear-chips"
+                id="btn-clear-ft"
+                type="button"
+                style="display: none"
+              >
+                Clear FT
+              </button>
+            </div>
+          </div>
+          <!-- Custom mode result banner -->
+          <div class="custom-result-banner" id="custom-result-banner">
+            <span class="custom-result-banner-label">Matching fixtures</span>
+            <span class="custom-result-count" id="custom-result-count">0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="stats-strip" id="stats-strip"></div>
+
+    <main class="main-content" id="main-content">
+      <div class="loading-screen" id="loading">
+        <div class="loading-ring"></div>
+        <div class="loading-text">Loading match data...</div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      FootyStats Analyser By <a href="https://github.com/polehead">polehead</a>
+    </footer>
+
+    <!-- Data loaded as a script to avoid CORS issues with file:// -->
+    <script src="data.js"></script>
+    <script src="fixtures.js"></script>
+
+    <script>
+      (function () {
+        "use strict";
+
+        /* ────────────────────────────────────────────────────────────────
+           Compact match array indices:
+             0=date  1=home  2=away  3=fthg  4=ftag  5=ftr
+             6=hthg  7=htag  8=hc    9=ac    10=tc
+             11=win2plus_home  12=win2plus_away  13=corners10plus
+             14=league_idx
+        ──────────────────────────────────────────────────────────────── */
+        const M = {
+          DATE: 0,
+          HOME: 1,
+          AWAY: 2,
+          FTHG: 3,
+          FTAG: 4,
+          FTR: 5,
+          HTHG: 6,
+          HTAG: 7,
+          HC: 8,
+          AC: 9,
+          TC: 10,
+          W2H: 11,
+          W2A: 12,
+          C10: 13,
+          LG: 14,
+        };
+
+        // ── State ─────────────────────────────────────────────────────
+        const D = typeof FOOTYDATA !== "undefined" ? FOOTYDATA : null;
+        const F = typeof FOOTYFIXTURES !== "undefined" ? FOOTYFIXTURES : null;
+        const TEAM_STATS = {};
+        let activeTab = "wins";
+        let fTeam = "",
+          fOpp = "",
+          fLeague = "";
+        let fShowHT00Only = false;
+        let fHtHome = null; // null = any, number = exact HT home goals
+        let fHtAway = null; // null = any, number = exact HT away goals
+        let fFtHome = null; // null = any, number = exact FT home goals
+        let fFtAway = null; // null = any, number = exact FT away goals
+        let currentViewData = null;
+
+        // ── DOM ───────────────────────────────────────────────────────
+        const $ = (id) => document.getElementById(id);
+        const $main = $("main-content");
+        const $stats = $("stats-strip");
+        const $team = $("search-team");
+        const $opp = $("search-opponent");
+        const $lg = $("filter-league");
+        const $reset = $("btn-reset");
+        const $ht00 = $("filter-ht-00");
+        const $htHomeIn = $("ht-home-goals");
+        const $htAwayIn = $("ht-away-goals");
+        const $htPreview = $("ht-score-preview");
+        const $clearHt = $("btn-clear-ht");
+        const $ftHomeIn = $("ft-home-goals");
+        const $ftAwayIn = $("ft-away-goals");
+        const $ftPreview = $("ft-score-preview");
+        const $clearFt = $("btn-clear-ft");
+        const $filterBar = $("filter-bar");
+        const $filterCount = $("filter-active-count");
+        const $customBanner = $("custom-result-banner");
+        const $customCount = $("custom-result-count");
+        const $customBadge = $("custom-match-badge");
+
+        if (!D) {
+          $main.innerHTML =
+            '<div class="empty-state"><h2>DATA NOT LOADED</h2><p>Could not find data.js. Run export_data.py first.</p></div>';
+          return;
+        }
+
+        // ── Helpers ────────────────────────────────────────────────────
+        // Strip season suffix: "Premier League 25/26" → "Premier League"
+        function baseLeague(name) {
+          return name.replace(/\s+\d{2}\/\d{2}$/, "");
+        }
+
+        // Resolve dictionary-encoded team index to team name (supports both int & string)
+        function teamName(t) {
+          return typeof t === "number" ? D.t[t] : t;
+        }
+
+        // Precompute historical performance rates for instant upcoming fixture insights
+        function computeTeamStats() {
+          if (!D || !D.m) return;
+          D.t.forEach((name) => {
+            TEAM_STATS[name] = { total: 0, homeMatches: 0, awayMatches: 0, w2h: 0, w2a: 0, c10: 0 };
+          });
+          for (let i = 0, len = D.m.length; i < len; i++) {
+            const m = D.m[i];
+            const h = teamName(m[M.HOME]);
+            const a = teamName(m[M.AWAY]);
+            if (TEAM_STATS[h]) {
+              TEAM_STATS[h].total++;
+              TEAM_STATS[h].homeMatches++;
+              if (m[M.W2H]) TEAM_STATS[h].w2h++;
+              if (m[M.C10]) TEAM_STATS[h].c10++;
+            }
+            if (TEAM_STATS[a]) {
+              TEAM_STATS[a].total++;
+              TEAM_STATS[a].awayMatches++;
+              if (m[M.W2A]) TEAM_STATS[a].w2a++;
+              if (m[M.C10]) TEAM_STATS[a].c10++;
+            }
+          }
+        }
+
+        // Build deduplicated base league list preserving order
+        const BASE_LEAGUES = [];
+        const blSet = new Set();
+        D.l.forEach((lg) => {
+          const bl = baseLeague(lg);
+          if (!blSet.has(bl)) {
+            blSet.add(bl);
+            BASE_LEAGUES.push(bl);
+          }
+        });
+
+        // ── Init ──────────────────────────────────────────────────────
+        (function init() {
+          computeTeamStats();
+
+          // Also include any leagues from upcoming fixtures if not yet in BASE_LEAGUES
+          if (F && F.leagues) {
+            F.leagues.forEach((flg) => {
+              if (!blSet.has(flg)) {
+                blSet.add(flg);
+                BASE_LEAGUES.push(flg);
+              }
+            });
+          }
+
+          // Populate league select with combined base league names
+          BASE_LEAGUES.forEach((bl) => {
+            const o = document.createElement("option");
+            o.value = bl;
+            o.textContent = bl;
+            $lg.appendChild(o);
+          });
+
+          // Populate datalists
+          const frag = document.createDocumentFragment();
+          D.t.forEach((t) => {
+            const o = document.createElement("option");
+            o.value = t;
+            frag.appendChild(o);
+          });
+          $("dl-teams").appendChild(frag.cloneNode(true));
+          $("dl-opps").appendChild(frag);
+
+          bindEvents();
+          render();
+        })();
+
+        // ── Events ────────────────────────────────────────────────────
+        function bindEvents() {
+          document.querySelectorAll(".tab-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              document.querySelectorAll(".tab-btn").forEach((b) => {
+                b.classList.remove("active");
+                b.setAttribute("aria-selected", "false");
+              });
+              btn.classList.add("active");
+              btn.setAttribute("aria-selected", "true");
+              activeTab = btn.dataset.tab;
+              render();
+            });
+          });
+
+          let t;
+          const deb = () => {
+            clearTimeout(t);
+            t = setTimeout(() => {
+              fTeam = $team.value.trim().toLowerCase();
+              fOpp = $opp.value.trim().toLowerCase();
+              render();
+            }, 200);
+          };
+          $team.addEventListener("input", deb);
+          $opp.addEventListener("input", deb);
+          $lg.addEventListener("change", () => {
+            fLeague = $lg.value;
+            render();
+          });
+          $reset.addEventListener("click", () => {
+            $team.value = "";
+            $opp.value = "";
+            $lg.value = "";
+            fTeam = "";
+            fOpp = "";
+            fLeague = "";
+            fShowHT00Only = false;
+            fHtHome = null;
+            fHtAway = null;
+            fFtHome = null;
+            fFtAway = null;
+            $ht00.checked = false;
+            $htHomeIn.value = "";
+            $htAwayIn.value = "";
+            $ftHomeIn.value = "";
+            $ftAwayIn.value = "";
+            syncHTScoreUI();
+            syncFTScoreUI();
+            updateFilterCount();
+            render();
+          });
+
+          // ── Scoreline filter events ──
+          $("filter-bar-header").addEventListener("click", () => {
+            $filterBar.classList.toggle("collapsed");
+          });
+
+          $ht00.addEventListener("change", () => {
+            fShowHT00Only = $ht00.checked;
+            updateFilterCount();
+            render();
+          });
+
+          function onHTInput() {
+            const hv = $htHomeIn.value.trim();
+            const av = $htAwayIn.value.trim();
+            fHtHome = hv !== "" ? parseInt(hv, 10) : null;
+            fHtAway = av !== "" ? parseInt(av, 10) : null;
+            syncHTScoreUI();
+            updateFilterCount();
+            render();
+          }
+          $htHomeIn.addEventListener("input", onHTInput);
+          $htAwayIn.addEventListener("input", onHTInput);
+
+          $clearHt.addEventListener("click", () => {
+            fHtHome = null;
+            fHtAway = null;
+            $htHomeIn.value = "";
+            $htAwayIn.value = "";
+            syncHTScoreUI();
+            updateFilterCount();
+            render();
+          });
+
+          function onFTInput() {
+            const hv = $ftHomeIn.value.trim();
+            const av = $ftAwayIn.value.trim();
+            fFtHome = hv !== "" ? parseInt(hv, 10) : null;
+            fFtAway = av !== "" ? parseInt(av, 10) : null;
+            syncFTScoreUI();
+            updateFilterCount();
+            render();
+          }
+          $ftHomeIn.addEventListener("input", onFTInput);
+          $ftAwayIn.addEventListener("input", onFTInput);
+
+          $clearFt.addEventListener("click", () => {
+            fFtHome = null;
+            fFtAway = null;
+            $ftHomeIn.value = "";
+            $ftAwayIn.value = "";
+            syncFTScoreUI();
+            updateFilterCount();
+            render();
+          });
+
+          $main.addEventListener("click", (e) => {
+            // League collapse / expand
+            const h = e.target.closest(".league-header");
+            if (h) {
+              h.parentElement.classList.toggle("collapsed");
+              return;
+            }
+
+            // Season tab switch
+            const st = e.target.closest(".season-tab-btn");
+            if (st) {
+              const section = st.closest(".league-section");
+              const idx = st.dataset.seasonIdx;
+              const panel = section.querySelector(
+                `.season-panel[data-season-idx="${idx}"]`,
+              );
+              if (panel && panel.dataset.rendered !== "true") {
+                const lg = panel.dataset.league;
+                if (currentViewData && currentViewData[lg]) {
+                  const teams = currentViewData[lg];
+                  const tn = Object.keys(teams).sort();
+                  const isWins = activeTab === "wins";
+                  const isCustom = activeTab === "custom";
+                  panel.innerHTML = tn
+                    .map((t) => renderTeam(t, teams[t], isWins, isCustom))
+                    .join("");
+                  panel.dataset.rendered = "true";
+                }
+              }
+              section.querySelectorAll(".season-tab-btn").forEach((b) => {
+                b.classList.toggle("active", b.dataset.seasonIdx === idx);
+              });
+              section.querySelectorAll(".season-panel").forEach((p) => {
+                p.classList.toggle("hidden", p.dataset.seasonIdx !== idx);
+              });
+              // Update league badge to reflect the now-active season
+              const badge = section.querySelector(".league-badge");
+              if (badge) {
+                badge.textContent =
+                  st.dataset.teams +
+                  " teams \u00b7 " +
+                  st.dataset.qual +
+                  " qualifying";
+              }
+            }
+          });
+        }
+
+        // ── HT score input UI sync ────────────────────────────────────
+        function syncHTScoreUI() {
+          const hasHome = fHtHome !== null;
+          const hasAway = fHtAway !== null;
+          const hasAny = hasHome || hasAway;
+
+          $htHomeIn.classList.toggle("has-value", hasHome);
+          $htAwayIn.classList.toggle("has-value", hasAway);
+
+          if (hasAny) {
+            const hLabel = hasHome ? String(fHtHome) : "?";
+            const aLabel = hasAway ? String(fHtAway) : "?";
+            $htPreview.textContent = hLabel + " – " + aLabel;
+            $htPreview.classList.add("visible");
+            $clearHt.style.display = "";
+          } else {
+            $htPreview.classList.remove("visible");
+            $clearHt.style.display = "none";
+          }
+        }
+
+        // ── FT score input UI sync ────────────────────────────────────
+        function syncFTScoreUI() {
+          const hasHome = fFtHome !== null;
+          const hasAway = fFtAway !== null;
+          const hasAny = hasHome || hasAway;
+
+          $ftHomeIn.classList.toggle("has-value", hasHome);
+          $ftAwayIn.classList.toggle("has-value", hasAway);
+
+          if (hasAny) {
+            const hLabel = hasHome ? String(fFtHome) : "?";
+            const aLabel = hasAway ? String(fFtAway) : "?";
+            $ftPreview.textContent = hLabel + " – " + aLabel;
+            $ftPreview.classList.add("visible");
+            $clearFt.style.display = "";
+          } else {
+            $ftPreview.classList.remove("visible");
+            $clearFt.style.display = "none";
+          }
+        }
+
+        function updateFilterCount() {
+          const count =
+            (fShowHT00Only ? 1 : 0) +
+            (fHtHome !== null ? 1 : 0) +
+            (fHtAway !== null ? 1 : 0) +
+            (fFtHome !== null ? 1 : 0) +
+            (fFtAway !== null ? 1 : 0);
+          if (count > 0) {
+            $filterCount.textContent = count + " active";
+            $filterCount.style.display = "";
+          } else {
+            $filterCount.style.display = "none";
+          }
+        }
+
+        // ── Scoreline filter predicate (show-only / filter logic) ────
+        function passesScorelineFilter(m) {
+          // HT: when toggled, show ONLY 0-0 half-times
+          if (fShowHT00Only && !(m[M.HTHG] === 0 && m[M.HTAG] === 0))
+            return false;
+          // In custom mode the score inputs are used for highlighting, not filtering
+          if (activeTab === "custom") return true;
+          // HT exact score filter
+          if (fHtHome !== null && m[M.HTHG] !== fHtHome) return false;
+          if (fHtAway !== null && m[M.HTAG] !== fHtAway) return false;
+          // FT home goals: when set, must match exactly
+          if (fFtHome !== null && m[M.FTHG] !== fFtHome) return false;
+          // FT away goals: when set, must match exactly
+          if (fFtAway !== null && m[M.FTAG] !== fFtAway) return false;
+          return true;
+        }
+
+        // ── Does a match satisfy the custom highlight scoreline? ──────
+        function matchesCustomScoreline(m) {
+          const htMatch =
+            (fHtHome === null || m[M.HTHG] === fHtHome) &&
+            (fHtAway === null || m[M.HTAG] === fHtAway);
+          const ftMatch =
+            (fFtHome === null || m[M.FTHG] === fFtHome) &&
+            (fFtAway === null || m[M.FTAG] === fFtAway);
+          // Must have at least one scoreline filter active AND both that are active must match
+          const anyActive =
+            fHtHome !== null ||
+            fHtAway !== null ||
+            fFtHome !== null ||
+            fFtAway !== null;
+          return anyActive && htMatch && ftMatch;
+        }
+
+        // ── Build filtered view ───────────────────────────────────────
+        function buildView() {
+          const isWins = activeTab === "wins";
+          const isCustom = activeTab === "custom";
+          const lgMap = {}; // league_name -> { team -> { home: [{m,q,cx}], away: [{m,q,cx}] } }
+          const lgOrder = [];
+          const lgSet = new Set();
+
+          for (let i = 0, len = D.m.length; i < len; i++) {
+            const m = D.m[i];
+            const lgName = D.l[m[M.LG]];
+
+            // League filter (matches all seasons of the selected base league)
+            if (fLeague && baseLeague(lgName) !== fLeague) continue;
+
+            // Scoreline filters (no-op in custom mode)
+            if (!passesScorelineFilter(m)) continue;
+
+            if (!lgSet.has(lgName)) {
+              lgOrder.push(lgName);
+              lgSet.add(lgName);
+            }
+            if (!lgMap[lgName]) lgMap[lgName] = {};
+
+            const home = teamName(m[M.HOME]),
+              away = teamName(m[M.AWAY]);
+
+            // q = qualifying flag for wins/corners tabs
+            // cx = custom highlight flag
+            const homeQ = isWins ? m[M.W2H] : isCustom ? false : m[M.C10];
+            const awayQ = isWins ? m[M.W2A] : isCustom ? false : m[M.C10];
+            const cx = isCustom ? matchesCustomScoreline(m) : false;
+
+            // Add to home team
+            if (!lgMap[lgName][home])
+              lgMap[lgName][home] = { home: [], away: [] };
+            lgMap[lgName][home].home.push({ m, q: homeQ, cx });
+
+            // Add to away team
+            if (!lgMap[lgName][away])
+              lgMap[lgName][away] = { home: [], away: [] };
+            lgMap[lgName][away].away.push({ m, q: awayQ, cx });
+          }
+
+          // Filter teams + prune
+          const out = {};
+          const outLg = [];
+
+          lgOrder.forEach((lg) => {
+            if (!lgMap[lg]) return;
+            const teams = {};
+            const names = Object.keys(lgMap[lg]).sort();
+
+            names.forEach((team) => {
+              if (fTeam && !team.toLowerCase().includes(fTeam)) return;
+
+              let rec = lgMap[lg][team];
+
+              if (!isCustom) {
+                // Must have at least 1 qualifying match (unless scoreline filters are active)
+                const hasScorelineFilter =
+                  fShowHT00Only ||
+                  fHtHome !== null ||
+                  fHtAway !== null ||
+                  fFtHome !== null ||
+                  fFtAway !== null;
+                if (
+                  !hasScorelineFilter &&
+                  !rec.home.some((e) => e.q) &&
+                  !rec.away.some((e) => e.q)
+                )
+                  return;
+              }
+
+              // Opponent filter
+              if (fOpp) {
+                rec = {
+                  home: rec.home.filter((e) =>
+                    teamName(e.m[M.AWAY]).toLowerCase().includes(fOpp),
+                  ),
+                  away: rec.away.filter((e) =>
+                    teamName(e.m[M.HOME]).toLowerCase().includes(fOpp),
+                  ),
+                };
+                if (!rec.home.length && !rec.away.length) return;
+              }
+
+              teams[team] = rec;
+            });
+
+            if (Object.keys(teams).length) {
+              out[lg] = teams;
+              outLg.push(lg);
+            }
+          });
+
+          return { data: out, leagues: outLg };
+        }
+
+        // ── Render ────────────────────────────────────────────────────
+        function render() {
+          if (activeTab === "fixtures") {
+            renderFixturesView();
+            return;
+          }
+          $filterBar.style.display = "";
+
+          const { data, leagues } = buildView();
+          currentViewData = data;
+          const isWins = activeTab === "wins";
+          const isCustom = activeTab === "custom";
+
+          // Group season-specific league names by their base league name
+          const baseGroups = {}; // baseName -> [lgName, ...]
+          const baseOrder = [];
+          leagues.forEach((lg) => {
+            const bl = baseLeague(lg);
+            if (!baseGroups[bl]) {
+              baseGroups[bl] = [];
+              baseOrder.push(bl);
+            }
+            baseGroups[bl].push(lg);
+          });
+
+          // Aggregate stats across all season variants
+          let nTeams = 0,
+            nQual = 0,
+            nCustom = 0,
+            nTotal = 0;
+          leagues.forEach((lg) => {
+            const tn = Object.keys(data[lg]);
+            nTeams += tn.length;
+            tn.forEach((t) => {
+              const r = data[lg][t];
+              nTotal += r.home.length + r.away.length;
+              if (isWins) {
+                nQual +=
+                  r.home.filter((e) => e.q).length +
+                  r.away.filter((e) => e.q).length;
+              } else if (!isCustom) {
+                nQual += r.home.filter((e) => e.q).length;
+              }
+              nCustom += r.home.filter((e) => e.cx).length;
+            });
+          });
+
+          // Update custom badge
+          $customBadge.textContent = nCustom;
+          if (isCustom) {
+            const hasCriteria =
+              fHtHome !== null ||
+              fHtAway !== null ||
+              fFtHome !== null ||
+              fFtAway !== null;
+            $customBanner.classList.toggle("visible", hasCriteria);
+            $customCount.textContent = nCustom.toLocaleString();
+          } else {
+            $customBanner.classList.remove("visible");
+          }
+
+          let ql;
+          if (isCustom) {
+            ql = "fixtures highlighted";
+            nQual = nCustom;
+          } else {
+            ql = isWins ? "Qualifying wins" : "10+ corner matches";
+          }
+
+          $stats.innerHTML =
+            `<div class="stat-chip"><strong>${baseOrder.length}</strong> leagues</div>` +
+            `<div class="stat-chip"><strong>${nTeams}</strong> teams</div>` +
+            `<div class="stat-chip"><strong>${nQual.toLocaleString()}</strong> ${ql}</div>` +
+            `<div class="stat-chip"><strong>${nTotal.toLocaleString()}</strong> fixtures shown</div>`;
+
+          if (!leagues.length) {
+            $main.innerHTML =
+              '<div class="empty-state"><h2>No matches found</h2><p>Try adjusting your search or filters.</p></div>';
+            return;
+          }
+
+          const parts = [];
+
+          baseOrder.forEach((bl, bli) => {
+            const seasons = baseGroups[bl];
+
+            // Sort seasons ascending by label: "23/24" < "24/25" < "25/26"
+            seasons.sort((a, b) => {
+              const la = a.slice(bl.length).trim();
+              const lb = b.slice(bl.length).trim();
+              return la.localeCompare(lb);
+            });
+
+            const defaultIdx = seasons.length - 1; // latest season active by default
+
+            // Badge reflects the ACTIVE (latest) season only
+            const activeLg = seasons[defaultIdx];
+            const activeTeams = Object.keys(data[activeLg]);
+            let activeQual = 0;
+            activeTeams.forEach((t) => {
+              const r = data[activeLg][t];
+              if (isCustom) activeQual += r.home.filter((e) => e.cx).length;
+              else if (isWins)
+                activeQual +=
+                  r.home.filter((e) => e.q).length +
+                  r.away.filter((e) => e.q).length;
+              else activeQual += r.home.filter((e) => e.q).length;
+            });
+
+            // Season tab strip (omit when only one season)
+            let tabsHtml = "";
+            if (seasons.length > 1) {
+              tabsHtml =
+                '<div class="league-tabs">' +
+                seasons
+                  .map((lg, si) => {
+                    const season = lg.slice(bl.length).trim() || lg;
+                    const active = si === defaultIdx ? " active" : "";
+                    // Per-season badge data stored on the button for live updates
+                    const sTeams = Object.keys(data[lg]);
+                    let sQual = 0;
+                    sTeams.forEach((t) => {
+                      const r = data[lg][t];
+                      if (isCustom) sQual += r.home.filter((e) => e.cx).length;
+                      else if (isWins)
+                        sQual +=
+                          r.home.filter((e) => e.q).length +
+                          r.away.filter((e) => e.q).length;
+                      else sQual += r.home.filter((e) => e.q).length;
+                    });
+                    return `<button class="season-tab-btn${active}" data-season-idx="${si}" data-teams="${sTeams.length}" data-qual="${sQual}" type="button">${esc(season)}</button>`;
+                  })
+                  .join("") +
+                "</div>";
+            }
+
+            // One panel per season — lazily render inactive seasons on tab switch
+            const panelsHtml = seasons
+              .map((lg, si) => {
+                const hidden = si !== defaultIdx ? " hidden" : "";
+                if (si === defaultIdx) {
+                  const teams = data[lg];
+                  const tn = Object.keys(teams).sort();
+                  return (
+                    `<div class="season-panel${hidden}" data-season-idx="${si}" data-league="${esc(lg)}" data-rendered="true">` +
+                    tn
+                      .map((t) => renderTeam(t, teams[t], isWins, isCustom))
+                      .join("") +
+                    "</div>"
+                  );
+                }
+                return `<div class="season-panel hidden" data-season-idx="${si}" data-league="${esc(lg)}" data-rendered="false"></div>`;
+              })
+              .join("");
+
+            parts.push(
+              `<section class="league-section" style="animation-delay:${bli * 30}ms">` +
+                `<div class="league-header" role="button" tabindex="0" aria-label="Toggle ${esc(bl)}">` +
+                `<h2 class="league-name">${esc(bl)}</h2>` +
+                `<span class="league-badge">${activeTeams.length} teams &middot; ${activeQual} qualifying</span>` +
+                `<span class="league-toggle">&#9660;</span></div>` +
+                `<div class="league-body">${tabsHtml}${panelsHtml}</div>` +
+                `</section>`,
+            );
+          });
+
+          $main.innerHTML = parts.join("");
+        }
+
+        function renderTeam(name, rec, isWins, isCustom) {
+          let h =
+            '<div class="team-block"><div class="team-name-header">' +
+            esc(name) +
+            "</div>";
+          if (rec.home.length)
+            h +=
+              '<div class="venue-label">Home Fixtures</div>' +
+              renderTable(rec.home, isWins, true, isCustom);
+          if (rec.away.length)
+            h +=
+              '<div class="venue-label">Away Fixtures</div>' +
+              renderTable(rec.away, isWins, false, isCustom);
+          return h + "</div>";
+        }
+
+        function renderTable(entries, isWins, isHome, isCustom) {
+          const hdrExtra =
+            isWins || isCustom
+              ? '<th class="c">HT</th>'
+              : '<th class="c">HC</th><th class="c">AC</th><th class="c">Tot</th>';
+
+          // Colgroup for fixed column widths — keeps all tables aligned
+          const colgroup =
+            isWins || isCustom
+              ? "<colgroup>" +
+                '<col class="col-num"><col class="col-date">' +
+                '<col class="col-team"><col class="col-score"><col class="col-team">' +
+                '<col class="col-res"><col class="col-ht"><col class="col-dot">' +
+                "</colgroup>"
+              : "<colgroup>" +
+                '<col class="col-num"><col class="col-date">' +
+                '<col class="col-team"><col class="col-score"><col class="col-team">' +
+                '<col class="col-res">' +
+                '<col class="col-corner"><col class="col-corner"><col class="col-corner">' +
+                '<col class="col-dot">' +
+                "</colgroup>";
+
+          let h =
+            '<div class="match-table-wrap"><table class="match-table">' +
+            colgroup +
+            "<thead><tr>" +
+            '<th>#</th><th>Date</th><th class="team-cell">Home</th><th class="c">FT</th><th class="team-cell">Away</th>' +
+            '<th class="c col-res">Win</th>' +
+            hdrExtra +
+            '<th class="c"></th></tr></thead><tbody>';
+
+          for (let i = 0; i < entries.length; i++) {
+            const e = entries[i],
+              m = e.m,
+              q = e.q,
+              cx = e.cx;
+
+            let rc;
+            if (isCustom) {
+              rc = cx ? " qcustom" : "";
+            } else {
+              rc = q ? (isWins ? " qw" : " qc") : "";
+            }
+
+            let res, cls;
+            if (isHome) {
+              res = m[M.FTR] === "H" ? "W" : m[M.FTR] === "A" ? "L" : "D";
+            } else {
+              res = m[M.FTR] === "A" ? "W" : m[M.FTR] === "H" ? "L" : "D";
+            }
+            cls = res === "W" ? "bw" : res === "L" ? "bl" : "bd";
+
+            let mk;
+            if (isCustom) {
+              mk = cx ? '<span class="qm qm-o"></span>' : "";
+            } else {
+              const mc = isWins ? "qm-g" : "qm-y";
+              mk = q ? '<span class="qm ' + mc + '"></span>' : "";
+            }
+
+            const ex =
+              isWins || isCustom
+                ? '<td class="c">' + m[M.HTHG] + "-" + m[M.HTAG] + "</td>"
+                : '<td class="c">' +
+                  m[M.HC] +
+                  '</td><td class="c">' +
+                  m[M.AC] +
+                  '</td><td class="c"><strong>' +
+                  m[M.TC] +
+                  "</strong></td>";
+
+            const hTeam = teamName(m[M.HOME]);
+            const aTeam = teamName(m[M.AWAY]);
+
+            h +=
+              '<tr class="' +
+              rc +
+              '">' +
+              "<td>" +
+              (i + 1) +
+              "</td>" +
+              "<td>" +
+              esc(m[M.DATE]) +
+              "</td>" +
+              '<td class="team-cell" title="' +
+              esc(hTeam) +
+              '">' +
+              esc(hTeam) +
+              "</td>" +
+              '<td class="c">' +
+              m[M.FTHG] +
+              " - " +
+              m[M.FTAG] +
+              "</td>" +
+              '<td class="team-cell" title="' +
+              esc(aTeam) +
+              '">' +
+              esc(aTeam) +
+              "</td>" +
+              '<td class="c col-res"><span class="b ' +
+              cls +
+              '">' +
+              res +
+              "</span></td>" +
+              ex +
+              '<td class="c">' +
+              mk +
+              "</td></tr>";
+          }
+
+          return h + "</tbody></table></div>";
+        }
+
+        // ── Upcoming Fixtures View ────────────────────────────────────
+        function renderFixturesView() {
+          $filterBar.style.display = "none";
+          $customBanner.classList.remove("visible");
+
+          if (!F || !F.fixtures || !F.fixtures.length) {
+            $stats.innerHTML =
+              '<div class="stat-chip"><strong>0</strong> upcoming fixtures</div>';
+            $main.innerHTML =
+              '<div class="empty-state"><h2>NO FIXTURES LOADED</h2><p>Could not find fixtures in fixtures.js. Run <code>python export_fixtures.py</code> to download upcoming matches.</p></div>';
+            return;
+          }
+
+          const filtered = F.fixtures.filter((fix) => {
+            if (fLeague && fix.league !== fLeague) return false;
+            const h = fix.home.toLowerCase();
+            const a = fix.away.toLowerCase();
+
+            if (fTeam) {
+              const matchHome = h.includes(fTeam);
+              const matchAway = a.includes(fTeam);
+              if (!matchHome && !matchAway) return false;
+            }
+
+            if (fOpp) {
+              const matchHome = h.includes(fOpp);
+              const matchAway = a.includes(fOpp);
+              if (!matchHome && !matchAway) return false;
+            }
+
+            return true;
+          });
+
+          // Group by league preserving order of occurrence
+          const groups = {};
+          const leaguesOrder = [];
+          filtered.forEach((fix) => {
+            if (!groups[fix.league]) {
+              groups[fix.league] = [];
+              leaguesOrder.push(fix.league);
+            }
+            groups[fix.league].push(fix);
+          });
+
+          // Stats strip
+          const updatedDate = F.updated
+            ? new Date(F.updated).toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "";
+
+          $stats.innerHTML =
+            `<div class="stat-chip"><strong>${leaguesOrder.length}</strong> leagues</div>` +
+            `<div class="stat-chip"><strong>${filtered.length}</strong> upcoming fixtures</div>` +
+            (updatedDate
+              ? `<div class="stat-chip">Feed: <strong>${esc(updatedDate)}</strong></div>`
+              : "");
+
+          if (!filtered.length) {
+            $main.innerHTML =
+              '<div class="empty-state"><h2>No fixtures match filters</h2><p>Try resetting the team or league filter.</p></div>';
+            return;
+          }
+
+          const parts = [];
+          leaguesOrder.forEach((lg, idx) => {
+            const list = groups[lg];
+            const cardsHtml = list.map(renderFixtureCard).join("");
+
+            parts.push(
+              `<section class="league-section" style="animation-delay:${idx * 30}ms">` +
+                `<div class="league-header" role="button" tabindex="0" aria-label="Toggle ${esc(lg)}">` +
+                `<h2 class="league-name">${esc(lg)}</h2>` +
+                `<span class="league-badge">${list.length} ${list.length === 1 ? "fixture" : "fixtures"}</span>` +
+                `<span class="league-toggle">&#9660;</span></div>` +
+                `<div class="league-body"><div class="fixtures-grid">${cardsHtml}</div></div>` +
+                `</section>`,
+            );
+          });
+
+          $main.innerHTML = parts.join("");
+        }
+
+        function renderFixtureCard(fix) {
+          const home = fix.home;
+          const away = fix.away;
+
+          let homeStats = "";
+          let awayStats = "";
+
+          if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches > 0) {
+            const pct = Math.round(
+              (TEAM_STATS[home].w2h / TEAM_STATS[home].homeMatches) * 100,
+            );
+            homeStats = `<span class="fixture-stats-hint">Home 2+ W: <strong>${pct}%</strong></span>`;
+          }
+          if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches > 0) {
+            const pct = Math.round(
+              (TEAM_STATS[away].w2a / TEAM_STATS[away].awayMatches) * 100,
+            );
+            awayStats = `<span class="fixture-stats-hint">Away 2+ W: <strong>${pct}%</strong></span>`;
+          }
+
+          let oddsHtml = "";
+          if (fix.odds && (fix.odds.h || fix.odds.d || fix.odds.a)) {
+            oddsHtml =
+              `<div class="fixture-odds-strip" title="Market 1X2 Odds">` +
+              `<div class="odds-item"><span class="odds-label">1</span> <span class="odds-val">${fix.odds.h ? fix.odds.h.toFixed(2) : "—"}</span></div>` +
+              `<div class="odds-item"><span class="odds-label">X</span> <span class="odds-val">${fix.odds.d ? fix.odds.d.toFixed(2) : "—"}</span></div>` +
+              `<div class="odds-item"><span class="odds-label">2</span> <span class="odds-val">${fix.odds.a ? fix.odds.a.toFixed(2) : "—"}</span></div>` +
+              `</div>`;
+          }
+
+          return (
+            `<div class="fixture-card">` +
+            `<div class="fixture-header">` +
+            `<div class="fixture-date-chip">` +
+            `<span>📅 ${esc(fix.date)}</span>` +
+            `<span class="fixture-time-badge">${esc(fix.time)}</span>` +
+            `</div>` +
+            `</div>` +
+            `<div class="fixture-teams">` +
+            `<div class="fixture-team home">` +
+            `<span class="fixture-team-name">${esc(home)}</span>` +
+            homeStats +
+            `</div>` +
+            `<div class="fixture-vs">VS</div>` +
+            `<div class="fixture-team away">` +
+            `<span class="fixture-team-name">${esc(away)}</span>` +
+            awayStats +
+            `</div>` +
+            `</div>` +
+            oddsHtml +
+            `</div>`
+          );
+        }
+
+        function esc(s) {
+          const d = document.createElement("div");
+          d.textContent = s;
+          return d.innerHTML;
+        }
+      })();
+    </script>
+
+    <!-- PWA Install Banner -->
+    <div
+      id="pwa-install-banner"
+      role="dialog"
+      aria-label="Install FootyStats app"
+    >
+      <img
+        class="pwa-banner-icon"
+        src="icons/icon-192.png"
+        alt="FootyStats icon"
+      />
+      <div class="pwa-banner-text">
+        <div class="pwa-banner-title">Install FootyStats</div>
+        <div class="pwa-banner-sub">Add to home screen for offline access</div>
+      </div>
+      <button class="pwa-install-btn" id="pwa-install-btn" type="button">
+        Install
+      </button>
+      <button
+        class="pwa-dismiss-btn"
+        id="pwa-dismiss-btn"
+        type="button"
+        aria-label="Dismiss"
+      >
+        &#x2715;
+      </button>
+    </div>
+
+    <!-- PWA: Service Worker registration + install prompt handling -->
+    <script>
+      (function () {
+        // Register service worker
+        if ("serviceWorker" in navigator) {
+          window.addEventListener("load", function () {
+            navigator.serviceWorker
+              .register("./sw.js")
+              .then(function (reg) {
+                console.log("[FootyStats SW] Registered, scope:", reg.scope);
+              })
+              .catch(function (err) {
+                console.warn("[FootyStats SW] Registration failed:", err);
+              });
+          });
+        }
+
+        // A2HS install banner
+        var deferredPrompt = null;
+        var $banner = document.getElementById("pwa-install-banner");
+        var $installBtn = document.getElementById("pwa-install-btn");
+        var $dismissBtn = document.getElementById("pwa-dismiss-btn");
+
+        window.addEventListener("beforeinstallprompt", function (e) {
+          e.preventDefault();
+          deferredPrompt = e;
+          // Show after a short delay so it doesn't immediately compete with the loading screen
+          setTimeout(function () {
+            $banner.classList.add("visible");
+          }, 3000);
+        });
+
+        $installBtn.addEventListener("click", function () {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(function () {
+            deferredPrompt = null;
+            $banner.classList.remove("visible");
+          });
+        });
+
+        $dismissBtn.addEventListener("click", function () {
+          $banner.classList.remove("visible");
+          deferredPrompt = null;
+        });
+
+        // Hide banner once app is installed
+        window.addEventListener("appinstalled", function () {
+          $banner.classList.remove("visible");
+          deferredPrompt = null;
+        });
+      })();
+    </script>
+  </body>
+</html>
