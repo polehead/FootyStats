@@ -1751,3 +1751,174 @@ body::before {
   background: rgba(255, 255, 255, 0.02);
   letter-spacing: 0.3px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   18. PWA Update Banner
+   ═══════════════════════════════════════════════════════════════════ */
+#pwa-update-banner {
+  display: none;
+  position: fixed;
+  top: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(10, 14, 24, 0.97);
+  border: 1px solid var(--neon-purple);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    var(--glow-purple),
+    0 8px 32px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  max-width: 480px;
+  width: calc(100% - 32px);
+  animation: slideDownFade 0.4s var(--ease-out) both;
+}
+
+#pwa-update-banner.visible {
+  display: flex;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.pwa-update-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px var(--neon-purple));
+}
+
+.pwa-update-btn {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  background: var(--neon-purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+
+.pwa-update-btn:hover {
+  box-shadow: var(--glow-purple);
+  transform: scale(1.04);
+}
+
+.pwa-update-btn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 480px) {
+  #pwa-update-banner {
+    top: var(--space-sm);
+    left: var(--space-sm);
+    right: var(--space-sm);
+    transform: none;
+    max-width: unset;
+    width: auto;
+  }
+
+  @keyframes slideDownFade {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   19. Stats Strip — Today Only Toggle Chip
+   ═══════════════════════════════════════════════════════════════════ */
+.stat-chip-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.stat-chip-toggle input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Mini pill track */
+.today-toggle-track {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-neon);
+  flex-shrink: 0;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.today-toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: left 0.25s var(--ease-out), background 0.25s;
+}
+
+/* Checked state */
+.stat-chip-toggle input:checked ~ .today-toggle-track {
+  background: rgba(176, 38, 255, 0.2);
+  border-color: var(--neon-purple);
+  box-shadow: var(--glow-purple);
+}
+
+.stat-chip-toggle input:checked ~ .today-toggle-track::after {
+  left: 16px;
+  background: var(--neon-purple);
+}
+
+.today-toggle-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.stat-chip-toggle input:checked ~ .today-toggle-track + .today-toggle-label,
+.stat-chip-toggle:has(input:checked) .today-toggle-label {
+  color: var(--neon-purple);
+}
+
+/* Active chip glow when checked */
+.stat-chip-toggle:has(input:checked) {
+  border-color: var(--neon-purple);
+  background: rgba(176, 38, 255, 0.08);
+  box-shadow: 0 0 8px rgba(176, 38, 255, 0.2);
+}

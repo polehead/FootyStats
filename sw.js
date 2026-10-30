@@ -1,9 +1,10 @@
-/* ═══════════════════════════════════════════════════════════════════
-   FootyStats Analyser — Service Worker
+/*
+   FootyStats Analyser - Service Worker
    Strategy: Cache-First with network fallback
-   ═══════════════════════════════════════════════════════════════════ */
+   Update flow: new SW waits → page detects it → user prompted → SKIP_WAITING → reload
+*/
 
-const CACHE_NAME = "footystats-v7";
+const CACHE_NAME = "footystats-v8";
 
 // Files to pre-cache on install (the complete runtime app shell)
 const PRECACHE_URLS = [
@@ -16,17 +17,19 @@ const PRECACHE_URLS = [
   "./icons/icon-512.png",
 ];
 
-// ── Install: pre-cache the app shell ─────────────────────────────────────────
+// ── Install: pre-cache the app shell ──────────────────────────────
+// NOTE: No skipWaiting() here — we wait so the page can prompt the user.
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
       .open(CACHE_NAME)
       .then((cache) => cache.addAll(PRECACHE_URLS))
-      .then(() => self.skipWaiting()), // activate immediately
+    // Deliberately NOT calling self.skipWaiting() — the update banner
+    // in index.html sends a SKIP_WAITING message when the user clicks "Update".
   );
 });
 
-// ── Activate: clean up old versioned caches ───────────────────────────────────
+// ── Activate: clean up old versioned caches ────────────────────────
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
@@ -42,7 +45,14 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// ── Fetch: cache-first, network fallback ─────────────────────────────────────
+// ── Message: SKIP_WAITING sent by the update banner ───────────────
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
+// ── Fetch: cache-first, network fallback ──────────────────────────
 self.addEventListener("fetch", (event) => {
   // Only handle GET requests to same origin (or relative)
   if (event.request.method !== "GET") return;
@@ -67,7 +77,7 @@ self.addEventListener("fetch", (event) => {
             return networkResponse;
           })
           .catch(() => {
-            /* offline — cached version already returned above */
+            /* offline - cached version already returned above */
           });
 
         // Return cached immediately (stale-while-revalidate)
@@ -75,7 +85,7 @@ self.addEventListener("fetch", (event) => {
         return cachedResponse;
       }
 
-      // Not in cache — fetch from network and cache for next time
+      // Not in cache - fetch from network and cache for next time
       return fetch(event.request)
         .then((networkResponse) => {
           if (!networkResponse || networkResponse.status !== 200) {
@@ -88,7 +98,7 @@ self.addEventListener("fetch", (event) => {
           return networkResponse;
         })
         .catch(() => {
-          // Offline and not cached — nothing we can do for this resource
+          // Offline and not cached - nothing we can do for this resource
         });
     }),
   );
