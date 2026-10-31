@@ -1694,6 +1694,29 @@ body::before {
   padding: 1px 5px;
 }
 
+.h2h-corners {
+  text-align: center;
+}
+
+.h2h-c10-pill {
+  font-size: 0.68rem;
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-weight: 700;
+}
+
+.h2h-c10-sub {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
 /* ── First-half probability bar ──────────────────────────────────── */
 .fixture-ht-prob {
   border: 1px solid rgba(255, 230, 0, 0.15);
@@ -1734,6 +1757,51 @@ body::before {
 }
 
 .ht-prob-sources {
+  font-size: 0.62rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* ── 10+ Corners probability bar ─────────────────────────────────── */
+.fixture-c10-prob {
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  background: rgba(0, 240, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.c10-prob-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.c10-prob-pct {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.c10-prob-bar-bg {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.c10-prob-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.6s var(--ease-out);
+  box-shadow: 0 0 8px currentColor;
+}
+
+.c10-prob-sources {
   font-size: 0.62rem;
   font-family: var(--font-mono);
   color: var(--text-muted);

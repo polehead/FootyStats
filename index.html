@@ -1181,7 +1181,11 @@
             }
           }
           results.sort(function (a, b) {
-            return a[M.DATE].localeCompare(b[M.DATE]);
+            var pa = a[M.DATE].split("/");
+            var pb = b[M.DATE].split("/");
+            var da = pa[2] + pa[1] + pa[0];
+            var db = pb[2] + pb[1] + pb[0];
+            return db.localeCompare(da);
           });
           return results;
         }
@@ -1228,6 +1232,57 @@
           if (homeHtRate !== null) signals.push(homeHtRate);
           if (awayHtRate !== null) signals.push(awayHtRate);
           if (h2hHtRate !== null) signals.push(h2hHtRate);
+          if (!signals.length) return null;
+
+          var avg =
+            signals.reduce(function (s, v) {
+              return s + v;
+            }, 0) / signals.length;
+          return Math.round(avg * 100);
+        }
+
+        // ── 10+ Corners % calculation ──────────────────────────────────
+        function calcCorners10PlusPct(homeTeam, awayTeam, h2h) {
+          var homeRate = null;
+          var awayRate = null;
+
+          if (D && D.m) {
+            var homeTotal = 0,
+              homeC10 = 0;
+            var awayTotal = 0,
+              awayC10 = 0;
+
+            for (var i = 0, len = D.m.length; i < len; i++) {
+              var m = D.m[i];
+              var h = teamName(m[M.HOME]);
+              var a = teamName(m[M.AWAY]);
+
+              if (h === homeTeam) {
+                homeTotal++;
+                if (m[M.C10]) homeC10++;
+              }
+              if (a === awayTeam) {
+                awayTotal++;
+                if (m[M.C10]) awayC10++;
+              }
+            }
+
+            if (homeTotal >= 3) homeRate = homeC10 / homeTotal;
+            if (awayTotal >= 3) awayRate = awayC10 / awayTotal;
+          }
+
+          var h2hRate = null;
+          if (h2h.length >= 2) {
+            var h2hC10 = h2h.filter(function (m) {
+              return m[M.C10];
+            }).length;
+            h2hRate = h2hC10 / h2h.length;
+          }
+
+          var signals = [];
+          if (homeRate !== null) signals.push(homeRate);
+          if (awayRate !== null) signals.push(awayRate);
+          if (h2hRate !== null) signals.push(h2hRate);
           if (!signals.length) return null;
 
           var avg =
@@ -1288,13 +1343,14 @@
           // H2H (home team at home vs away team)
           var h2h = getH2HAtHome(home, away);
           var htGoalPct = calcFirstHalfGoalPct(home, away, h2h);
+          var c10Pct = calcCorners10PlusPct(home, away, h2h);
 
           var h2hHtml = "";
           if (h2h.length === 0) {
             h2hHtml =
               '<div class="fixture-h2h-empty">No Previous Meetings Currently in The Database</div>';
           } else if (h2h.length > 0) {
-            var recent = h2h.slice(-6);
+            var recent = h2h.slice(0, 6);
             var rows = recent
               .map(function (m) {
                 var res = m[M.FTR] === "H" ? "W" : m[M.FTR] === "A" ? "L" : "D";
@@ -1304,6 +1360,22 @@
                   htGoals > 0
                     ? '<span class="h2h-ht-goal">\u26bd HT</span>'
                     : '<span class="h2h-ht-nil">0-0 HT</span>';
+                var c10Flag =
+                  m[M.C10]
+                    ? '<span class="h2h-c10-pill" title="Home: ' +
+                      m[M.HC] +
+                      ' \u00b7 Away: ' +
+                      m[M.AC] +
+                      '">' +
+                      m[M.TC] +
+                      "</span>"
+                    : '<span class="h2h-c10-sub" title="Home: ' +
+                      m[M.HC] +
+                      ' \u00b7 Away: ' +
+                      m[M.AC] +
+                      '">' +
+                      m[M.TC] +
+                      "</span>";
                 return (
                   "<tr>" +
                   '<td class="h2h-date">' +
@@ -1321,6 +1393,9 @@
                   "</td>" +
                   "<td>" +
                   htFlag +
+                  "</td>" +
+                  '<td class="h2h-corners">' +
+                  c10Flag +
                   "</td>" +
                   '<td><span class="b ' +
                   resCls +
@@ -1341,7 +1416,7 @@
               " previous</span>" +
               "</div>" +
               '<table class="h2h-table"><thead><tr>' +
-              "<th>Date</th><th>FT</th><th>HT</th><th>1st Half</th><th>Res</th>" +
+              "<th>Date</th><th>FT</th><th>HT</th><th>1st Half</th><th>Corners</th><th>Res</th>" +
               "</tr></thead><tbody>" +
               rows +
               "</tbody></table>" +
@@ -1386,6 +1461,44 @@
               "</div>";
           }
 
+          // 10+ Corners probability
+          var c10ProbHtml = "";
+          if (c10Pct !== null) {
+            var c10BarColor =
+              c10Pct >= 70
+                ? "var(--neon-green)"
+                : c10Pct >= 45
+                  ? "var(--neon-yellow)"
+                  : "var(--neon-red)";
+            var c10Sources = [];
+            if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches >= 3)
+              c10Sources.push(esc(home) + " (home)");
+            if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches >= 3)
+              c10Sources.push(esc(away) + " (away)");
+            if (h2h.length >= 2) c10Sources.push("H2H (" + h2h.length + ")");
+            c10ProbHtml =
+              '<div class="fixture-c10-prob">' +
+              '<div class="c10-prob-label">' +
+              "<span>\ud83d\udea9 10+ Corners Probability</span>" +
+              '<span class="c10-prob-pct" style="color:' +
+              c10BarColor +
+              '">' +
+              c10Pct +
+              "%</span>" +
+              "</div>" +
+              '<div class="c10-prob-bar-bg">' +
+              '<div class="c10-prob-bar-fill" style="width:' +
+              c10Pct +
+              "%;background:" +
+              c10BarColor +
+              '"></div>' +
+              "</div>" +
+              '<div class="c10-prob-sources">' +
+              c10Sources.join(" \u00b7 ") +
+              "</div>" +
+              "</div>";
+          }
+
           return (
             '<div class="fixture-card">' +
             '<div class="fixture-header">' +
@@ -1416,6 +1529,7 @@
             oddsHtml +
             h2hHtml +
             htProbHtml +
+            c10ProbHtml +
             "</div>"
           );
         }
