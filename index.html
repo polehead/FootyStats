@@ -1166,6 +1166,7 @@
 
         function gcd(a, b) {
           return b === 0 ? a : gcd(b, a % b);
+          M.DATE;
         }
 
         // ── H2H history: home team at home vs away team ───────────────
@@ -1360,26 +1361,30 @@
                   htGoals > 0
                     ? '<span class="h2h-ht-goal">\u26bd HT</span>'
                     : '<span class="h2h-ht-nil">0-0 HT</span>';
-                var c10Flag =
-                  m[M.C10]
-                    ? '<span class="h2h-c10-pill" title="Home: ' +
-                      m[M.HC] +
-                      ' \u00b7 Away: ' +
-                      m[M.AC] +
-                      '">' +
-                      m[M.TC] +
-                      "</span>"
-                    : '<span class="h2h-c10-sub" title="Home: ' +
-                      m[M.HC] +
-                      ' \u00b7 Away: ' +
-                      m[M.AC] +
-                      '">' +
-                      m[M.TC] +
-                      "</span>";
+                var c10Flag = m[M.C10]
+                  ? '<span class="h2h-c10-pill" title="Home: ' +
+                    m[M.HC] +
+                    " \u00b7 Away: " +
+                    m[M.AC] +
+                    '">' +
+                    m[M.TC] +
+                    "</span>"
+                  : '<span class="h2h-c10-sub" title="Home: ' +
+                    m[M.HC] +
+                    " \u00b7 Away: " +
+                    m[M.AC] +
+                    '">' +
+                    m[M.TC] +
+                    "</span>";
                 return (
                   "<tr>" +
                   '<td class="h2h-date">' +
+                  '<span class="h2h-date-full">' +
                   esc(m[M.DATE]) +
+                  "</span>" +
+                  '<span class="h2h-date-year">' +
+                  esc(m[M.DATE].slice(-4)) +
+                  "</span>" +
                   "</td>" +
                   '<td class="h2h-score">' +
                   m[M.FTHG] +
@@ -1410,7 +1415,7 @@
             h2hHtml =
               '<div class="fixture-h2h">' +
               '<div class="h2h-header">' +
-              '<span class="h2h-title">\ud83d\udcca H2H at Home</span>' +
+              '<span class="h2h-title">H2H at Home</span>' +
               '<span class="h2h-count">' +
               h2h.length +
               " previous</span>" +
@@ -1503,8 +1508,9 @@
             '<div class="fixture-card">' +
             '<div class="fixture-header">' +
             '<div class="fixture-date-chip">' +
-            "<span>\ud83d\udcc5 " +
+            "<span>" +
             esc(fix.date) +
+            " ·" +
             "</span>" +
             '<span class="fixture-time-badge">' +
             esc(fix.time) +

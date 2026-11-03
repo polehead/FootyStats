@@ -1439,7 +1439,10 @@ body::before {
   gap: var(--space-md);
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s var(--ease-out), border-color 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s var(--ease-out),
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .fixture-card::before {
@@ -1449,7 +1452,12 @@ body::before {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-cyan),
+    transparent
+  );
   opacity: 0.35;
   transition: opacity 0.2s;
 }
@@ -1475,9 +1483,10 @@ body::before {
 
 .fixture-date-chip {
   display: flex;
+  font-weight: 600;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(149, 18, 18, 0.04);
   padding: 3px 8px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-subtle);
@@ -1565,7 +1574,6 @@ body::before {
   color: var(--neon-yellow);
   font-weight: 600;
 }
-
 
 /* ═══════════════════════════════════════════════════════════════════
    17. Fixture Card — Odds Divider, H2H Table, HT Probability Bar
@@ -1665,6 +1673,19 @@ body::before {
 .h2h-date {
   color: var(--text-muted);
   font-size: 0.7rem;
+}
+
+.h2h-date-year {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .h2h-date-full {
+    display: none;
+  }
+  .h2h-date-year {
+    display: inline;
+  }
 }
 
 .h2h-score {
@@ -1881,7 +1902,9 @@ body::before {
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: box-shadow 0.2s, transform 0.1s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.1s;
 }
 
 .pwa-update-btn:hover {
@@ -1924,7 +1947,10 @@ body::before {
   gap: 7px;
   cursor: pointer;
   user-select: none;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
 }
 
 .stat-chip-toggle input[type="checkbox"] {
@@ -1944,7 +1970,10 @@ body::before {
   background: var(--bg-input);
   border: 1px solid var(--border-neon);
   flex-shrink: 0;
-  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    box-shadow 0.25s;
 }
 
 .today-toggle-track::after {
@@ -1956,7 +1985,9 @@ body::before {
   height: 12px;
   border-radius: 50%;
   background: var(--text-muted);
-  transition: left 0.25s var(--ease-out), background 0.25s;
+  transition:
+    left 0.25s var(--ease-out),
+    background 0.25s;
 }
 
 /* Checked state */

@@ -2,8 +2,8 @@ name: Update Football Fixtures
 
 on:
   schedule:
-    # Run twice daily at 06:00 and 18:00 UTC (covers weekend & midweek match releases)
-    - cron: '0 6,18 * * *'
+    # Run twice daily at 06:00 and 18:00 (covers weekend & midweek match releases)
+    - cron: "0 6,18 * * *"
   workflow_dispatch: # Allows manual trigger from the GitHub web UI
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Run Fixtures Export
         run: python export_fixtures.py
