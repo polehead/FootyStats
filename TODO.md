@@ -1,6 +1,16 @@
 ## Completed Fixes
+- [x] **Complete Separation of Concerns (JavaScript Extraction)**:
+  - Extracted all inline JavaScript (~96,000 characters) from `index.html` into a dedicated, modular `app.js`.
+  - Re-organized `app.js` into structured sections: Compact Match Schema (`M`), State & Datasets, Historical Team Aggregator, Predictive Math Engine (Bivariate Poisson + H2H), Utilities, Coupon & Bet Builder, View Renderers, Event Delegation, Application Bootstrap (`init`), and PWA Lifecycle (`initPWA`).
+  - Streamlined `index.html` from ~2,890 lines down to 308 lines of pure markup with clean external script tags (`data.js`, `fixtures.js`, `app.js`).
+  - Updated `sw.js` service worker to pre-cache `./app.js` and incremented cache version to `footystats-v9` for offline integrity.
 
 - [x] **Data-Driven Coupon & Bet Builder**:
+  - **Today Only Mobile Toggle Polish**:
+    - Replaced the nested unstyled wrapper (`<div class="stat-chip stat-chip-toggle"><label class="today-toggle-wrap">...`) with a unified, direct `<label class="stat-chip stat-chip-toggle coupon-toggle" for="filter-today-only">`.
+    - Shortened the verbose `Today Only (DD/MM/YYYY)` string (~235px) to a compact, non-wrapping `Today Only` label (~115px), eliminating mobile line collisions.
+    - Added `position: relative;`, `flex-shrink: 0;`, and vertical centering to `.stat-chip-toggle` and responsive `width: 28px; height: 16px;` track scaling on mobile ($le 480$px).
+    - Added theme-synchronized neon blue active glow (`.coupon-toggle:has(input:checked)`) for the toggle when in the Coupon tab.
   - Added new **Coupon** tab in the main tab-bar with active **Neon Blue** styling (`#00b4ff` and `var(--glow-blue)`) and live selection count badge.
   - Implemented mathematical match prediction engine using **bivariate Poisson goal distributions** ($lambda$ home, $mu$ away) calibrated against historical venue attack/defense rates and empirical Head-to-Head records.
   - Interactive 1X2 outcome buttons (Home Win, Draw, Away Win) with live model win probabilities, fair decimal odds ($1/P$), market odds comparison, and positive Value Edge indicators.
