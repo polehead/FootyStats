@@ -1,4 +1,5 @@
 ## Completed Fixes
+
 - [x] **Data-Driven Coupon & Bet Builder**:
   - Added new **Coupon** tab in the main tab-bar with active **Neon Blue** styling (`#00b4ff` and `var(--glow-blue)`) and live selection count badge.
   - Implemented mathematical match prediction engine using **bivariate Poisson goal distributions** ($lambda$ home, $mu$ away) calibrated against historical venue attack/defense rates and empirical Head-to-Head records.
@@ -20,16 +21,27 @@
 - [x] **7-Day Dismissal Cooldown**: Added `localStorage` tracking so dismissed banners don't persistently prompt on reload.
 
 ## Helpful Queries
+
 ```js
 // Total team corners calculation snippet
-const team = 'Arsenal';
-let hc = 0, ac = 0, n = 0;
-FOOTYDATA.m.forEach(m => {
+const team = "Arsenal";
+let hc = 0,
+  ac = 0,
+  n = 0;
+FOOTYDATA.m.forEach((m) => {
   const D = FOOTYDATA;
-  const h = typeof m[1] === 'number' ? D.t[m[1]] : m[1];
-  const a = typeof m[2] === 'number' ? D.t[m[2]] : m[2];
-  if (h === team) { hc += m[8]; n++; }
-  if (a === team) { ac += m[9]; n++; }
+  const h = typeof m[1] === "number" ? D.t[m[1]] : m[1];
+  const a = typeof m[2] === "number" ? D.t[m[2]] : m[2];
+  if (h === team) {
+    hc += m[8];
+    n++;
+  }
+  if (a === team) {
+    ac += m[9];
+    n++;
+  }
 });
-console.log(`${team}: ${n} matches | Home: ${hc} | Away: ${ac} | Total: ${hc + ac} | Avg per game: ${((hc+ac)/n).toFixed(1)}`);
+console.log(
+  `${team}: ${n} matches | Home: ${hc} | Away: ${ac} | Total: ${hc + ac} | Avg per game: ${((hc + ac) / n).toFixed(1)}`,
+);
 ```
