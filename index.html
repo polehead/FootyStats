@@ -44,6 +44,15 @@
           </button>
           <button
             class="tab-btn"
+            data-tab="corners"
+            role="tab"
+            aria-selected="false"
+            id="tab-corners"
+          >
+            10+ Corners
+          </button>
+          <button
+            class="tab-btn"
             data-tab="custom"
             role="tab"
             aria-selected="false"
@@ -55,21 +64,23 @@
           </button>
           <button
             class="tab-btn"
-            data-tab="corners"
-            role="tab"
-            aria-selected="false"
-            id="tab-corners"
-          >
-            10+ Corners
-          </button>
-          <button
-            class="tab-btn"
             data-tab="fixtures"
             role="tab"
             aria-selected="false"
             id="tab-fixtures"
           >
             Upcoming Fixtures
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="coupon"
+            role="tab"
+            aria-selected="false"
+            id="tab-coupon"
+          >
+            Coupon<span class="tab-coupon-count" id="coupon-count-badge" style="display: none"
+              >0</span
+            >
           </button>
         </nav>
       </div>
@@ -331,24 +342,332 @@
               w2h: 0,
               w2a: 0,
               c10: 0,
+              hW: 0,
+              hD: 0,
+              hL: 0,
+              hGF: 0,
+              hGA: 0,
+              aW: 0,
+              aD: 0,
+              aL: 0,
+              aGF: 0,
+              aGA: 0,
             };
           });
           for (let i = 0, len = D.m.length; i < len; i++) {
             const m = D.m[i];
             const h = teamName(m[M.HOME]);
             const a = teamName(m[M.AWAY]);
+            const fthg = m[M.FTHG] || 0;
+            const ftag = m[M.FTAG] || 0;
+            const ftr = m[M.FTR];
             if (TEAM_STATS[h]) {
-              TEAM_STATS[h].total++;
-              TEAM_STATS[h].homeMatches++;
-              if (m[M.W2H]) TEAM_STATS[h].w2h++;
-              if (m[M.C10]) TEAM_STATS[h].c10++;
+              const tsH = TEAM_STATS[h];
+              tsH.total++;
+              tsH.homeMatches++;
+              if (m[M.W2H]) tsH.w2h++;
+              if (m[M.C10]) tsH.c10++;
+              tsH.hGF += fthg;
+              tsH.hGA += ftag;
+              if (ftr === "H") tsH.hW++;
+              else if (ftr === "D") tsH.hD++;
+              else if (ftr === "A") tsH.hL++;
             }
             if (TEAM_STATS[a]) {
-              TEAM_STATS[a].total++;
-              TEAM_STATS[a].awayMatches++;
-              if (m[M.W2A]) TEAM_STATS[a].w2a++;
-              if (m[M.C10]) TEAM_STATS[a].c10++;
+              const tsA = TEAM_STATS[a];
+              tsA.total++;
+              tsA.awayMatches++;
+              if (m[M.W2A]) tsA.w2a++;
+              if (m[M.C10]) tsA.c10++;
+              tsA.aGF += ftag;
+              tsA.aGA += fthg;
+              if (ftr === "A") tsA.aW++;
+              else if (ftr === "D") tsA.aD++;
+              else if (ftr === "H") tsA.aL++;
             }
+          }
+        }
+
+        // ── Factorial & Poisson Distribution ──────────────────────────
+        var FACT_CACHE = [1, 1, 2, 6, 24, 120, 720, 5040, 40320];
+        function fact(n) {
+          if (n < FACT_CACHE.length) return FACT_CACHE[n];
+          var res = FACT_CACHE[FACT_CACHE.length - 1];
+          for (var i = FACT_CACHE.length; i <= n; i++) res *= i;
+          return res;
+        }
+
+        function poissonProb(k, lambda) {
+          if (lambda <= 0) return k === 0 ? 1 : 0;
+          return (Math.exp(-lambda) * Math.pow(lambda, k)) / fact(k);
+        }
+
+        // ── Predictive Model: 1X2 Outright Probabilities ──────────────
+        function predictMatchOutright(homeTeam, awayTeam, h2h, odds) {
+          var baseHomeGoals = 1.5;
+          var baseAwayGoals = 1.2;
+
+          var hStats = TEAM_STATS[homeTeam];
+          var aStats = TEAM_STATS[awayTeam];
+
+          var homeAtt =
+            hStats && hStats.homeMatches >= 3
+              ? hStats.hGF / hStats.homeMatches
+              : baseHomeGoals;
+          var homeDef =
+            hStats && hStats.homeMatches >= 3
+              ? hStats.hGA / hStats.homeMatches
+              : baseAwayGoals;
+
+          var awayAtt =
+            aStats && aStats.awayMatches >= 3
+              ? aStats.aGF / aStats.awayMatches
+              : baseAwayGoals;
+          var awayDef =
+            aStats && aStats.awayMatches >= 3
+              ? aStats.aGA / aStats.awayMatches
+              : baseHomeGoals;
+
+          // Expected Goals (xG) using bivariate venue relative attack/defense rates
+          var lambda = (homeAtt / baseHomeGoals) * (awayDef / baseHomeGoals) * baseHomeGoals;
+          var mu = (awayAtt / baseAwayGoals) * (homeDef / baseAwayGoals) * baseAwayGoals;
+
+          // Clamp lambda and mu between realistic bounds (0.2 to 4.5)
+          lambda = Math.max(0.2, Math.min(4.5, lambda));
+          mu = Math.max(0.2, Math.min(4.5, mu));
+
+          // Compute 7x7 scoreline probability matrix (0..6 goals)
+          var pH = 0, pD = 0, pA = 0;
+          for (var i = 0; i <= 6; i++) {
+            var probI = poissonProb(i, lambda);
+            for (var j = 0; j <= 6; j++) {
+              var probJ = poissonProb(j, mu);
+              var cell = probI * probJ;
+              if (i > j) pH += cell;
+              else if (i === j) pD += cell;
+              else pA += cell;
+            }
+          }
+
+          var totalP = pH + pD + pA;
+          if (totalP > 0) {
+            pH /= totalP;
+            pD /= totalP;
+            pA /= totalP;
+          }
+
+          // Empirical H2H calibration if at least 2 historical meetings exist
+          var h2hLen = h2h ? h2h.length : 0;
+          if (h2hLen >= 2) {
+            var hWins = 0, draws = 0, aWins = 0;
+            for (var k = 0; k < h2hLen; k++) {
+              var r = h2h[k][M.FTR];
+              if (r === "H") hWins++;
+              else if (r === "D") draws++;
+              else if (r === "A") aWins++;
+            }
+            var h2hH = hWins / h2hLen;
+            var h2hD = draws / h2hLen;
+            var h2hA = aWins / h2hLen;
+
+            // Blend 75% Poisson model + 25% empirical venue H2H
+            pH = 0.75 * pH + 0.25 * h2hH;
+            pD = 0.75 * pD + 0.25 * h2hD;
+            pA = 0.75 * pA + 0.25 * h2hA;
+
+            var norm = pH + pD + pA;
+            pH /= norm;
+            pD /= norm;
+            pA /= norm;
+          }
+
+          // Fair odds (1 / P)
+          var fairH = pH > 0 ? (1 / pH).toFixed(2) : "—";
+          var fairD = pD > 0 ? (1 / pD).toFixed(2) : "—";
+          var fairA = pA > 0 ? (1 / pA).toFixed(2) : "—";
+
+          // Calculate Value Edge vs Market Odds if odds provided
+          var edgeH = null, edgeD = null, edgeA = null;
+          if (odds && odds.h && odds.d && odds.a) {
+            var overround = (1 / odds.h) + (1 / odds.d) + (1 / odds.a);
+            var mktH = (1 / odds.h) / overround;
+            var mktD = (1 / odds.d) / overround;
+            var mktA = (1 / odds.a) / overround;
+
+            edgeH = Math.round((pH - mktH) * 1000) / 10;
+            edgeD = Math.round((pD - mktD) * 1000) / 10;
+            edgeA = Math.round((pA - mktA) * 1000) / 10;
+          }
+
+          return {
+            probH: Math.round(pH * 1000) / 10,
+            probD: Math.round(pD * 1000) / 10,
+            probA: Math.round(pA * 1000) / 10,
+            fairOddsH: fairH,
+            fairOddsD: fairD,
+            fairOddsA: fairA,
+            oddsH: odds && odds.h ? odds.h : null,
+            oddsD: odds && odds.d ? odds.d : null,
+            oddsA: odds && odds.a ? odds.a : null,
+            edgeH: edgeH,
+            edgeD: edgeD,
+            edgeA: edgeA,
+            lambda: Math.round(lambda * 100) / 100,
+            mu: Math.round(mu * 100) / 100,
+            h2hLen: h2hLen,
+            homeMatches: hStats ? hStats.homeMatches : 0,
+            awayMatches: aStats ? aStats.awayMatches : 0,
+          };
+        }
+
+        // ── Coupon Slip State & Persistence ───────────────────────────
+        var COUPON_SLIP = [];
+        var couponStake = 10;
+
+        function loadCouponSlip() {
+          try {
+            var stored = localStorage.getItem("footystats_coupon_slip");
+            if (stored) {
+              COUPON_SLIP = JSON.parse(stored) || [];
+            }
+            var storedStake = localStorage.getItem("footystats_coupon_stake");
+            if (storedStake) {
+              var parsedStake = parseFloat(storedStake);
+              if (!isNaN(parsedStake) && parsedStake > 0) couponStake = parsedStake;
+            }
+          } catch (e) {
+            COUPON_SLIP = [];
+          }
+          updateCouponBadge();
+        }
+
+        function saveCouponSlip() {
+          try {
+            localStorage.setItem("footystats_coupon_slip", JSON.stringify(COUPON_SLIP));
+            localStorage.setItem("footystats_coupon_stake", couponStake.toString());
+          } catch (e) {}
+          updateCouponBadge();
+        }
+
+        function updateCouponBadge() {
+          var badge = document.getElementById("coupon-count-badge");
+          if (!badge) return;
+          var count = COUPON_SLIP.length;
+          badge.textContent = count;
+          badge.style.display = count > 0 ? "inline-flex" : "none";
+        }
+
+        function getCouponLeg(matchId) {
+          for (var i = 0; i < COUPON_SLIP.length; i++) {
+            if (COUPON_SLIP[i].matchId === matchId) return COUPON_SLIP[i];
+          }
+          return null;
+        }
+
+        function toggleCouponLeg(leg) {
+          var existingIdx = -1;
+          for (var i = 0; i < COUPON_SLIP.length; i++) {
+            if (COUPON_SLIP[i].matchId === leg.matchId) {
+              existingIdx = i;
+              break;
+            }
+          }
+
+          if (existingIdx !== -1) {
+            if (COUPON_SLIP[existingIdx].pick === leg.pick) {
+              COUPON_SLIP.splice(existingIdx, 1);
+            } else {
+              COUPON_SLIP[existingIdx] = leg;
+            }
+          } else {
+            COUPON_SLIP.push(leg);
+          }
+
+          saveCouponSlip();
+
+          if (activeTab === "coupon") {
+            renderCouponView();
+          } else if (activeTab === "fixtures") {
+            updateFixtureCouponChips(leg.matchId);
+          }
+        }
+
+        function removeCouponLeg(matchId) {
+          COUPON_SLIP = COUPON_SLIP.filter(function (l) {
+            return l.matchId !== matchId;
+          });
+          saveCouponSlip();
+          if (activeTab === "coupon") {
+            renderCouponView();
+          } else if (activeTab === "fixtures") {
+            updateFixtureCouponChips(matchId);
+          }
+        }
+
+        function clearCouponSlip() {
+          COUPON_SLIP = [];
+          saveCouponSlip();
+          if (activeTab === "coupon") {
+            renderCouponView();
+          } else if (activeTab === "fixtures") {
+            document.querySelectorAll(".fixture-coupon-chip.active").forEach(function (el) {
+              el.classList.remove("active");
+            });
+          }
+        }
+
+        function updateFixtureCouponChips(matchId) {
+          var container = document.querySelector('[data-fixture-id="' + CSS.escape(matchId) + '"]');
+          if (!container) return;
+          var cur = getCouponLeg(matchId);
+          container.querySelectorAll(".fixture-coupon-chip").forEach(function (btn) {
+            var p = btn.getAttribute("data-pick");
+            if (cur && cur.pick === p) {
+              btn.classList.add("active");
+            } else {
+              btn.classList.remove("active");
+            }
+          });
+        }
+
+        function copyCouponSummary(btn) {
+          if (COUPON_SLIP.length === 0) return;
+          var text = "=== FOOTYSTATS ACCUMULATOR ===\n";
+          var accProb = 1.0;
+          var combinedOdds = 1.0;
+          COUPON_SLIP.forEach(function(leg, i) {
+            var pickStr = leg.pick === "1" ? "Home Win (" + leg.home + ")" : leg.pick === "2" ? "Away Win (" + leg.away + ")" : "Draw";
+            var effOdds = leg.odds ? leg.odds : leg.fairOdds;
+            text += (i + 1) + ". " + leg.home + " vs " + leg.away + " (" + leg.league + ")\n";
+            text += "   Pick: " + pickStr + " | Win Prob: " + leg.prob + "% | Odds: " + effOdds + "\n";
+            accProb *= (leg.prob / 100);
+            combinedOdds *= (leg.odds || parseFloat(leg.fairOdds) || 2.0);
+          });
+          var probPct = (accProb * 100).toFixed(1);
+          var combOddsStr = combinedOdds.toFixed(2);
+          var retStr = (couponStake * combinedOdds).toFixed(2);
+          text += "\nAccumulator (" + COUPON_SLIP.length + " Fold):\n";
+          text += "Overall Win Probability: " + probPct + "%\n";
+          text += "Combined Odds: " + combOddsStr + "\n";
+          text += "Stake: £" + couponStake + " -> Potential Return: £" + retStr + "\n";
+          text += "Generated via FootyStats Predictive Model";
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+              var orig = btn.innerHTML;
+              btn.innerHTML = "&#10003; Copied to Clipboard!";
+              setTimeout(function() { btn.innerHTML = orig; }, 2000);
+            });
+          } else {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            var orig2 = btn.innerHTML;
+            btn.innerHTML = "&#10003; Copied to Clipboard!";
+            setTimeout(function() { btn.innerHTML = orig2; }, 2000);
           }
         }
 
@@ -366,6 +685,7 @@
         // ── Init ──────────────────────────────────────────────────────
         (function init() {
           computeTeamStats();
+          loadCouponSlip();
 
           // Also include any leagues from upcoming fixtures if not yet in BASE_LEAGUES
           if (F && F.leagues) {
@@ -509,6 +829,90 @@
           });
 
           $main.addEventListener("click", (e) => {
+            // Open Mobile Bet Slip Drawer
+            const openDrawerBtn = e.target.closest('[data-action="open-mobile-drawer"]');
+            if (openDrawerBtn) {
+              const slipCol = document.getElementById("coupon-slip-column");
+              const backdrop = document.getElementById("coupon-drawer-backdrop");
+              if (slipCol) slipCol.classList.add("drawer-open");
+              if (backdrop) backdrop.classList.add("active");
+              return;
+            }
+
+            // Close Mobile Bet Slip Drawer
+            const closeDrawerBtn = e.target.closest('[data-action="close-mobile-drawer"]');
+            if (closeDrawerBtn) {
+              const slipCol = document.getElementById("coupon-slip-column");
+              const backdrop = document.getElementById("coupon-drawer-backdrop");
+              if (slipCol) slipCol.classList.remove("drawer-open");
+              if (backdrop) backdrop.classList.remove("active");
+              return;
+            }
+
+            // Toggle Mobile Bet Slip Drawer
+            const toggleDrawerBtn = e.target.closest('[data-action="toggle-mobile-drawer"]');
+            if (toggleDrawerBtn) {
+              const slipCol = document.getElementById("coupon-slip-column");
+              const backdrop = document.getElementById("coupon-drawer-backdrop");
+              if (slipCol) slipCol.classList.toggle("drawer-open");
+              if (backdrop) backdrop.classList.toggle("active");
+              return;
+            }
+
+            // Coupon Outcome Toggle or Quick-Add Chip
+            const couponBtn = e.target.closest(
+              '[data-action="toggle-leg"], [data-action="quick-coupon"]',
+            );
+            if (couponBtn) {
+              const mid = couponBtn.getAttribute("data-mid");
+              const pick = couponBtn.getAttribute("data-pick");
+              const home = couponBtn.getAttribute("data-home");
+              const away = couponBtn.getAttribute("data-away");
+              const lg = couponBtn.getAttribute("data-lg");
+              const date = couponBtn.getAttribute("data-date");
+              const time = couponBtn.getAttribute("data-time");
+              const prob = parseFloat(couponBtn.getAttribute("data-prob")) || 0;
+              const oddsStr = couponBtn.getAttribute("data-odds");
+              const odds = oddsStr ? parseFloat(oddsStr) : null;
+              const fairOdds = couponBtn.getAttribute("data-fair") || "—";
+
+              toggleCouponLeg({
+                matchId: mid,
+                home: home,
+                away: away,
+                league: lg,
+                date: date,
+                time: time,
+                pick: pick,
+                prob: prob,
+                odds: odds,
+                fairOdds: fairOdds,
+              });
+              return;
+            }
+
+            // Remove Leg from Slip
+            const removeBtn = e.target.closest('[data-action="remove-leg"]');
+            if (removeBtn) {
+              const rmid = removeBtn.getAttribute("data-mid");
+              removeCouponLeg(rmid);
+              return;
+            }
+
+            // Clear Slip
+            const clearBtn = e.target.closest('[data-action="clear-slip"]');
+            if (clearBtn) {
+              clearCouponSlip();
+              return;
+            }
+
+            // Copy Slip Summary
+            const copyBtn = e.target.closest('[data-action="copy-slip"]');
+            if (copyBtn) {
+              copyCouponSummary(copyBtn);
+              return;
+            }
+
             // League collapse / expand
             const h = e.target.closest(".league-header");
             if (h) {
@@ -748,6 +1152,10 @@
 
         // ── Render ────────────────────────────────────────────────────
         function render() {
+          if (activeTab === "coupon") {
+            renderCouponView();
+            return;
+          }
           if (activeTab === "fixtures") {
             renderFixturesView();
             return;
@@ -1042,6 +1450,362 @@
           }
 
           return h + "</tbody></table></div>";
+        }
+
+        // ── Coupon / Bet Builder View ────────────────────────────────
+        function renderCouponView() {
+          $filterBar.style.display = "none";
+          $customBanner.classList.remove("visible");
+
+          if (!F || !F.fixtures || !F.fixtures.length) {
+            $stats.innerHTML =
+              '<div class="stat-chip"><strong>0</strong> upcoming fixtures for coupon</div>';
+            $main.innerHTML =
+              '<div class="empty-state"><h2>NO FIXTURES LOADED</h2><p>Could not find fixtures in fixtures.js. Run <code>python export_fixtures.py</code> to download upcoming matches.</p></div>';
+            return;
+          }
+
+          var now = new Date();
+          var todayStr =
+            String(now.getDate()).padStart(2, "0") +
+            "/" +
+            String(now.getMonth() + 1).padStart(2, "0") +
+            "/" +
+            now.getFullYear();
+
+          var filtered = F.fixtures.filter(function (fix) {
+            if (fTodayOnly && fix.date !== todayStr) return false;
+            if (fLeague && fix.league !== fLeague) return false;
+            var h = fix.home.toLowerCase();
+            var a = fix.away.toLowerCase();
+
+            if (fTeam) {
+              var matchHome = h.includes(fTeam);
+              var matchAway = a.includes(fTeam);
+              if (!matchHome && !matchAway) return false;
+            }
+            if (fOpp) {
+              var matchHome2 = h.includes(fOpp);
+              var matchAway2 = a.includes(fOpp);
+              if (!matchHome2 && !matchAway2) return false;
+            }
+            return true;
+          });
+
+          // Stats strip
+          var legsCount = COUPON_SLIP.length;
+          $stats.innerHTML =
+            '<div class="stat-chip"><strong>' + filtered.length + '</strong> fixtures available</div>' +
+            '<div class="stat-chip" style="border-color: rgba(0, 180, 255, 0.4);"><strong style="color: var(--neon-blue);">' + legsCount + '</strong> in slip</div>' +
+            '<div class="stat-chip stat-chip-toggle">' +
+            '<label class="today-toggle-wrap" for="filter-today-only">' +
+            '<input type="checkbox" id="filter-today-only" ' + (fTodayOnly ? "checked" : "") + ' />' +
+            '<span class="today-toggle-track"></span>' +
+            '<span class="today-toggle-label">Today Only (' + esc(todayStr) + ')</span>' +
+            '</label>' +
+            '</div>';
+
+          var cb = document.getElementById("filter-today-only");
+          if (cb) {
+            cb.addEventListener("change", function () {
+              fTodayOnly = cb.checked;
+              render();
+            });
+          }
+
+          // Accumulator probability & odds calculations
+          var accProb = 1.0;
+          var combinedFairOdds = 1.0;
+          var combinedMktOdds = 1.0;
+
+          for (var i = 0; i < COUPON_SLIP.length; i++) {
+            var leg = COUPON_SLIP[i];
+            var pFraction = (leg.prob || 50) / 100;
+            accProb *= pFraction;
+
+            var fo = parseFloat(leg.fairOdds) || (1 / pFraction);
+            combinedFairOdds *= fo;
+
+            if (leg.odds && parseFloat(leg.odds) > 1) {
+              combinedMktOdds *= parseFloat(leg.odds);
+            } else {
+              combinedMktOdds *= fo;
+            }
+          }
+
+          if (COUPON_SLIP.length === 0) {
+            accProb = 0;
+            combinedFairOdds = 0;
+            combinedMktOdds = 0;
+          }
+
+          var accProbPct = (accProb * 100);
+          var formattedProbPct = accProbPct >= 10 ? accProbPct.toFixed(1) : accProbPct.toFixed(2);
+          if (COUPON_SLIP.length === 0) formattedProbPct = "0.0";
+
+          var displayFairOdds = combinedFairOdds > 0 ? combinedFairOdds.toFixed(2) : "—";
+          var displayMktOdds = combinedMktOdds > 0 ? combinedMktOdds.toFixed(2) : "—";
+          var potentialReturn = (couponStake * (combinedMktOdds > 0 ? combinedMktOdds : combinedFairOdds)).toFixed(2);
+          var potentialProfit = (parseFloat(potentialReturn) - couponStake).toFixed(2);
+          if (COUPON_SLIP.length === 0) {
+            potentialReturn = "0.00";
+            potentialProfit = "0.00";
+          }
+
+          var meterColor = "var(--neon-green)";
+          if (accProbPct < 10) meterColor = "var(--neon-red)";
+          else if (accProbPct < 25) meterColor = "var(--neon-orange)";
+          else if (accProbPct < 45) meterColor = "var(--neon-yellow)";
+          else if (accProbPct < 65) meterColor = "var(--neon-blue)";
+
+          // Build Match Cards HTML
+          var cardsHtml = "";
+          if (filtered.length === 0) {
+            cardsHtml = '<div class="empty-state"><h3>No matches found</h3><p>Try clearing or modifying your search or league filter.</p></div>';
+          } else {
+            cardsHtml = filtered.map(function (fix) {
+              var home = fix.home;
+              var away = fix.away;
+              var matchId = (fix.date || "") + "_" + home + "_" + away;
+              var h2h = getH2HAtHome(home, away);
+              var pred = predictMatchOutright(home, away, h2h, fix.odds);
+              var cur = getCouponLeg(matchId);
+
+              var homeSub = "H: " + pred.homeMatches + " matches";
+              var awaySub = "A: " + pred.awayMatches + " matches";
+
+              var edgeHHtml = pred.edgeH !== null && pred.edgeH > 0
+                ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' + pred.edgeH + '% Edge</span>'
+                : "";
+              var edgeDHtml = pred.edgeD !== null && pred.edgeD > 0
+                ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' + pred.edgeD + '% Edge</span>'
+                : "";
+              var edgeAHtml = pred.edgeA !== null && pred.edgeA > 0
+                ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' + pred.edgeA + '% Edge</span>'
+                : "";
+
+              var isSelectedH = cur && cur.pick === "1";
+              var isSelectedD = cur && cur.pick === "X";
+              var isSelectedA = cur && cur.pick === "2";
+              var hasSelectedAny = isSelectedH || isSelectedD || isSelectedA;
+
+              var oddsHDisplay = pred.oddsH ? "Mkt: <strong>" + pred.oddsH + "</strong>" : "Fair: <strong>" + pred.fairOddsH + "</strong>";
+              var oddsDDisplay = pred.oddsD ? "Mkt: <strong>" + pred.oddsD + "</strong>" : "Fair: <strong>" + pred.fairOddsD + "</strong>";
+              var oddsADisplay = pred.oddsA ? "Mkt: <strong>" + pred.oddsA + "</strong>" : "Fair: <strong>" + pred.fairOddsA + "</strong>";
+
+              return (
+                '<div class="coupon-card' + (hasSelectedAny ? " has-selected" : "") + '">' +
+                '<div class="coupon-card-meta">' +
+                '<span class="coupon-league-badge">' + esc(fix.league) + '</span>' +
+                '<div class="coupon-datetime">' +
+                '<span>' + esc(fix.date) + '</span>' +
+                '<span>\u00b7</span>' +
+                '<span class="coupon-time-pill">' + esc(fix.time) + '</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="coupon-card-teams">' +
+                '<div class="coupon-team home">' +
+                '<span class="coupon-team-name">' + esc(home) + '</span>' +
+                '<span class="coupon-team-sub">' + homeSub + '</span>' +
+                '</div>' +
+                '<span class="coupon-vs">VS</span>' +
+                '<div class="coupon-team away">' +
+                '<span class="coupon-team-name">' + esc(away) + '</span>' +
+                '<span class="coupon-team-sub">' + awaySub + '</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="coupon-xg-strip">' +
+                '<div class="coupon-xg-labels">' +
+                '<span>Model xG: <strong class="coupon-xg-val">' + pred.lambda + '</strong></span>' +
+                '<span>' + (pred.h2hLen > 0 ? pred.h2hLen + " H2H meetings" : "Form Baseline") + '</span>' +
+                '<span>Model xG: <strong class="coupon-xg-val" style="color:var(--neon-purple);">' + pred.mu + '</strong></span>' +
+                '</div>' +
+                '<div class="coupon-xg-bar-container" title="Expected Goal Probabilities (Home ' + pred.probH + '% | Draw ' + pred.probD + '% | Away ' + pred.probA + '%)">' +
+                '<div class="coupon-xg-bar-home" style="width:' + pred.probH + '%;"></div>' +
+                '<div class="coupon-xg-bar-draw" style="width:' + pred.probD + '%;"></div>' +
+                '<div class="coupon-xg-bar-away" style="width:' + pred.probA + '%;"></div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="coupon-outcomes-grid">' +
+                '<button class="coupon-outcome-btn' + (isSelectedH ? " active" : "") + '" data-action="toggle-leg" data-mid="' + esc(matchId) + '" data-pick="1" data-home="' + esc(home) + '" data-away="' + esc(away) + '" data-lg="' + esc(fix.league) + '" data-date="' + esc(fix.date) + '" data-time="' + esc(fix.time) + '" data-prob="' + pred.probH + '" data-odds="' + (pred.oddsH || "") + '" data-fair="' + pred.fairOddsH + '">' +
+                '<span class="outcome-pick-label"><span class="outcome-pick-full">1 · Home Win</span><span class="outcome-pick-short">1 · Home</span></span>' +
+                '<span class="outcome-prob">' + pred.probH + '%</span>' +
+                '<div class="outcome-odds-strip">' + oddsHDisplay + '</div>' +
+                edgeHHtml +
+                '</button>' +
+                '<button class="coupon-outcome-btn' + (isSelectedD ? " active" : "") + '" data-action="toggle-leg" data-mid="' + esc(matchId) + '" data-pick="X" data-home="' + esc(home) + '" data-away="' + esc(away) + '" data-lg="' + esc(fix.league) + '" data-date="' + esc(fix.date) + '" data-time="' + esc(fix.time) + '" data-prob="' + pred.probD + '" data-odds="' + (pred.oddsD || "") + '" data-fair="' + pred.fairOddsD + '">' +
+                '<span class="outcome-pick-label"><span class="outcome-pick-full">X · Draw</span><span class="outcome-pick-short">X · Draw</span></span>' +
+                '<span class="outcome-prob">' + pred.probD + '%</span>' +
+                '<div class="outcome-odds-strip">' + oddsDDisplay + '</div>' +
+                edgeDHtml +
+                '</button>' +
+                '<button class="coupon-outcome-btn' + (isSelectedA ? " active" : "") + '" data-action="toggle-leg" data-mid="' + esc(matchId) + '" data-pick="2" data-home="' + esc(home) + '" data-away="' + esc(away) + '" data-lg="' + esc(fix.league) + '" data-date="' + esc(fix.date) + '" data-time="' + esc(fix.time) + '" data-prob="' + pred.probA + '" data-odds="' + (pred.oddsA || "") + '" data-fair="' + pred.fairOddsA + '">' +
+                '<span class="outcome-pick-label"><span class="outcome-pick-full">2 · Away Win</span><span class="outcome-pick-short">2 · Away</span></span>' +
+                '<span class="outcome-prob">' + pred.probA + '%</span>' +
+                '<div class="outcome-odds-strip">' + oddsADisplay + '</div>' +
+                edgeAHtml +
+                '</button>' +
+                '</div>' +
+                '</div>'
+              );
+            }).join("");
+          }
+
+          // Build Legs in Slip HTML
+          var legsHtml = "";
+          if (COUPON_SLIP.length === 0) {
+            legsHtml =
+              '<div class="coupon-slip-empty">' +
+              '<div class="coupon-slip-empty-icon">&#9879;</div>' +
+              '<h4>SLIP IS EMPTY</h4>' +
+              '<p>Click any match outcome (1, X, or 2) to build your accumulator. Predictions are driven by venue goal expectancies and historical fixture data.</p>' +
+              '</div>';
+          } else {
+            legsHtml =
+              '<div class="coupon-legs-list">' +
+              COUPON_SLIP.map(function (leg) {
+                var pickTitle = leg.pick === "1" ? "HOME WIN (" + leg.home + ")" : leg.pick === "2" ? "AWAY WIN (" + leg.away + ")" : "DRAW";
+                var effectiveOdds = leg.odds ? leg.odds : leg.fairOdds;
+                return (
+                  '<div class="coupon-leg-card">' +
+                  '<div class="coupon-leg-top">' +
+                  '<div class="coupon-leg-match">' + esc(leg.home) + " vs " + esc(leg.away) + '</div>' +
+                  '<button class="coupon-leg-remove-btn" data-action="remove-leg" data-mid="' + esc(leg.matchId) + '" title="Remove from slip">&times;</button>' +
+                  '</div>' +
+                  '<div class="coupon-leg-sub">' +
+                  '<span class="coupon-leg-pick-badge">' + esc(pickTitle) + '</span>' +
+                  '<span class="coupon-leg-stats"><strong>' + leg.prob + '%</strong> \u00b7 Odds: <strong>' + effectiveOdds + '</strong></span>' +
+                  '</div>' +
+                  '</div>'
+                );
+              }).join("") +
+              '</div>';
+          }
+
+          // Accumulator Multi-Bet Summary Box HTML
+          var summaryHtml = "";
+          if (COUPON_SLIP.length > 0) {
+            var accTypeTitle = COUPON_SLIP.length === 1 ? "SINGLE BET" : COUPON_SLIP.length + "-FOLD ACCUMULATOR";
+            summaryHtml =
+              '<div class="coupon-acc-summary">' +
+              '<div class="coupon-acc-title-row">' +
+              '<span class="coupon-acc-title">' + esc(accTypeTitle) + '</span>' +
+              '<span class="coupon-slip-badge">' + COUPON_SLIP.length + ' LEGS</span>' +
+              '</div>' +
+              '<div class="coupon-acc-prob-block">' +
+              '<span class="coupon-acc-prob-label">Overall Win Probability</span>' +
+              '<span class="coupon-acc-prob-pct" style="color:' + meterColor + ';">' + formattedProbPct + '%</span>' +
+              '<div class="coupon-acc-meter-bg">' +
+              '<div class="coupon-acc-meter-fill" style="width:' + Math.min(100, Math.max(2, accProbPct)) + '%;background:' + meterColor + ';"></div>' +
+              '</div>' +
+              '</div>' +
+              '<div class="coupon-acc-grid">' +
+              '<div class="coupon-metric-box">' +
+              '<span class="coupon-metric-label">Fair Odds (Model)</span>' +
+              '<span class="coupon-metric-val">' + displayFairOdds + '</span>' +
+              '</div>' +
+              '<div class="coupon-metric-box">' +
+              '<span class="coupon-metric-label">Combined Odds</span>' +
+              '<span class="coupon-metric-val highlight">' + displayMktOdds + '</span>' +
+              '</div>' +
+              '</div>' +
+              '<div class="coupon-stake-row">' +
+              '<div class="coupon-stake-label-group">' +
+              '<span>Stake Amount</span>' +
+              '<span>Profit: £' + potentialProfit + '</span>' +
+              '</div>' +
+              '<div class="coupon-stake-input-wrap">' +
+              '<span class="coupon-currency-symbol">£</span>' +
+              '<input type="number" id="coupon-stake-input" class="coupon-stake-input" min="1" step="1" value="' + couponStake + '" />' +
+              '</div>' +
+              '<div class="coupon-payout-box">' +
+              '<span class="coupon-payout-label">Potential Payout</span>' +
+              '<span class="coupon-payout-amount">£' + potentialReturn + '</span>' +
+              '</div>' +
+              '</div>' +
+              '<button class="coupon-copy-btn" id="coupon-copy-btn" data-action="copy-slip">' +
+              '&#128203; Copy Accumulator Summary' +
+              '</button>' +
+              '</div>';
+          }
+
+          // Full Layout Assembly
+          var wasDrawerOpen = false;
+          var oldSlipCol = document.getElementById("coupon-slip-column");
+          if (oldSlipCol && oldSlipCol.classList.contains("drawer-open")) {
+            wasDrawerOpen = true;
+          }
+          if (COUPON_SLIP.length === 0) wasDrawerOpen = false;
+
+          $main.innerHTML =
+            '<div class="coupon-container">' +
+            '<div class="coupon-header-panel">' +
+            '<div class="coupon-title-row">' +
+            '<div class="coupon-headline">' +
+            '<span>Data-Driven Coupon & Bet Builder</span>' +
+            '<span class="coupon-headline-pill">POISSON &amp; H2H PREDICTIVE LOGIC</span>' +
+            '</div>' +
+            '</div>' +
+            '<p class="coupon-subtext">' +
+            'Outright win probabilities are computed using <strong>bivariate Poisson goal distributions</strong> based on historical venue attack/defense rates, calibrated against <strong>empirical head-to-head records</strong>. Add selections to calculate cumulative accumulator probabilities, fair decimal odds, and expected payouts.' +
+            '</p>' +
+            '</div>' +
+            '<div class="coupon-layout">' +
+            '<div class="coupon-matches-column">' +
+            cardsHtml +
+            '</div>' +
+            '<div class="coupon-slip-column' + (wasDrawerOpen ? ' drawer-open' : '') + '" id="coupon-slip-column">' +
+            '<div class="coupon-slip">' +
+            '<div class="coupon-drawer-handle" data-action="toggle-mobile-drawer"></div>' +
+            '<div class="coupon-slip-header">' +
+            '<div class="coupon-slip-title-group">' +
+            '<span class="coupon-slip-title">Bet Slip</span>' +
+            (COUPON_SLIP.length > 0 ? '<span class="coupon-slip-badge">' + COUPON_SLIP.length + '</span>' : '') +
+            '</div>' +
+            '<div class="coupon-slip-actions">' +
+            (COUPON_SLIP.length > 0 ? '<button class="coupon-slip-clear-btn" data-action="clear-slip">Clear All</button>' : '') +
+            '<button class="coupon-slip-close-btn" data-action="close-mobile-drawer" title="Close drawer">&#10005; Close</button>' +
+            '</div>' +
+            '</div>' +
+            legsHtml +
+            summaryHtml +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="coupon-drawer-backdrop' + (wasDrawerOpen ? ' active' : '') + '" id="coupon-drawer-backdrop" data-action="close-mobile-drawer"></div>' +
+            (COUPON_SLIP.length > 0
+              ? '<div class="coupon-mobile-bar" id="coupon-mobile-bar" data-action="open-mobile-drawer">' +
+                '<div class="coupon-mobile-bar-left">' +
+                '<span class="coupon-mobile-bar-badge">' + COUPON_SLIP.length + (COUPON_SLIP.length === 1 ? ' LEG' : ' LEGS') + '</span>' +
+                '<div class="coupon-mobile-bar-metrics">' +
+                '<span>Chance: <strong>' + formattedProbPct + '%</strong></span>' +
+                '<span>·</span>' +
+                '<span>Odds: <strong>' + (displayMktOdds !== '—' ? displayMktOdds : displayFairOdds) + '</strong></span>' +
+                '</div>' +
+                '</div>' +
+                '<button class="coupon-mobile-bar-btn" data-action="open-mobile-drawer">' +
+                'View Slip &#x25B5;' +
+                '</button>' +
+                '</div>'
+              : '') +
+            '</div>';
+
+          var stakeInput = document.getElementById("coupon-stake-input");
+          if (stakeInput) {
+            stakeInput.addEventListener("input", function () {
+              var val = parseFloat(stakeInput.value);
+              if (!isNaN(val) && val > 0) {
+                couponStake = val;
+                saveCouponSlip();
+                var ret = (couponStake * (combinedMktOdds > 0 ? combinedMktOdds : combinedFairOdds)).toFixed(2);
+                var prof = (parseFloat(ret) - couponStake).toFixed(2);
+                var payoutEl = document.querySelector(".coupon-payout-amount");
+                if (payoutEl) payoutEl.textContent = "£" + ret;
+                var profEl = document.querySelector(".coupon-stake-label-group span:last-child");
+                if (profEl) profEl.textContent = "Profit: £" + prof;
+              }
+            });
+          }
         }
 
         // ── Upcoming Fixtures View ────────────────────────────────────
@@ -1504,6 +2268,95 @@
               "</div>";
           }
 
+          // Coupon quick-add chips
+          var matchId = (fix.date || "") + "_" + home + "_" + away;
+          var outrightPred = predictMatchOutright(home, away, h2h, fix.odds);
+          var curLeg = getCouponLeg(matchId);
+
+          var couponChipsHtml =
+            '<div class="fixture-coupon-bar" data-fixture-id="' +
+            esc(matchId) +
+            '">' +
+            '<span class="fixture-coupon-label"><span class="fixture-coupon-dot"></span>Add to Coupon:</span>' +
+            '<div class="fixture-coupon-chips">' +
+            '<button class="fixture-coupon-chip' +
+            (curLeg && curLeg.pick === "1" ? " active" : "") +
+            '" data-action="quick-coupon" data-mid="' +
+            esc(matchId) +
+            '" data-pick="1" data-home="' +
+            esc(home) +
+            '" data-away="' +
+            esc(away) +
+            '" data-lg="' +
+            esc(fix.league) +
+            '" data-date="' +
+            esc(fix.date) +
+            '" data-time="' +
+            esc(fix.time) +
+            '" data-prob="' +
+            outrightPred.probH +
+            '" data-odds="' +
+            (outrightPred.oddsH || "") +
+            '" data-fair="' +
+            outrightPred.fairOddsH +
+            '" title="Home Win (Model: ' +
+            outrightPred.probH +
+            '%)">1: ' +
+            outrightPred.probH +
+            '%</button>' +
+            '<button class="fixture-coupon-chip' +
+            (curLeg && curLeg.pick === "X" ? " active" : "") +
+            '" data-action="quick-coupon" data-mid="' +
+            esc(matchId) +
+            '" data-pick="X" data-home="' +
+            esc(home) +
+            '" data-away="' +
+            esc(away) +
+            '" data-lg="' +
+            esc(fix.league) +
+            '" data-date="' +
+            esc(fix.date) +
+            '" data-time="' +
+            esc(fix.time) +
+            '" data-prob="' +
+            outrightPred.probD +
+            '" data-odds="' +
+            (outrightPred.oddsD || "") +
+            '" data-fair="' +
+            outrightPred.fairOddsD +
+            '" title="Draw (Model: ' +
+            outrightPred.probD +
+            '%)">X: ' +
+            outrightPred.probD +
+            '%</button>' +
+            '<button class="fixture-coupon-chip' +
+            (curLeg && curLeg.pick === "2" ? " active" : "") +
+            '" data-action="quick-coupon" data-mid="' +
+            esc(matchId) +
+            '" data-pick="2" data-home="' +
+            esc(home) +
+            '" data-away="' +
+            esc(away) +
+            '" data-lg="' +
+            esc(fix.league) +
+            '" data-date="' +
+            esc(fix.date) +
+            '" data-time="' +
+            esc(fix.time) +
+            '" data-prob="' +
+            outrightPred.probA +
+            '" data-odds="' +
+            (outrightPred.oddsA || "") +
+            '" data-fair="' +
+            outrightPred.fairOddsA +
+            '" title="Away Win (Model: ' +
+            outrightPred.probA +
+            '%)">2: ' +
+            outrightPred.probA +
+            '%</button>' +
+            '</div>' +
+            '</div>';
+
           return (
             '<div class="fixture-card">' +
             '<div class="fixture-header">' +
@@ -1536,6 +2389,7 @@
             h2hHtml +
             htProbHtml +
             c10ProbHtml +
+            couponChipsHtml +
             "</div>"
           );
         }
@@ -1596,34 +2450,6 @@
         id="pwa-update-dismiss"
         type="button"
         aria-label="Dismiss update"
-      >
-        &#x2715;
-      </button>
-    </div>
-
-    <!-- PWA Install Banner -->
-    <div
-      id="pwa-install-banner"
-      role="dialog"
-      aria-label="Install FootyStats app"
-    >
-      <img
-        class="pwa-banner-icon"
-        src="icons/icon-192.png"
-        alt="FootyStats icon"
-      />
-      <div class="pwa-banner-text">
-        <div class="pwa-banner-title">Install FootyStats</div>
-        <div class="pwa-banner-sub">Add to home screen for offline access</div>
-      </div>
-      <button class="pwa-install-btn" id="pwa-install-btn" type="button">
-        Install
-      </button>
-      <button
-        class="pwa-dismiss-btn"
-        id="pwa-dismiss-btn"
-        type="button"
-        aria-label="Dismiss"
       >
         &#x2715;
       </button>
@@ -1705,34 +2531,88 @@
             });
         });
 
-        // A2HS install banner
+        // ── PWA Install Banner & A2HS Prompt Logic ────────────────────
         var deferredPrompt = null;
+        var DISMISS_KEY = "pwa-install-dismissed";
 
+        var isStandalone =
+          window.matchMedia("(display-mode: standalone)").matches ||
+          window.navigator.standalone === true;
+
+        var isIOS =
+          /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+
+        function isDismissedRecently() {
+          try {
+            var t = parseInt(localStorage.getItem(DISMISS_KEY) || "0", 10);
+            return Date.now() - t < 7 * 24 * 60 * 60 * 1000; // 7-day cooldown
+          } catch (e) {
+            return false;
+          }
+        }
+
+        function markDismissed() {
+          try {
+            localStorage.setItem(DISMISS_KEY, Date.now().toString());
+          } catch (e) {}
+        }
+
+        // Handle Chromium beforeinstallprompt event
         window.addEventListener("beforeinstallprompt", function (e) {
+          // Prevent browser default mini-infobar so custom styled banner is used
           e.preventDefault();
           deferredPrompt = e;
-          setTimeout(function () {
-            $installBanner.classList.add("visible");
-          }, 3000);
+
+          if (!isStandalone && !isDismissedRecently()) {
+            setTimeout(function () {
+              if (!isStandalone && !isDismissedRecently()) {
+                $installBanner.classList.add("visible");
+              }
+            }, 3000);
+          }
         });
 
+        // Fallback for iOS Safari (beforeinstallprompt is unsupported on Apple WebKit)
+        if (isIOS && !isStandalone && !isDismissedRecently()) {
+          var $sub = $installBanner.querySelector(".pwa-banner-sub");
+          if ($sub) {
+            $sub.textContent = "Tap Share ⎋ then 'Add to Home Screen' ⊞";
+          }
+          if ($installBtn) {
+            $installBtn.style.display = "none";
+          }
+          setTimeout(function () {
+            if (!isStandalone && !isDismissedRecently()) {
+              $installBanner.classList.add("visible");
+            }
+          }, 4000);
+        }
+
+        // Install button click handler (Chromium)
         $installBtn.addEventListener("click", function () {
           if (!deferredPrompt) return;
           deferredPrompt.prompt();
-          deferredPrompt.userChoice.then(function () {
+          deferredPrompt.userChoice.then(function (choice) {
             deferredPrompt = null;
             $installBanner.classList.remove("visible");
+            if (choice && choice.outcome === "dismissed") {
+              markDismissed();
+            }
           });
         });
 
+        // Dismiss button click handler
         $installDismiss.addEventListener("click", function () {
           $installBanner.classList.remove("visible");
           deferredPrompt = null;
+          markDismissed();
         });
 
+        // When successfully installed, remove banner and mark dismissed
         window.addEventListener("appinstalled", function () {
           $installBanner.classList.remove("visible");
           deferredPrompt = null;
+          markDismissed();
         });
       })();
     </script>

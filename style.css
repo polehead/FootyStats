@@ -35,6 +35,13 @@
   --neon-orange: #ff6a00;
   --neon-red: #ff2d55;
   --neon-purple: #b026ff;
+  --neon-blue: #00b4ff;
+  --neon-blue-dim: rgba(0, 180, 255, 0.12);
+  --neon-blue-border: rgba(0, 180, 255, 0.35);
+  --glow-blue:
+    0 0 14px rgba(0, 180, 255, 0.45), 0 0 40px rgba(0, 180, 255, 0.15);
+  --glow-blue-subtle: 0 0 8px rgba(0, 180, 255, 0.3);
+
 
   --glow-cyan:
     0 0 12px rgba(0, 240, 255, 0.35), 0 0 40px rgba(0, 240, 255, 0.1);
@@ -114,7 +121,10 @@ body::before {
       rgba(57, 255, 20, 0.03) 0%,
       transparent 60%
     );
+  -webkit-animation: meshShift 20s ease-in-out infinite alternate;
   animation: meshShift 20s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 @keyframes meshShift {
@@ -239,6 +249,39 @@ body::before {
   border-color: var(--neon-purple);
   color: var(--neon-purple);
 }
+.tab-btn.active[data-tab="coupon"] {
+  background: var(--neon-blue);
+  box-shadow: var(--glow-blue);
+  color: #06080d;
+}
+.tab-btn:hover[data-tab="coupon"]:not(.active) {
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+}
+
+/* ── Coupon tab badge ── */
+.tab-coupon-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 16px;
+  padding: 0 5px;
+  margin-left: 5px;
+  border-radius: 100px;
+  background: rgba(6, 8, 13, 0.35);
+  color: #06080d;
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  vertical-align: middle;
+  transition: all 0.25s;
+}
+.tab-btn:not(.active) .tab-coupon-count {
+  background: rgba(0, 180, 255, 0.2);
+  color: var(--neon-blue);
+  box-shadow: 0 0 6px rgba(0, 180, 255, 0.4);
+}
 
 /* ── Custom tab badge ── */
 .tab-custom-count {
@@ -325,9 +368,16 @@ body::before {
   appearance: none;
   cursor: pointer;
   padding-right: 36px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300f0ff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--neon-cyan) 50%),
+    linear-gradient(135deg, var(--neon-cyan) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) calc(50% - 2px),
+    calc(100% - 15px) calc(50% - 2px);
+  background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
-  background-position: right 12px center;
 }
 
 .field-select option {
@@ -392,7 +442,9 @@ body::before {
 /* ── League section ──────────────────────────────────────────────── */
 .league-section {
   margin-bottom: var(--space-xl);
+  -webkit-animation: fadeSlideIn 0.4s var(--ease-out) both;
   animation: fadeSlideIn 0.4s var(--ease-out) both;
+  will-change: opacity, transform;
 }
 
 @keyframes fadeSlideIn {
@@ -584,7 +636,9 @@ body::before {
   width: 8px;
   height: 8px;
   border-radius: 50%;
+  -webkit-animation: pulse 2s ease-in-out infinite;
   animation: pulse 2s ease-in-out infinite;
+  will-change: opacity, transform;
 }
 .qm-g {
   background: var(--neon-green);
@@ -635,10 +689,16 @@ body::before {
   border: 3px solid var(--border-subtle);
   border-top-color: var(--neon-cyan);
   border-radius: 50%;
+  -webkit-animation: spin 0.8s linear infinite;
   animation: spin 0.8s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 @keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
   to {
     transform: rotate(360deg);
   }
@@ -1882,6 +1942,17 @@ body::before {
   }
 }
 
+@keyframes slideDownFadeMobile {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .pwa-update-icon {
   font-size: 1.4rem;
   flex-shrink: 0;
@@ -1924,17 +1995,7 @@ body::before {
     transform: none;
     max-width: unset;
     width: auto;
-  }
-
-  @keyframes slideDownFade {
-    from {
-      opacity: 0;
-      transform: translateY(-12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    animation-name: slideDownFadeMobile;
   }
 }
 
@@ -2020,4 +2081,1198 @@ body::before {
   border-color: var(--neon-purple);
   background: rgba(176, 38, 255, 0.08);
   box-shadow: 0 0 8px rgba(176, 38, 255, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   21. Coupon & Bet Builder Section
+   ═══════════════════════════════════════════════════════════════════ */
+.coupon-container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: var(--space-md) 0 var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  animation: fadeIn 0.3s var(--ease-out);
+}
+
+/* Top coupon introduction & stats strip */
+.coupon-header-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: linear-gradient(135deg, rgba(0, 180, 255, 0.08) 0%, rgba(10, 14, 24, 0.95) 100%);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.coupon-header-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--neon-blue);
+  box-shadow: var(--glow-blue);
+}
+
+.coupon-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.coupon-headline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.coupon-headline-pill {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: rgba(0, 180, 255, 0.15);
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
+  box-shadow: var(--glow-blue-subtle);
+}
+
+.coupon-subtext {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 820px;
+}
+
+.coupon-subtext strong {
+  color: var(--neon-blue);
+  font-weight: 600;
+}
+
+/* 2-Column Bet Builder Layout */
+.coupon-layout {
+  display: grid;
+  grid-template-columns: 1fr 390px;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.coupon-matches-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+/* Mini filter controls inside coupon */
+.coupon-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.coupon-search-input {
+  flex: 1 1 200px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  padding: 7px 12px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.coupon-search-input:focus {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 8px rgba(0, 180, 255, 0.3);
+}
+
+.coupon-league-select {
+  flex: 1 1 180px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  padding: 7px 12px;
+  outline: none;
+  cursor: pointer;
+}
+
+.coupon-league-select:focus {
+  border-color: var(--neon-blue);
+}
+
+/* Coupon Match Card */
+.coupon-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  transition: all 0.25s var(--ease-out);
+  position: relative;
+}
+
+.coupon-card:hover {
+  border-color: rgba(0, 180, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.coupon-card.has-selected {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 16px rgba(0, 180, 255, 0.2);
+  background: linear-gradient(180deg, rgba(0, 180, 255, 0.04) 0%, var(--bg-card) 100%);
+}
+
+.coupon-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.coupon-league-badge {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.coupon-datetime {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.coupon-time-pill {
+  color: var(--neon-cyan);
+  font-weight: 600;
+}
+
+.coupon-card-teams {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.coupon-team {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.coupon-team.home {
+  text-align: left;
+}
+
+.coupon-team.away {
+  text-align: right;
+}
+
+.coupon-team-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+  line-height: 1.25;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.coupon-team-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.coupon-vs {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+}
+
+/* xG Expectancy & Poisson Form Breakdown */
+.coupon-xg-strip {
+  background: var(--bg-base);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coupon-xg-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.coupon-xg-val {
+  font-weight: 700;
+  color: var(--neon-cyan);
+}
+
+.coupon-xg-bar-container {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--bg-deep);
+  gap: 2px;
+}
+
+.coupon-xg-bar-home {
+  background: linear-gradient(90deg, #00b4ff, #00f0ff);
+  height: 100%;
+  border-radius: 3px 0 0 3px;
+  transition: width 0.3s ease;
+}
+
+.coupon-xg-bar-draw {
+  background: rgba(255, 255, 255, 0.25);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.coupon-xg-bar-away {
+  background: linear-gradient(90deg, #b026ff, #ff00e5);
+  height: 100%;
+  border-radius: 0 3px 3px 0;
+  transition: width 0.3s ease;
+}
+
+.coupon-model-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* 1X2 Interactive Outcome Buttons */
+.coupon-outcomes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
+
+.coupon-outcome-btn {
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  position: relative;
+  text-align: center;
+}
+
+.coupon-outcome-btn:hover {
+  background: var(--bg-raised);
+  border-color: rgba(0, 180, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.coupon-outcome-btn.active {
+  background: rgba(0, 180, 255, 0.15);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 14px rgba(0, 180, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.outcome-pick-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.coupon-outcome-btn.active .outcome-pick-label {
+  color: var(--neon-blue);
+}
+
+.outcome-prob {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.coupon-outcome-btn.active .outcome-prob {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0, 180, 255, 0.6);
+}
+
+.outcome-odds-strip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+.outcome-odds-strip strong {
+  color: var(--text-primary);
+}
+
+.coupon-outcome-btn.active .outcome-odds-strip strong {
+  color: var(--neon-blue);
+}
+
+.outcome-edge-chip {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 100px;
+  background: rgba(57, 255, 20, 0.15);
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  box-shadow: 0 0 6px rgba(57, 255, 20, 0.3);
+  margin-top: 2px;
+}
+
+/* Coupon Slip / Bet Builder Sidebar */
+.coupon-slip-column {
+  position: sticky;
+  top: 80px;
+}
+
+.coupon-slip {
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 180, 255, 0.08);
+}
+
+.coupon-slip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(0, 180, 255, 0.2);
+}
+
+.coupon-slip-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.coupon-slip-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.coupon-slip-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: var(--neon-blue);
+  color: #06080d;
+  padding: 2px 7px;
+  border-radius: 100px;
+  box-shadow: 0 0 8px rgba(0, 180, 255, 0.5);
+}
+
+.coupon-slip-clear-btn {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.coupon-slip-clear-btn:hover {
+  color: var(--neon-red);
+  border-color: var(--neon-red);
+  background: rgba(255, 45, 85, 0.1);
+}
+
+/* Empty Slip State */
+.coupon-slip-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  color: var(--text-secondary);
+  gap: var(--space-sm);
+}
+
+.coupon-slip-empty-icon {
+  font-size: 2.2rem;
+  opacity: 0.4;
+  color: var(--neon-blue);
+}
+
+.coupon-slip-empty h4 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+}
+
+.coupon-slip-empty p {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* Selected Legs in Slip */
+.coupon-legs-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.coupon-leg-card {
+  background: var(--bg-base);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 3px solid var(--neon-blue);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.coupon-leg-card:hover {
+  background: var(--bg-raised);
+}
+
+.coupon-leg-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.coupon-leg-match {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.coupon-leg-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.coupon-leg-remove-btn:hover {
+  color: var(--neon-red);
+}
+
+.coupon-leg-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.coupon-leg-pick-badge {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--neon-blue);
+  background: rgba(0, 180, 255, 0.12);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 180, 255, 0.25);
+}
+
+.coupon-leg-stats {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.coupon-leg-stats strong {
+  color: var(--text-primary);
+}
+
+/* Accumulator Summary Engine */
+.coupon-acc-summary {
+  background: linear-gradient(180deg, rgba(0, 180, 255, 0.08) 0%, rgba(6, 8, 13, 0.8) 100%);
+  border: 1px solid rgba(0, 180, 255, 0.3);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.coupon-acc-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coupon-acc-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+}
+
+.coupon-acc-prob-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.coupon-acc-prob-label {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.coupon-acc-prob-pct {
+  font-family: var(--font-mono);
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.coupon-acc-meter-bg {
+  height: 8px;
+  background: var(--bg-deep);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.coupon-acc-meter-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.35s ease, background 0.35s ease;
+}
+
+/* Odds & Return Grid */
+.coupon-acc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xs);
+}
+
+.coupon-metric-box {
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.coupon-metric-label {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.coupon-metric-val {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.coupon-metric-val.highlight {
+  color: var(--neon-blue);
+}
+
+/* Stake Calculator */
+.coupon-stake-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coupon-stake-label-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.coupon-stake-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0 10px;
+  transition: border-color 0.2s ease;
+}
+
+.coupon-stake-input-wrap:focus-within {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 8px rgba(0, 180, 255, 0.3);
+}
+
+.coupon-currency-symbol {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--neon-blue);
+  margin-right: 6px;
+  font-size: 0.9rem;
+}
+
+.coupon-stake-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.coupon-payout-box {
+  background: rgba(0, 180, 255, 0.1);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coupon-payout-label {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.coupon-payout-amount {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--neon-blue);
+  text-shadow: 0 0 8px rgba(0, 180, 255, 0.4);
+}
+
+/* Copy Summary Button */
+.coupon-copy-btn {
+  background: var(--neon-blue);
+  color: #06080d;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  box-shadow: var(--glow-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.coupon-copy-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(0, 180, 255, 0.6);
+}
+
+.coupon-copy-btn:active {
+  transform: translateY(0);
+}
+
+/* Fixture Card Inline Coupon Chip Bar */
+.fixture-coupon-bar {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fixture-coupon-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fixture-coupon-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neon-blue);
+  box-shadow: 0 0 6px var(--neon-blue);
+}
+
+.fixture-coupon-chips {
+  display: flex;
+  gap: 5px;
+}
+
+.fixture-coupon-chip {
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fixture-coupon-chip:hover {
+  border-color: var(--neon-blue);
+  color: var(--text-primary);
+}
+
+.fixture-coupon-chip.active {
+  background: rgba(0, 180, 255, 0.2);
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+  box-shadow: 0 0 8px rgba(0, 180, 255, 0.35);
+}
+
+/* Outcome label variants (desktop vs mobile) */
+.outcome-pick-short {
+  display: none;
+}
+
+.coupon-mobile-bar {
+  display: none;
+}
+
+.coupon-drawer-backdrop {
+  display: none;
+}
+
+.coupon-drawer-handle {
+  display: none;
+}
+
+.coupon-slip-close-btn {
+  display: none;
+}
+
+.coupon-slip-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 880px) {
+  .coupon-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .coupon-matches-column {
+    padding-bottom: 90px;
+  }
+
+  /* Floating Bar when selections > 0 */
+  .coupon-mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 16px;
+    left: 12px;
+    right: 12px;
+    max-width: 520px;
+    margin: 0 auto;
+    z-index: 1000;
+    background: rgba(10, 14, 24, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--neon-blue);
+    border-radius: 100px;
+    padding: 8px 14px;
+    box-shadow: 0 0 20px rgba(0, 180, 255, 0.45), 0 12px 35px rgba(0, 0, 0, 0.85);
+    animation: slideUpMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+
+  .coupon-mobile-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .coupon-mobile-bar-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 800;
+    background: var(--neon-blue);
+    color: #06080d;
+    padding: 2px 7px;
+    border-radius: 100px;
+    white-space: nowrap;
+    box-shadow: 0 0 6px rgba(0, 180, 255, 0.6);
+  }
+
+  .coupon-mobile-bar-metrics {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .coupon-mobile-bar-metrics strong {
+    color: var(--neon-cyan);
+  }
+
+  .coupon-mobile-bar-btn {
+    background: rgba(0, 180, 255, 0.18);
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .coupon-mobile-bar:hover .coupon-mobile-bar-btn {
+    background: var(--neon-blue);
+    color: #06080d;
+  }
+
+  /* Drawer Backdrop */
+  .coupon-drawer-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1050;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .coupon-drawer-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Slip Drawer on Mobile */
+  .coupon-slip-column {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto !important;
+    z-index: 1100;
+    max-height: 85vh;
+    transform: translateY(105%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+  }
+
+  .coupon-slip-column.drawer-open {
+    transform: translateY(0);
+  }
+
+  .coupon-slip {
+    border-radius: 20px 20px 0 0 !important;
+    border-top: 2px solid var(--neon-blue) !important;
+    border-left: 1px solid rgba(0, 180, 255, 0.3) !important;
+    border-right: 1px solid rgba(0, 180, 255, 0.3) !important;
+    border-bottom: none !important;
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 180, 255, 0.2) !important;
+    max-height: 85vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 16px 28px !important;
+  }
+
+  .coupon-drawer-handle {
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 2px;
+    margin: 0 auto 8px;
+    cursor: pointer;
+  }
+
+  .coupon-slip-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .coupon-slip-close-btn:hover {
+    background: rgba(255, 45, 85, 0.15);
+    border-color: var(--neon-red);
+    color: var(--neon-red);
+  }
+}
+
+@keyframes slideUpMobile {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 560px) {
+  .outcome-pick-full {
+    display: none;
+  }
+  .outcome-pick-short {
+    display: inline;
+  }
+  .coupon-card-teams {
+    gap: 6px;
+  }
+  .coupon-team-name {
+    font-size: 0.86rem;
+    line-height: 1.2;
+  }
+  .coupon-team-sub {
+    font-size: 0.65rem;
+  }
+  .coupon-vs {
+    font-size: 0.65rem;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .coupon-container {
+    padding: var(--space-xs) 0 var(--space-lg);
+    gap: var(--space-md);
+  }
+
+  .coupon-header-panel {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+
+  .coupon-headline {
+    font-size: 0.88rem;
+    letter-spacing: 0.8px;
+  }
+
+  .coupon-headline-pill {
+    font-size: 0.58rem;
+    padding: 2px 6px;
+  }
+
+  .coupon-subtext {
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+
+  .coupon-xg-labels {
+    font-size: 0.68rem;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .coupon-outcomes-grid {
+    gap: 4px;
+  }
+
+  .coupon-outcome-btn {
+    padding: 7px 3px;
+  }
+
+  .outcome-pick-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.5px;
+  }
+
+  .outcome-prob {
+    font-size: 0.92rem;
+  }
+
+  .outcome-odds-strip {
+    font-size: 0.6rem;
+  }
+
+  .outcome-edge-chip {
+    font-size: 0.55rem;
+    padding: 1px 3px;
+    margin-top: 1px;
+  }
+
+  .coupon-acc-prob-pct {
+    font-size: 1.7rem;
+  }
+
+  .fixture-coupon-bar {
+    gap: 4px;
+  }
+
+  .fixture-coupon-chips {
+    flex-wrap: wrap;
+  }
+
+  .fixture-coupon-chip {
+    padding: 2px 6px;
+    font-size: 0.65rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   20. Accessibility & Compatibility — Reduced Motion Support
+   ═══════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
