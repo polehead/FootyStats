@@ -1409,223 +1409,486 @@
           else if (accProbPct < 45) meterColor = "var(--neon-yellow)";
           else if (accProbPct < 65) meterColor = "var(--neon-blue)";
 
+          // Helper to render a single coupon match card
+          function renderCouponCard(fix) {
+            var home = fix.home;
+            var away = fix.away;
+            var matchId = (fix.date || "") + "_" + home + "_" + away;
+            var h2h = getH2HAtHome(home, away);
+            var pred = predictMatchOutright(home, away, h2h, fix.odds);
+            var cur = getCouponLeg(matchId);
+
+            var htGoalPct = calcFirstHalfGoalPct(home, away, h2h);
+            var c10Pct = calcCorners10PlusPct(home, away, h2h);
+
+            var homeSub = "H: " + pred.homeMatches + " matches";
+            var awaySub = "A: " + pred.awayMatches + " matches";
+
+            var edgeHHtml =
+              pred.edgeH !== null && pred.edgeH > 0
+                ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' +
+                  pred.edgeH +
+                  "% Edge</span>"
+                : "";
+            var edgeDHtml =
+              pred.edgeD !== null && pred.edgeD > 0
+                ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' +
+                  pred.edgeD +
+                  "% Edge</span>"
+                : "";
+            var edgeAHtml =
+              pred.edgeA !== null && pred.edgeA > 0
+                ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' +
+                  pred.edgeA +
+                  "% Edge</span>"
+                : "";
+
+            var isSelectedH = cur && cur.pick === "1";
+            var isSelectedD = cur && cur.pick === "X";
+            var isSelectedA = cur && cur.pick === "2";
+            var hasSelectedAny = isSelectedH || isSelectedD || isSelectedA;
+
+            var oddsHDisplay = pred.oddsH
+              ? "Mkt: <strong>" + pred.oddsH + "</strong>"
+              : "Fair: <strong>" + pred.fairOddsH + "</strong>";
+            var oddsDDisplay = pred.oddsD
+              ? "Mkt: <strong>" + pred.oddsD + "</strong>"
+              : "Fair: <strong>" + pred.fairOddsD + "</strong>";
+            var oddsADisplay = pred.oddsA
+              ? "Mkt: <strong>" + pred.oddsA + "</strong>"
+              : "Fair: <strong>" + pred.fairOddsA + "</strong>";
+
+            return (
+              '<div class="coupon-card' +
+              (hasSelectedAny ? " has-selected" : "") +
+              '">' +
+              '<div class="coupon-card-meta">' +
+              '<span class="coupon-league-badge">' +
+              esc(fix.league) +
+              "</span>" +
+              '<div class="coupon-datetime">' +
+              "<span>" +
+              esc(fix.date) +
+              "</span>" +
+              "<span>·</span>" +
+              '<span class="coupon-time-pill">' +
+              esc(fix.time) +
+              "</span>" +
+              "</div>" +
+              "</div>" +
+              '<div class="coupon-card-teams">' +
+              '<div class="coupon-team home">' +
+              '<span class="coupon-team-name">' +
+              esc(home) +
+              "</span>" +
+              '<span class="coupon-team-sub">' +
+              homeSub +
+              "</span>" +
+              "</div>" +
+              '<span class="coupon-vs">VS</span>' +
+              '<div class="coupon-team away">' +
+              '<span class="coupon-team-name">' +
+              esc(away) +
+              "</span>" +
+              '<span class="coupon-team-sub">' +
+              awaySub +
+              "</span>" +
+              "</div>" +
+              "</div>" +
+              '<div class="coupon-xg-strip">' +
+              '<div class="coupon-xg-labels">' +
+              '<span>Model xG: <strong class="coupon-xg-val">' +
+              pred.lambda +
+              "</strong></span>" +
+              "<span>" +
+              (pred.h2hLen > 0
+                ? pred.h2hLen + " H2H meetings"
+                : "Form Baseline") +
+              "</span>" +
+              '<span>Model xG: <strong class="coupon-xg-val" style="color:var(--neon-purple);">' +
+              pred.mu +
+              "</strong></span>" +
+              "</div>" +
+              '<div class="coupon-xg-bar-container" title="Expected Goal Probabilities (Home ' +
+              pred.probH +
+              "% | Draw " +
+              pred.probD +
+              "% | Away " +
+              pred.probA +
+              '%)">' +
+              '<div class="coupon-xg-bar-home" style="width:' +
+              pred.probH +
+              '%;"></div>' +
+              '<div class="coupon-xg-bar-draw" style="width:' +
+              pred.probD +
+              '%;"></div>' +
+              '<div class="coupon-xg-bar-away" style="width:' +
+              pred.probA +
+              '%;"></div>' +
+              "</div>" +
+              "</div>" +
+              '<div class="coupon-sub-metrics">' +
+              '<div class="coupon-sub-metric" title="Historical probability of at least 1 goal scored in the first half">' +
+              '<span class="sub-metric-dot' +
+              (htGoalPct !== null && htGoalPct >= 70 ? " high" : "") +
+              '"></span>' +
+              '<span class="sub-metric-label">1st Half Goal:</span>' +
+              '<strong class="sub-metric-val' +
+              (htGoalPct !== null && htGoalPct >= 70 ? " high" : "") +
+              '">' +
+              (htGoalPct !== null ? htGoalPct + "%" : "—") +
+              "</strong>" +
+              "</div>" +
+              '<span class="sub-metric-divider">·</span>' +
+              '<div class="coupon-sub-metric" title="Historical probability of 10 or more total match corners">' +
+              '<span class="sub-metric-dot' +
+              (c10Pct !== null && c10Pct >= 55 ? " high-alt" : "") +
+              '"></span>' +
+              '<span class="sub-metric-label">10+ Corners:</span>' +
+              '<strong class="sub-metric-val' +
+              (c10Pct !== null && c10Pct >= 55 ? " high-alt" : "") +
+              '">' +
+              (c10Pct !== null ? c10Pct + "%" : "—") +
+              "</strong>" +
+              "</div>" +
+              "</div>" +
+              '<div class="coupon-outcomes-grid">' +
+              '<button class="coupon-outcome-btn' +
+              (isSelectedH ? " active" : "") +
+              '" data-action="toggle-leg" data-mid="' +
+              esc(matchId) +
+              '" data-pick="1" data-home="' +
+              esc(home) +
+              '" data-away="' +
+              esc(away) +
+              '" data-lg="' +
+              esc(fix.league) +
+              '" data-date="' +
+              esc(fix.date) +
+              '" data-time="' +
+              esc(fix.time) +
+              '" data-prob="' +
+              pred.probH +
+              '" data-odds="' +
+              (pred.oddsH || "") +
+              '" data-fair="' +
+              pred.fairOddsH +
+              '">' +
+              '<span class="outcome-pick-label"><span class="outcome-pick-full">1 · Home Win</span><span class="outcome-pick-short">1 · Home</span></span>' +
+              '<span class="outcome-prob">' +
+              pred.probH +
+              "%</span>" +
+              '<div class="outcome-odds-strip">' +
+              oddsHDisplay +
+              "</div>" +
+              edgeHHtml +
+              "</button>" +
+              '<button class="coupon-outcome-btn' +
+              (isSelectedD ? " active" : "") +
+              '" data-action="toggle-leg" data-mid="' +
+              esc(matchId) +
+              '" data-pick="X" data-home="' +
+              esc(home) +
+              '" data-away="' +
+              esc(away) +
+              '" data-lg="' +
+              esc(fix.league) +
+              '" data-date="' +
+              esc(fix.date) +
+              '" data-time="' +
+              esc(fix.time) +
+              '" data-prob="' +
+              pred.probD +
+              '" data-odds="' +
+              (pred.oddsD || "") +
+              '" data-fair="' +
+              pred.fairOddsD +
+              '">' +
+              '<span class="outcome-pick-label"><span class="outcome-pick-full">X · Draw</span><span class="outcome-pick-short">X · Draw</span></span>' +
+              '<span class="outcome-prob">' +
+              pred.probD +
+              "%</span>" +
+              '<div class="outcome-odds-strip">' +
+              oddsDDisplay +
+              "</div>" +
+              edgeDHtml +
+              "</button>" +
+              '<button class="coupon-outcome-btn' +
+              (isSelectedA ? " active" : "") +
+              '" data-action="toggle-leg" data-mid="' +
+              esc(matchId) +
+              '" data-pick="2" data-home="' +
+              esc(home) +
+              '" data-away="' +
+              esc(away) +
+              '" data-lg="' +
+              esc(fix.league) +
+              '" data-date="' +
+              esc(fix.date) +
+              '" data-time="' +
+              esc(fix.time) +
+              '" data-prob="' +
+              pred.probA +
+              '" data-odds="' +
+              (pred.oddsA || "") +
+              '" data-fair="' +
+              pred.fairOddsA +
+              '">' +
+              '<span class="outcome-pick-label"><span class="outcome-pick-full">2 · Away Win</span><span class="outcome-pick-short">2 · Away</span></span>' +
+              '<span class="outcome-prob">' +
+              pred.probA +
+              "%</span>" +
+              '<div class="outcome-odds-strip">' +
+              oddsADisplay +
+              "</div>" +
+              edgeAHtml +
+              "</button>" +
+              "</div>" +
+              "</div>"
+            );
+          }
+
           // Build Match Cards HTML
           var cardsHtml = "";
           if (filtered.length === 0) {
             cardsHtml =
               '<div class="empty-state"><h3>No matches found</h3><p>Try clearing or modifying your search or league filter.</p></div>';
           } else {
-            cardsHtml = filtered
-              .map(function (fix) {
-                var home = fix.home;
-                var away = fix.away;
-                var matchId = (fix.date || "") + "_" + home + "_" + away;
-                var h2h = getH2HAtHome(home, away);
-                var pred = predictMatchOutright(home, away, h2h, fix.odds);
-                var cur = getCouponLeg(matchId);
+            // 1. Identify Model Standouts for Hot Picks Section
+            var scoredPicks = [];
+            filtered.forEach(function (fix) {
+              var home = fix.home;
+              var away = fix.away;
+              var matchId = (fix.date || "") + "_" + home + "_" + away;
+              var h2h = getH2HAtHome(home, away);
+              var pred = predictMatchOutright(home, away, h2h, fix.odds);
 
-                var homeSub = "H: " + pred.homeMatches + " matches";
-                var awaySub = "A: " + pred.awayMatches + " matches";
+              var candidates = [
+                {
+                  pick: "1",
+                  label: "Home Win (" + home + ")",
+                  prob: pred.probH,
+                  odds: pred.oddsH,
+                  fair: pred.fairOddsH,
+                  edge: pred.edgeH || 0,
+                },
+                {
+                  pick: "X",
+                  label: "Draw",
+                  prob: pred.probD,
+                  odds: pred.oddsD,
+                  fair: pred.fairOddsD,
+                  edge: pred.edgeD || 0,
+                },
+                {
+                  pick: "2",
+                  label: "Away Win (" + away + ")",
+                  prob: pred.probA,
+                  odds: pred.oddsA,
+                  fair: pred.fairOddsA,
+                  edge: pred.edgeA || 0,
+                },
+              ];
 
-                var edgeHHtml =
-                  pred.edgeH !== null && pred.edgeH > 0
-                    ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' +
-                      pred.edgeH +
-                      "% Edge</span>"
-                    : "";
-                var edgeDHtml =
-                  pred.edgeD !== null && pred.edgeD > 0
-                    ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' +
-                      pred.edgeD +
-                      "% Edge</span>"
-                    : "";
-                var edgeAHtml =
-                  pred.edgeA !== null && pred.edgeA > 0
-                    ? '<span class="outcome-edge-chip" title="Model edge vs bookmaker implied probability">+' +
-                      pred.edgeA +
-                      "% Edge</span>"
-                    : "";
+              candidates.sort(function (a, b) {
+                var scoreA = a.prob + (a.edge > 0 ? a.edge * 1.5 : 0);
+                var scoreB = b.prob + (b.edge > 0 ? b.edge * 1.5 : 0);
+                return scoreB - scoreA;
+              });
 
-                var isSelectedH = cur && cur.pick === "1";
-                var isSelectedD = cur && cur.pick === "X";
-                var isSelectedA = cur && cur.pick === "2";
-                var hasSelectedAny = isSelectedH || isSelectedD || isSelectedA;
+              var top = candidates[0];
+              var score = top.prob + (top.edge > 0 ? top.edge * 2 : 0);
+              if (top.prob >= 48 || top.edge >= 3.5) {
+                scoredPicks.push({
+                  fix: fix,
+                  matchId: matchId,
+                  home: home,
+                  away: away,
+                  league: fix.league,
+                  date: fix.date,
+                  time: fix.time,
+                  pick: top.pick,
+                  pickLabel: top.label,
+                  prob: top.prob,
+                  odds: top.odds,
+                  fair: top.fair,
+                  edge: top.edge,
+                  score: score,
+                  h2h: h2h,
+                });
+              }
+            });
 
-                var oddsHDisplay = pred.oddsH
-                  ? "Mkt: <strong>" + pred.oddsH + "</strong>"
-                  : "Fair: <strong>" + pred.fairOddsH + "</strong>";
-                var oddsDDisplay = pred.oddsD
-                  ? "Mkt: <strong>" + pred.oddsD + "</strong>"
-                  : "Fair: <strong>" + pred.fairOddsD + "</strong>";
-                var oddsADisplay = pred.oddsA
-                  ? "Mkt: <strong>" + pred.oddsA + "</strong>"
-                  : "Fair: <strong>" + pred.fairOddsA + "</strong>";
+            scoredPicks.sort(function (a, b) {
+              return b.score - a.score;
+            });
 
+            var hotPicks = scoredPicks.slice(0, 4);
+            var hotPicksHtml = "";
+            if (hotPicks.length > 0) {
+              hotPicksHtml =
+                '<div class="coupon-hot-picks-section">' +
+                '<div class="hot-picks-header">' +
+                '<span class="hot-picks-icon">&#128293;</span>' +
+                '<div class="hot-picks-title-group">' +
+                '<h3 class="hot-picks-title">HOT PICKS · MODEL STANDOUTS <span class="hot-picks-badge">ALGORITHMIC VALUE</span></h3>' +
+                '<span class="hot-picks-subtitle">Highest confidence match outcomes &amp; statistical value edges based on Poisson &amp; H2H modelling</span>' +
+                "</div>" +
+                "</div>" +
+                '<div class="hot-picks-grid">' +
+                hotPicks
+                  .map(function (hp) {
+                    var cur = getCouponLeg(hp.matchId);
+                    var isSelected = cur && cur.pick === hp.pick;
+                    var effectiveOdds = hp.odds ? hp.odds : hp.fair;
+                    var edgeTag =
+                      hp.edge > 0
+                        ? '<span class="hot-pick-edge-tag" title="Model edge vs bookmaker odds">+' +
+                          hp.edge +
+                          "% Edge</span>"
+                        : "";
+                    var htGoalPct = calcFirstHalfGoalPct(hp.home, hp.away, hp.h2h);
+                    var c10Pct = calcCorners10PlusPct(hp.home, hp.away, hp.h2h);
+
+                    return (
+                      '<div class="hot-pick-card' +
+                      (isSelected ? " has-selected" : "") +
+                      '">' +
+                      '<div class="hot-pick-card-top">' +
+                      '<span class="hot-pick-league">' +
+                      esc(hp.league) +
+                      "</span>" +
+                      '<span class="hot-pick-date">' +
+                      esc(hp.date) +
+                      " · " +
+                      esc(hp.time) +
+                      "</span>" +
+                      "</div>" +
+                      '<div class="hot-pick-match">' +
+                      esc(hp.home) +
+                      " vs " +
+                      esc(hp.away) +
+                      "</div>" +
+                      '<div class="hot-pick-recommendation">' +
+                      '<div class="hot-pick-selection-title">' +
+                      '&#9654; <span style="color:#fff;">' +
+                      esc(hp.pickLabel) +
+                      "</span>" +
+                      "</div>" +
+                      '<div class="hot-pick-metrics-row">' +
+                      '<strong style="color:var(--neon-cyan);">' +
+                      hp.prob +
+                      "%</strong>" +
+                      edgeTag +
+                      "</div>" +
+                      "</div>" +
+                      '<div class="coupon-sub-metrics" style="padding: 4px 8px; font-size: 0.68rem;">' +
+                      '<div class="coupon-sub-metric">' +
+                      '<span class="sub-metric-dot' +
+                      (htGoalPct !== null && htGoalPct >= 70 ? " high" : "") +
+                      '"></span>' +
+                      '<span class="sub-metric-label">1st Half:</span> ' +
+                      '<strong class="sub-metric-val' +
+                      (htGoalPct !== null && htGoalPct >= 70 ? " high" : "") +
+                      '">' +
+                      (htGoalPct !== null ? htGoalPct + "%" : "—") +
+                      "</strong>" +
+                      "</div>" +
+                      '<span class="sub-metric-divider">·</span>' +
+                      '<div class="coupon-sub-metric">' +
+                      '<span class="sub-metric-dot' +
+                      (c10Pct !== null && c10Pct >= 55 ? " high-alt" : "") +
+                      '"></span>' +
+                      '<span class="sub-metric-label">10+ Cnr:</span> ' +
+                      '<strong class="sub-metric-val' +
+                      (c10Pct !== null && c10Pct >= 55 ? " high-alt" : "") +
+                      '">' +
+                      (c10Pct !== null ? c10Pct + "%" : "—") +
+                      "</strong>" +
+                      "</div>" +
+                      "</div>" +
+                      '<button class="hot-pick-btn' +
+                      (isSelected ? " active" : "") +
+                      '" data-action="toggle-leg" data-mid="' +
+                      esc(hp.matchId) +
+                      '" data-pick="' +
+                      hp.pick +
+                      '" data-home="' +
+                      esc(hp.home) +
+                      '" data-away="' +
+                      esc(hp.away) +
+                      '" data-lg="' +
+                      esc(hp.league) +
+                      '" data-date="' +
+                      esc(hp.date) +
+                      '" data-time="' +
+                      esc(hp.time) +
+                      '" data-prob="' +
+                      hp.prob +
+                      '" data-odds="' +
+                      (hp.odds || "") +
+                      '" data-fair="' +
+                      hp.fair +
+                      '">' +
+                      (isSelected
+                        ? "&#10003; Added to Slip"
+                        : "+ Add Pick @ " + effectiveOdds) +
+                      "</button>" +
+                      "</div>"
+                    );
+                  })
+                  .join("") +
+                "</div>" +
+                "</div>";
+            }
+
+            // 2. Group matches by League with Collapsible Sections
+            var groups = {};
+            var leaguesOrder = [];
+            filtered.forEach(function (fix) {
+              if (!groups[fix.league]) {
+                groups[fix.league] = [];
+                leaguesOrder.push(fix.league);
+              }
+              groups[fix.league].push(fix);
+            });
+
+            var isMobile = window.matchMedia("(max-width: 768px)").matches;
+            var initialCollapse = isMobile ? " collapsed" : "";
+
+            var leaguesHtml = leaguesOrder
+              .map(function (lg, idx) {
+                var list = groups[lg];
+                var leagueCards = list.map(renderCouponCard).join("");
                 return (
-                  '<div class="coupon-card' +
-                  (hasSelectedAny ? " has-selected" : "") +
+                  '<section class="league-section' +
+                  initialCollapse +
+                  '" style="animation-delay:' +
+                  idx * 30 +
+                  'ms">' +
+                  '<div class="league-header" role="button" tabindex="0" aria-label="Toggle ' +
+                  esc(lg) +
                   '">' +
-                  '<div class="coupon-card-meta">' +
-                  '<span class="coupon-league-badge">' +
-                  esc(fix.league) +
+                  '<h2 class="league-name">' +
+                  esc(lg) +
+                  "</h2>" +
+                  '<span class="league-badge">' +
+                  list.length +
+                  (list.length === 1 ? " match" : " matches") +
                   "</span>" +
-                  '<div class="coupon-datetime">' +
-                  "<span>" +
-                  esc(fix.date) +
-                  "</span>" +
-                  "<span>\u00b7</span>" +
-                  '<span class="coupon-time-pill">' +
-                  esc(fix.time) +
-                  "</span>" +
+                  '<span class="league-toggle">&#9660;</span>' +
+                  "</div>" +
+                  '<div class="league-body">' +
+                  '<div class="coupon-matches-grid">' +
+                  leagueCards +
                   "</div>" +
                   "</div>" +
-                  '<div class="coupon-card-teams">' +
-                  '<div class="coupon-team home">' +
-                  '<span class="coupon-team-name">' +
-                  esc(home) +
-                  "</span>" +
-                  '<span class="coupon-team-sub">' +
-                  homeSub +
-                  "</span>" +
-                  "</div>" +
-                  '<span class="coupon-vs">VS</span>' +
-                  '<div class="coupon-team away">' +
-                  '<span class="coupon-team-name">' +
-                  esc(away) +
-                  "</span>" +
-                  '<span class="coupon-team-sub">' +
-                  awaySub +
-                  "</span>" +
-                  "</div>" +
-                  "</div>" +
-                  '<div class="coupon-xg-strip">' +
-                  '<div class="coupon-xg-labels">' +
-                  '<span>Model xG: <strong class="coupon-xg-val">' +
-                  pred.lambda +
-                  "</strong></span>" +
-                  "<span>" +
-                  (pred.h2hLen > 0
-                    ? pred.h2hLen + " H2H meetings"
-                    : "Form Baseline") +
-                  "</span>" +
-                  '<span>Model xG: <strong class="coupon-xg-val" style="color:var(--neon-purple);">' +
-                  pred.mu +
-                  "</strong></span>" +
-                  "</div>" +
-                  '<div class="coupon-xg-bar-container" title="Expected Goal Probabilities (Home ' +
-                  pred.probH +
-                  "% | Draw " +
-                  pred.probD +
-                  "% | Away " +
-                  pred.probA +
-                  '%)">' +
-                  '<div class="coupon-xg-bar-home" style="width:' +
-                  pred.probH +
-                  '%;"></div>' +
-                  '<div class="coupon-xg-bar-draw" style="width:' +
-                  pred.probD +
-                  '%;"></div>' +
-                  '<div class="coupon-xg-bar-away" style="width:' +
-                  pred.probA +
-                  '%;"></div>' +
-                  "</div>" +
-                  "</div>" +
-                  '<div class="coupon-outcomes-grid">' +
-                  '<button class="coupon-outcome-btn' +
-                  (isSelectedH ? " active" : "") +
-                  '" data-action="toggle-leg" data-mid="' +
-                  esc(matchId) +
-                  '" data-pick="1" data-home="' +
-                  esc(home) +
-                  '" data-away="' +
-                  esc(away) +
-                  '" data-lg="' +
-                  esc(fix.league) +
-                  '" data-date="' +
-                  esc(fix.date) +
-                  '" data-time="' +
-                  esc(fix.time) +
-                  '" data-prob="' +
-                  pred.probH +
-                  '" data-odds="' +
-                  (pred.oddsH || "") +
-                  '" data-fair="' +
-                  pred.fairOddsH +
-                  '">' +
-                  '<span class="outcome-pick-label"><span class="outcome-pick-full">1 · Home Win</span><span class="outcome-pick-short">1 · Home</span></span>' +
-                  '<span class="outcome-prob">' +
-                  pred.probH +
-                  "%</span>" +
-                  '<div class="outcome-odds-strip">' +
-                  oddsHDisplay +
-                  "</div>" +
-                  edgeHHtml +
-                  "</button>" +
-                  '<button class="coupon-outcome-btn' +
-                  (isSelectedD ? " active" : "") +
-                  '" data-action="toggle-leg" data-mid="' +
-                  esc(matchId) +
-                  '" data-pick="X" data-home="' +
-                  esc(home) +
-                  '" data-away="' +
-                  esc(away) +
-                  '" data-lg="' +
-                  esc(fix.league) +
-                  '" data-date="' +
-                  esc(fix.date) +
-                  '" data-time="' +
-                  esc(fix.time) +
-                  '" data-prob="' +
-                  pred.probD +
-                  '" data-odds="' +
-                  (pred.oddsD || "") +
-                  '" data-fair="' +
-                  pred.fairOddsD +
-                  '">' +
-                  '<span class="outcome-pick-label"><span class="outcome-pick-full">X · Draw</span><span class="outcome-pick-short">X · Draw</span></span>' +
-                  '<span class="outcome-prob">' +
-                  pred.probD +
-                  "%</span>" +
-                  '<div class="outcome-odds-strip">' +
-                  oddsDDisplay +
-                  "</div>" +
-                  edgeDHtml +
-                  "</button>" +
-                  '<button class="coupon-outcome-btn' +
-                  (isSelectedA ? " active" : "") +
-                  '" data-action="toggle-leg" data-mid="' +
-                  esc(matchId) +
-                  '" data-pick="2" data-home="' +
-                  esc(home) +
-                  '" data-away="' +
-                  esc(away) +
-                  '" data-lg="' +
-                  esc(fix.league) +
-                  '" data-date="' +
-                  esc(fix.date) +
-                  '" data-time="' +
-                  esc(fix.time) +
-                  '" data-prob="' +
-                  pred.probA +
-                  '" data-odds="' +
-                  (pred.oddsA || "") +
-                  '" data-fair="' +
-                  pred.fairOddsA +
-                  '">' +
-                  '<span class="outcome-pick-label"><span class="outcome-pick-full">2 · Away Win</span><span class="outcome-pick-short">2 · Away</span></span>' +
-                  '<span class="outcome-prob">' +
-                  pred.probA +
-                  "%</span>" +
-                  '<div class="outcome-odds-strip">' +
-                  oddsADisplay +
-                  "</div>" +
-                  edgeAHtml +
-                  "</button>" +
-                  "</div>" +
-                  "</div>"
+                  "</section>"
                 );
               })
               .join("");
+
+            cardsHtml = hotPicksHtml + leaguesHtml;
           }
 
           // Build Legs in Slip HTML
@@ -1941,13 +2204,16 @@
             return;
           }
 
+          const isMobile = window.matchMedia("(max-width: 768px)").matches;
+          const initialCollapse = isMobile ? " collapsed" : "";
+
           const parts = [];
           leaguesOrder.forEach((lg, idx) => {
             const list = groups[lg];
             const cardsHtml = list.map(renderFixtureCard).join("");
 
             parts.push(
-              `<section class="league-section" style="animation-delay:${idx * 30}ms">` +
+              `<section class="league-section${initialCollapse}" style="animation-delay:${idx * 30}ms">` +
                 `<div class="league-header" role="button" tabindex="0" aria-label="Toggle ${esc(lg)}">` +
                 `<h2 class="league-name">${esc(lg)}</h2>` +
                 `<span class="league-badge">${list.length} ${list.length === 1 ? "fixture" : "fixtures"}</span>` +

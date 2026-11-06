@@ -1,0 +1,578 @@
+{
+  "updated": "2026-11-05T15:30:33Z",
+  "season_queried": 2024,
+  "teams": [
+    {
+      "id": 33,
+      "name": "Manchester United",
+      "code": "MUN",
+      "slug": "manchester_united",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "manchester_united.png",
+        "33.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/33.png"
+    },
+    {
+      "id": 34,
+      "name": "Newcastle",
+      "code": "NEW",
+      "slug": "newcastle",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "newcastle.png",
+        "34.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/34.png"
+    },
+    {
+      "id": 35,
+      "name": "Bournemouth",
+      "code": "BOU",
+      "slug": "bournemouth",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "bournemouth.png",
+        "35.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/35.png"
+    },
+    {
+      "id": 36,
+      "name": "Fulham",
+      "code": "FUL",
+      "slug": "fulham",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "fulham.png",
+        "36.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/36.png"
+    },
+    {
+      "id": 39,
+      "name": "Wolves",
+      "code": "WOL",
+      "slug": "wolves",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "wolves.png",
+        "39.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/39.png"
+    },
+    {
+      "id": 40,
+      "name": "Liverpool",
+      "code": "LIV",
+      "slug": "liverpool",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "liverpool.png",
+        "40.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/40.png"
+    },
+    {
+      "id": 41,
+      "name": "Southampton",
+      "code": "SOU",
+      "slug": "southampton",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "southampton.png",
+        "41.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/41.png"
+    },
+    {
+      "id": 42,
+      "name": "Arsenal",
+      "code": "ARS",
+      "slug": "arsenal",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "arsenal.png",
+        "42.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/42.png"
+    },
+    {
+      "id": 45,
+      "name": "Everton",
+      "code": "EVE",
+      "slug": "everton",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "everton.png",
+        "45.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/45.png"
+    },
+    {
+      "id": 46,
+      "name": "Leicester",
+      "code": "LEI",
+      "slug": "leicester",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "leicester.png",
+        "46.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/46.png"
+    },
+    {
+      "id": 47,
+      "name": "Tottenham",
+      "code": "TOT",
+      "slug": "tottenham",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "tottenham.png",
+        "47.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/47.png"
+    },
+    {
+      "id": 48,
+      "name": "West Ham",
+      "code": "WES",
+      "slug": "west_ham",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "west_ham.png",
+        "48.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/48.png"
+    },
+    {
+      "id": 49,
+      "name": "Chelsea",
+      "code": "CHE",
+      "slug": "chelsea",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "chelsea.png",
+        "49.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/49.png"
+    },
+    {
+      "id": 50,
+      "name": "Manchester City",
+      "code": "MCI",
+      "slug": "manchester_city",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "manchester_city.png",
+        "50.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/50.png"
+    },
+    {
+      "id": 51,
+      "name": "Brighton",
+      "code": "BRI",
+      "slug": "brighton",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "brighton.png",
+        "51.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/51.png"
+    },
+    {
+      "id": 52,
+      "name": "Crystal Palace",
+      "code": "CRY",
+      "slug": "crystal_palace",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "crystal_palace.png",
+        "52.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/52.png"
+    },
+    {
+      "id": 55,
+      "name": "Brentford",
+      "code": "BRE",
+      "slug": "brentford",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "brentford.png",
+        "55.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/55.png"
+    },
+    {
+      "id": 57,
+      "name": "Ipswich",
+      "code": "IPS",
+      "slug": "ipswich",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "ipswich.png",
+        "57.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/57.png"
+    },
+    {
+      "id": 65,
+      "name": "Nottingham Forest",
+      "code": "NOT",
+      "slug": "nottingham_forest",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "nottingham_forest.png",
+        "65.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/65.png"
+    },
+    {
+      "id": 66,
+      "name": "Aston Villa",
+      "code": "AST",
+      "slug": "aston_villa",
+      "league_id": 39,
+      "league_name": "English Premier League",
+      "files": [
+        "aston_villa.png",
+        "66.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/66.png"
+    },
+    {
+      "id": 38,
+      "name": "Watford",
+      "code": "WAT",
+      "slug": "watford",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "watford.png",
+        "38.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/38.png"
+    },
+    {
+      "id": 43,
+      "name": "Cardiff",
+      "code": "CAR",
+      "slug": "cardiff",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "cardiff.png",
+        "43.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/43.png"
+    },
+    {
+      "id": 44,
+      "name": "Burnley",
+      "code": "BUR",
+      "slug": "burnley",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "burnley.png",
+        "44.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/44.png"
+    },
+    {
+      "id": 56,
+      "name": "Bristol City",
+      "code": "BRI",
+      "slug": "bristol_city",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "bristol_city.png",
+        "56.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/56.png"
+    },
+    {
+      "id": 58,
+      "name": "Millwall",
+      "code": "MIL",
+      "slug": "millwall",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "millwall.png",
+        "58.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/58.png"
+    },
+    {
+      "id": 59,
+      "name": "Preston",
+      "code": "PRE",
+      "slug": "preston",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "preston.png",
+        "59.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/59.png"
+    },
+    {
+      "id": 60,
+      "name": "West Brom",
+      "code": "WES",
+      "slug": "west_brom",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "west_brom.png",
+        "60.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/60.png"
+    },
+    {
+      "id": 62,
+      "name": "Sheffield Utd",
+      "code": "SHE",
+      "slug": "sheffield_utd",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "sheffield_utd.png",
+        "62.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/62.png"
+    },
+    {
+      "id": 63,
+      "name": "Leeds",
+      "code": "LEE",
+      "slug": "leeds",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "leeds.png",
+        "63.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/63.png"
+    },
+    {
+      "id": 64,
+      "name": "Hull City",
+      "code": "HUL",
+      "slug": "hull_city",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "hull_city.png",
+        "64.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/64.png"
+    },
+    {
+      "id": 67,
+      "name": "Blackburn",
+      "code": "BLA",
+      "slug": "blackburn",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "blackburn.png",
+        "67.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/67.png"
+    },
+    {
+      "id": 69,
+      "name": "Derby",
+      "code": "DER",
+      "slug": "derby",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "derby.png",
+        "69.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/69.png"
+    },
+    {
+      "id": 70,
+      "name": "Middlesbrough",
+      "code": "MID",
+      "slug": "middlesbrough",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "middlesbrough.png",
+        "70.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/70.png"
+    },
+    {
+      "id": 71,
+      "name": "Norwich",
+      "code": "NOR",
+      "slug": "norwich",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "norwich.png",
+        "71.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/71.png"
+    },
+    {
+      "id": 72,
+      "name": "QPR",
+      "code": "QPR",
+      "slug": "qpr",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "qpr.png",
+        "72.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/72.png"
+    },
+    {
+      "id": 74,
+      "name": "Sheffield Wednesday",
+      "code": "SHE",
+      "slug": "sheffield_wednesday",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "sheffield_wednesday.png",
+        "74.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/74.png"
+    },
+    {
+      "id": 75,
+      "name": "Stoke City",
+      "code": "STO",
+      "slug": "stoke_city",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "stoke_city.png",
+        "75.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/75.png"
+    },
+    {
+      "id": 76,
+      "name": "Swansea",
+      "code": "SWA",
+      "slug": "swansea",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "swansea.png",
+        "76.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/76.png"
+    },
+    {
+      "id": 746,
+      "name": "Sunderland",
+      "code": "SUN",
+      "slug": "sunderland",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "sunderland.png",
+        "746.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/746.png"
+    },
+    {
+      "id": 1338,
+      "name": "Oxford United",
+      "code": "OXF",
+      "slug": "oxford_united",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "oxford_united.png",
+        "1338.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/1338.png"
+    },
+    {
+      "id": 1346,
+      "name": "Coventry",
+      "code": "COV",
+      "slug": "coventry",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "coventry.png",
+        "1346.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/1346.png"
+    },
+    {
+      "id": 1355,
+      "name": "Portsmouth",
+      "code": "POR",
+      "slug": "portsmouth",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "portsmouth.png",
+        "1355.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/1355.png"
+    },
+    {
+      "id": 1357,
+      "name": "Plymouth",
+      "code": "PLY",
+      "slug": "plymouth",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "plymouth.png",
+        "1357.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/1357.png"
+    },
+    {
+      "id": 1359,
+      "name": "Luton",
+      "code": "LUT",
+      "slug": "luton",
+      "league_id": 40,
+      "league_name": "English Championship",
+      "files": [
+        "luton.png",
+        "1359.png"
+      ],
+      "remote_logo": "https://media.api-sports.io/football/teams/1359.png"
+    }
+  ]
+}
