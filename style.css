@@ -259,6 +259,15 @@ body::before {
   border-color: var(--neon-blue);
   color: var(--neon-blue);
 }
+.tab-btn.active[data-tab="test"] {
+  background: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+  color: #06080d;
+}
+.tab-btn:hover[data-tab="test"]:not(.active) {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
 
 /* ── Coupon tab badge ── */
 .tab-coupon-count {
@@ -2135,6 +2144,29 @@ body::before {
   box-shadow: 0 0 10px rgba(0, 180, 255, 0.3);
 }
 
+/* Checked state (Test View: Neon Cyan) */
+.stat-chip-toggle.test-toggle input:checked ~ .today-toggle-track {
+  background: rgba(0, 240, 255, 0.2);
+  border-color: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.stat-chip-toggle.test-toggle input:checked ~ .today-toggle-track::after {
+  left: 16px;
+  background: var(--neon-cyan);
+}
+
+.stat-chip-toggle.test-toggle input:checked ~ .today-toggle-track + .today-toggle-label,
+.stat-chip-toggle.test-toggle:has(input:checked) .today-toggle-label {
+  color: var(--neon-cyan);
+}
+
+.stat-chip-toggle.test-toggle:has(input:checked) {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.08);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    21. Coupon & Bet Builder Section
    ═══════════════════════════════════════════════════════════════════ */
@@ -3512,6 +3544,340 @@ body::before {
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   22. Test View — League Cards with Sub-Card Rows & Team Logos
+   ═══════════════════════════════════════════════════════════════════ */
+.test-container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-xs) 0 var(--space-2xl);
+}
+
+.test-header-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-neon);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.test-header-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue), var(--neon-purple));
+}
+
+.test-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.test-headline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.test-headline-pill {
+  font-family: var(--font-metrics);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  color: var(--neon-cyan);
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.test-subtext {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  font-family: var(--font-metrics);
+}
+
+/* League Card Container */
+.test-league-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.test-league-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon-cyan), rgba(0, 240, 255, 0.15));
+}
+
+.test-league-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s;
+}
+
+.test-league-card.collapsed .test-league-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.test-league-card.collapsed .test-league-body {
+  display: none;
+}
+
+.test-league-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.test-league-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+}
+
+.test-league-badge {
+  font-family: var(--font-metrics);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 100px;
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+.test-league-toggle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.test-league-card.collapsed .test-league-toggle {
+  transform: rotate(-90deg);
+}
+
+.test-league-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+/* Sub-Card Fixture Row */
+.test-fixture-row {
+  background: var(--bg-raised);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  display: grid;
+  grid-template-columns: 140px 1fr 180px;
+  align-items: center;
+  gap: var(--space-md);
+  transition: all 0.2s var(--ease-out);
+}
+
+.test-fixture-row:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(0, 240, 255, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transform: translateX(2px);
+}
+
+/* Row Meta (Date, Time) */
+.test-row-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--font-metrics);
+}
+
+.test-row-date {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.test-row-time-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  color: var(--neon-cyan);
+  font-feature-settings: "tnum" 1;
+}
+
+/* Row Matchup (Home Logo + Name vs Away Logo + Name) */
+.test-row-matchup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.test-team-cell {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+  min-width: 0;
+}
+
+.test-team-cell.home {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.test-team-cell.away {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.test-team-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  border-radius: 2px;
+}
+
+.test-team-name {
+  font-family: var(--font-metrics);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.test-vs-badge {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 4px;
+  padding: 3px 8px;
+  flex-shrink: 0;
+}
+
+/* Row Info (Venue & Status) */
+.test-row-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  font-family: var(--font-metrics);
+  text-align: right;
+}
+
+.test-row-venue {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 175px;
+}
+
+.test-status-pill {
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+}
+
+.test-status-pill.live {
+  background: rgba(255, 45, 85, 0.15);
+  border-color: var(--neon-red);
+  color: var(--neon-red);
+}
+
+.test-status-pill.ft {
+  background: rgba(57, 255, 20, 0.1);
+  border-color: rgba(57, 255, 20, 0.3);
+  color: var(--neon-green);
+}
+
+/* Loading & Empty States */
+.test-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-md);
+  text-align: center;
+  gap: var(--space-md);
+}
+
+.test-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(0, 240, 255, 0.2);
+  border-top-color: var(--neon-cyan);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 @keyframes slideUpMobile {
   from {
     opacity: 0;
@@ -3520,6 +3886,52 @@ body::before {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .test-league-card {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .test-fixture-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .test-row-top-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.68rem;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .test-row-matchup {
+    gap: 8px;
+    width: 100%;
+  }
+
+  .test-team-name {
+    font-size: 0.8rem;
+  }
+
+  .test-team-logo {
+    width: 20px;
+    height: 20px;
+  }
+
+  .test-row-desktop-only {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .test-row-mobile-only {
+    display: none;
   }
 }
 
