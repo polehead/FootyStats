@@ -1,5 +1,5 @@
-csv_cache
-backups
-.vscode
+csv_cache/
+backups/
+.vscode/
 *.zip
-team_badges
+team_badges/
