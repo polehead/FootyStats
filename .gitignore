@@ -3,3 +3,5 @@ backups/
 .vscode/
 *.zip
 team_badges/
+TODO.MD
+data_key.txt
