@@ -365,6 +365,352 @@
     return null;
   }
 
+  function updateCouponMatchCard(matchId) {
+    var cur = getCouponLeg(matchId);
+
+    // 1. Standard Coupon Outcome Buttons
+    var outcomeBtns = document.querySelectorAll(
+      '.coupon-outcome-btn[data-mid="' + CSS.escape(matchId) + '"]',
+    );
+    outcomeBtns.forEach(function (btn) {
+      var pick = btn.getAttribute("data-pick");
+      if (cur && cur.pick === pick) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    var matchCards = document.querySelectorAll(
+      '.coupon-card[data-match-id="' + CSS.escape(matchId) + '"]',
+    );
+    if (matchCards.length > 0) {
+      matchCards.forEach(function (card) {
+        if (cur) card.classList.add("has-selected");
+        else card.classList.remove("has-selected");
+      });
+    } else {
+      outcomeBtns.forEach(function (btn) {
+        var card = btn.closest(".coupon-card");
+        if (card) {
+          if (cur) card.classList.add("has-selected");
+          else card.classList.remove("has-selected");
+        }
+      });
+    }
+
+    // 2. Hot Pick Cards & Buttons
+    var hotPickBtns = document.querySelectorAll(
+      '.hot-pick-btn[data-mid="' + CSS.escape(matchId) + '"]',
+    );
+    hotPickBtns.forEach(function (btn) {
+      var pick = btn.getAttribute("data-pick");
+      var isSelected = cur && cur.pick === pick;
+      var card = btn.closest(".hot-pick-card");
+
+      if (isSelected) {
+        btn.classList.add("active");
+        btn.innerHTML = "&#10003; Added to Slip";
+        if (card) card.classList.add("has-selected");
+      } else {
+        btn.classList.remove("active");
+        var odds = btn.getAttribute("data-odds");
+        var fair = btn.getAttribute("data-fair");
+        var eff = odds && odds !== "" ? odds : fair;
+        btn.innerHTML = "+ Add Pick @ " + eff;
+        if (card) card.classList.remove("has-selected");
+      }
+    });
+  }
+
+  function computeCouponAccumulator() {
+    var accProb = 1.0;
+    var combinedFairOdds = 1.0;
+    var combinedMktOdds = 1.0;
+
+    for (var i = 0; i < COUPON_SLIP.length; i++) {
+      var leg = COUPON_SLIP[i];
+      var pFraction = (leg.prob || 50) / 100;
+      accProb *= pFraction;
+
+      var fo = parseFloat(leg.fairOdds) || 1 / pFraction;
+      combinedFairOdds *= fo;
+
+      if (leg.odds && parseFloat(leg.odds) > 1) {
+        combinedMktOdds *= parseFloat(leg.odds);
+      } else {
+        combinedMktOdds *= fo;
+      }
+    }
+
+    if (COUPON_SLIP.length === 0) {
+      accProb = 0;
+      combinedFairOdds = 0;
+      combinedMktOdds = 0;
+    }
+
+    var accProbPct = accProb * 100;
+    var formattedProbPct =
+      accProbPct >= 10 ? accProbPct.toFixed(1) : accProbPct.toFixed(2);
+    if (COUPON_SLIP.length === 0) formattedProbPct = "0.0";
+
+    var displayFairOdds =
+      combinedFairOdds > 0 ? combinedFairOdds.toFixed(2) : "—";
+    var displayMktOdds = combinedMktOdds > 0 ? combinedMktOdds.toFixed(2) : "—";
+    var potentialReturn = (
+      couponStake * (combinedMktOdds > 0 ? combinedMktOdds : combinedFairOdds)
+    ).toFixed(2);
+    var potentialProfit = (parseFloat(potentialReturn) - couponStake).toFixed(
+      2,
+    );
+    if (COUPON_SLIP.length === 0) {
+      potentialReturn = "0.00";
+      potentialProfit = "0.00";
+    }
+
+    var meterColor = "var(--neon-green)";
+    if (accProbPct < 10) meterColor = "var(--neon-red)";
+    else if (accProbPct < 25) meterColor = "var(--neon-orange)";
+    else if (accProbPct < 45) meterColor = "var(--neon-yellow)";
+    else if (accProbPct < 65) meterColor = "var(--neon-blue)";
+
+    return {
+      accProb: accProb,
+      accProbPct: accProbPct,
+      formattedProbPct: formattedProbPct,
+      combinedFairOdds: combinedFairOdds,
+      combinedMktOdds: combinedMktOdds,
+      displayFairOdds: displayFairOdds,
+      displayMktOdds: displayMktOdds,
+      potentialReturn: potentialReturn,
+      potentialProfit: potentialProfit,
+      meterColor: meterColor,
+    };
+  }
+
+  function renderCouponSlipHtml(metrics) {
+    var legsHtml = "";
+    if (COUPON_SLIP.length === 0) {
+      legsHtml =
+        '<div class="coupon-slip-empty">' +
+        '<div class="coupon-slip-empty-icon">&#9879;</div>' +
+        "<h4>SLIP IS EMPTY</h4>" +
+        "<p>Click any match outcome (1, X, or 2) to build your accumulator. Predictions are driven by venue goal expectancies and historical fixture data.</p>" +
+        "</div>";
+    } else {
+      legsHtml =
+        '<div class="coupon-legs-list">' +
+        COUPON_SLIP.map(function (leg) {
+          var pickTitle =
+            leg.pick === "1"
+              ? "HOME WIN (" + leg.home + ")"
+              : leg.pick === "2"
+                ? "AWAY WIN (" + leg.away + ")"
+                : "DRAW";
+          var effectiveOdds = leg.odds ? leg.odds : leg.fairOdds;
+          return (
+            '<div class="coupon-leg-card">' +
+            '<div class="coupon-leg-top">' +
+            '<div class="coupon-leg-match">' +
+            esc(leg.home) +
+            " vs " +
+            esc(leg.away) +
+            "</div>" +
+            '<button class="coupon-leg-remove-btn" data-action="remove-leg" data-mid="' +
+            esc(leg.matchId) +
+            '" title="Remove from slip">&times;</button>' +
+            "</div>" +
+            '<div class="coupon-leg-sub">' +
+            '<span class="coupon-leg-pick-badge">' +
+            esc(pickTitle) +
+            "</span>" +
+            '<span class="coupon-leg-stats"><strong>' +
+            leg.prob +
+            "%</strong> \u00b7 Odds: <strong>" +
+            effectiveOdds +
+            "</strong></span>" +
+            "</div>" +
+            "</div>"
+          );
+        }).join("") +
+        "</div>";
+    }
+
+    var summaryHtml = "";
+    if (COUPON_SLIP.length > 0) {
+      var accTypeTitle =
+        COUPON_SLIP.length === 1
+          ? "SINGLE BET"
+          : COUPON_SLIP.length + "-FOLD ACCUMULATOR";
+      summaryHtml =
+        '<div class="coupon-acc-summary">' +
+        '<div class="coupon-acc-title-row">' +
+        '<span class="coupon-acc-title">' +
+        esc(accTypeTitle) +
+        "</span>" +
+        '<span class="coupon-slip-badge">' +
+        COUPON_SLIP.length +
+        " LEGS</span>" +
+        "</div>" +
+        '<div class="coupon-acc-prob-block">' +
+        '<span class="coupon-acc-prob-label">Overall Win Probability</span>' +
+        '<span class="coupon-acc-prob-pct" style="color:' +
+        metrics.meterColor +
+        ';">' +
+        metrics.formattedProbPct +
+        "%</span>" +
+        '<div class="coupon-acc-meter-bg">' +
+        '<div class="coupon-acc-meter-fill" style="width:' +
+        Math.min(100, Math.max(2, metrics.accProbPct)) +
+        "%;background:" +
+        metrics.meterColor +
+        ';"></div>' +
+        "</div>" +
+        "</div>" +
+        '<div class="coupon-acc-grid">' +
+        '<div class="coupon-metric-box">' +
+        '<span class="coupon-metric-label">Fair Odds (Model)</span>' +
+        '<span class="coupon-metric-val">' +
+        metrics.displayFairOdds +
+        "</span>" +
+        "</div>" +
+        '<div class="coupon-metric-box">' +
+        '<span class="coupon-metric-label">Combined Odds</span>' +
+        '<span class="coupon-metric-val highlight">' +
+        metrics.displayMktOdds +
+        "</span>" +
+        "</div>" +
+        "</div>" +
+        '<div class="coupon-stake-row">' +
+        '<div class="coupon-stake-label-group">' +
+        "<span>Stake Amount</span>" +
+        "<span>Profit: £" +
+        metrics.potentialProfit +
+        "</span>" +
+        "</div>" +
+        '<div class="coupon-stake-input-wrap">' +
+        '<span class="coupon-currency-symbol">£</span>' +
+        '<input type="number" id="coupon-stake-input" class="coupon-stake-input" min="1" step="1" value="' +
+        couponStake +
+        '" />' +
+        "</div>" +
+        '<div class="coupon-payout-box">' +
+        '<span class="coupon-payout-label">Potential Payout</span>' +
+        '<span class="coupon-payout-amount">£' +
+        metrics.potentialReturn +
+        "</span>" +
+        "</div>" +
+        "</div>" +
+        '<button class="coupon-copy-btn" id="coupon-copy-btn" data-action="copy-slip">' +
+        "&#128203; Copy Accumulator Summary" +
+        "</button>" +
+        "</div>";
+    }
+
+    return (
+      '<div class="coupon-slip">' +
+      '<div class="coupon-drawer-handle" data-action="toggle-mobile-drawer"></div>' +
+      '<div class="coupon-slip-header">' +
+      '<div class="coupon-slip-title-group">' +
+      '<span class="coupon-slip-title">Bet Slip</span>' +
+      (COUPON_SLIP.length > 0
+        ? '<span class="coupon-slip-badge">' + COUPON_SLIP.length + "</span>"
+        : "") +
+      "</div>" +
+      '<div class="coupon-slip-actions">' +
+      (COUPON_SLIP.length > 0
+        ? '<button class="coupon-slip-clear-btn" data-action="clear-slip">Clear All</button>'
+        : "") +
+      '<button class="coupon-slip-close-btn" data-action="close-mobile-drawer" title="Close drawer">&#10005; Close</button>' +
+      "</div>" +
+      "</div>" +
+      legsHtml +
+      summaryHtml +
+      "</div>"
+    );
+  }
+
+  function renderCouponMobileBarHtml(metrics) {
+    if (COUPON_SLIP.length === 0) return "";
+    return (
+      '<div class="coupon-mobile-bar" id="coupon-mobile-bar" data-action="open-mobile-drawer">' +
+      '<div class="coupon-mobile-bar-left">' +
+      '<span class="coupon-mobile-bar-badge">' +
+      COUPON_SLIP.length +
+      (COUPON_SLIP.length === 1 ? " LEG" : " LEGS") +
+      "</span>" +
+      '<div class="coupon-mobile-bar-metrics">' +
+      "<span>Chance: <strong>" +
+      metrics.formattedProbPct +
+      "%</strong></span>" +
+      "<span>·</span>" +
+      "<span>Odds: <strong>" +
+      (metrics.displayMktOdds !== "—"
+        ? metrics.displayMktOdds
+        : metrics.displayFairOdds) +
+      "</strong></span>" +
+      "</div>" +
+      "</div>" +
+      '<button class="coupon-mobile-bar-btn" data-action="open-mobile-drawer">' +
+      "View Slip &#x25B5;" +
+      "</button>" +
+      "</div>"
+    );
+  }
+
+  function updateCouponSlipView() {
+    var metrics = computeCouponAccumulator();
+
+    var slipCol = document.getElementById("coupon-slip-column");
+    if (slipCol) {
+      slipCol.innerHTML = renderCouponSlipHtml(metrics);
+      if (COUPON_SLIP.length === 0) {
+        slipCol.classList.remove("drawer-open");
+        var backdrop = document.getElementById("coupon-drawer-backdrop");
+        if (backdrop) backdrop.classList.remove("active");
+      }
+    }
+
+    var barWrap = document.getElementById("coupon-mobile-bar-wrap");
+    if (barWrap) {
+      var oldBar = document.getElementById("coupon-mobile-bar");
+      if (COUPON_SLIP.length === 0) {
+        barWrap.innerHTML = "";
+      } else if (oldBar) {
+        var badge = oldBar.querySelector(".coupon-mobile-bar-badge");
+        if (badge) {
+          badge.textContent =
+            COUPON_SLIP.length + (COUPON_SLIP.length === 1 ? " LEG" : " LEGS");
+        }
+        var metricsEl = oldBar.querySelector(".coupon-mobile-bar-metrics");
+        if (metricsEl) {
+          metricsEl.innerHTML =
+            "<span>Chance: <strong>" +
+            metrics.formattedProbPct +
+            "%</strong></span>" +
+            "<span>·</span>" +
+            "<span>Odds: <strong>" +
+            (metrics.displayMktOdds !== "—"
+              ? metrics.displayMktOdds
+              : metrics.displayFairOdds) +
+            "</strong></span>";
+        }
+      } else {
+        barWrap.innerHTML = renderCouponMobileBarHtml(metrics);
+      }
+    }
+
+    var slipChip = document.getElementById("coupon-stats-in-slip");
+    if (slipChip) {
+      slipChip.innerHTML =
+        '<strong style="color: var(--neon-blue);">' +
+        COUPON_SLIP.length +
+        "</strong> in slip";
+    }
+
+    updateCouponBadge();
+  }
+
   function toggleCouponLeg(leg) {
     var existingIdx = -1;
     for (var i = 0; i < COUPON_SLIP.length; i++) {
@@ -387,7 +733,8 @@
     saveCouponSlip();
 
     if (activeTab === "coupon") {
-      renderCouponView();
+      updateCouponMatchCard(leg.matchId);
+      updateCouponSlipView();
     } else if (activeTab === "fixtures") {
       updateFixtureCouponChips(leg.matchId);
     }
@@ -399,7 +746,8 @@
     });
     saveCouponSlip();
     if (activeTab === "coupon") {
-      renderCouponView();
+      updateCouponMatchCard(matchId);
+      updateCouponSlipView();
     } else if (activeTab === "fixtures") {
       updateFixtureCouponChips(matchId);
     }
@@ -409,7 +757,29 @@
     COUPON_SLIP = [];
     saveCouponSlip();
     if (activeTab === "coupon") {
-      renderCouponView();
+      document
+        .querySelectorAll(".coupon-outcome-btn.active")
+        .forEach(function (el) {
+          el.classList.remove("active");
+        });
+      document
+        .querySelectorAll(".coupon-card.has-selected")
+        .forEach(function (el) {
+          el.classList.remove("has-selected");
+        });
+      document.querySelectorAll(".hot-pick-btn").forEach(function (btn) {
+        btn.classList.remove("active");
+        var odds = btn.getAttribute("data-odds");
+        var fair = btn.getAttribute("data-fair");
+        var eff = odds && odds !== "" ? odds : fair;
+        btn.innerHTML = "+ Add Pick @ " + eff;
+      });
+      document
+        .querySelectorAll(".hot-pick-card.has-selected")
+        .forEach(function (el) {
+          el.classList.remove("has-selected");
+        });
+      updateCouponSlipView();
     } else if (activeTab === "fixtures") {
       document
         .querySelectorAll(".fixture-coupon-chip.active")
@@ -650,6 +1020,24 @@
       syncFTScoreUI();
       updateFilterCount();
       render();
+    });
+
+    $main.addEventListener("input", (e) => {
+      if (e.target && e.target.id === "coupon-stake-input") {
+        var val = parseFloat(e.target.value);
+        if (!isNaN(val) && val > 0) {
+          couponStake = val;
+          saveCouponSlip();
+          var metrics = computeCouponAccumulator();
+          var payoutEl = document.querySelector(".coupon-payout-amount");
+          if (payoutEl) payoutEl.textContent = "£" + metrics.potentialReturn;
+          var profEl = document.querySelector(
+            ".coupon-stake-label-group span:last-child",
+          );
+          if (profEl)
+            profEl.textContent = "Profit: £" + metrics.potentialProfit;
+        }
+      }
     });
 
     $main.addEventListener("click", (e) => {
@@ -1327,7 +1715,7 @@
       '<div class="stat-chip"><strong>' +
       filtered.length +
       "</strong> fixtures</div>" +
-      '<div class="stat-chip" style="border-color: rgba(0, 180, 255, 0.4);"><strong style="color: var(--neon-blue);">' +
+      '<div class="stat-chip" id="coupon-stats-in-slip" style="border-color: rgba(0, 180, 255, 0.4);"><strong style="color: var(--neon-blue);">' +
       legsCount +
       "</strong> in slip</div>" +
       '<label class="stat-chip stat-chip-toggle coupon-toggle" for="filter-today-only" title="Show only today\'s matches">' +
@@ -1345,57 +1733,6 @@
         render();
       });
     }
-
-    // Accumulator probability & odds calculations
-    var accProb = 1.0;
-    var combinedFairOdds = 1.0;
-    var combinedMktOdds = 1.0;
-
-    for (var i = 0; i < COUPON_SLIP.length; i++) {
-      var leg = COUPON_SLIP[i];
-      var pFraction = (leg.prob || 50) / 100;
-      accProb *= pFraction;
-
-      var fo = parseFloat(leg.fairOdds) || 1 / pFraction;
-      combinedFairOdds *= fo;
-
-      if (leg.odds && parseFloat(leg.odds) > 1) {
-        combinedMktOdds *= parseFloat(leg.odds);
-      } else {
-        combinedMktOdds *= fo;
-      }
-    }
-
-    if (COUPON_SLIP.length === 0) {
-      accProb = 0;
-      combinedFairOdds = 0;
-      combinedMktOdds = 0;
-    }
-
-    var accProbPct = accProb * 100;
-    var formattedProbPct =
-      accProbPct >= 10 ? accProbPct.toFixed(1) : accProbPct.toFixed(2);
-    if (COUPON_SLIP.length === 0) formattedProbPct = "0.0";
-
-    var displayFairOdds =
-      combinedFairOdds > 0 ? combinedFairOdds.toFixed(2) : "—";
-    var displayMktOdds = combinedMktOdds > 0 ? combinedMktOdds.toFixed(2) : "—";
-    var potentialReturn = (
-      couponStake * (combinedMktOdds > 0 ? combinedMktOdds : combinedFairOdds)
-    ).toFixed(2);
-    var potentialProfit = (parseFloat(potentialReturn) - couponStake).toFixed(
-      2,
-    );
-    if (COUPON_SLIP.length === 0) {
-      potentialReturn = "0.00";
-      potentialProfit = "0.00";
-    }
-
-    var meterColor = "var(--neon-green)";
-    if (accProbPct < 10) meterColor = "var(--neon-red)";
-    else if (accProbPct < 25) meterColor = "var(--neon-orange)";
-    else if (accProbPct < 45) meterColor = "var(--neon-yellow)";
-    else if (accProbPct < 65) meterColor = "var(--neon-blue)";
 
     // Helper to render a single coupon match card
     function renderCouponCard(fix) {
@@ -1449,6 +1786,8 @@
       return (
         '<div class="coupon-card' +
         (hasSelectedAny ? " has-selected" : "") +
+        '" data-match-id="' +
+        esc(matchId) +
         '">' +
         '<div class="coupon-card-meta">' +
         '<span class="coupon-league-badge">' +
@@ -1739,6 +2078,8 @@
               return (
                 '<div class="hot-pick-card' +
                 (isSelected ? " has-selected" : "") +
+                '" data-match-id="' +
+                esc(hp.matchId) +
                 '">' +
                 '<div class="hot-pick-card-top">' +
                 '<span class="hot-pick-league">' +
@@ -1877,127 +2218,10 @@
       cardsHtml = hotPicksHtml + leaguesHtml;
     }
 
-    // Build Legs in Slip HTML
-    var legsHtml = "";
-    if (COUPON_SLIP.length === 0) {
-      legsHtml =
-        '<div class="coupon-slip-empty">' +
-        '<div class="coupon-slip-empty-icon">&#9879;</div>' +
-        "<h4>SLIP IS EMPTY</h4>" +
-        "<p>Click any match outcome (1, X, or 2) to build your accumulator. Predictions are driven by venue goal expectancies and historical fixture data.</p>" +
-        "</div>";
-    } else {
-      legsHtml =
-        '<div class="coupon-legs-list">' +
-        COUPON_SLIP.map(function (leg) {
-          var pickTitle =
-            leg.pick === "1"
-              ? "HOME WIN (" + leg.home + ")"
-              : leg.pick === "2"
-                ? "AWAY WIN (" + leg.away + ")"
-                : "DRAW";
-          var effectiveOdds = leg.odds ? leg.odds : leg.fairOdds;
-          return (
-            '<div class="coupon-leg-card">' +
-            '<div class="coupon-leg-top">' +
-            '<div class="coupon-leg-match">' +
-            esc(leg.home) +
-            " vs " +
-            esc(leg.away) +
-            "</div>" +
-            '<button class="coupon-leg-remove-btn" data-action="remove-leg" data-mid="' +
-            esc(leg.matchId) +
-            '" title="Remove from slip">&times;</button>' +
-            "</div>" +
-            '<div class="coupon-leg-sub">' +
-            '<span class="coupon-leg-pick-badge">' +
-            esc(pickTitle) +
-            "</span>" +
-            '<span class="coupon-leg-stats"><strong>' +
-            leg.prob +
-            "%</strong> \u00b7 Odds: <strong>" +
-            effectiveOdds +
-            "</strong></span>" +
-            "</div>" +
-            "</div>"
-          );
-        }).join("") +
-        "</div>";
-    }
+    var metrics = computeCouponAccumulator();
+    var slipHtml = renderCouponSlipHtml(metrics);
+    var mobileBarHtml = renderCouponMobileBarHtml(metrics);
 
-    // Accumulator Multi-Bet Summary Box HTML
-    var summaryHtml = "";
-    if (COUPON_SLIP.length > 0) {
-      var accTypeTitle =
-        COUPON_SLIP.length === 1
-          ? "SINGLE BET"
-          : COUPON_SLIP.length + "-FOLD ACCUMULATOR";
-      summaryHtml =
-        '<div class="coupon-acc-summary">' +
-        '<div class="coupon-acc-title-row">' +
-        '<span class="coupon-acc-title">' +
-        esc(accTypeTitle) +
-        "</span>" +
-        '<span class="coupon-slip-badge">' +
-        COUPON_SLIP.length +
-        " LEGS</span>" +
-        "</div>" +
-        '<div class="coupon-acc-prob-block">' +
-        '<span class="coupon-acc-prob-label">Overall Win Probability</span>' +
-        '<span class="coupon-acc-prob-pct" style="color:' +
-        meterColor +
-        ';">' +
-        formattedProbPct +
-        "%</span>" +
-        '<div class="coupon-acc-meter-bg">' +
-        '<div class="coupon-acc-meter-fill" style="width:' +
-        Math.min(100, Math.max(2, accProbPct)) +
-        "%;background:" +
-        meterColor +
-        ';"></div>' +
-        "</div>" +
-        "</div>" +
-        '<div class="coupon-acc-grid">' +
-        '<div class="coupon-metric-box">' +
-        '<span class="coupon-metric-label">Fair Odds (Model)</span>' +
-        '<span class="coupon-metric-val">' +
-        displayFairOdds +
-        "</span>" +
-        "</div>" +
-        '<div class="coupon-metric-box">' +
-        '<span class="coupon-metric-label">Combined Odds</span>' +
-        '<span class="coupon-metric-val highlight">' +
-        displayMktOdds +
-        "</span>" +
-        "</div>" +
-        "</div>" +
-        '<div class="coupon-stake-row">' +
-        '<div class="coupon-stake-label-group">' +
-        "<span>Stake Amount</span>" +
-        "<span>Profit: £" +
-        potentialProfit +
-        "</span>" +
-        "</div>" +
-        '<div class="coupon-stake-input-wrap">' +
-        '<span class="coupon-currency-symbol">£</span>' +
-        '<input type="number" id="coupon-stake-input" class="coupon-stake-input" min="1" step="1" value="' +
-        couponStake +
-        '" />' +
-        "</div>" +
-        '<div class="coupon-payout-box">' +
-        '<span class="coupon-payout-label">Potential Payout</span>' +
-        '<span class="coupon-payout-amount">£' +
-        potentialReturn +
-        "</span>" +
-        "</div>" +
-        "</div>" +
-        '<button class="coupon-copy-btn" id="coupon-copy-btn" data-action="copy-slip">' +
-        "&#128203; Copy Accumulator Summary" +
-        "</button>" +
-        "</div>";
-    }
-
-    // Full Layout Assembly
     var wasDrawerOpen = false;
     var oldSlipCol = document.getElementById("coupon-slip-column");
     if (oldSlipCol && oldSlipCol.classList.contains("drawer-open")) {
@@ -2025,75 +2249,16 @@
       '<div class="coupon-slip-column' +
       (wasDrawerOpen ? " drawer-open" : "") +
       '" id="coupon-slip-column">' +
-      '<div class="coupon-slip">' +
-      '<div class="coupon-drawer-handle" data-action="toggle-mobile-drawer"></div>' +
-      '<div class="coupon-slip-header">' +
-      '<div class="coupon-slip-title-group">' +
-      '<span class="coupon-slip-title">Bet Slip</span>' +
-      (COUPON_SLIP.length > 0
-        ? '<span class="coupon-slip-badge">' + COUPON_SLIP.length + "</span>"
-        : "") +
-      "</div>" +
-      '<div class="coupon-slip-actions">' +
-      (COUPON_SLIP.length > 0
-        ? '<button class="coupon-slip-clear-btn" data-action="clear-slip">Clear All</button>'
-        : "") +
-      '<button class="coupon-slip-close-btn" data-action="close-mobile-drawer" title="Close drawer">&#10005; Close</button>' +
-      "</div>" +
-      "</div>" +
-      legsHtml +
-      summaryHtml +
-      "</div>" +
+      slipHtml +
       "</div>" +
       "</div>" +
       '<div class="coupon-drawer-backdrop' +
       (wasDrawerOpen ? " active" : "") +
       '" id="coupon-drawer-backdrop" data-action="close-mobile-drawer"></div>' +
-      (COUPON_SLIP.length > 0
-        ? '<div class="coupon-mobile-bar" id="coupon-mobile-bar" data-action="open-mobile-drawer">' +
-          '<div class="coupon-mobile-bar-left">' +
-          '<span class="coupon-mobile-bar-badge">' +
-          COUPON_SLIP.length +
-          (COUPON_SLIP.length === 1 ? " LEG" : " LEGS") +
-          "</span>" +
-          '<div class="coupon-mobile-bar-metrics">' +
-          "<span>Chance: <strong>" +
-          formattedProbPct +
-          "%</strong></span>" +
-          "<span>·</span>" +
-          "<span>Odds: <strong>" +
-          (displayMktOdds !== "—" ? displayMktOdds : displayFairOdds) +
-          "</strong></span>" +
-          "</div>" +
-          "</div>" +
-          '<button class="coupon-mobile-bar-btn" data-action="open-mobile-drawer">' +
-          "View Slip &#x25B5;" +
-          "</button>" +
-          "</div>"
-        : "") +
+      '<div id="coupon-mobile-bar-wrap">' +
+      mobileBarHtml +
+      "</div>" +
       "</div>";
-
-    var stakeInput = document.getElementById("coupon-stake-input");
-    if (stakeInput) {
-      stakeInput.addEventListener("input", function () {
-        var val = parseFloat(stakeInput.value);
-        if (!isNaN(val) && val > 0) {
-          couponStake = val;
-          saveCouponSlip();
-          var ret = (
-            couponStake *
-            (combinedMktOdds > 0 ? combinedMktOdds : combinedFairOdds)
-          ).toFixed(2);
-          var prof = (parseFloat(ret) - couponStake).toFixed(2);
-          var payoutEl = document.querySelector(".coupon-payout-amount");
-          if (payoutEl) payoutEl.textContent = "£" + ret;
-          var profEl = document.querySelector(
-            ".coupon-stake-label-group span:last-child",
-          );
-          if (profEl) profEl.textContent = "Profit: £" + prof;
-        }
-      });
-    }
   }
 
   // ── Upcoming Fixtures View ────────────────────────────────────
@@ -2296,7 +2461,7 @@
       `<div class="stat-chip"><strong>${compOrder.length}</strong> competitions</div>` +
       `<div class="stat-chip"><strong>${filtered.length}</strong> fixtures</div>` +
       `<div class="stat-chip">Window: <strong>${esc(dateRangeStr)}</strong></div>` +
-      `<div class="stat-chip" style="border-color: rgba(0, 240, 255, 0.4);"><strong style="color:var(--neon-cyan);">worldcup26.ir</strong></div>` +
+      `<div class="stat-chip" style="border-color: rgba(0, 240, 255, 0.4);"><strong style="color:var(--neon-cyan);">Live</strong></div>` +
       `<label class="stat-chip stat-chip-toggle test-toggle" for="filter-today-only" title="Show only today's matches">` +
       `<input type="checkbox" id="filter-today-only"${fTodayOnly ? " checked" : ""}>` +
       `<span class="today-toggle-track"></span>` +
@@ -2333,9 +2498,6 @@
           `<div class="test-league-header" role="button" tabindex="0" aria-label="Toggle ${esc(comp)}">` +
           `<div class="test-league-title-group">` +
           `<h2 class="test-league-name">${esc(comp)}</h2>` +
-          (compSlug
-            ? `<span class="test-league-badge">${esc("")}</span>`
-            : "") +
           `<span class="test-league-badge">${list.length} ${list.length === 1 ? "fixture" : "fixtures"}</span>` +
           `</div>` +
           `<span class="test-league-toggle">&#9660;</span>` +
