@@ -2525,6 +2525,39 @@
       `</div>`;
   }
 
+  function formatGmtTime24(fix) {
+    if (fix.timestamp_utc) {
+      try {
+        const d = new Date(fix.timestamp_utc);
+        if (!isNaN(d.getTime())) {
+          const hh = String(d.getUTCHours()).padStart(2, "0");
+          const mm = String(d.getUTCMinutes()).padStart(2, "0");
+          return `${hh}:${mm}`;
+        }
+      } catch (e) {}
+    }
+    if (fix.time && /^\d{1,2}:\d{2}$/.test(fix.time.trim())) {
+      const parts = fix.time.trim().split(":");
+      return `${parts[0].padStart(2, "0")}:${parts[1]}`;
+    }
+    return fix.time || "TBD";
+  }
+
+  function getTestFixtureDayName(fix) {
+    if (fix.timestamp_utc) {
+      try {
+        const d = new Date(fix.timestamp_utc);
+        if (!isNaN(d.getTime())) {
+          return d.toLocaleDateString("en-GB", {
+            weekday: "short",
+            timeZone: "UTC",
+          });
+        }
+      } catch (e) {}
+    }
+    return "";
+  }
+
   function renderTestFixtureRow(fix) {
     const homeName = fix.home || "Home";
     const awayName = fix.away || "Away";
@@ -2533,7 +2566,51 @@
     const homeLogo = fix.home_logo || "";
     const awayLogo = fix.away_logo || "";
     const venue = fix.venue || "TBD";
-    const statusDetail = fix.status_detail || "Scheduled";
+
+    const gmtTime = formatGmtTime24(fix);
+    const dayName = getTestFixtureDayName(fix);
+    const rawDetail = (fix.status_detail || "").trim();
+    const rawStatus = (fix.status || "").trim();
+
+    let statusText = gmtTime;
+    let statusClass = " scheduled";
+
+    if (
+      rawStatus === "STATUS_FULL_TIME" ||
+      rawDetail === "FT" ||
+      rawStatus === "STATUS_FINAL_AET"
+    ) {
+      statusText =
+        rawDetail === "AET" || rawStatus === "STATUS_FINAL_AET" ? "AET" : "FT";
+      statusClass = " ft";
+    } else if (
+      rawStatus === "STATUS_IN_PROGRESS" ||
+      rawStatus === "STATUS_FIRST_HALF" ||
+      rawStatus === "STATUS_SECOND_HALF" ||
+      rawStatus === "STATUS_HALFTIME" ||
+      rawDetail.toLowerCase().includes("live") ||
+      rawDetail === "HT" ||
+      /^\d+'$/.test(rawDetail)
+    ) {
+      statusText =
+        rawDetail === "HT" || rawStatus === "STATUS_HALFTIME"
+          ? "HT"
+          : rawDetail && rawDetail.length <= 4
+            ? rawDetail
+            : "LIVE";
+      statusClass = " live";
+    } else if (
+      rawStatus === "STATUS_POSTPONED" ||
+      rawStatus === "STATUS_CANCELED" ||
+      rawDetail.toLowerCase().includes("postpon") ||
+      rawDetail.toLowerCase().includes("cancel")
+    ) {
+      statusText = "POSTP";
+      statusClass = " postponed";
+    } else {
+      statusText = gmtTime;
+      statusClass = " scheduled";
+    }
 
     const homeLogoHtml = homeLogo
       ? `<img class="test-team-logo" src="${esc(homeLogo)}" alt="${esc(homeName)}" loading="lazy" onerror="this.style.display='none'">`
@@ -2542,31 +2619,22 @@
       ? `<img class="test-team-logo" src="${esc(awayLogo)}" alt="${esc(awayName)}" loading="lazy" onerror="this.style.display='none'">`
       : "";
 
-    let statusClass = "";
-    if (fix.status === "STATUS_FULL_TIME" || statusDetail === "FT") {
-      statusClass = " ft";
-    } else if (
-      fix.status === "STATUS_IN_PROGRESS" ||
-      statusDetail.toLowerCase().includes("live")
-    ) {
-      statusClass = " live";
-    }
-
     return (
       `<div class="test-fixture-row">` +
       // Mobile top bar (visible on mobile only)
       `<div class="test-row-top-mobile test-row-mobile-only">` +
+      `<div class="test-mobile-meta-left">` +
       `<span class="test-row-date">${esc(fix.date)}</span>` +
-      `<span class="test-row-time-pill">${esc(fix.time || "TBD")}</span>` +
       (venue && venue !== "TBD"
-        ? `<span class="test-row-venue">${esc(venue)}</span>`
+        ? `<span class="test-row-meta-sep">·</span><span class="test-row-venue" title="${esc(venue)}">${esc(venue)}</span>`
         : "") +
-      `<span class="test-status-pill${statusClass}">${esc(statusDetail)}</span>` +
       `</div>` +
-      // Desktop Left Meta (Date, Time)
+      `<span class="test-status-pill${statusClass}">${esc(statusText)}</span>` +
+      `</div>` +
+      // Desktop Left Meta (Date, Day)
       `<div class="test-row-meta test-row-desktop-only">` +
       `<span class="test-row-date">${esc(fix.date)}</span>` +
-      `<span class="test-row-time-pill">${esc(fix.time || "TBD")}</span>` +
+      (dayName ? `<span class="test-row-day">${esc(dayName)}</span>` : "") +
       `</div>` +
       // Matchup (Home Logo + Name vs Away Logo + Name)
       `<div class="test-row-matchup">` +
@@ -2583,7 +2651,7 @@
       // Desktop Right Info (Venue, Status)
       `<div class="test-row-info test-row-desktop-only">` +
       `<span class="test-row-venue" title="${esc(venue)}">${esc(venue)}</span>` +
-      `<span class="test-status-pill${statusClass}">${esc(statusDetail)}</span>` +
+      `<span class="test-status-pill${statusClass}">${esc(statusText)}</span>` +
       `</div>` +
       `</div>`
     );
