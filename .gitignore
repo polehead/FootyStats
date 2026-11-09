@@ -1,7 +1,6 @@
-csv_cache/*
-backups/*
-.vscode/*
+backups
+.vscode
 *.zip
-team_badges/*
+team_badges
 TODO.MD
 data_key.txt

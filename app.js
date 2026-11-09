@@ -53,6 +53,7 @@
   const TEAM_STATS = {};
   let TEST_DATA = null;
   let testDataLoading = false;
+  const TEAM_LOGOS_MAP = {};
 
   async function loadTestFixtures() {
     if (TEST_DATA) return TEST_DATA;
@@ -61,6 +62,12 @@
       const resp = await fetch("./api_test.json");
       if (!resp.ok) throw new Error("HTTP " + resp.status);
       TEST_DATA = await resp.json();
+      if (TEST_DATA && Array.isArray(TEST_DATA.fixtures)) {
+        TEST_DATA.fixtures.forEach((fix) => {
+          if (fix.home && fix.home_logo) TEAM_LOGOS_MAP[fix.home] = fix.home_logo;
+          if (fix.away && fix.away_logo) TEAM_LOGOS_MAP[fix.away] = fix.away_logo;
+        });
+      }
     } catch (err) {
       console.warn("Could not load api_test.json:", err);
       TEST_DATA = null;
@@ -80,6 +87,12 @@
   let fFtAway = null; // null = any, number = exact FT away goals
   let fTodayOnly = false; // filter fixtures to today only
   let currentViewData = null;
+
+  // ── Results View State ─────────────────────────────────────────
+  let rLeague = ""; // "" = all 26/27 leagues
+  let rTimeframe = "gameweek"; // "gameweek" (latest 7 days), "month" (last 30 days), "season" (all 26/27)
+  let rFilter = "all"; // "all", "hits", "misses", "high_conf"
+  let rSearch = ""; // search team filter
 
   // ── DOM ───────────────────────────────────────────────────────
   const $ = (id) => document.getElementById(id);
@@ -142,6 +155,10 @@
         aL: 0,
         aGF: 0,
         aGA: 0,
+        hHtGoal: 0,
+        aHtGoal: 0,
+        hC10: 0,
+        aC10: 0,
       };
     });
     for (let i = 0, len = D.m.length; i < len; i++) {
@@ -151,6 +168,8 @@
       const fthg = m[M.FTHG] || 0;
       const ftag = m[M.FTAG] || 0;
       const ftr = m[M.FTR];
+      const htGoal = ((m[M.HTHG] || 0) + (m[M.HTAG] || 0)) > 0;
+      const c10Hit = m[M.C10] === 1 || (((m[M.HC] || 0) + (m[M.AC] || 0)) >= 10);
       if (TEAM_STATS[h]) {
         const tsH = TEAM_STATS[h];
         tsH.total++;
@@ -159,6 +178,8 @@
         if (m[M.C10]) tsH.c10++;
         tsH.hGF += fthg;
         tsH.hGA += ftag;
+        if (htGoal) tsH.hHtGoal++;
+        if (c10Hit) tsH.hC10++;
         if (ftr === "H") tsH.hW++;
         else if (ftr === "D") tsH.hD++;
         else if (ftr === "A") tsH.hL++;
@@ -171,6 +192,8 @@
         if (m[M.C10]) tsA.c10++;
         tsA.aGF += ftag;
         tsA.aGA += fthg;
+        if (htGoal) tsA.aHtGoal++;
+        if (c10Hit) tsA.aC10++;
         if (ftr === "A") tsA.aW++;
         else if (ftr === "D") tsA.aD++;
         else if (ftr === "H") tsA.aL++;
@@ -1375,6 +1398,10 @@
       renderFixturesView();
       return;
     }
+    if (activeTab === "results") {
+      renderResultsView();
+      return;
+    }
     if (activeTab === "test") {
       renderTestView();
       return;
@@ -2373,6 +2400,595 @@
     });
 
     $main.innerHTML = parts.join("");
+  }
+
+  // ── Results & Backtesting View ──────────────────────────────────
+  function parseMatchDateTs(dStr) {
+    if (!dStr) return 0;
+    const p = dStr.split("/");
+    if (p.length === 3) return new Date(p[2], p[1] - 1, p[0]).getTime();
+    return 0;
+  }
+
+  function formatResultDisplayDate(dStr) {
+    if (!dStr) return "";
+    const p = dStr.split("/");
+    if (p.length === 3) {
+      const d = new Date(p[2], p[1] - 1, p[0]);
+      const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${days[d.getDay()]} ${p[0]} ${months[d.getMonth()]} ${p[2]}`;
+    }
+    return dStr;
+  }
+
+  function getResultTeamCrestHtml(team) {
+    const logo = TEAM_LOGOS_MAP[team];
+    if (logo) {
+      return `<img class="result-team-logo" src="${esc(logo)}" alt="${esc(team)}" loading="lazy" onerror="this.style.display='none'">`;
+    }
+    const words = team.split(" ");
+    const initials = words.length > 1
+      ? (words[0][0] + words[1][0]).toUpperCase()
+      : team.substring(0, 3).toUpperCase();
+    return `<span class="result-team-badge-fallback">${esc(initials)}</span>`;
+  }
+
+  function renderResultsView(fullRebuild) {
+    $filterBar.style.display = "none";
+    $customBanner.classList.remove("visible");
+
+    // Asynchronously populate logos from api_test.json if not yet loaded
+    if (!TEST_DATA && !testDataLoading) {
+      loadTestFixtures().then(() => {
+        if (activeTab === "results") renderResultsView(false);
+      });
+    }
+
+    if (!D || !D.m || !D.m.length) {
+      $stats.innerHTML = '<div class="stat-chip">0 results evaluated</div>';
+      $main.innerHTML =
+        '<div class="empty-state"><h2>DATA NOT LOADED</h2><p>Could not find match data in data.js.</p></div>';
+      return;
+    }
+
+    // Collect all 26/27 leagues
+    const leagues2627 = [];
+    const seenBaseLeagues = new Set();
+    D.l.forEach((lg) => {
+      if (lg.includes("26/27")) {
+        leagues2627.push(lg);
+        seenBaseLeagues.add(baseLeague(lg));
+      }
+    });
+
+    // Find all 26/27 matches & determine max date timestamp
+    let maxDateTs = 0;
+    const matches2627 = [];
+    for (let i = 0, len = D.m.length; i < len; i++) {
+      const m = D.m[i];
+      const lgName = D.l[m[M.LG]];
+      if (lgName && lgName.includes("26/27")) {
+        const ts = parseMatchDateTs(m[M.DATE]);
+        if (ts > maxDateTs) maxDateTs = ts;
+        matches2627.push({ m, ts, lgName });
+      }
+    }
+
+    if (!matches2627.length) {
+      $stats.innerHTML = '<div class="stat-chip">0 completed 26/27 matches</div>';
+      $main.innerHTML =
+        '<div class="empty-state"><h2>NO 26/27 MATCHES FOUND</h2><p>No completed matches were found for the 26/27 season.</p></div>';
+      return;
+    }
+
+    // 1. Timeframe filtering
+    const gwCutoff = maxDateTs - 7 * 86400 * 1000;
+    const monthCutoff = maxDateTs - 30 * 86400 * 1000;
+
+    const inTimeframe = matches2627.filter((item) => {
+      if (rTimeframe === "gameweek") return item.ts >= gwCutoff;
+      if (rTimeframe === "month") return item.ts >= monthCutoff;
+      return true; // "season"
+    });
+
+    // 2. League filtering
+    const inLeague = inTimeframe.filter((item) => {
+      if (!rLeague) return true;
+      return item.lgName === rLeague || baseLeague(item.lgName) === rLeague;
+    });
+
+    // 3. Search filtering (supports both inline results search and top header search bar)
+    const searchLow = (rSearch || fTeam || "").trim().toLowerCase();
+    const oppLow = (fOpp || "").trim().toLowerCase();
+    const evaluatedAll = [];
+
+    inLeague.forEach((item) => {
+      const m = item.m;
+      const home = teamName(m[M.HOME]);
+      const away = teamName(m[M.AWAY]);
+
+      if (searchLow) {
+        const hMatch = home.toLowerCase().includes(searchLow);
+        const aMatch = away.toLowerCase().includes(searchLow);
+        if (!hMatch && !aMatch) return;
+      }
+
+      if (oppLow) {
+        const hOpp = home.toLowerCase().includes(oppLow);
+        const aOpp = away.toLowerCase().includes(oppLow);
+        if (!hOpp && !aOpp) return;
+      }
+
+      const pred = predictMatchOutright(home, away);
+      let pick = "H", pickLabel = "Home Win", pickProb = pred.probH;
+      if (pred.probA > pred.probH && pred.probA >= pred.probD) {
+        pick = "A";
+        pickLabel = "Away Win";
+        pickProb = pred.probA;
+      } else if (pred.probD > pred.probH && pred.probD > pred.probA) {
+        pick = "D";
+        pickLabel = "Draw";
+        pickProb = pred.probD;
+      }
+
+      const actualFTR = m[M.FTR]; // 'H', 'D', 'A'
+      const isHit = pick === actualFTR;
+      const isHighConf = pickProb >= 50;
+
+      // Sub-market predictions
+      const hStats = TEAM_STATS[home];
+      const aStats = TEAM_STATS[away];
+
+      const expHtG =
+        hStats && aStats
+          ? (hStats.hHtGoal / (hStats.homeMatches || 1) + aStats.aHtGoal / (aStats.awayMatches || 1)) / 2
+          : 0;
+      const htGoalPick = expHtG >= 0.65;
+      const actualHtGoal = (m[M.HTHG] || 0) + (m[M.HTAG] || 0) > 0;
+
+      const expC10 =
+        hStats && aStats
+          ? (hStats.hC10 / (hStats.homeMatches || 1) + aStats.aC10 / (aStats.awayMatches || 1)) / 2
+          : 0;
+      const c10Pick = expC10 >= 0.50;
+      const actualC10 = m[M.C10] === 1 || ((m[M.HC] || 0) + (m[M.AC] || 0)) >= 10;
+      const totalCorners = (m[M.HC] || 0) + (m[M.AC] || 0);
+
+      let actualLabel = "Draw";
+      if (actualFTR === "H") actualLabel = "Home Win";
+      else if (actualFTR === "A") actualLabel = "Away Win";
+
+      evaluatedAll.push({
+        m,
+        ts: item.ts,
+        lgName: item.lgName,
+        home,
+        away,
+        fthg: m[M.FTHG],
+        ftag: m[M.FTAG],
+        hthg: m[M.HTHG],
+        htag: m[M.HTAG],
+        hc: m[M.HC] || 0,
+        ac: m[M.AC] || 0,
+        totalCorners,
+        pred,
+        pick,
+        pickLabel,
+        pickProb,
+        actualFTR,
+        actualLabel,
+        isHit,
+        isHighConf,
+        htGoalPick,
+        actualHtGoal,
+        c10Pick,
+        actualC10,
+      });
+    });
+
+    // Check if search yields matches across full season if 0 in current timeframe
+    let seasonMatchesForSearchCount = 0;
+    if (searchLow && rTimeframe !== "season") {
+      seasonMatchesForSearchCount = matches2627.filter((item) => {
+        const h = teamName(item.m[M.HOME]).toLowerCase();
+        const a = teamName(item.m[M.AWAY]).toLowerCase();
+        return h.includes(searchLow) || a.includes(searchLow);
+      }).length;
+    }
+
+    // 4. Compute Executive KPIs across all evaluated matches for this timeframe & league
+    const totalEval = evaluatedAll.length;
+    const hitsCount = evaluatedAll.filter((x) => x.isHit).length;
+    const accPct = totalEval ? ((hitsCount / totalEval) * 100).toFixed(1) : "0.0";
+
+    const hcMatches = evaluatedAll.filter((x) => x.isHighConf);
+    const hcHits = hcMatches.filter((x) => x.isHit).length;
+    const hcPct = hcMatches.length ? ((hcHits / hcMatches.length) * 100).toFixed(1) : "0.0";
+
+    const htPicks = evaluatedAll.filter((x) => x.htGoalPick);
+    const htHits = htPicks.filter((x) => x.actualHtGoal).length;
+    const htPct = htPicks.length ? ((htHits / htPicks.length) * 100).toFixed(1) : "0.0";
+
+    const c10Picks = evaluatedAll.filter((x) => x.c10Pick);
+    const c10Hits = c10Picks.filter((x) => x.actualC10).length;
+    const c10Pct = c10Picks.length ? ((c10Hits / c10Picks.length) * 100).toFixed(1) : "0.0";
+
+    // 5. Outcome filtering for display feed
+    const displayMatches = evaluatedAll.filter((x) => {
+      if (rFilter === "hits") return x.isHit;
+      if (rFilter === "misses") return !x.isHit;
+      if (rFilter === "high_conf") return x.isHighConf;
+      return true; // "all"
+    });
+
+    // Sort newest first
+    displayMatches.sort((a, b) => b.ts - a.ts);
+
+    // Update stats bar strip
+    $stats.innerHTML =
+      `<div class="stat-chip">Evaluated: <strong>${totalEval}</strong> matches</div>` +
+      `<div class="stat-chip">Model Accuracy: <strong>${accPct}%</strong> (${hitsCount}/${totalEval})</div>` +
+      `<div class="stat-chip">High Confidence: <strong>${hcPct}%</strong> (${hcHits}/${hcMatches.length})</div>` +
+      `<div class="stat-chip">1st Half Goals: <strong>${htPct}%</strong> (${htHits}/${htPicks.length})</div>`;
+
+    // 6. Build KPI Grid HTML
+    const kpisGridHtml =
+      // KPI 1: 1X2 Accuracy
+      `<div class="results-kpi-card accent-green">` +
+      `<div class="results-kpi-label">Overall 1X2 Accuracy</div>` +
+      `<div class="results-kpi-val">${accPct}%</div>` +
+      `<div class="results-kpi-meta"><span class="kpi-count">${hitsCount} ${hitsCount === 1 ? "Hit" : "Hits"}</span> / ${totalEval} Finished</div>` +
+      `<div class="results-kpi-bar"><div class="results-kpi-bar-fill green" style="width:${Math.min(100, Math.max(5, accPct))}%"></div></div>` +
+      `</div>` +
+      // KPI 2: High Confidence Accuracy
+      `<div class="results-kpi-card accent-cyan">` +
+      `<div class="results-kpi-label">High-Confidence Picks (≥50%)</div>` +
+      `<div class="results-kpi-val">${hcPct}%</div>` +
+      `<div class="results-kpi-meta"><span class="kpi-count">${hcHits} ${hcHits === 1 ? "Hit" : "Hits"}</span> / ${hcMatches.length} Qualified</div>` +
+      `<div class="results-kpi-bar"><div class="results-kpi-bar-fill cyan" style="width:${Math.min(100, Math.max(5, hcPct))}%"></div></div>` +
+      `</div>` +
+      // KPI 3: 1st Half Goal Hit Rate
+      `<div class="results-kpi-card accent-purple">` +
+      `<div class="results-kpi-label">1st Half Goal Hit Rate</div>` +
+      `<div class="results-kpi-val">${htPct}%</div>` +
+      `<div class="results-kpi-meta"><span class="kpi-count">${htHits} ${htHits === 1 ? "Hit" : "Hits"}</span> / ${htPicks.length} Qualified (≥65%)</div>` +
+      `<div class="results-kpi-bar"><div class="results-kpi-bar-fill purple" style="width:${Math.min(100, Math.max(5, htPct))}%"></div></div>` +
+      `</div>` +
+      // KPI 4: 10+ Corners Hit Rate
+      `<div class="results-kpi-card accent-amber">` +
+      `<div class="results-kpi-label">10+ Corners Hit Rate</div>` +
+      `<div class="results-kpi-val">${c10Pct}%</div>` +
+      `<div class="results-kpi-meta"><span class="kpi-count">${c10Hits} ${c10Hits === 1 ? "Hit" : "Hits"}</span> / ${c10Picks.length} Qualified (≥50%)</div>` +
+      `<div class="results-kpi-bar"><div class="results-kpi-bar-fill amber" style="width:${Math.min(100, Math.max(5, c10Pct))}%"></div></div>` +
+      `</div>`;
+
+    // Outcome Tabs HTML
+    const outcomeTabsHtml =
+      `<button type="button" class="results-outcome-tab${rFilter === "all" ? " active" : ""}" data-rfilter="all">All (${totalEval})</button>` +
+      `<button type="button" class="results-outcome-tab hit${rFilter === "hits" ? " active" : ""}" data-rfilter="hits">✓ Hits (${hitsCount})</button>` +
+      `<button type="button" class="results-outcome-tab miss${rFilter === "misses" ? " active" : ""}" data-rfilter="misses">✕ Misses (${totalEval - hitsCount})</button>` +
+      `<button type="button" class="results-outcome-tab high-conf${rFilter === "high_conf" ? " active" : ""}" data-rfilter="high_conf">★ High Conf (${hcMatches.length})</button>`;
+
+    // Match Cards HTML
+    let cardsHtml = "";
+    if (!displayMatches.length) {
+      if (searchLow && seasonMatchesForSearchCount > 0 && rTimeframe !== "season") {
+        cardsHtml =
+          `<div class="results-empty-card">` +
+          `<div class="results-empty-icon" aria-hidden="true">⚽</div>` +
+          `<h3>No matches for "${esc(searchLow)}" in ${rTimeframe === "gameweek" ? "Latest Gameweek" : "Last 30 Days"}</h3>` +
+          `<p>Found <strong>${seasonMatchesForSearchCount}</strong> completed matches across the full 26/27 season.</p>` +
+          `<button type="button" class="results-switch-season-btn" id="btn-switch-season">View All ${seasonMatchesForSearchCount} Season Matches</button>` +
+          `</div>`;
+      } else {
+        cardsHtml =
+          `<div class="results-empty-card">` +
+          `<div class="results-empty-icon" aria-hidden="true">⚽</div>` +
+          `<h3>No match results found</h3>` +
+          `<p>No finished matches matched your current timeframe, competition, or search filters.</p>` +
+          `</div>`;
+      }
+    } else {
+      cardsHtml = `<div class="results-feed">` + displayMatches.map(renderResultMatchCard).join("") + `</div>`;
+    }
+
+    // 7. Check if results container is already mounted
+    const $container = $("results-container");
+    const canDoTargetedUpdate = $container && fullRebuild !== true;
+
+    if (canDoTargetedUpdate) {
+      // Targeted DOM update: never recreate search input or filter panel
+      const $kpiGrid = $("results-kpi-grid");
+      if ($kpiGrid) $kpiGrid.innerHTML = kpisGridHtml;
+
+      const $outcomeTabs = $("results-outcome-tabs");
+      if ($outcomeTabs) $outcomeTabs.innerHTML = outcomeTabsHtml;
+
+      const $feedWrap = $("results-feed-wrap");
+      if ($feedWrap) $feedWrap.innerHTML = cardsHtml;
+
+      // Update clear button visibility
+      const $clearBtn = $("results-search-clear");
+      if ($clearBtn) {
+        $clearBtn.style.display = rSearch ? "inline-flex" : "none";
+      }
+
+      // Re-bind outcome tabs and season switch button
+      bindResultsOutcomeTabs();
+      bindSeasonSwitchBtn();
+      return;
+    }
+
+    // Full Rebuild (initial render or switching views)
+    // Capture existing search focus and caret position if rebuilding
+    const $existingSearch = $("results-search-input");
+    const searchHadFocus = $existingSearch && document.activeElement === $existingSearch;
+    const selStart = searchHadFocus ? $existingSearch.selectionStart : null;
+    const selEnd = searchHadFocus ? $existingSearch.selectionEnd : null;
+
+    let leagueOptionsHtml = '<option value="">All 26/27 Leagues (20 Competitions)</option>';
+    leagues2627.forEach((lg) => {
+      const selected = rLeague === lg ? ' selected="selected"' : "";
+      leagueOptionsHtml += `<option value="${esc(lg)}"${selected}>${esc(baseLeague(lg))}</option>`;
+    });
+
+    const kpisHtml =
+      `<div class="results-header-panel">` +
+      `<div class="results-title-row">` +
+      `<div class="results-title-group">` +
+      `<div class="results-headline">` +
+      `<span class="results-pulse-dot" aria-hidden="true"></span>` +
+      `<h2>Model Performance & Verification</h2>` +
+      `</div>` +
+      `<p class="results-subtext">` +
+      `Retrospective backtesting of Poisson expected goals and 1X2 outright probability predictions compared against finished 2026/27 domestic league fixtures.` +
+      `</p>` +
+      `</div>` +
+      `</div>` +
+      `<div class="results-kpi-grid" id="results-kpi-grid">${kpisGridHtml}</div>` +
+      `</div>`;
+
+    const filterControlsHtml =
+      `<div class="results-filter-panel" id="results-filter-panel">` +
+      `<div class="results-filter-top">` +
+      // Timeframe Selector
+      `<div class="results-timeframe-group">` +
+      `<span class="results-filter-label">Timeframe:</span>` +
+      `<div class="results-pill-group">` +
+      `<button type="button" class="results-pill-btn${rTimeframe === "gameweek" ? " active" : ""}" data-rtimeframe="gameweek">Latest Gameweek</button>` +
+      `<button type="button" class="results-pill-btn${rTimeframe === "month" ? " active" : ""}" data-rtimeframe="month">Last 30 Days</button>` +
+      `<button type="button" class="results-pill-btn${rTimeframe === "season" ? " active" : ""}" data-rtimeframe="season">Full 26/27 Season</button>` +
+      `</div>` +
+      `</div>` +
+      // League Selector
+      `<div class="results-league-group">` +
+      `<span class="results-filter-label">Competition:</span>` +
+      `<select class="results-select" id="results-league-select" aria-label="Filter competition">${leagueOptionsHtml}</select>` +
+      `</div>` +
+      `</div>` +
+      // Filter Sub-bar: Outcome filter tabs + Search box
+      `<div class="results-filter-bottom">` +
+      `<div class="results-outcome-tabs" id="results-outcome-tabs">${outcomeTabsHtml}</div>` +
+      `<div class="results-search-wrap">` +
+      `<span class="results-search-icon" aria-hidden="true">🔍</span>` +
+      `<input type="text" id="results-search-input" class="results-search-input" placeholder="Search team (e.g. Arsenal, Real Madrid)..." autocomplete="off" spellcheck="false" aria-label="Search team by name" value="${esc(rSearch)}">` +
+      `<button type="button" class="results-search-clear" id="results-search-clear" aria-label="Clear search" style="${rSearch ? "display:inline-flex;" : "display:none;"}">✕</button>` +
+      `</div>` +
+      `</div>` +
+      `</div>`;
+
+    $main.innerHTML =
+      `<div class="results-container" id="results-container">` +
+      kpisHtml +
+      filterControlsHtml +
+      `<div class="results-feed-wrap" id="results-feed-wrap">${cardsHtml}</div>` +
+      `</div>`;
+
+    // 8. Bind interactive events
+    bindResultsEvents();
+    bindSeasonSwitchBtn();
+
+    // Restore search focus and cursor selection if it had focus
+    if (searchHadFocus) {
+      const $newSearch = $("results-search-input");
+      if ($newSearch) {
+        $newSearch.focus();
+        if (selStart !== null && selEnd !== null) {
+          $newSearch.setSelectionRange(selStart, selEnd);
+        }
+      }
+    }
+  }
+
+  function renderResultMatchCard(res) {
+    const isHit = res.isHit;
+    const verdictClass = isHit ? "verdict-hit" : "verdict-miss";
+    const verdictIcon = isHit ? "✓" : "✕";
+    const verdictText = isHit ? "HIT" : "MISS";
+
+    const homeCrestHtml = getResultTeamCrestHtml(res.home);
+    const awayCrestHtml = getResultTeamCrestHtml(res.away);
+    const displayDate = formatResultDisplayDate(res.m[M.DATE]);
+    const lgNameClean = baseLeague(res.lgName);
+
+    // Probability segments
+    const pH = res.pred.probH;
+    const pD = res.pred.probD;
+    const pA = res.pred.probA;
+
+    const isHighConfBadge = res.isHighConf
+      ? `<span class="result-highconf-badge" title="High confidence prediction (≥50% probability)">★ High Conf (${res.pickProb}%)</span>`
+      : "";
+
+    // Submarket chips
+    const actualHtText = res.actualHtGoal ? `Yes (HT ${res.hthg}-${res.htag})` : "No (HT 0-0)";
+    const htPickBadge = res.htGoalPick
+      ? (res.actualHtGoal
+          ? `<span class="res-sub-badge hit">✓ Pick Hit</span>`
+          : `<span class="res-sub-badge miss">✕ Pick Miss</span>`)
+      : "";
+
+    const actualC10Text = `${res.totalCorners} (${res.hc}-${res.ac})`;
+    const c10PickBadge = res.c10Pick
+      ? (res.actualC10
+          ? `<span class="res-sub-badge hit">✓ 10+ Hit</span>`
+          : `<span class="res-sub-badge miss">✕ 10+ Miss</span>`)
+      : "";
+
+    return (
+      `<div class="result-match-card ${verdictClass}">` +
+      // Top header row: League, Date, Verdict Badge
+      `<div class="result-match-header">` +
+      `<div class="result-match-meta">` +
+      `<span class="result-league-badge">${esc(lgNameClean)}</span>` +
+      `<span class="result-match-date">${esc(displayDate)}</span>` +
+      isHighConfBadge +
+      `</div>` +
+      `<div class="result-verdict-pill ${verdictClass}">` +
+      `<span class="result-verdict-icon">${verdictIcon}</span>` +
+      `<span class="result-verdict-text">${verdictText}</span>` +
+      `</div>` +
+      `</div>` +
+      // Scoreboard matchup row
+      `<div class="result-scoreboard">` +
+      `<div class="result-team home">` +
+      `<span class="result-team-name">${esc(res.home)}</span>` +
+      homeCrestHtml +
+      `</div>` +
+      `<div class="result-score-block">` +
+      `<div class="result-ft-score">${res.fthg} - ${res.ftag}</div>` +
+      `<div class="result-ht-score">HT ${res.hthg}-${res.htag}</div>` +
+      `</div>` +
+      `<div class="result-team away">` +
+      awayCrestHtml +
+      `<span class="result-team-name">${esc(res.away)}</span>` +
+      `</div>` +
+      `</div>` +
+      // Prediction Banner
+      `<div class="result-pred-banner">` +
+      `<div class="result-pred-line">` +
+      `<span class="result-pred-tag">Model Pick:</span>` +
+      `<strong class="result-pred-pick-name">${esc(res.pickLabel)} (${res.pickProb}%)</strong>` +
+      `<span class="result-actual-line">Actual Result: <strong>${esc(res.actualLabel)}</strong></span>` +
+      `</div>` +
+      // 1X2 Probability bar (with flex-shrink and proportionality)
+      `<div class="result-prob-bar-container">` +
+      `<div class="result-prob-bar">` +
+      `<div class="result-prob-segment seg-h${res.pick === "H" ? " selected" : ""}" style="width:${pH}%;flex:${pH} 1 0%;" title="Home: ${pH}%">` +
+      `<span>H ${pH}%</span>` +
+      `</div>` +
+      `<div class="result-prob-segment seg-d${res.pick === "D" ? " selected" : ""}" style="width:${pD}%;flex:${pD} 1 0%;" title="Draw: ${pD}%">` +
+      `<span>D ${pD}%</span>` +
+      `</div>` +
+      `<div class="result-prob-segment seg-a${res.pick === "A" ? " selected" : ""}" style="width:${pA}%;flex:${pA} 1 0%;" title="Away: ${pA}%">` +
+      `<span>A ${pA}%</span>` +
+      `</div>` +
+      `</div>` +
+      `</div>` +
+      // Sub-markets detail strip
+      `<div class="result-submarkets-strip">` +
+      `<div class="result-sub-item">` +
+      `<span class="sub-dim">xG:</span> <strong>${res.pred.lambda.toFixed(2)} - ${res.pred.mu.toFixed(2)}</strong>` +
+      `</div>` +
+      `<div class="result-sub-item">` +
+      `<span class="sub-dim">1st Half Goal:</span> <strong>${actualHtText}</strong>${htPickBadge}` +
+      `</div>` +
+      `<div class="result-sub-item">` +
+      `<span class="sub-dim">Corners:</span> <strong>${actualC10Text}</strong>${c10PickBadge}` +
+      `</div>` +
+      `</div>` +
+      `</div>` +
+      `</div>`
+    );
+  }
+
+  function bindResultsOutcomeTabs() {
+    document.querySelectorAll("#results-outcome-tabs [data-rfilter]").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const filt = tab.dataset.rfilter;
+        if (rFilter !== filt) {
+          rFilter = filt;
+          renderResultsView(false);
+        }
+      });
+    });
+  }
+
+  function bindSeasonSwitchBtn() {
+    const $switchBtn = $("btn-switch-season");
+    if ($switchBtn) {
+      $switchBtn.addEventListener("click", () => {
+        rTimeframe = "season";
+        renderResultsView(true);
+      });
+    }
+  }
+
+  function bindResultsEvents() {
+    // Timeframe selector
+    document.querySelectorAll("[data-rtimeframe]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tf = btn.dataset.rtimeframe;
+        if (rTimeframe !== tf) {
+          rTimeframe = tf;
+          renderResultsView(true);
+        }
+      });
+    });
+
+    // Competition selector
+    const $lgSelect = $("results-league-select");
+    if ($lgSelect) {
+      $lgSelect.addEventListener("change", (e) => {
+        rLeague = e.target.value;
+        renderResultsView(true);
+      });
+    }
+
+    // Outcome filter tabs
+    bindResultsOutcomeTabs();
+
+    // Team search input: non-destructive updates with keystroke debounce
+    const $search = $("results-search-input");
+    if ($search) {
+      let debTimer;
+      $search.addEventListener("input", (e) => {
+        clearTimeout(debTimer);
+        rSearch = e.target.value; // Store raw value, preserving spaces!
+        debTimer = setTimeout(() => {
+          renderResultsView(false); // Non-destructive targeted update
+        }, 150);
+      });
+
+      $search.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          clearTimeout(debTimer);
+          rSearch = e.target.value;
+          renderResultsView(false);
+        } else if (e.key === "Escape") {
+          e.preventDefault();
+          clearTimeout(debTimer);
+          rSearch = "";
+          $search.value = "";
+          renderResultsView(false);
+        }
+      });
+    }
+
+    const $clearBtn = $("results-search-clear");
+    if ($clearBtn) {
+      $clearBtn.addEventListener("click", () => {
+        rSearch = "";
+        const $sInp = $("results-search-input");
+        if ($sInp) {
+          $sInp.value = "";
+          $sInp.focus();
+        }
+        renderResultsView(false);
+      });
+    }
   }
 
   // ── Test View (Live Scores API / api_test.json) ───────────────
