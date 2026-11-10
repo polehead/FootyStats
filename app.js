@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════════════
    Table of Contents:
    1. Compact Match Schema & Index Constants (M)
-   2. Global State & Dataset References (D, F, TEAM_STATS, COUPON_SLIP)
+   2. Global State & Dataset References (D, F, TEAM_STATS, WINS_2PLUS_STATS, COUPON_SLIP)
    3. Historical Team Stats & Performance Engine (computeTeamStats)
    4. Predictive Math & Goal Expectancy Model (Bivariate Poisson + H2H)
    5. Odds & Formatting Utilities (decimalToFractional, esc)
@@ -51,6 +51,7 @@
   const D = typeof FOOTYDATA !== "undefined" ? FOOTYDATA : null;
   const F = typeof FOOTYFIXTURES !== "undefined" ? FOOTYFIXTURES : null;
   const TEAM_STATS = {};
+  const WINS_2PLUS_STATS = {};
   let TEST_DATA = null;
   let testDataLoading = false;
   const TEAM_LOGOS_MAP = {};
@@ -134,7 +135,7 @@
     return typeof t === "number" ? D.t[t] : t;
   }
 
-  // Precompute historical performance rates for instant upcoming fixture insights
+  // Precompute neutral predictive & venue performance rates (decoupled from 2+ win filters)
   function computeTeamStats() {
     if (!D || !D.m) return;
     D.t.forEach((name) => {
@@ -142,8 +143,6 @@
         total: 0,
         homeMatches: 0,
         awayMatches: 0,
-        w2h: 0,
-        w2a: 0,
         c10: 0,
         hW: 0,
         hD: 0,
@@ -174,7 +173,6 @@
         const tsH = TEAM_STATS[h];
         tsH.total++;
         tsH.homeMatches++;
-        if (m[M.W2H]) tsH.w2h++;
         if (m[M.C10]) tsH.c10++;
         tsH.hGF += fthg;
         tsH.hGA += ftag;
@@ -188,7 +186,6 @@
         const tsA = TEAM_STATS[a];
         tsA.total++;
         tsA.awayMatches++;
-        if (m[M.W2A]) tsA.w2a++;
         if (m[M.C10]) tsA.c10++;
         tsA.aGF += ftag;
         tsA.aGA += fthg;
@@ -197,6 +194,32 @@
         if (ftr === "A") tsA.aW++;
         else if (ftr === "D") tsA.aD++;
         else if (ftr === "H") tsA.aL++;
+      }
+    }
+  }
+
+  // Isolated 2+ goal win rate aggregator used strictly by the Wins 2+ Goals tab
+  function computeWins2PlusStats() {
+    if (!D || !D.m) return;
+    D.t.forEach((name) => {
+      WINS_2PLUS_STATS[name] = {
+        homeMatches: 0,
+        awayMatches: 0,
+        w2h: 0,
+        w2a: 0,
+      };
+    });
+    for (let i = 0, len = D.m.length; i < len; i++) {
+      const m = D.m[i];
+      const h = teamName(m[M.HOME]);
+      const a = teamName(m[M.AWAY]);
+      if (WINS_2PLUS_STATS[h]) {
+        WINS_2PLUS_STATS[h].homeMatches++;
+        if (m[M.W2H]) WINS_2PLUS_STATS[h].w2h++;
+      }
+      if (WINS_2PLUS_STATS[a]) {
+        WINS_2PLUS_STATS[a].awayMatches++;
+        if (m[M.W2A]) WINS_2PLUS_STATS[a].w2a++;
       }
     }
   }
@@ -901,6 +924,7 @@
   // ── Init ──────────────────────────────────────────────────────
   (function init() {
     computeTeamStats();
+    computeWins2PlusStats();
     loadCouponSlip();
 
     // Also include any leagues from upcoming fixtures if not yet in BASE_LEAGUES
@@ -1567,10 +1591,32 @@
     $main.innerHTML = parts.join("");
   }
 
+  function formatWin2VenuePill(wStats, isHome) {
+    const played = isHome ? wStats.homeMatches : wStats.awayMatches;
+    if (!played) return "";
+    const hits = isHome ? wStats.w2h : wStats.w2a;
+    const pct = Math.round((hits / played) * 100);
+    const label = isHome ? "Home 2+ W" : "Away 2+ W";
+    const tip = `Overall historical ${isHome ? "Home" : "Away"} wins scoring 2+ goals across all seasons`;
+    return `<span class="team-win2-pill" title="${tip}">${label}: <strong>${pct}%</strong> <span class="team-win2-frac">(${hits}/${played})</span></span>`;
+  }
+
   function renderTeam(name, rec, isWins, isCustom) {
+    let badgesHtml = "";
+    if (isWins && WINS_2PLUS_STATS[name]) {
+      const pills = [true, false]
+        .map((isHome) => formatWin2VenuePill(WINS_2PLUS_STATS[name], isHome))
+        .filter(Boolean);
+      if (pills.length) {
+        badgesHtml = `<div class="team-win2-badges">${pills.join("")}</div>`;
+      }
+    }
     let h =
       '<div class="team-block"><div class="team-name-header">' +
+      '<span class="team-name-title">' +
       esc(name) +
+      "</span>" +
+      badgesHtml +
       "</div>";
     if (rec.home.length)
       h +=
@@ -3411,31 +3457,52 @@
     return Math.round(avg * 100);
   }
 
+  function renderVenueFormHint(team, isHome) {
+    var st = TEAM_STATS[team];
+    if (!st) return "";
+    var played = isHome ? st.homeMatches : st.awayMatches;
+    if (!played) return "";
+    var w = isHome ? st.hW : st.aW;
+    var d = isHome ? st.hD : st.aD;
+    var l = isHome ? st.hL : st.aL;
+    var gf = isHome ? st.hGF : st.aGF;
+    var ga = isHome ? st.hGA : st.aGA;
+    var winPct = Math.round((w / played) * 100);
+    var avgGf = (gf / played).toFixed(2);
+    var avgGa = (ga / played).toFixed(2);
+    var venueLabel = isHome ? "Home Win" : "Away Win";
+    var titleAttr =
+      venueLabel +
+      " record: " +
+      w +
+      "W-" +
+      d +
+      "D-" +
+      l +
+      "L \u00b7 Avg " +
+      avgGf +
+      " GF / " +
+      avgGa +
+      " GA";
+    return (
+      '<span class="fixture-stats-hint" title="' +
+      esc(titleAttr) +
+      '">' +
+      venueLabel +
+      ": <strong>" +
+      winPct +
+      "%</strong> \u00b7 " +
+      avgGf +
+      " GF/g</span>"
+    );
+  }
+
   function renderFixtureCard(fix) {
     var home = fix.home;
     var away = fix.away;
 
-    var homeStats = "";
-    var awayStats = "";
-
-    if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches > 0) {
-      var pctH = Math.round(
-        (TEAM_STATS[home].w2h / TEAM_STATS[home].homeMatches) * 100,
-      );
-      homeStats =
-        '<span class="fixture-stats-hint">Home 2+ W: <strong>' +
-        pctH +
-        "%</strong></span>";
-    }
-    if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches > 0) {
-      var pctA = Math.round(
-        (TEAM_STATS[away].w2a / TEAM_STATS[away].awayMatches) * 100,
-      );
-      awayStats =
-        '<span class="fixture-stats-hint">Away 2+ W: <strong>' +
-        pctA +
-        "%</strong></span>";
-    }
+    var homeStats = renderVenueFormHint(home, true);
+    var awayStats = renderVenueFormHint(away, false);
 
     // Fractional odds
     var oddsHtml = "";
