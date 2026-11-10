@@ -1,5 +1,9 @@
 ## Completed Fixes
 
+- [x] **Cache-First Historical CSV Loading (`export_data.py`)**:
+  - Updated `fetch_csv_text()` and `build_all_data()` in `export_data.py` so only `26/27` (`CURRENT_SEASON = "2627"`) URLs are refreshed from `football-data.co.uk` on each run.
+  - Historical seasons (`19/20`–`25/26`) read directly from `./csv_cache` whenever a non-empty cached file already exists, downloading only if missing or empty on disk while continuing to export all seasons into `data.js`.
+
 - [x] **Decoupled Overall 2+ Win Logic (`Wins 2+ Goals` Isolation)**:
   - Removed `w2h` and `w2a` tracking from `TEAM_STATS` (`computeTeamStats()`), keeping the predictive engine (`predictMatchOutright()`) focused purely on neutral venue attack/defense rates and H2H records.
   - Added a dedicated `WINS_2PLUS_STATS` store and `computeWins2PlusStats()` aggregator scoped exclusively to the **Wins 2+ Goals** tab, surfacing overall `Home 2+ W` and `Away 2+ W` percentage pills inside `.team-name-header` only when viewing `Wins 2+ Goals`.
@@ -386,5 +390,78 @@ console.log(
   console.log('%c[Tip]%c Stored full results in %cwindow.allTimeHighGoalCornerStats%c for further filtering.', 'color:#00e5ff', 'color:#aaa', 'color:#ffb800;font-family:monospace', 'color:#aaa');
 
   return summary;
+})();
+```
+
+## First-Half goals @ 70%+
+
+```
+(() => {
+  const THRESHOLD = 70;     // Minimum 1st Half Goal %
+  const TODAY_ONLY = false; // Set to true to filter to today's fixtures only
+
+  const D = FOOTYDATA;
+  const F = FOOTYFIXTURES;
+  const team = (t) => (typeof t === "number" ? D.t[t] : t);
+
+  const now = new Date();
+  const todayStr =
+    String(now.getDate()).padStart(2, "0") + "/" +
+    String(now.getMonth() + 1).padStart(2, "0") + "/" +
+    now.getFullYear();
+
+  const hits = (F.fixtures || [])
+    .filter((fix) => !TODAY_ONLY || fix.date === todayStr)
+    .map((fix) => {
+      let hTot = 0, hHit = 0;
+      let aTot = 0, aHit = 0;
+      let h2hTot = 0, h2hHit = 0;
+
+      for (let i = 0; i < D.m.length; i++) {
+        const m = D.m[i];
+        const h = team(m[1]);
+        const a = team(m[2]);
+        const hasHtGoal = (m[6] || 0) + (m[7] || 0) > 0;
+
+        if (h === fix.home) {
+          hTot++;
+          if (hasHtGoal) hHit++;
+        }
+        if (a === fix.away) {
+          aTot++;
+          if (hasHtGoal) aHit++;
+        }
+        if (h === fix.home && a === fix.away) {
+          h2hTot++;
+          if (hasHtGoal) h2hHit++;
+        }
+      }
+
+      const signals = [];
+      if (hTot >= 3) signals.push(hHit / hTot);
+      if (aTot >= 3) signals.push(aHit / aTot);
+      if (h2hTot >= 2) signals.push(h2hHit / h2hTot);
+      if (!signals.length) return null;
+
+      const avg = signals.reduce((s, v) => s + v, 0) / signals.length;
+      const pct = Math.round(avg * 100);
+      if (pct < THRESHOLD) return null;
+
+      return {
+        Date: `${fix.date} ${fix.time}`,
+        League: fix.league,
+        Match: `${fix.home} vs ${fix.away}`,
+        "1st Half %": pct,
+        "Home HT": hTot >= 3 ? `${Math.round((hHit / hTot) * 100)}% (${hHit}/${hTot})` : "—",
+        "Away HT": aTot >= 3 ? `${Math.round((aHit / aTot) * 100)}% (${aHit}/${aTot})` : "—",
+        "H2H HT": h2hTot >= 2 ? `${Math.round((h2hHit / h2hTot) * 100)}% (${h2hHit}/${h2hTot})` : "—",
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b["1st Half %"] - a["1st Half %"]);
+
+  console.log(`Found ${hits.length} fixtures with >= ${THRESHOLD}% 1st Half Goal probability:`);
+  console.table(hits);
+  return hits;
 })();
 ```
