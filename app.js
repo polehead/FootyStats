@@ -198,6 +198,16 @@
     }
   }
 
+  function _recordWin2Side(bucket, isHome, isHit) {
+    if (isHome) {
+      bucket.homeMatches++;
+      if (isHit) bucket.w2h++;
+    } else {
+      bucket.awayMatches++;
+      if (isHit) bucket.w2a++;
+    }
+  }
+
   // Isolated 2+ goal win rate aggregator used strictly by the Wins 2+ Goals tab
   function computeWins2PlusStats() {
     if (!D || !D.m) return;
@@ -207,19 +217,29 @@
         awayMatches: 0,
         w2h: 0,
         w2a: 0,
+        byLeague: {},
       };
     });
     for (let i = 0, len = D.m.length; i < len; i++) {
       const m = D.m[i];
       const h = teamName(m[M.HOME]);
       const a = teamName(m[M.AWAY]);
-      if (WINS_2PLUS_STATS[h]) {
-        WINS_2PLUS_STATS[h].homeMatches++;
-        if (m[M.W2H]) WINS_2PLUS_STATS[h].w2h++;
-      }
-      if (WINS_2PLUS_STATS[a]) {
-        WINS_2PLUS_STATS[a].awayMatches++;
-        if (m[M.W2A]) WINS_2PLUS_STATS[a].w2a++;
+      const lgName = D.l[m[M.LG]];
+      const sides = [
+        [h, true, m[M.W2H]],
+        [a, false, m[M.W2A]],
+      ];
+      for (let s = 0; s < sides.length; s++) {
+        const [team, isHome, isHit] = sides[s];
+        const ts = WINS_2PLUS_STATS[team];
+        if (!ts) continue;
+        _recordWin2Side(ts, isHome, isHit);
+        if (lgName) {
+          if (!ts.byLeague[lgName]) {
+            ts.byLeague[lgName] = { homeMatches: 0, awayMatches: 0, w2h: 0, w2a: 0 };
+          }
+          _recordWin2Side(ts.byLeague[lgName], isHome, isHit);
+        }
       }
     }
   }
@@ -1201,7 +1221,7 @@
             const isWins = activeTab === "wins";
             const isCustom = activeTab === "custom";
             panel.innerHTML = tn
-              .map((t) => renderTeam(t, teams[t], isWins, isCustom))
+              .map((t) => renderTeam(t, teams[t], isWins, isCustom, lg))
               .join("");
             panel.dataset.rendered = "true";
           }
@@ -1568,7 +1588,7 @@
             return (
               `<div class="season-panel${hidden}" data-season-idx="${si}" data-league="${esc(lg)}" data-rendered="true">` +
               tn
-                .map((t) => renderTeam(t, teams[t], isWins, isCustom))
+                .map((t) => renderTeam(t, teams[t], isWins, isCustom, lg))
                 .join("") +
               "</div>"
             );
@@ -1591,21 +1611,34 @@
     $main.innerHTML = parts.join("");
   }
 
-  function formatWin2VenuePill(wStats, isHome) {
+  function formatWin2VenuePill(wStats, isHome, seasonLabel, fullLeagueName) {
+    if (!wStats) return "";
     const played = isHome ? wStats.homeMatches : wStats.awayMatches;
     if (!played) return "";
     const hits = isHome ? wStats.w2h : wStats.w2a;
     const pct = Math.round((hits / played) * 100);
-    const label = isHome ? "Home 2+ W" : "Away 2+ W";
-    const tip = `Overall historical ${isHome ? "Home" : "Away"} wins scoring 2+ goals across all seasons`;
-    return `<span class="team-win2-pill" title="${tip}">${label}: <strong>${pct}%</strong> <span class="team-win2-frac">(${hits}/${played})</span></span>`;
+    const venue = isHome ? "Home" : "Away";
+    const label = seasonLabel ? `${seasonLabel} ${venue} 2+ W` : `${venue} 2+ W`;
+    const scope = fullLeagueName ? `in ${fullLeagueName}` : "across all seasons";
+    const tip = `${seasonLabel ? "Selected season" : "Overall historical"} ${venue} wins scoring 2+ goals ${scope}`;
+    return `<span class="team-win2-pill" title="${esc(tip)}">${esc(label)}: <strong>${pct}%</strong> <span class="team-win2-frac">(${hits}/${played})</span></span>`;
   }
 
-  function renderTeam(name, rec, isWins, isCustom) {
+  function renderTeam(name, rec, isWins, isCustom, lg) {
     let badgesHtml = "";
     if (isWins && WINS_2PLUS_STATS[name]) {
+      const overallStats = WINS_2PLUS_STATS[name];
+      const seasonStats = lg && overallStats.byLeague ? overallStats.byLeague[lg] : null;
+      const seasonLabel = lg ? (lg.slice(baseLeague(lg).length).trim() || "Season") : "";
       const pills = [true, false]
-        .map((isHome) => formatWin2VenuePill(WINS_2PLUS_STATS[name], isHome))
+        .map((isHome) => formatWin2VenuePill(overallStats, isHome, "", ""))
+        .concat(
+          seasonStats
+            ? [true, false].map((isHome) =>
+                formatWin2VenuePill(seasonStats, isHome, seasonLabel, lg),
+              )
+            : [],
+        )
         .filter(Boolean);
       if (pills.length) {
         badgesHtml = `<div class="team-win2-badges">${pills.join("")}</div>`;

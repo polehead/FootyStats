@@ -4,7 +4,7 @@
    Update flow: new SW waits → page detects it → user prompted → SKIP_WAITING → reload
 */
 
-const CACHE_NAME = "footystats-v12";
+const CACHE_NAME = "footystats-v13";
 
 // Files to pre-cache on install (the complete runtime app shell)
 const PRECACHE_URLS = [
