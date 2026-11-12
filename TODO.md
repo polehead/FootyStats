@@ -1,3 +1,7 @@
+# Football Match Analytics
+
+## WIP - README STILL IN PROGRESS.
+
 ## Completed Fixes
 
 - [x] **Selected-Season `2+ W` Badges on `Wins 2+ Goals` Tab**:
@@ -72,7 +76,7 @@ console.log(
 );
 ```
 
-```
+```js
 (async function analyzeHighGoalAndCornerTeams() {
   // ── 1. Configuration ──────────────────────────────────────────
   const MIN_MATCHES = 5;          // Minimum games played to qualify
@@ -231,7 +235,7 @@ console.log(
 })();
 ```
 
-```
+```js
 (async function analyzeAllSeasonsGoalsAndCorners() {
   // ── 1. Configuration ──────────────────────────────────────────
   const MIN_MATCHES = 20;         // Minimum all-time matches to qualify (adjust as needed)
@@ -400,7 +404,7 @@ console.log(
 
 ## First-Half goals @ 70%+
 
-```
+```js
 (() => {
   const THRESHOLD = 70;     // Minimum 1st Half Goal %
   const TODAY_ONLY = false; // Set to true to filter to today's fixtures only
@@ -471,15 +475,15 @@ console.log(
 })();
 ```
 
-## First-Half goals team consistency across all seasons
+## First-Half goals - Team consistency across all seasons
 
-```
+```js
 (() => {
-  // ── 1. Configuration ──────────────────────────────────────────
-  const MIN_MATCHES = 20;         // Minimum matches played across seasons to qualify
-  const MIN_SEASONS = 1;          // Set to 2+ to require multi-season history
-  const SEASON_HIT_BENCH = 70;    // Benchmark % for counting consistent 70%+ seasons
-  const SORT_BY = "overall";      // "overall" (% hit rate) or "consistency" (highest floor across seasons)
+  // 1. Configuration
+  const MIN_MATCHES = 20; // Minimum matches played across seasons to qualify
+  const MIN_SEASONS = 1; // Set to 2+ to require multi-season history
+  const SEASON_HIT_BENCH = 70; // Benchmark % for counting consistent 70%+ seasons
+  const SORT_BY = "overall"; // "overall" (% hit rate) or "consistency" (highest floor across seasons)
 
   const D = FOOTYDATA;
   const teamName = (t) => (typeof t === "number" ? D.t[t] : t);
@@ -494,7 +498,7 @@ console.log(
   const teams = {};
   const leagues = {};
 
-  // ── 2. Aggregate Every Match Across All Leagues & Seasons ─────
+  // 2. Aggregate Every Match Across All Leagues & Seasons
   for (let i = 0; i < D.m.length; i++) {
     const m = D.m[i];
     const h = teamName(m[1]);
@@ -552,7 +556,7 @@ console.log(
     recordTeam(a, false);
   }
 
-  // ── 3. Format & Rank Teams ────────────────────────────────────
+  // 3. Format & Rank Teams
   const teamRows = Object.values(teams)
     .filter((t) => t.played >= MIN_MATCHES && Object.keys(t.seasons).length >= MIN_SEASONS)
     .map((t) => {
@@ -589,7 +593,7 @@ console.log(
         : b["1st Half %"] - a["1st Half %"] || b["Lowest Season %"] - a["Lowest Season %"] || b.Played - a.Played
     );
 
-  // ── 4. Format & Rank Leagues ──────────────────────────────────
+  // 4. Format & Rank Leagues
   const leagueRows = Object.values(leagues)
     .map((l) => {
       const seasonPcts = Object.values(l.seasons).map((s) => (s.hits / s.played) * 100);
@@ -606,7 +610,7 @@ console.log(
     })
     .sort((a, b) => b["1st Half %"] - a["1st Half %"]);
 
-  // ── 5. Display Tables & Export Helper ─────────────────────────
+  // 5. Display Tables & Export Helper ─────────────────────────
   console.clear();
   console.log(
     `%c[FootyStats 1st Half Goals]%c Most consistent Leagues across all seasons (${leagueRows.length} competitions):`,
@@ -634,7 +638,7 @@ console.log(
 
 ## 1+ HT goals, BTTS and 9+ corners
 
-```
+```js
 window.findComboMatchups = function ({
   minMeetings = 4, // Minimum H2H meetings across all seasons to rank consistency
   byVenue = false, // false = combine both home/away legs of a pairing; true = exact Home vs Away venue only
@@ -773,7 +777,21 @@ window.findComboMatchups = function ({
 
   return { consistentMatchups, allQualifyingMatches };
 };
-
 // Run immediately with defaults
 findComboMatchups();
+```
+
+## Quick Commands After Pasting
+
+Export all 14,196 matches across all seasons to CSV: 
+
+```js
+downloadComboCSV('matches')
+```
+
+Export all 4,903 consistent matchups to CSV: 
+
+```js
+downloadComboCSV('matchups')
+Filter for 5+ seasons of consistency: console.table(window.comboMatchups.filter(m => parseInt(m.Seasons, 10) >= 5))
 ```
