@@ -1,5 +1,5 @@
 var FOOTYFIXTURES = {
-  "updated": "2026-11-14T12:52:33Z",
+  "updated": "2026-11-14T21:54:38Z",
   "leagues": [
     "La Liga 2",
     "League One",
