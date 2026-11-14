@@ -4,6 +4,16 @@
 
 ## Completed Fixes
 
+- [x] **Dynamic Window Date on Test Tab Today Only Toggle**:
+  - Updated `renderTestView()` in `app.js` so `dateRangeStr` evaluates to `todayStr` (`DD/MM/YYYY`) when `fTodayOnly` is checked, displaying the current date inside `<div class="stat-chip">Window: <strong>...</strong></div>` instead of the 4-week date range.
+  - Reverts to the multi-week date range (`date_range.from` to `date_range.to` or `"Next 4 Weeks"`) when the toggle is unchecked.
+  - Bumped Service Worker cache version to `footystats-v15` in `sw.js`.
+
+- [x] **Animated Results Pulse Dot (`.results-pulse-dot`)**:
+  - Identified root cause of static `.results-pulse-dot`: `style.css` applied `animation: neonPulse 2s infinite ease-in-out;` but `@keyframes neonPulse` was missing from the stylesheet.
+  - Added `@keyframes neonPulse` in `style.css` modulating scale ($1.0 \leftrightarrow 1.18$), opacity ($1.0 \leftrightarrow 0.6$), and cyan glow radius ($8\text{px} \leftrightarrow 26\text{px}$) with GPU-accelerated `will-change: transform, opacity, box-shadow;` and cross-browser `-webkit-animation`.
+  - Bumped Service Worker cache version to `footystats-v14` in `sw.js`.
+
 - [x] **Selected-Season `2+ W` Badges on `Wins 2+ Goals` Tab**:
   - Extended `computeWins2PlusStats()` in `app.js` to track per-season/league (`byLeague`) `Home 2+ W` and `Away 2+ W` stats alongside overall historical totals.
   - Updated `formatWin2VenuePill()` and `renderTeam()` (passing `lg` from both initial `render()` and lazy `.season-tab-btn` switches) so `.team-win2-badges` renders identical `.team-win2-pill` badges for both overall stats and the currently selected season.

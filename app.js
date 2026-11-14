@@ -65,8 +65,10 @@
       TEST_DATA = await resp.json();
       if (TEST_DATA && Array.isArray(TEST_DATA.fixtures)) {
         TEST_DATA.fixtures.forEach((fix) => {
-          if (fix.home && fix.home_logo) TEAM_LOGOS_MAP[fix.home] = fix.home_logo;
-          if (fix.away && fix.away_logo) TEAM_LOGOS_MAP[fix.away] = fix.away_logo;
+          if (fix.home && fix.home_logo)
+            TEAM_LOGOS_MAP[fix.home] = fix.home_logo;
+          if (fix.away && fix.away_logo)
+            TEAM_LOGOS_MAP[fix.away] = fix.away_logo;
         });
       }
     } catch (err) {
@@ -167,8 +169,8 @@
       const fthg = m[M.FTHG] || 0;
       const ftag = m[M.FTAG] || 0;
       const ftr = m[M.FTR];
-      const htGoal = ((m[M.HTHG] || 0) + (m[M.HTAG] || 0)) > 0;
-      const c10Hit = m[M.C10] === 1 || (((m[M.HC] || 0) + (m[M.AC] || 0)) >= 10);
+      const htGoal = (m[M.HTHG] || 0) + (m[M.HTAG] || 0) > 0;
+      const c10Hit = m[M.C10] === 1 || (m[M.HC] || 0) + (m[M.AC] || 0) >= 10;
       if (TEAM_STATS[h]) {
         const tsH = TEAM_STATS[h];
         tsH.total++;
@@ -236,7 +238,12 @@
         _recordWin2Side(ts, isHome, isHit);
         if (lgName) {
           if (!ts.byLeague[lgName]) {
-            ts.byLeague[lgName] = { homeMatches: 0, awayMatches: 0, w2h: 0, w2a: 0 };
+            ts.byLeague[lgName] = {
+              homeMatches: 0,
+              awayMatches: 0,
+              w2h: 0,
+              w2a: 0,
+            };
           }
           _recordWin2Side(ts.byLeague[lgName], isHome, isHit);
         }
@@ -1618,8 +1625,12 @@
     const hits = isHome ? wStats.w2h : wStats.w2a;
     const pct = Math.round((hits / played) * 100);
     const venue = isHome ? "Home" : "Away";
-    const label = seasonLabel ? `${seasonLabel} ${venue} 2+ W` : `${venue} 2+ W`;
-    const scope = fullLeagueName ? `in ${fullLeagueName}` : "across all seasons";
+    const label = seasonLabel
+      ? `${seasonLabel} ${venue} 2+ W`
+      : `${venue} 2+ W`;
+    const scope = fullLeagueName
+      ? `in ${fullLeagueName}`
+      : "across all seasons";
     const tip = `${seasonLabel ? "Selected season" : "Overall historical"} ${venue} wins scoring 2+ goals ${scope}`;
     return `<span class="team-win2-pill" title="${esc(tip)}">${esc(label)}: <strong>${pct}%</strong> <span class="team-win2-frac">(${hits}/${played})</span></span>`;
   }
@@ -1628,8 +1639,11 @@
     let badgesHtml = "";
     if (isWins && WINS_2PLUS_STATS[name]) {
       const overallStats = WINS_2PLUS_STATS[name];
-      const seasonStats = lg && overallStats.byLeague ? overallStats.byLeague[lg] : null;
-      const seasonLabel = lg ? (lg.slice(baseLeague(lg).length).trim() || "Season") : "";
+      const seasonStats =
+        lg && overallStats.byLeague ? overallStats.byLeague[lg] : null;
+      const seasonLabel = lg
+        ? lg.slice(baseLeague(lg).length).trim() || "Season"
+        : "";
       const pills = [true, false]
         .map((isHome) => formatWin2VenuePill(overallStats, isHome, "", ""))
         .concat(
@@ -2495,7 +2509,20 @@
     if (p.length === 3) {
       const d = new Date(p[2], p[1] - 1, p[0]);
       const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
       return `${days[d.getDay()]} ${p[0]} ${months[d.getMonth()]} ${p[2]}`;
     }
     return dStr;
@@ -2507,9 +2534,10 @@
       return `<img class="result-team-logo" src="${esc(logo)}" alt="${esc(team)}" loading="lazy" onerror="this.style.display='none'">`;
     }
     const words = team.split(" ");
-    const initials = words.length > 1
-      ? (words[0][0] + words[1][0]).toUpperCase()
-      : team.substring(0, 3).toUpperCase();
+    const initials =
+      words.length > 1
+        ? (words[0][0] + words[1][0]).toUpperCase()
+        : team.substring(0, 3).toUpperCase();
     return `<span class="result-team-badge-fallback">${esc(initials)}</span>`;
   }
 
@@ -2555,7 +2583,8 @@
     }
 
     if (!matches2627.length) {
-      $stats.innerHTML = '<div class="stat-chip">0 completed 26/27 matches</div>';
+      $stats.innerHTML =
+        '<div class="stat-chip">0 completed 26/27 matches</div>';
       $main.innerHTML =
         '<div class="empty-state"><h2>NO 26/27 MATCHES FOUND</h2><p>No completed matches were found for the 26/27 season.</p></div>';
       return;
@@ -2600,7 +2629,9 @@
       }
 
       const pred = predictMatchOutright(home, away);
-      let pick = "H", pickLabel = "Home Win", pickProb = pred.probH;
+      let pick = "H",
+        pickLabel = "Home Win",
+        pickProb = pred.probH;
       if (pred.probA > pred.probH && pred.probA >= pred.probD) {
         pick = "A";
         pickLabel = "Away Win";
@@ -2621,17 +2652,21 @@
 
       const expHtG =
         hStats && aStats
-          ? (hStats.hHtGoal / (hStats.homeMatches || 1) + aStats.aHtGoal / (aStats.awayMatches || 1)) / 2
+          ? (hStats.hHtGoal / (hStats.homeMatches || 1) +
+              aStats.aHtGoal / (aStats.awayMatches || 1)) /
+            2
           : 0;
       const htGoalPick = expHtG >= 0.65;
       const actualHtGoal = (m[M.HTHG] || 0) + (m[M.HTAG] || 0) > 0;
 
       const expC10 =
         hStats && aStats
-          ? (hStats.hC10 / (hStats.homeMatches || 1) + aStats.aC10 / (aStats.awayMatches || 1)) / 2
+          ? (hStats.hC10 / (hStats.homeMatches || 1) +
+              aStats.aC10 / (aStats.awayMatches || 1)) /
+            2
           : 0;
-      const c10Pick = expC10 >= 0.50;
-      const actualC10 = m[M.C10] === 1 || ((m[M.HC] || 0) + (m[M.AC] || 0)) >= 10;
+      const c10Pick = expC10 >= 0.5;
+      const actualC10 = m[M.C10] === 1 || (m[M.HC] || 0) + (m[M.AC] || 0) >= 10;
       const totalCorners = (m[M.HC] || 0) + (m[M.AC] || 0);
 
       let actualLabel = "Draw";
@@ -2679,19 +2714,27 @@
     // 4. Compute Executive KPIs across all evaluated matches for this timeframe & league
     const totalEval = evaluatedAll.length;
     const hitsCount = evaluatedAll.filter((x) => x.isHit).length;
-    const accPct = totalEval ? ((hitsCount / totalEval) * 100).toFixed(1) : "0.0";
+    const accPct = totalEval
+      ? ((hitsCount / totalEval) * 100).toFixed(1)
+      : "0.0";
 
     const hcMatches = evaluatedAll.filter((x) => x.isHighConf);
     const hcHits = hcMatches.filter((x) => x.isHit).length;
-    const hcPct = hcMatches.length ? ((hcHits / hcMatches.length) * 100).toFixed(1) : "0.0";
+    const hcPct = hcMatches.length
+      ? ((hcHits / hcMatches.length) * 100).toFixed(1)
+      : "0.0";
 
     const htPicks = evaluatedAll.filter((x) => x.htGoalPick);
     const htHits = htPicks.filter((x) => x.actualHtGoal).length;
-    const htPct = htPicks.length ? ((htHits / htPicks.length) * 100).toFixed(1) : "0.0";
+    const htPct = htPicks.length
+      ? ((htHits / htPicks.length) * 100).toFixed(1)
+      : "0.0";
 
     const c10Picks = evaluatedAll.filter((x) => x.c10Pick);
     const c10Hits = c10Picks.filter((x) => x.actualC10).length;
-    const c10Pct = c10Picks.length ? ((c10Hits / c10Picks.length) * 100).toFixed(1) : "0.0";
+    const c10Pct = c10Picks.length
+      ? ((c10Hits / c10Picks.length) * 100).toFixed(1)
+      : "0.0";
 
     // 5. Outcome filtering for display feed
     const displayMatches = evaluatedAll.filter((x) => {
@@ -2752,7 +2795,11 @@
     // Match Cards HTML
     let cardsHtml = "";
     if (!displayMatches.length) {
-      if (searchLow && seasonMatchesForSearchCount > 0 && rTimeframe !== "season") {
+      if (
+        searchLow &&
+        seasonMatchesForSearchCount > 0 &&
+        rTimeframe !== "season"
+      ) {
         cardsHtml =
           `<div class="results-empty-card">` +
           `<div class="results-empty-icon" aria-hidden="true">⚽</div>` +
@@ -2769,7 +2816,10 @@
           `</div>`;
       }
     } else {
-      cardsHtml = `<div class="results-feed">` + displayMatches.map(renderResultMatchCard).join("") + `</div>`;
+      cardsHtml =
+        `<div class="results-feed">` +
+        displayMatches.map(renderResultMatchCard).join("") +
+        `</div>`;
     }
 
     // 7. Check if results container is already mounted
@@ -2802,11 +2852,12 @@
     // Full Rebuild (initial render or switching views)
     // Capture existing search focus and caret position if rebuilding
     const $existingSearch = $("results-search-input");
-    const searchHadFocus = $existingSearch && document.activeElement === $existingSearch;
+    const searchHadFocus =
+      $existingSearch && document.activeElement === $existingSearch;
     const selStart = searchHadFocus ? $existingSearch.selectionStart : null;
     const selEnd = searchHadFocus ? $existingSearch.selectionEnd : null;
 
-    let leagueOptionsHtml = '<option value="">All 26/27 Leagues (20 Competitions)</option>';
+    let leagueOptionsHtml = '<option value="">All Leagues</option>';
     leagues2627.forEach((lg) => {
       const selected = rLeague === lg ? ' selected="selected"' : "";
       leagueOptionsHtml += `<option value="${esc(lg)}"${selected}>${esc(baseLeague(lg))}</option>`;
@@ -2837,7 +2888,7 @@
       `<div class="results-pill-group">` +
       `<button type="button" class="results-pill-btn${rTimeframe === "gameweek" ? " active" : ""}" data-rtimeframe="gameweek">Latest Gameweek</button>` +
       `<button type="button" class="results-pill-btn${rTimeframe === "month" ? " active" : ""}" data-rtimeframe="month">Last 30 Days</button>` +
-      `<button type="button" class="results-pill-btn${rTimeframe === "season" ? " active" : ""}" data-rtimeframe="season">Full 26/27 Season</button>` +
+      `<button type="button" class="results-pill-btn${rTimeframe === "season" ? " active" : ""}" data-rtimeframe="season">Current Season</button>` +
       `</div>` +
       `</div>` +
       // League Selector
@@ -2851,7 +2902,7 @@
       `<div class="results-outcome-tabs" id="results-outcome-tabs">${outcomeTabsHtml}</div>` +
       `<div class="results-search-wrap">` +
       `<span class="results-search-icon" aria-hidden="true">🔍</span>` +
-      `<input type="text" id="results-search-input" class="results-search-input" placeholder="Search team (e.g. Arsenal, Real Madrid)..." autocomplete="off" spellcheck="false" aria-label="Search team by name" value="${esc(rSearch)}">` +
+      `<input type="text" id="results-search-input" class="results-search-input" placeholder="Search team (e.g. Liverpool)..." autocomplete="on" spellcheck="false" aria-label="Search team by name" value="${esc(rSearch)}">` +
       `<button type="button" class="results-search-clear" id="results-search-clear" aria-label="Clear search" style="${rSearch ? "display:inline-flex;" : "display:none;"}">✕</button>` +
       `</div>` +
       `</div>` +
@@ -2901,18 +2952,20 @@
       : "";
 
     // Submarket chips
-    const actualHtText = res.actualHtGoal ? `Yes (HT ${res.hthg}-${res.htag})` : "No (HT 0-0)";
+    const actualHtText = res.actualHtGoal
+      ? `Yes (HT ${res.hthg}-${res.htag})`
+      : "No (HT 0-0)";
     const htPickBadge = res.htGoalPick
-      ? (res.actualHtGoal
-          ? `<span class="res-sub-badge hit">✓ Pick Hit</span>`
-          : `<span class="res-sub-badge miss">✕ Pick Miss</span>`)
+      ? res.actualHtGoal
+        ? `<span class="res-sub-badge hit">✓ Pick Hit</span>`
+        : `<span class="res-sub-badge miss">✕ Pick Miss</span>`
       : "";
 
     const actualC10Text = `${res.totalCorners} (${res.hc}-${res.ac})`;
     const c10PickBadge = res.c10Pick
-      ? (res.actualC10
-          ? `<span class="res-sub-badge hit">✓ 10+ Hit</span>`
-          : `<span class="res-sub-badge miss">✕ 10+ Miss</span>`)
+      ? res.actualC10
+        ? `<span class="res-sub-badge hit">✓ 10+ Hit</span>`
+        : `<span class="res-sub-badge miss">✕ 10+ Miss</span>`
       : "";
 
     return (
@@ -2983,15 +3036,17 @@
   }
 
   function bindResultsOutcomeTabs() {
-    document.querySelectorAll("#results-outcome-tabs [data-rfilter]").forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const filt = tab.dataset.rfilter;
-        if (rFilter !== filt) {
-          rFilter = filt;
-          renderResultsView(false);
-        }
+    document
+      .querySelectorAll("#results-outcome-tabs [data-rfilter]")
+      .forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const filt = tab.dataset.rfilter;
+          if (rFilter !== filt) {
+            rFilter = filt;
+            renderResultsView(false);
+          }
+        });
       });
-    });
   }
 
   function bindSeasonSwitchBtn() {
@@ -3093,7 +3148,7 @@
       $stats.innerHTML =
         '<div class="stat-chip"><strong>0</strong> test fixtures</div>';
       $main.innerHTML =
-        '<div class="empty-state"><h2>NO TEST FIXTURES LOADED</h2><p>Could not find fixtures in <code>api_test.json</code>. Run <code>python api_fixtures.py</code> to download upcoming matches from the Live Scores API.</p></div>';
+        '<div class="empty-state"><h2>NO TEST FIXTURES LOADED</h2></div>';
       return;
     }
 
@@ -3145,10 +3200,11 @@
     });
 
     // Stats strip
-    const dateRangeStr =
-      TEST_DATA.date_range &&
-      TEST_DATA.date_range.from &&
-      TEST_DATA.date_range.to
+    const dateRangeStr = fTodayOnly
+      ? todayStr
+      : TEST_DATA.date_range &&
+        TEST_DATA.date_range.from &&
+        TEST_DATA.date_range.to
         ? `${TEST_DATA.date_range.from.slice(5)} to ${TEST_DATA.date_range.to.slice(5)}`
         : "Next 4 Weeks";
 
@@ -3208,12 +3264,12 @@
       `<div class="test-header-panel">` +
       `<div class="test-title-row">` +
       `<div class="test-headline">` +
-      `<span>Live Scores API Fixture Feed</span>` +
-      `<span class="test-headline-pill">REST API · 4-WEEK CALENDAR</span>` +
+      `<span>Live Fixture Feed</span>` +
+      `<span class="test-headline-pill">LIVE FIXTURES</span>` +
       `</div>` +
       `</div>` +
       `<p class="test-subtext">` +
-      `Live fixture schedule imported from <strong>worldcup26.ir</strong> for the Premier League, Championship, FA Cup, and League Cup. Each competition is grouped into a dedicated card with sub-card fixture rows and official team crests.` +
+      `Fixture schedule for the next 4 weeks, including live updates. *Yet to be implemented*` +
       `</p>` +
       `</div>` +
       leagueCardsHtml +

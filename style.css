@@ -4330,8 +4330,24 @@ body::before {
   border-radius: 50%;
   background: var(--neon-cyan);
   box-shadow: 0 0 10px var(--neon-cyan);
+  -webkit-animation: neonPulse 2s infinite ease-in-out;
   animation: neonPulse 2s infinite ease-in-out;
+  will-change: transform, opacity, box-shadow;
   flex-shrink: 0;
+}
+
+@keyframes neonPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 8px var(--neon-cyan), 0 0 16px rgba(0, 240, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.6;
+    box-shadow: 0 0 14px var(--neon-cyan), 0 0 26px rgba(0, 240, 255, 0.8);
+  }
 }
 
 .results-subtext {
