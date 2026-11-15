@@ -85,6 +85,21 @@
     }
     return `<span class="${esc(fullFallbackClass)}" aria-hidden="true">${esc(getTeamInitials(teamName))}</span>`;
   }
+
+  function getLeagueCrestHtml(leagueName, className) {
+    className = className || "league-logo";
+    const base = String(leagueName || "").replace(/\s+\d{2}\/\d{2}$/, "").trim();
+    const logoUrl =
+      typeof LEAGUE_LOGOS !== "undefined" && LEAGUE_LOGOS ? LEAGUE_LOGOS[base] : null;
+    if (logoUrl) {
+      const fullClass = "league-logo " + className;
+      return (
+        `<img class="${esc(fullClass)}" src="${esc(logoUrl)}" alt="${esc(base)}" loading="lazy" ` +
+        `onerror="this.style.display='none';">`
+      );
+    }
+    return "";
+  }
   let activeTab = "wins";
   let fTeam = "",
     fOpp = "",
@@ -1612,7 +1627,10 @@
       parts.push(
         `<section class="league-section" style="animation-delay:${bli * 30}ms">` +
           `<div class="league-header" role="button" tabindex="0" aria-label="Toggle ${esc(bl)}">` +
+          `<div class="league-title-group">` +
+          getLeagueCrestHtml(bl, "league-header-logo") +
           `<h2 class="league-name">${esc(bl)}</h2>` +
+          `</div>` +
           `<span class="league-badge">${activeTeams.length} teams &middot; ${activeQual} qualifying</span>` +
           `<span class="league-toggle">&#9660;</span></div>` +
           `<div class="league-body">${tabsHtml}${panelsHtml}</div>` +
@@ -1920,6 +1938,7 @@
         '">' +
         '<div class="coupon-card-meta">' +
         '<span class="coupon-league-badge">' +
+        getLeagueCrestHtml(fix.league, "coupon-league-logo") +
         esc(fix.league) +
         "</span>" +
         '<div class="coupon-datetime">' +
@@ -2331,9 +2350,12 @@
             '<div class="league-header" role="button" tabindex="0" aria-label="Toggle ' +
             esc(lg) +
             '">' +
+            '<div class="league-title-group">' +
+            getLeagueCrestHtml(lg, "league-header-logo") +
             '<h2 class="league-name">' +
             esc(lg) +
             "</h2>" +
+            "</div>" +
             '<span class="league-badge">' +
             list.length +
             (list.length === 1 ? " match" : " matches") +
@@ -2499,7 +2521,10 @@
       parts.push(
         `<section class="league-section${initialCollapse}" style="animation-delay:${idx * 30}ms">` +
           `<div class="league-header" role="button" tabindex="0" aria-label="Toggle ${esc(lg)}">` +
+          `<div class="league-title-group">` +
+          getLeagueCrestHtml(lg, "league-header-logo") +
           `<h2 class="league-name">${esc(lg)}</h2>` +
+          `</div>` +
           `<span class="league-badge">${list.length} ${list.length === 1 ? "fixture" : "fixtures"}</span>` +
           `<span class="league-toggle">&#9660;</span></div>` +
           `<div class="league-body"><div class="fixtures-grid">${cardsHtml}</div></div>` +
@@ -2972,7 +2997,7 @@
       // Top header row: League, Date, Verdict Badge
       `<div class="result-match-header">` +
       `<div class="result-match-meta">` +
-      `<span class="result-league-badge">${esc(lgNameClean)}</span>` +
+      `<span class="result-league-badge">${getLeagueCrestHtml(lgNameClean, "result-league-logo")}${esc(lgNameClean)}</span>` +
       `<span class="result-match-date">${esc(displayDate)}</span>` +
       isHighConfBadge +
       `</div>` +

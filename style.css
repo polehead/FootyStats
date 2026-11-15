@@ -2656,6 +2656,9 @@ body::before {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .coupon-datetime {
@@ -3756,6 +3759,33 @@ body::before {
   font-family: var(--font-metrics);
 }
 
+/* 5. League Competition Logos */
+.league-logo {
+  display: inline-block;
+  object-fit: contain;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.league-title-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.league-header-logo {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+}
+
+.coupon-league-logo,
+.result-league-logo {
+  width: 14px;
+  height: 14px;
+}
+
 @media (max-width: 560px) {
   .team-header-crest,
   .team-header-crest-fallback {
@@ -3767,6 +3797,11 @@ body::before {
   .fixture-team-crest-fallback,
   .coupon-team-crest,
   .coupon-team-crest-fallback {
+    width: 20px;
+    height: 20px;
+  }
+
+  .league-header-logo {
     width: 20px;
     height: 20px;
   }
@@ -4395,6 +4430,9 @@ body::before {
   border-radius: 4px;
   padding: 2px 6px;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .result-match-date {

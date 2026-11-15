@@ -1,4 +1,4 @@
-/* FootyStats — Local Team Logos Registry */
+/* FootyStats — Local Logos Registry (Teams & Leagues) */
 var TEAM_LOGOS = {
   "AEK": "./logos/aek.png",
   "AFC Wimbledon": "./logos/afc-wimbledon.png",
@@ -265,6 +265,7 @@ var TEAM_LOGOS = {
   "Lugo": "./logos/lugo.png",
   "Luton": "./logos/luton.png",
   "Lyon": "./logos/lyon.png",
+  "M'gladbach": "./logos/mgladbach.png",
   "Macclesfield": "./logos/macclesfield.png",
   "Magdeburg": "./logos/magdeburg.png",
   "Maidenhead": "./logos/maidenhead.png",
@@ -468,6 +469,30 @@ var TEAM_LOGOS = {
   "Zaragoza": "./logos/zaragoza.png",
   "Zwolle": "./logos/zwolle.png"
 };
+
+var LEAGUE_LOGOS = {
+  "Belgium First Division A": "./logos/leagues/belgium-first-division-a.png",
+  "Bundesliga": "./logos/leagues/bundesliga.png",
+  "Bundesliga 2": "./logos/leagues/bundesliga-2.png",
+  "Championship": "./logos/leagues/championship.png",
+  "Eredivisie": "./logos/leagues/eredivisie.png",
+  "La Liga": "./logos/leagues/la-liga.png",
+  "La Liga 2": "./logos/leagues/la-liga-2.png",
+  "League One": "./logos/leagues/league-one.png",
+  "League Two": "./logos/leagues/league-two.png",
+  "Ligue 1": "./logos/leagues/ligue-1.png",
+  "Ligue 2": "./logos/leagues/ligue-2.png",
+  "National League": "./logos/leagues/national-league.png",
+  "Premier League": "./logos/leagues/premier-league.png",
+  "Primeira Liga": "./logos/leagues/primeira-liga.png",
+  "Scottish League One": "./logos/leagues/scottish-league-one.png",
+  "Scottish Premiership": "./logos/leagues/scottish-premiership.png",
+  "Serie A": "./logos/leagues/serie-a.png",
+  "Serie B": "./logos/leagues/serie-b.png",
+  "Super League Greece": "./logos/leagues/super-league-greece.png",
+  "Super Lig": "./logos/leagues/super-lig.png"
+};
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = TEAM_LOGOS;
+  module.exports = { TEAM_LOGOS: TEAM_LOGOS, LEAGUE_LOGOS: LEAGUE_LOGOS };
 }

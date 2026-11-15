@@ -4,6 +4,18 @@
 
 ## Completed Fixes
 
+- [x] **Local League Competition Logos Integration**:
+  - Extended `download_logos.py` with `LEAGUE_SOURCES` for all 20 tracked domestic leagues, downloading 20 transparent PNG competition emblems from `football-logos.cc` into `./logos/leagues/`.
+  - Updated `logos.js` to export `var LEAGUE_LOGOS = { ... };` mapping all 20 base leagues.
+  - Added `getLeagueCrestHtml(leagueName, className)` in `app.js` with automatic season-suffix stripping (e.g. `Premier League 26/27` -> `Premier League`) and silent fallback.
+  - Embedded league emblems across all views:
+    * **Main Stat Tabs** (*Wins 2+ Goals*, *Corners*, *Custom*): 24px emblems inside `.league-title-group` in each `.league-header`.
+    * **Upcoming Fixtures**: 24px emblems inside each collapsible `.league-header`.
+    * **Coupon Match Cards**: 14px emblems inside `.coupon-league-badge`.
+    * **Results Cards**: 14px emblems inside `.result-league-badge`.
+  - Added CSS styling in `style.css` (Section 22) for `.league-logo`, `.league-title-group`, `.league-header-logo`, `.coupon-league-logo`, and `.result-league-logo`.
+  - Bumped Service Worker cache version in `sw.js` to `footystats-v18`.
+
 - [x] **Automated Results & Fixtures GitHub Workflows (UK Time Scheduled)**:
   - Created [.github/workflows/update_results.yml](file:///c:/Users/Adam%20Polehonky/OneDrive/Developer/sports_data/FootyStats/.github/workflows/update_results.yml) running `export_data.py` to update `data.js` and `csv_cache/`.
   - Configured UK-time execution (6:00 AM & 8:00 PM UK local time) across both `.github/workflows/update_fixtures.yml` and `.github/workflows/update_results.yml`:

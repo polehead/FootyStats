@@ -20,7 +20,32 @@ HEADERS = {
 }
 
 LOGOS_DIR = os.path.join(os.path.dirname(__file__), "logos")
+LEAGUES_DIR = os.path.join(LOGOS_DIR, "leagues")
 LOGOS_JS = os.path.join(os.path.dirname(__file__), "logos.js")
+
+# Direct official assets for all 20 FootyStats leagues
+LEAGUE_SOURCES = {
+    "Premier League": ("premier-league", "https://assets.football-logos.cc/logos/england/700x700/english-premier-league.ee1e9b08.png"),
+    "Championship": ("championship", "https://assets.football-logos.cc/logos/england/700x700/efl-championship.59bb7d97.png"),
+    "League One": ("league-one", "https://assets.football-logos.cc/logos/england/700x700/efl-league-one.22db0245.png"),
+    "League Two": ("league-two", "https://assets.football-logos.cc/logos/england/700x700/efl-league-two.e37d5ec5.png"),
+    "National League": ("national-league", "https://assets.football-logos.cc/logos/england/700x700/national-league.5d22b0fd.png"),
+    "Scottish Premiership": ("scottish-premiership", "https://assets.football-logos.cc/logos/scotland/700x700/scottish-premiership.b3d4bdfb.png"),
+    "Scottish League One": ("scottish-league-one", "https://assets.football-logos.cc/logos/scotland/700x700/scottish-league-one.ce3ff438.png"),
+    "La Liga": ("la-liga", "https://assets.football-logos.cc/logos/spain/700x700/la-liga.362cd1ca.png"),
+    "La Liga 2": ("la-liga-2", "https://assets.football-logos.cc/logos/spain/700x700/la-liga-2.e0084660.png"),
+    "Bundesliga": ("bundesliga", "https://assets.football-logos.cc/logos/germany/700x700/bundesliga.dd519ce6.png"),
+    "Bundesliga 2": ("bundesliga-2", "https://assets.football-logos.cc/logos/germany/700x700/2-bundesliga.e2512d8d.png"),
+    "Serie A": ("serie-a", "https://assets.football-logos.cc/logos/italy/700x700/serie-a.15e58b67.png"),
+    "Serie B": ("serie-b", "https://assets.football-logos.cc/logos/italy/700x700/serie-b.d27003ee.png"),
+    "Ligue 1": ("ligue-1", "https://assets.football-logos.cc/logos/france/700x700/ligue-1.9fc5cb7b.png"),
+    "Ligue 2": ("ligue-2", "https://assets.football-logos.cc/logos/france/700x700/ligue-2.aef87665.png"),
+    "Eredivisie": ("eredivisie", "https://assets.football-logos.cc/logos/netherlands/700x700/eredivisie.846bf0f7.png"),
+    "Primeira Liga": ("primeira-liga", "https://assets.football-logos.cc/logos/portugal/700x700/primeira-liga.bedff667.png"),
+    "Belgium First Division A": ("belgium-first-division-a", "https://assets.football-logos.cc/logos/belgium/700x700/jupiler-pro-league.0a11c474.png"),
+    "Super Lig": ("super-lig", "https://assets.football-logos.cc/logos/turkey/700x700/super-lig.b375bfcd.png"),
+    "Super League Greece": ("super-league-greece", "https://assets.football-logos.cc/logos/greece/700x700/super-league-1.0b3bd29f.png"),
+}
 
 # Manual aliases for FootyStats abbreviations and regional naming conventions
 ALIASES = {
@@ -414,19 +439,56 @@ def download_and_generate():
             failed += 1
             print(f"Error downloading {team} ({url}): {e}")
 
-    print(f"Finished! Downloaded: {downloaded}, Cached: {cached}, Missing/Failed: {failed}")
-    print(f"Total logos mapped: {len(logo_mapping)} / {len(teams)} ({len(logo_mapping)/len(teams)*100:.1f}%)")
+    print(f"Finished clubs! Downloaded: {downloaded}, Cached: {cached}, Missing/Failed: {failed}")
+    print(f"Total club logos mapped: {len(logo_mapping)} / {len(teams)} ({len(logo_mapping)/len(teams)*100:.1f}%)")
+
+    # ── Download League Logos ──
+    os.makedirs(LEAGUES_DIR, exist_ok=True)
+    league_mapping = {}
+    league_downloaded = 0
+    league_cached = 0
+    league_failed = 0
+
+    print(f"\nDownloading league competition logos ({len(LEAGUE_SOURCES)} leagues)...")
+    for league_name, (slug, url) in LEAGUE_SOURCES.items():
+        filename = f"{slug}.png"
+        filepath = os.path.join(LEAGUES_DIR, filename)
+        rel_path = f"./logos/leagues/{filename}"
+
+        if os.path.exists(filepath) and os.path.getsize(filepath) > 0:
+            league_cached += 1
+            league_mapping[league_name] = rel_path
+            continue
+
+        try:
+            req = urllib.request.Request(url, headers=HEADERS)
+            with urllib.request.urlopen(req, timeout=10, context=ctx) as resp:
+                data = resp.read()
+                if len(data) > 0:
+                    with open(filepath, "wb") as f_out:
+                        f_out.write(data)
+                    league_downloaded += 1
+                    league_mapping[league_name] = rel_path
+                else:
+                    league_failed += 1
+        except Exception as e:
+            league_failed += 1
+            print(f"Error downloading league {league_name} ({url}): {e}")
+
+    print(f"League logos finished: Downloaded {league_downloaded}, Cached {league_cached}, Failed {league_failed}")
+    print(f"Total league logos mapped: {len(league_mapping)} / {len(LEAGUE_SOURCES)}")
 
     # Generate logos.js
-    js_content = "/* FootyStats — Local Team Logos Registry */\n"
-    js_content += "var TEAM_LOGOS = " + json.dumps(logo_mapping, indent=2, sort_keys=True) + ";\n"
+    js_content = "/* FootyStats — Local Logos Registry (Teams & Leagues) */\n"
+    js_content += "var TEAM_LOGOS = " + json.dumps(logo_mapping, indent=2, sort_keys=True) + ";\n\n"
+    js_content += "var LEAGUE_LOGOS = " + json.dumps(league_mapping, indent=2, sort_keys=True) + ";\n\n"
     js_content += "if (typeof module !== 'undefined' && module.exports) {\n"
-    js_content += "  module.exports = TEAM_LOGOS;\n"
+    js_content += "  module.exports = { TEAM_LOGOS: TEAM_LOGOS, LEAGUE_LOGOS: LEAGUE_LOGOS };\n"
     js_content += "}\n"
 
     with open(LOGOS_JS, "w", encoding="utf-8") as f:
         f.write(js_content)
-    print(f"Successfully generated {LOGOS_JS} with {len(logo_mapping)} club crests.")
+    print(f"Successfully generated {LOGOS_JS} with {len(logo_mapping)} club crests and {len(league_mapping)} league logos.")
 
 if __name__ == "__main__":
     download_and_generate()
