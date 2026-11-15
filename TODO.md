@@ -4,6 +4,36 @@
 
 ## Completed Fixes
 
+- [x] **Automated Results & Fixtures GitHub Workflows (UK Time Scheduled)**:
+  - Created [.github/workflows/update_results.yml](file:///c:/Users/Adam%20Polehonky/OneDrive/Developer/sports_data/FootyStats/.github/workflows/update_results.yml) running `export_data.py` to update `data.js` and `csv_cache/`.
+  - Configured UK-time execution (6:00 AM & 8:00 PM UK local time) across both `.github/workflows/update_fixtures.yml` and `.github/workflows/update_results.yml`:
+    * Winter (GMT / UTC+0: Nov–Feb): `0 6,20 * 1,2,11,12 *`
+    * Summer (BST / UTC+1: Apr–Sep): `0 5,19 * 4,5,6,7,8,9 *`
+    * Transition months (March & October): `0 5,6,19,20 * 3,10 *`
+  - Configured `workflow_dispatch` for manual runs and git committer bot with `[skip ci]`.
+
+- [x] **Refined Results Subtext (Elegant & Humanly Scientific)**:
+  - Updated `.results-subtext` in `app.js` to an intellectually poised and scientifically grounded formulation: *"Continuous empirical validation of our bivariate Poisson models against completed fixtures—evaluating predictive calibration, value edge integrity, and real-world outcomes across the 2026/27 campaign."*
+  - Bumped Service Worker cache version in `sw.js` to `footystats-v17`.
+
+- [x] **Local Team Crests & Complete Removal of Test Tab**:
+  - **Local Team Crests & Badges System**:
+    - Created `download_logos.py` mapping all 512 database clubs against `football-logos.cc` via its official image sitemap (5,263 clubs), downloading 467 verified PNG crests (91.2% direct coverage) into `./logos/` and generating `logos.js` (`var TEAM_LOGOS = { ... };`).
+    - Implemented `getTeamInitials(team)` and `getTeamCrestHtml(teamName, className)` in `app.js` with automatic initial fallback badges (`.team-crest-fallback`) if a crest is missing or offline image loading fails.
+    - Rendered crests seamlessly across all views:
+      * **Main Stat Tabs** (Wins 2+ Goals, Corners, Custom): Integrated inside `.team-header-identity` beside team titles.
+      * **Upcoming Fixtures**: Integrated inside `.fixture-team-row` for both home and away teams.
+      * **Coupon & Bet Builder**: Integrated inside `.coupon-team-row` on match cards and `.coupon-slip-crest` inside accumulator slip legs.
+      * **Results View**: Integrated directly via `getResultTeamCrestHtml()` pointing to `getTeamCrestHtml(team, "result-team-logo")`.
+    - Added dedicated Section 22 in `style.css` with responsive dimensions, circular initial badges, subtle neon drop-shadows, and mobile breakpoint rules.
+    - Updated `sw.js` to precache `./logos.js` and bumped Service Worker cache to `footystats-v16`.
+  - **Complete Removal of Test Tab & API Logic**:
+    - Removed `data-tab="test"` button from `index.html` navigation bar.
+    - Removed all Test tab state (`TEST_DATA`, `testDataLoading`, `loadTestFixtures`), routing, event listeners, and render functions (`renderTestView`, `formatGmtTime24`, `getTestFixtureDayName`, `renderTestFixtureRow`) from `app.js`.
+    - Removed ~450 lines of obsolete `.test-*` rules from `style.css`.
+    - Removed `"./api_test.json"` from `PRECACHE_URLS` in `sw.js`.
+    - Deleted obsolete files: `api_test.json`, `api_fixtures.py`, and `test_logo_fetch.py`.
+
 - [x] **Dynamic Window Date on Test Tab Today Only Toggle**:
   - Updated `renderTestView()` in `app.js` so `dateRangeStr` evaluates to `todayStr` (`DD/MM/YYYY`) when `fTodayOnly` is checked, displaying the current date inside `<div class="stat-chip">Window: <strong>...</strong></div>` instead of the 4-week date range.
   - Reverts to the multi-week date range (`date_range.from` to `date_range.to` or `"Next 4 Weeks"`) when the toggle is unchecked.

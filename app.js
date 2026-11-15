@@ -52,32 +52,38 @@
   const F = typeof FOOTYFIXTURES !== "undefined" ? FOOTYFIXTURES : null;
   const TEAM_STATS = {};
   const WINS_2PLUS_STATS = {};
-  let TEST_DATA = null;
-  let testDataLoading = false;
-  const TEAM_LOGOS_MAP = {};
 
-  async function loadTestFixtures() {
-    if (TEST_DATA) return TEST_DATA;
-    testDataLoading = true;
-    try {
-      const resp = await fetch("./api_test.json");
-      if (!resp.ok) throw new Error("HTTP " + resp.status);
-      TEST_DATA = await resp.json();
-      if (TEST_DATA && Array.isArray(TEST_DATA.fixtures)) {
-        TEST_DATA.fixtures.forEach((fix) => {
-          if (fix.home && fix.home_logo)
-            TEAM_LOGOS_MAP[fix.home] = fix.home_logo;
-          if (fix.away && fix.away_logo)
-            TEAM_LOGOS_MAP[fix.away] = fix.away_logo;
-        });
-      }
-    } catch (err) {
-      console.warn("Could not load api_test.json:", err);
-      TEST_DATA = null;
-    } finally {
-      testDataLoading = false;
+  // ── Team Crests & Badges ───────────────────────────────────────
+  function getTeamInitials(team) {
+    if (!team) return "";
+    const words = team.trim().split(/\s+/);
+    if (words.length > 1) {
+      return (words[0][0] + words[1][0]).toUpperCase();
     }
-    return TEST_DATA;
+    return team.substring(0, 3).toUpperCase();
+  }
+
+  function getTeamCrestHtml(teamName, className) {
+    className = className || "team-crest";
+    const logoUrl =
+      (typeof TEAM_LOGOS !== "undefined" &&
+        TEAM_LOGOS &&
+        TEAM_LOGOS[teamName]) ||
+      "";
+    const fullClass =
+      className === "team-crest" ? "team-crest" : "team-crest " + className;
+    const fullFallbackClass =
+      className === "team-crest"
+        ? "team-crest-fallback"
+        : "team-crest-fallback " + className + "-fallback";
+    if (logoUrl) {
+      return (
+        `<img class="${esc(fullClass)}" src="${esc(logoUrl)}" alt="${esc(teamName)}" loading="lazy" ` +
+        `onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='inline-flex';">` +
+        `<span class="${esc(fullFallbackClass)}" style="display:none;" aria-hidden="true">${esc(getTeamInitials(teamName))}</span>`
+      );
+    }
+    return `<span class="${esc(fullFallbackClass)}" aria-hidden="true">${esc(getTeamInitials(teamName))}</span>`;
   }
   let activeTab = "wins";
   let fTeam = "",
@@ -585,9 +591,13 @@
             '<div class="coupon-leg-card">' +
             '<div class="coupon-leg-top">' +
             '<div class="coupon-leg-match">' +
+            getTeamCrestHtml(leg.home, "coupon-slip-crest") +
+            " " +
             esc(leg.home) +
             " vs " +
             esc(leg.away) +
+            " " +
+            getTeamCrestHtml(leg.away, "coupon-slip-crest") +
             "</div>" +
             '<button class="coupon-leg-remove-btn" data-action="remove-leg" data-mid="' +
             esc(leg.matchId) +
@@ -984,7 +994,6 @@
 
     bindEvents();
     render();
-    loadTestFixtures();
   })();
 
   // ── Events ────────────────────────────────────────────────────
@@ -1206,7 +1215,7 @@
       }
 
       // League collapse / expand
-      const h = e.target.closest(".league-header, .test-league-header");
+      const h = e.target.closest(".league-header");
       if (h) {
         h.parentElement.classList.toggle("collapsed");
         return;
@@ -1453,10 +1462,6 @@
       renderResultsView();
       return;
     }
-    if (activeTab === "test") {
-      renderTestView();
-      return;
-    }
     $filterBar.style.display = "";
 
     const { data, leagues } = buildView();
@@ -1658,11 +1663,15 @@
         badgesHtml = `<div class="team-win2-badges">${pills.join("")}</div>`;
       }
     }
+    const crestHtml = getTeamCrestHtml(name, "team-header-crest");
     let h =
       '<div class="team-block"><div class="team-name-header">' +
+      '<div class="team-header-identity">' +
+      crestHtml +
       '<span class="team-name-title">' +
       esc(name) +
       "</span>" +
+      "</div>" +
       badgesHtml +
       "</div>";
     if (rec.home.length)
@@ -1925,18 +1934,24 @@
         "</div>" +
         '<div class="coupon-card-teams">' +
         '<div class="coupon-team home">' +
+        '<div class="coupon-team-row">' +
+        getTeamCrestHtml(home, "coupon-team-crest") +
         '<span class="coupon-team-name">' +
         esc(home) +
         "</span>" +
+        "</div>" +
         '<span class="coupon-team-sub">' +
         homeSub +
         "</span>" +
         "</div>" +
         '<span class="coupon-vs">VS</span>' +
         '<div class="coupon-team away">' +
+        '<div class="coupon-team-row">' +
         '<span class="coupon-team-name">' +
         esc(away) +
         "</span>" +
+        getTeamCrestHtml(away, "coupon-team-crest") +
+        "</div>" +
         '<span class="coupon-team-sub">' +
         awaySub +
         "</span>" +
@@ -2529,28 +2544,12 @@
   }
 
   function getResultTeamCrestHtml(team) {
-    const logo = TEAM_LOGOS_MAP[team];
-    if (logo) {
-      return `<img class="result-team-logo" src="${esc(logo)}" alt="${esc(team)}" loading="lazy" onerror="this.style.display='none'">`;
-    }
-    const words = team.split(" ");
-    const initials =
-      words.length > 1
-        ? (words[0][0] + words[1][0]).toUpperCase()
-        : team.substring(0, 3).toUpperCase();
-    return `<span class="result-team-badge-fallback">${esc(initials)}</span>`;
+    return getTeamCrestHtml(team, "result-team-logo");
   }
 
   function renderResultsView(fullRebuild) {
     $filterBar.style.display = "none";
     $customBanner.classList.remove("visible");
-
-    // Asynchronously populate logos from api_test.json if not yet loaded
-    if (!TEST_DATA && !testDataLoading) {
-      loadTestFixtures().then(() => {
-        if (activeTab === "results") renderResultsView(false);
-      });
-    }
 
     if (!D || !D.m || !D.m.length) {
       $stats.innerHTML = '<div class="stat-chip">0 results evaluated</div>';
@@ -2872,7 +2871,7 @@
       `<h2>Model Performance & Verification</h2>` +
       `</div>` +
       `<p class="results-subtext">` +
-      `Retrospective backtesting of Poisson expected goals and 1X2 outright probability predictions compared against finished 2026/27 domestic league fixtures.` +
+      `Continuous empirical validation of our bivariate Poisson models against completed fixtures. Evaluating predictive calibration, value edge integrity, and real-world outcomes across the 2026/27 football season.` +
       `</p>` +
       `</div>` +
       `</div>` +
@@ -3123,289 +3122,6 @@
         renderResultsView(false);
       });
     }
-  }
-
-  // ── Test View (Live Scores API / api_test.json) ───────────────
-  async function renderTestView() {
-    $filterBar.style.display = "none";
-    $customBanner.classList.remove("visible");
-
-    if (!TEST_DATA) {
-      $stats.innerHTML =
-        '<div class="stat-chip">Loading <strong>api_test.json</strong>...</div>';
-      $main.innerHTML =
-        '<div class="test-loading-state">' +
-        '<div class="test-spinner"></div>' +
-        '<p style="color:var(--text-secondary);font-family:var(--font-metrics);font-size:0.85rem;">' +
-        "Fetching test fixtures from api_test.json..." +
-        "</p>" +
-        "</div>";
-      await loadTestFixtures();
-      if (activeTab !== "test") return;
-    }
-
-    if (!TEST_DATA || !TEST_DATA.fixtures || !TEST_DATA.fixtures.length) {
-      $stats.innerHTML =
-        '<div class="stat-chip"><strong>0</strong> test fixtures</div>';
-      $main.innerHTML =
-        '<div class="empty-state"><h2>NO TEST FIXTURES LOADED</h2></div>';
-      return;
-    }
-
-    const now = new Date();
-    const todayStr =
-      String(now.getDate()).padStart(2, "0") +
-      "/" +
-      String(now.getMonth() + 1).padStart(2, "0") +
-      "/" +
-      now.getFullYear();
-
-    const allFix = TEST_DATA.fixtures || [];
-    const filtered = allFix.filter((fix) => {
-      if (fTodayOnly && fix.date !== todayStr) return false;
-      if (
-        fLeague &&
-        fix.competition !== fLeague &&
-        fix.competition_slug !== fLeague
-      )
-        return false;
-      const h = (fix.home || "").toLowerCase();
-      const a = (fix.away || "").toLowerCase();
-
-      if (fTeam) {
-        const matchHome = h.includes(fTeam);
-        const matchAway = a.includes(fTeam);
-        if (!matchHome && !matchAway) return false;
-      }
-
-      if (fOpp) {
-        const matchHome = h.includes(fOpp);
-        const matchAway = a.includes(fOpp);
-        if (!matchHome && !matchAway) return false;
-      }
-
-      return true;
-    });
-
-    // Group by competition
-    const groups = {};
-    const compOrder = [];
-    filtered.forEach((fix) => {
-      const comp = fix.competition || "Other";
-      if (!groups[comp]) {
-        groups[comp] = [];
-        compOrder.push(comp);
-      }
-      groups[comp].push(fix);
-    });
-
-    // Stats strip
-    const dateRangeStr = fTodayOnly
-      ? todayStr
-      : TEST_DATA.date_range &&
-        TEST_DATA.date_range.from &&
-        TEST_DATA.date_range.to
-        ? `${TEST_DATA.date_range.from.slice(5)} to ${TEST_DATA.date_range.to.slice(5)}`
-        : "Next 4 Weeks";
-
-    $stats.innerHTML =
-      `<div class="stat-chip"><strong>${compOrder.length}</strong> competitions</div>` +
-      `<div class="stat-chip"><strong>${filtered.length}</strong> fixtures</div>` +
-      `<div class="stat-chip">Window: <strong>${esc(dateRangeStr)}</strong></div>` +
-      `<div class="stat-chip" style="border-color: rgba(0, 240, 255, 0.4);"><strong style="color:var(--neon-cyan);">Live</strong></div>` +
-      `<label class="stat-chip stat-chip-toggle test-toggle" for="filter-today-only" title="Show only today's matches">` +
-      `<input type="checkbox" id="filter-today-only"${fTodayOnly ? " checked" : ""}>` +
-      `<span class="today-toggle-track"></span>` +
-      `<span class="today-toggle-label">Today Only</span>` +
-      `</label>`;
-
-    const $todayCb = document.getElementById("filter-today-only");
-    if ($todayCb) {
-      $todayCb.addEventListener("change", () => {
-        fTodayOnly = $todayCb.checked;
-        render();
-      });
-    }
-
-    if (!filtered.length) {
-      $main.innerHTML = fTodayOnly
-        ? '<div class="empty-state"><h2>No fixtures today</h2><p>There are no matches scheduled for today in the current filters.</p></div>'
-        : '<div class="empty-state"><h2>No fixtures match filters</h2><p>Try resetting the team or league filter.</p></div>';
-      return;
-    }
-
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const initialCollapse = isMobile ? " collapsed" : "";
-
-    const leagueCardsHtml = compOrder
-      .map((comp, idx) => {
-        const list = groups[comp];
-        const compSlug =
-          list[0] && list[0].competition_slug ? list[0].competition_slug : "";
-        const rowsHtml = list.map(renderTestFixtureRow).join("");
-
-        return (
-          `<section class="test-league-card${initialCollapse}" style="animation-delay:${idx * 35}ms">` +
-          `<div class="test-league-header" role="button" tabindex="0" aria-label="Toggle ${esc(comp)}">` +
-          `<div class="test-league-title-group">` +
-          `<h2 class="test-league-name">${esc(comp)}</h2>` +
-          `<span class="test-league-badge">${list.length} ${list.length === 1 ? "fixture" : "fixtures"}</span>` +
-          `</div>` +
-          `<span class="test-league-toggle">&#9660;</span>` +
-          `</div>` +
-          `<div class="test-league-body">${rowsHtml}</div>` +
-          `</section>`
-        );
-      })
-      .join("");
-
-    $main.innerHTML =
-      `<div class="test-container">` +
-      `<div class="test-header-panel">` +
-      `<div class="test-title-row">` +
-      `<div class="test-headline">` +
-      `<span>Live Fixture Feed</span>` +
-      `<span class="test-headline-pill">LIVE FIXTURES</span>` +
-      `</div>` +
-      `</div>` +
-      `<p class="test-subtext">` +
-      `Fixture schedule for the next 4 weeks, including live updates. *Yet to be implemented*` +
-      `</p>` +
-      `</div>` +
-      leagueCardsHtml +
-      `</div>`;
-  }
-
-  function formatGmtTime24(fix) {
-    if (fix.timestamp_utc) {
-      try {
-        const d = new Date(fix.timestamp_utc);
-        if (!isNaN(d.getTime())) {
-          const hh = String(d.getUTCHours()).padStart(2, "0");
-          const mm = String(d.getUTCMinutes()).padStart(2, "0");
-          return `${hh}:${mm}`;
-        }
-      } catch (e) {}
-    }
-    if (fix.time && /^\d{1,2}:\d{2}$/.test(fix.time.trim())) {
-      const parts = fix.time.trim().split(":");
-      return `${parts[0].padStart(2, "0")}:${parts[1]}`;
-    }
-    return fix.time || "TBD";
-  }
-
-  function getTestFixtureDayName(fix) {
-    if (fix.timestamp_utc) {
-      try {
-        const d = new Date(fix.timestamp_utc);
-        if (!isNaN(d.getTime())) {
-          return d.toLocaleDateString("en-GB", {
-            weekday: "short",
-            timeZone: "UTC",
-          });
-        }
-      } catch (e) {}
-    }
-    return "";
-  }
-
-  function renderTestFixtureRow(fix) {
-    const homeName = fix.home || "Home";
-    const awayName = fix.away || "Away";
-    const homeShort = fix.home_short || homeName;
-    const awayShort = fix.away_short || awayName;
-    const homeLogo = fix.home_logo || "";
-    const awayLogo = fix.away_logo || "";
-    const venue = fix.venue || "TBD";
-
-    const gmtTime = formatGmtTime24(fix);
-    const dayName = getTestFixtureDayName(fix);
-    const rawDetail = (fix.status_detail || "").trim();
-    const rawStatus = (fix.status || "").trim();
-
-    let statusText = gmtTime;
-    let statusClass = " scheduled";
-
-    if (
-      rawStatus === "STATUS_FULL_TIME" ||
-      rawDetail === "FT" ||
-      rawStatus === "STATUS_FINAL_AET"
-    ) {
-      statusText =
-        rawDetail === "AET" || rawStatus === "STATUS_FINAL_AET" ? "AET" : "FT";
-      statusClass = " ft";
-    } else if (
-      rawStatus === "STATUS_IN_PROGRESS" ||
-      rawStatus === "STATUS_FIRST_HALF" ||
-      rawStatus === "STATUS_SECOND_HALF" ||
-      rawStatus === "STATUS_HALFTIME" ||
-      rawDetail.toLowerCase().includes("live") ||
-      rawDetail === "HT" ||
-      /^\d+'$/.test(rawDetail)
-    ) {
-      statusText =
-        rawDetail === "HT" || rawStatus === "STATUS_HALFTIME"
-          ? "HT"
-          : rawDetail && rawDetail.length <= 4
-            ? rawDetail
-            : "LIVE";
-      statusClass = " live";
-    } else if (
-      rawStatus === "STATUS_POSTPONED" ||
-      rawStatus === "STATUS_CANCELED" ||
-      rawDetail.toLowerCase().includes("postpon") ||
-      rawDetail.toLowerCase().includes("cancel")
-    ) {
-      statusText = "POSTP";
-      statusClass = " postponed";
-    } else {
-      statusText = gmtTime;
-      statusClass = " scheduled";
-    }
-
-    const homeLogoHtml = homeLogo
-      ? `<img class="test-team-logo" src="${esc(homeLogo)}" alt="${esc(homeName)}" loading="lazy" onerror="this.style.display='none'">`
-      : "";
-    const awayLogoHtml = awayLogo
-      ? `<img class="test-team-logo" src="${esc(awayLogo)}" alt="${esc(awayName)}" loading="lazy" onerror="this.style.display='none'">`
-      : "";
-
-    return (
-      `<div class="test-fixture-row">` +
-      // Mobile top bar (visible on mobile only)
-      `<div class="test-row-top-mobile test-row-mobile-only">` +
-      `<div class="test-mobile-meta-left">` +
-      `<span class="test-row-date">${esc(fix.date)}</span>` +
-      (venue && venue !== "TBD"
-        ? `<span class="test-row-meta-sep">·</span><span class="test-row-venue" title="${esc(venue)}">${esc(venue)}</span>`
-        : "") +
-      `</div>` +
-      `<span class="test-status-pill${statusClass}">${esc(statusText)}</span>` +
-      `</div>` +
-      // Desktop Left Meta (Date, Day)
-      `<div class="test-row-meta test-row-desktop-only">` +
-      `<span class="test-row-date">${esc(fix.date)}</span>` +
-      (dayName ? `<span class="test-row-day">${esc(dayName)}</span>` : "") +
-      `</div>` +
-      // Matchup (Home Logo + Name vs Away Logo + Name)
-      `<div class="test-row-matchup">` +
-      `<div class="test-team-cell home" title="${esc(homeName)}">` +
-      `<span class="test-team-name">${esc(homeShort)}</span>` +
-      homeLogoHtml +
-      `</div>` +
-      `<span class="test-vs-badge">VS</span>` +
-      `<div class="test-team-cell away" title="${esc(awayName)}">` +
-      awayLogoHtml +
-      `<span class="test-team-name">${esc(awayShort)}</span>` +
-      `</div>` +
-      `</div>` +
-      // Desktop Right Info (Venue, Status)
-      `<div class="test-row-info test-row-desktop-only">` +
-      `<span class="test-row-venue" title="${esc(venue)}">${esc(venue)}</span>` +
-      `<span class="test-status-pill${statusClass}">${esc(statusText)}</span>` +
-      `</div>` +
-      `</div>`
-    );
   }
 
   // ── Decimal → Fractional odds conversion ─────────────────────
@@ -3882,16 +3598,22 @@
       "</div>" +
       '<div class="fixture-teams">' +
       '<div class="fixture-team home">' +
+      '<div class="fixture-team-row">' +
+      getTeamCrestHtml(home, "fixture-team-crest") +
       '<span class="fixture-team-name">' +
       esc(home) +
       "</span>" +
+      "</div>" +
       homeStats +
       "</div>" +
       '<div class="fixture-vs">VS</div>' +
       '<div class="fixture-team away">' +
+      '<div class="fixture-team-row">' +
       '<span class="fixture-team-name">' +
       esc(away) +
       "</span>" +
+      getTeamCrestHtml(away, "fixture-team-crest") +
+      "</div>" +
       awayStats +
       "</div>" +
       "</div>" +
