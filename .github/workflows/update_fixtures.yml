@@ -3,11 +3,11 @@ name: Update Football Fixtures
 on:
   schedule:
     # UK Winter (GMT / UTC+0: Nov, Dec, Jan, Feb): 6:00 AM & 8:00 PM UK = 06:00 & 20:00 UTC
-    - cron: "0 6,20 * 1,2,11,12 *"
+    - cron: "0 12,20 * 1,2,11,12 *"
     # UK Summer (BST / UTC+1: Apr, May, Jun, Jul, Aug, Sep): 6:00 AM & 8:00 PM UK = 05:00 & 19:00 UTC
-    - cron: "0 5,19 * 4,5,6,7,8,9 *"
+    - cron: "0 11,19 * 4,5,6,7,8,9 *"
     # DST transition months (March & October): covers 6am & 8pm across both GMT/BST
-    - cron: "0 5,6,19,20 * 3,10 *"
+    - cron: "0 11,12,19,20 * 3,10 *"
   workflow_dispatch: # Allows manual trigger from the GitHub web UI
 
 permissions:
