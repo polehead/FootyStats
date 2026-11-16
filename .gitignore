@@ -1,6 +1,6 @@
-backups
-.vscode
+*backups
+*.vscode
 *.zip
-team_badges
-TODO.MD
-data_key.txt
+*TODO.md
+*data_key.txt
+*FootyStats.code-workspace

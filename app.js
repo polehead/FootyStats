@@ -52,6 +52,7 @@
   const F = typeof FOOTYFIXTURES !== "undefined" ? FOOTYFIXTURES : null;
   const TEAM_STATS = {};
   const WINS_2PLUS_STATS = {};
+  const CORNERS_10PLUS_STATS = {};
 
   // ── Team Crests & Badges ───────────────────────────────────────
   function getTeamInitials(team) {
@@ -267,6 +268,60 @@
             };
           }
           _recordWin2Side(ts.byLeague[lgName], isHome, isHit);
+        }
+      }
+    }
+  }
+
+  function _recordCorner10Side(bucket, isHome, isHit) {
+    if (isHome) {
+      bucket.homeMatches++;
+      if (isHit) bucket.c10h++;
+    } else {
+      bucket.awayMatches++;
+      if (isHit) bucket.c10a++;
+    }
+  }
+
+  // Isolated 10+ corners rate aggregator used strictly by the Corners tab
+  function computeCorners10PlusStats() {
+    if (!D || !D.m) return;
+    D.t.forEach((name) => {
+      CORNERS_10PLUS_STATS[name] = {
+        homeMatches: 0,
+        awayMatches: 0,
+        c10h: 0,
+        c10a: 0,
+        byLeague: {},
+      };
+    });
+    for (let i = 0, len = D.m.length; i < len; i++) {
+      const m = D.m[i];
+      // Exclude matches where corner statistics were untracked (e.g. National League)
+      if (!m[M.HC] && !m[M.AC] && !m[M.TC]) continue;
+      const h = teamName(m[M.HOME]);
+      const a = teamName(m[M.AWAY]);
+      const lgName = D.l[m[M.LG]];
+      const isC10 = m[M.C10] ? 1 : 0;
+      const sides = [
+        [h, true, isC10],
+        [a, false, isC10],
+      ];
+      for (let s = 0; s < sides.length; s++) {
+        const [team, isHome, isHit] = sides[s];
+        const ts = CORNERS_10PLUS_STATS[team];
+        if (!ts) continue;
+        _recordCorner10Side(ts, isHome, isHit);
+        if (lgName) {
+          if (!ts.byLeague[lgName]) {
+            ts.byLeague[lgName] = {
+              homeMatches: 0,
+              awayMatches: 0,
+              c10h: 0,
+              c10a: 0,
+            };
+          }
+          _recordCorner10Side(ts.byLeague[lgName], isHome, isHit);
         }
       }
     }
@@ -977,6 +1032,7 @@
   (function init() {
     computeTeamStats();
     computeWins2PlusStats();
+    computeCorners10PlusStats();
     loadCouponSlip();
 
     // Also include any leagues from upcoming fixtures if not yet in BASE_LEAGUES
@@ -1236,6 +1292,43 @@
         return;
       }
 
+      // Bento team card expand / collapse
+      const th = e.target.closest(".team-bento-card .team-name-header");
+      if (th) {
+        const card = th.closest(".team-bento-card");
+        if (card) {
+          const isExpanded = card.classList.toggle("expanded");
+          th.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+        }
+        return;
+      }
+
+      // Toggle all teams in a league
+      const toggleAllBtn = e.target.closest('[data-action="toggle-all-teams"]');
+      if (toggleAllBtn) {
+        e.stopPropagation();
+        const section = toggleAllBtn.closest(".league-section");
+        if (!section) return;
+        const activePanel = section.querySelector(".season-panel:not(.hidden)");
+        if (!activePanel) return;
+        const cards = activePanel.querySelectorAll(".team-bento-card");
+        const anyCollapsed = Array.from(cards).some(
+          (c) => !c.classList.contains("expanded"),
+        );
+        cards.forEach((c) => {
+          c.classList.toggle("expanded", anyCollapsed);
+          const header = c.querySelector(".team-name-header");
+          if (header)
+            header.setAttribute("aria-expanded", anyCollapsed ? "true" : "false");
+        });
+        const textSpan = toggleAllBtn.querySelector(".toggle-text");
+        const iconSpan = toggleAllBtn.querySelector(".toggle-icon");
+        if (textSpan)
+          textSpan.textContent = anyCollapsed ? "Collapse All" : "Expand All";
+        if (iconSpan) iconSpan.innerHTML = anyCollapsed ? "&#x2921;" : "&#x2922;";
+        return;
+      }
+
       // Season tab switch
       const st = e.target.closest(".season-tab-btn");
       if (st) {
@@ -1271,6 +1364,26 @@
             " teams \u00b7 " +
             st.dataset.qual +
             " qualifying";
+        }
+        // Reset the expand/collapse button for this league section
+        const toggleAllBtn = section.querySelector(
+          '[data-action="toggle-all-teams"]',
+        );
+        if (toggleAllBtn) {
+          const textSpan = toggleAllBtn.querySelector(".toggle-text");
+          const iconSpan = toggleAllBtn.querySelector(".toggle-icon");
+          if (textSpan) textSpan.textContent = "Expand All";
+          if (iconSpan) iconSpan.innerHTML = "&#x2922;";
+        }
+      }
+    });
+
+    $main.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        const th = e.target.closest(".team-bento-card .team-name-header");
+        if (th) {
+          e.preventDefault();
+          th.click();
         }
       }
     });
@@ -1624,6 +1737,14 @@
         })
         .join("");
 
+      const toolbarHtml =
+        `<div class="league-toolbar">` +
+        tabsHtml +
+        `<button type="button" class="league-teams-toggle-btn" data-action="toggle-all-teams" title="Expand or collapse all teams in this league">` +
+        `<span class="toggle-icon">&#x2922;</span> <span class="toggle-text">Expand All</span>` +
+        `</button>` +
+        `</div>`;
+
       parts.push(
         `<section class="league-section" style="animation-delay:${bli * 30}ms">` +
           `<div class="league-header" role="button" tabindex="0" aria-label="Toggle ${esc(bl)}">` +
@@ -1633,7 +1754,7 @@
           `</div>` +
           `<span class="league-badge">${activeTeams.length} teams &middot; ${activeQual} qualifying</span>` +
           `<span class="league-toggle">&#9660;</span></div>` +
-          `<div class="league-body">${tabsHtml}${panelsHtml}</div>` +
+          `<div class="league-body">${toolbarHtml}${panelsHtml}</div>` +
           `</section>`,
       );
     });
@@ -1655,6 +1776,23 @@
       ? `in ${fullLeagueName}`
       : "across all seasons";
     const tip = `${seasonLabel ? "Selected season" : "Overall historical"} ${venue} wins scoring 2+ goals ${scope}`;
+    return `<span class="team-win2-pill" title="${esc(tip)}">${esc(label)}: <strong>${pct}%</strong> <span class="team-win2-frac">(${hits}/${played})</span></span>`;
+  }
+
+  function formatCorner10VenuePill(cStats, isHome, seasonLabel, fullLeagueName) {
+    if (!cStats) return "";
+    const played = isHome ? cStats.homeMatches : cStats.awayMatches;
+    if (!played) return "";
+    const hits = isHome ? cStats.c10h : cStats.c10a;
+    const pct = Math.round((hits / played) * 100);
+    const venue = isHome ? "Home" : "Away";
+    const label = seasonLabel
+      ? `${seasonLabel} ${venue} 10+ C`
+      : `${venue} 10+ C`;
+    const scope = fullLeagueName
+      ? `in ${fullLeagueName}`
+      : "across all seasons";
+    const tip = `${seasonLabel ? "Selected season" : "Overall historical"} ${venue} 10+ corner matches ${scope}`;
     return `<span class="team-win2-pill" title="${esc(tip)}">${esc(label)}: <strong>${pct}%</strong> <span class="team-win2-frac">(${hits}/${played})</span></span>`;
   }
 
@@ -1680,27 +1818,102 @@
       if (pills.length) {
         badgesHtml = `<div class="team-win2-badges">${pills.join("")}</div>`;
       }
+    } else if (!isWins && !isCustom) {
+      // Corners tab
+      const overallStats = CORNERS_10PLUS_STATS[name];
+      if (overallStats) {
+        const seasonStats =
+          lg && overallStats.byLeague ? overallStats.byLeague[lg] : null;
+        const seasonLabel = lg
+          ? lg.slice(baseLeague(lg).length).trim() || "Season"
+          : "";
+        const pills = [true, false]
+          .map((isHome) => formatCorner10VenuePill(overallStats, isHome, "", ""))
+          .concat(
+            seasonStats
+              ? [true, false].map((isHome) =>
+                  formatCorner10VenuePill(seasonStats, isHome, seasonLabel, lg),
+                )
+              : [],
+          )
+          .filter(Boolean);
+        if (pills.length) {
+          badgesHtml = `<div class="team-win2-badges">${pills.join("")}</div>`;
+        }
+      } else {
+        const hQ = rec.home.filter((e) => e.q).length;
+        const hTot = rec.home.length;
+        const aQ = rec.away.filter((e) => e.q).length;
+        const aTot = rec.away.length;
+        const pills = [];
+        if (hTot > 0) {
+          const pct = Math.round((hQ / hTot) * 100);
+          pills.push(
+            `<span class="team-win2-pill">Home 10+ C: <strong>${pct}%</strong> <span class="team-win2-frac">(${hQ}/${hTot})</span></span>`,
+          );
+        }
+        if (aTot > 0) {
+          const pct = Math.round((aQ / aTot) * 100);
+          pills.push(
+            `<span class="team-win2-pill">Away 10+ C: <strong>${pct}%</strong> <span class="team-win2-frac">(${aQ}/${aTot})</span></span>`,
+          );
+        }
+        if (pills.length) {
+          badgesHtml = `<div class="team-win2-badges">${pills.join("")}</div>`;
+        }
+      }
+    } else if (isCustom) {
+      // Custom tab
+      const hQ = rec.home.filter((e) => e.cx).length;
+      const hTot = rec.home.length;
+      const aQ = rec.away.filter((e) => e.cx).length;
+      const aTot = rec.away.length;
+      const pills = [];
+      if (hTot > 0) {
+        const pct = Math.round((hQ / hTot) * 100);
+        pills.push(
+          `<span class="team-win2-pill">Home Hits: <strong>${pct}%</strong> <span class="team-win2-frac">(${hQ}/${hTot})</span></span>`,
+        );
+      }
+      if (aTot > 0) {
+        const pct = Math.round((aQ / aTot) * 100);
+        pills.push(
+          `<span class="team-win2-pill">Away Hits: <strong>${pct}%</strong> <span class="team-win2-frac">(${aQ}/${aTot})</span></span>`,
+        );
+      }
+      if (pills.length) {
+        badgesHtml = `<div class="team-win2-badges">${pills.join("")}</div>`;
+      }
     }
+
     const crestHtml = getTeamCrestHtml(name, "team-header-crest");
-    let h =
-      '<div class="team-block"><div class="team-name-header">' +
-      '<div class="team-header-identity">' +
-      crestHtml +
-      '<span class="team-name-title">' +
-      esc(name) +
-      "</span>" +
-      "</div>" +
-      badgesHtml +
-      "</div>";
+    let drawerHtml = "";
     if (rec.home.length)
-      h +=
+      drawerHtml +=
         '<div class="venue-label">Home Fixtures</div>' +
         renderTable(rec.home, isWins, true, isCustom);
     if (rec.away.length)
-      h +=
+      drawerHtml +=
         '<div class="venue-label">Away Fixtures</div>' +
         renderTable(rec.away, isWins, false, isCustom);
-    return h + "</div>";
+
+    return (
+      `<div class="team-block team-bento-card" data-team="${esc(name)}">` +
+      `<div class="team-name-header" role="button" tabindex="0" aria-expanded="false" aria-label="Toggle ${esc(name)} match results">` +
+      `<div class="team-header-identity">` +
+      crestHtml +
+      `<span class="team-name-title">${esc(name)}</span>` +
+      `</div>` +
+      `<div class="team-header-meta">` +
+      badgesHtml +
+      `<span class="team-expand-toggle" aria-hidden="true">&#9660;</span>` +
+      `</div>` +
+      `</div>` +
+      `<div class="team-fixtures-drawer">` +
+      drawerHtml +
+      `</div>` +
+      `</div>`
+    );
   }
 
   function renderTable(entries, isWins, isHome, isCustom) {

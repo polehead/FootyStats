@@ -1457,8 +1457,203 @@ body::before {
   box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
 }
 
+/* ── Season panels & Bento Card Grid ─────────────────────────────── */
 .season-panel.hidden {
+  display: none !important;
+}
+
+.season-panel:not(.hidden) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+/* ── League Toolbar (Season tabs + Expand/Collapse All) ───────────── */
+.league-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+  padding: 0 2px;
+}
+
+.league-toolbar .league-tabs {
+  margin-bottom: 0;
+}
+
+.league-teams-toggle-btn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.league-teams-toggle-btn:hover {
+  color: var(--neon-cyan);
+  border-color: rgba(0, 240, 255, 0.4);
+  background: rgba(0, 240, 255, 0.08);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.18);
+}
+
+.league-teams-toggle-btn .toggle-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* ── Bento Team Card ──────────────────────────────────────────────── */
+.team-block.team-bento-card {
+  margin-bottom: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.team-block.team-bento-card:hover {
+  border-color: rgba(0, 240, 255, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.team-block.team-bento-card.expanded {
+  grid-column: 1 / -1;
+  border-color: rgba(255, 45, 85, 0.45);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5), 0 0 12px rgba(255, 45, 85, 0.12);
+}
+
+/* Team Header inside Bento Card */
+.team-bento-card .team-name-header {
+  margin-bottom: 0;
+  padding: 10px 14px;
+  border-left: 3px solid transparent;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: background 0.2s ease, border-left-color 0.2s ease;
+}
+
+.team-bento-card .team-name-header:hover {
+  background: rgba(0, 240, 255, 0.04);
+  border-left-color: var(--neon-cyan);
+}
+
+.team-bento-card.expanded .team-name-header {
+  background: rgba(255, 45, 85, 0.05);
+  border-left-color: var(--neon-magenta);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-bento-card .team-name-header:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: -2px;
+}
+
+.team-bento-card .team-name-title {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s ease;
+}
+
+.team-bento-card:hover .team-name-title {
+  color: var(--neon-cyan);
+}
+
+.team-bento-card.expanded .team-name-title {
+  color: var(--neon-magenta);
+}
+
+.team-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.team-expand-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  line-height: 1;
+  transition: transform 0.25s ease, color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.team-bento-card:hover .team-expand-toggle {
+  color: var(--neon-cyan);
+  border-color: rgba(0, 240, 255, 0.35);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.team-bento-card.expanded .team-expand-toggle {
+  transform: rotate(180deg);
+  color: var(--neon-magenta);
+  border-color: rgba(255, 45, 85, 0.45);
+  background: rgba(255, 45, 85, 0.12);
+}
+
+/* Fixtures Drawer inside Bento Card */
+.team-fixtures-drawer {
   display: none;
+  padding: 14px 16px 16px;
+  background: var(--bg-base);
+  animation: fadeIn 0.2s ease;
+}
+
+.team-bento-card.expanded .team-fixtures-drawer {
+  display: block;
+}
+
+.team-fixtures-drawer .match-table-wrap:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .season-panel:not(.hidden) {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .league-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .league-teams-toggle-btn {
+    margin-left: 0;
+    justify-content: center;
+  }
 }
 
 /* ── PWA Install Banner ──────────────────────────────────────────── */

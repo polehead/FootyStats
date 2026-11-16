@@ -4,6 +4,24 @@
 
 ## Completed Fixes
 
+- [x] **Overall Historical 10+ Corners Venue Badges on Corners Tab**:
+  - Added dedicated `CORNERS_10PLUS_STATS` store and `computeCorners10PlusStats()` aggregator in `app.js` mirroring the multi-season architecture of `WINS_2PLUS_STATS`.
+  - Aggregates overall historical career totals (`homeMatches`, `awayMatches`, `c10h`, `c10a`) and per-season totals (`byLeague[lg]`), automatically filtering out unrecorded fixtures (such as National League where corners are untracked).
+  - Implemented `formatCorner10VenuePill(cStats, isHome, seasonLabel, fullLeagueName)` rendering:
+    * **Overall Historical Badges**: `Home 10+ C: X% (hits/total)` & `Away 10+ C: Y% (hits/total)` across all seasons on record.
+    * **Selected Season Badges**: `${seasonLabel} Home 10+ C: X% (hits/total)` & `${seasonLabel} Away 10+ C: Y% (hits/total)` for the active season.
+  - Rendered across all team cards on the Corners tab (`tab-corners`) with tooltips distinguishing overall historical totals from active season stats.
+  - Bumped Service Worker cache version in `sw.js` to `footystats-v20`.
+
+- [x] **Responsive Bento Card Grid with Full-Width Expansion & Collapsible Drawer (Wins, Corners & Custom)**:
+  - Implemented **Option 1: Multi-Column Bento Card Grid with Full-Width Expansion** across all three main stat tabs: *Wins 2+ Goals* (`tab-wins`), *Corners (10+)* (`tab-corners`), and *Custom* (`tab-custom`).
+  - Teams start collapsed by default as compact Bento cards inside `.season-panel:not(.hidden)`, displaying team crest, team name title, venue qualification rate badges (Home/Away pills for 2+ Goals, 10+ Corners, or Custom hits), and an interactive circular chevron toggle (`.team-expand-toggle`).
+  - Clicking/tapping any team card seamlessly expands it with `grid-column: 1 / -1;`, opening the `.team-fixtures-drawer` across full width so Home & Away match tables have complete horizontal space without squishing.
+  - Added a responsive `.league-toolbar` above each league containing season selector tabs and a per-league **"Expand All / Collapse All"** button (`.league-teams-toggle-btn`) with dynamic icon toggling (`⤢` / `⤡`) that automatically resets when switching season tabs.
+  - Full keyboard accessibility with `Enter` / `Space` key handlers on `.team-name-header` (`role="button"`, `tabindex="0"`, `aria-expanded`).
+  - Added responsive rules in `style.css` for mobile screens (< 640px) ensuring a seamless single-column layout.
+  - Bumped Service Worker cache version in `sw.js` to `footystats-v19`.
+
 - [x] **Local League Competition Logos Integration**:
   - Extended `download_logos.py` with `LEAGUE_SOURCES` for all 20 tracked domestic leagues, downloading 20 transparent PNG competition emblems from `football-logos.cc` into `./logos/leagues/`.
   - Updated `logos.js` to export `var LEAGUE_LOGOS = { ... };` mapping all 20 base leagues.
