@@ -2,55 +2,7 @@
 
 ## WIP - README STILL IN PROGRESS.
 
-## Completed Fixes
-
-- [x] **Selected-Season `2+ W` Badges on `Wins 2+ Goals` Tab**:
-  - Extended `computeWins2PlusStats()` in `app.js` to track per-season/league (`byLeague`) `Home 2+ W` and `Away 2+ W` stats alongside overall historical totals.
-  - Updated `formatWin2VenuePill()` and `renderTeam()` (passing `lg` from both initial `render()` and lazy `.season-tab-btn` switches) so `.team-win2-badges` renders identical `.team-win2-pill` badges for both overall stats and the currently selected season.
-  - Bumped Service Worker cache version to `footystats-v13` in `sw.js`.
-
-- [x] **Cache-First Historical CSV Loading (`export_data.py`)**:
-  - Updated `fetch_csv_text()` and `build_all_data()` in `export_data.py` so only `26/27` (`CURRENT_SEASON = "2627"`) URLs are refreshed from `football-data.co.uk` on each run.
-  - Historical seasons (`19/20`–`25/26`) read directly from `./csv_cache` whenever a non-empty cached file already exists, downloading only if missing or empty on disk while continuing to export all seasons into `data.js`.
-
-- [x] **Decoupled Overall 2+ Win Logic (`Wins 2+ Goals` Isolation)**:
-  - Removed `w2h` and `w2a` tracking from `TEAM_STATS` (`computeTeamStats()`), keeping the predictive engine (`predictMatchOutright()`) focused purely on neutral venue attack/defense rates and H2H records.
-  - Added a dedicated `WINS_2PLUS_STATS` store and `computeWins2PlusStats()` aggregator scoped exclusively to the **Wins 2+ Goals** tab, surfacing overall `Home 2+ W` and `Away 2+ W` percentage pills inside `.team-name-header` only when viewing `Wins 2+ Goals`.
-  - Updated **Upcoming Fixtures** cards (`renderFixtureCard` -> `renderVenueFormHint`) to display predictive-aligned venue form (`Home Win: X% · Y.YY GF/g` / `Away Win: X% · Y.YY GF/g`) instead of `2+ W` rates.
-  - Bumped Service Worker cache version to `footystats-v12` and updated `index.html` metadata.
-
-- [x] **Complete Separation of Concerns (JavaScript Extraction)**:
-  - Extracted all inline JavaScript (~96,000 characters) from `index.html` into a dedicated, modular `app.js`.
-  - Re-organized `app.js` into structured sections: Compact Match Schema (`M`), State & Datasets, Historical Team Aggregator, Predictive Math Engine (Bivariate Poisson + H2H), Utilities, Coupon & Bet Builder, View Renderers, Event Delegation, Application Bootstrap (`init`), and PWA Lifecycle (`initPWA`).
-  - Streamlined `index.html` from ~2,890 lines down to 308 lines of pure markup with clean external script tags (`data.js`, `fixtures.js`, `app.js`).
-  - Updated `sw.js` service worker to pre-cache `./app.js` and incremented cache version to `footystats-v9` for offline integrity.
-
-- [x] **Data-Driven Coupon & Bet Builder**:
-  - **Today Only Mobile Toggle Polish**:
-    - Replaced the nested unstyled wrapper (`<div class="stat-chip stat-chip-toggle"><label class="today-toggle-wrap">...`) with a unified, direct `<label class="stat-chip stat-chip-toggle coupon-toggle" for="filter-today-only">`.
-    - Shortened the verbose `Today Only (DD/MM/YYYY)` string (~235px) to a compact, non-wrapping `Today Only` label (~115px), eliminating mobile line collisions.
-    - Added `position: relative;`, `flex-shrink: 0;`, and vertical centering to `.stat-chip-toggle` and responsive `width: 28px; height: 16px;` track scaling on mobile ($le 480$px).
-    - Added theme-synchronized neon blue active glow (`.coupon-toggle:has(input:checked)`) for the toggle when in the Coupon tab.
-  - Added new **Coupon** tab in the main tab-bar with active **Neon Blue** styling (`#00b4ff` and `var(--glow-blue)`) and live selection count badge.
-  - Implemented mathematical match prediction engine using **bivariate Poisson goal distributions** ($lambda$ home, $mu$ away) calibrated against historical venue attack/defense rates and empirical Head-to-Head records.
-  - Interactive 1X2 outcome buttons (Home Win, Draw, Away Win) with live model win probabilities, fair decimal odds ($1/P$), market odds comparison, and positive Value Edge indicators.
-  - Built sticky Bet Builder / Accumulator slip on desktop and responsive stack on mobile.
-  - Multi-bet accumulator calculations: cumulative win probability ($prod P_i$), color-graded likelihood meter, combined fair odds, combined bookmaker odds, and real-time stake calculator with potential payout and profit.
-  - Integrated quick-add 1X2 chip bar directly into the **Upcoming Fixtures** cards.
-  - One-click "Copy Accumulator Summary" with clipboard integration and `localStorage` persistence (`footystats_coupon_slip`).
-  - **Mobile Refinements & Bottom Sheet Drawer**:
-    - Replaced the single-column buried bet slip with a floating sticky bottom pill bar (`.coupon-mobile-bar`) displaying active selection count, cumulative win probability, and combined odds.
-    - Integrated smooth slide-up bottom sheet modal (`.coupon-slip-column.drawer-open`) with drawer drag handle, explicit "✕ Close" button, and darkened blur backdrop (`.coupon-drawer-backdrop`).
-    - Eliminated redundant horizontal container padding on `.coupon-container` to prevent lateral squishing on narrow devices.
-    - Added responsive outcome pick labels: desktop shows full ("1 · Home Win", "X · Draw", "2 · Away Win"), mobile automatically condenses to ("1 · Home", "X · Draw", "2 · Away").
-    - Added flex-wrap and overflow protection to team names, expected goals (`.coupon-xg-labels`), and fixture chips to eliminate horizontal collisions.
-- [x] **PWA Install Banner Cleanup**: Removed duplicate `#pwa-install-banner` markup in `index.html`.
-- [x] **Install Prompt Diagnostic**: Documented that `Banner not shown: beforeinstallpromptevent.preventDefault() called...` is Chromium's expected diagnostic when custom in-app banners suppress the browser's default bar via `e.preventDefault()`.
-- [x] **Standalone Mode Guard**: Suppressed install banner automatically if the app is already running in standalone PWA mode (`display-mode: standalone`).
-- [x] **iOS Safari Fallback**: Added fallback instructions ("Tap Share ⎋ then 'Add to Home Screen' ⊞") for WebKit where `beforeinstallprompt` is unsupported.
-- [x] **7-Day Dismissal Cooldown**: Added `localStorage` tracking so dismissed banners don't persistently prompt on reload.
-
-## Helpful Queries
+## Useful JavaScript console commands below 👍
 
 ```js
 // Total team corners calculation snippet
@@ -783,13 +735,13 @@ findComboMatchups();
 
 ## Quick Commands After Pasting
 
-Export all 14,196 matches across all seasons to CSV: 
+Export ALL matches across all seasons to CSV
 
 ```js
 downloadComboCSV('matches')
 ```
 
-Export all 4,903 consistent matchups to CSV: 
+Export ALL consistent matchups to CSV
 
 ```js
 downloadComboCSV('matchups')
