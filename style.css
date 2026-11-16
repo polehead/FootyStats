@@ -1518,6 +1518,7 @@ body::before {
 /* ── Bento Team Card ──────────────────────────────────────────────── */
 .team-block.team-bento-card {
   margin-bottom: 0;
+  scroll-margin-top: 100px;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -1642,6 +1643,9 @@ body::before {
 }
 
 @media (max-width: 640px) {
+  .team-block.team-bento-card {
+    scroll-margin-top: 85px;
+  }
   .season-panel:not(.hidden) {
     grid-template-columns: 1fr;
     gap: 10px;

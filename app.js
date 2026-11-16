@@ -1299,6 +1299,22 @@
         if (card) {
           const isExpanded = card.classList.toggle("expanded");
           th.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+          if (isExpanded) {
+            // Smoothly scroll so the team block and name remain fully visible below the site header with a clean breathing gap
+            setTimeout(() => {
+              const header = document.querySelector(".site-header");
+              const headerHeight = header
+                ? header.getBoundingClientRect().height
+                : 70;
+              const gap = 16; // breathing space between sticky site header and team block
+              const cardTop =
+                card.getBoundingClientRect().top + window.pageYOffset;
+              window.scrollTo({
+                top: Math.max(0, Math.round(cardTop - headerHeight - gap)),
+                behavior: "smooth",
+              });
+            }, 60);
+          }
         }
         return;
       }
