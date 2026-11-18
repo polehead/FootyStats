@@ -3824,7 +3824,8 @@ body::before {
    22. Team Crests & Badges (Main Tabs, Fixtures, Coupons, Results)
    ═══════════════════════════════════════════════════════════════════ */
 
-/* Universal Team Crest */
+/* Universal Team Badge */
+.team-badge,
 .team-crest {
   display: inline-block;
   object-fit: contain;
@@ -3833,6 +3834,7 @@ body::before {
 }
 
 /* Universal Fallback Badge (rendered when logo missing or offline error) */
+.team-badge-fallback,
 .team-crest-fallback {
   display: inline-flex;
   align-items: center;
@@ -3859,12 +3861,14 @@ body::before {
   min-width: 0;
 }
 
+.team-header-badge,
 .team-header-crest {
   width: 26px;
   height: 26px;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
 }
 
+.team-header-badge-fallback,
 .team-header-crest-fallback {
   width: 26px;
   height: 26px;
@@ -3889,12 +3893,14 @@ body::before {
   justify-content: flex-end;
 }
 
+.fixture-team-badge,
 .fixture-team-crest {
   width: 24px;
   height: 24px;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
 }
 
+.fixture-team-badge-fallback,
 .fixture-team-crest-fallback {
   width: 24px;
   height: 24px;
@@ -3919,23 +3925,27 @@ body::before {
   text-align: right;
 }
 
+.coupon-team-badge,
 .coupon-team-crest {
   width: 24px;
   height: 24px;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
 }
 
+.coupon-team-badge-fallback,
 .coupon-team-crest-fallback {
   width: 24px;
   height: 24px;
   font-size: 0.65rem;
 }
 
+.coupon-slip-badge,
 .coupon-slip-crest {
   width: 16px;
   height: 16px;
 }
 
+.coupon-slip-badge-fallback,
 .coupon-slip-crest-fallback {
   width: 16px;
   height: 16px;
@@ -3986,15 +3996,21 @@ body::before {
 }
 
 @media (max-width: 560px) {
+  .team-header-badge,
   .team-header-crest,
+  .team-header-badge-fallback,
   .team-header-crest-fallback {
     width: 22px;
     height: 22px;
   }
 
+  .fixture-team-badge,
   .fixture-team-crest,
+  .fixture-team-badge-fallback,
   .fixture-team-crest-fallback,
+  .coupon-team-badge,
   .coupon-team-crest,
+  .coupon-team-badge-fallback,
   .coupon-team-crest-fallback {
     width: 20px;
     height: 20px;

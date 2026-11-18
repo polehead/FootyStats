@@ -64,19 +64,19 @@
     return team.substring(0, 3).toUpperCase();
   }
 
-  function getTeamCrestHtml(teamName, className) {
-    className = className || "team-crest";
+  function getTeamBadgeHtml(teamName, className) {
+    className = className || "team-badge";
     const logoUrl =
       (typeof TEAM_LOGOS !== "undefined" &&
         TEAM_LOGOS &&
         TEAM_LOGOS[teamName]) ||
       "";
     const fullClass =
-      className === "team-crest" ? "team-crest" : "team-crest " + className;
+      className === "team-badge" ? "team-badge" : "team-badge " + className;
     const fullFallbackClass =
-      className === "team-crest"
-        ? "team-crest-fallback"
-        : "team-crest-fallback " + className + "-fallback";
+      className === "team-badge"
+        ? "team-badge-fallback"
+        : "team-badge-fallback " + className + "-fallback";
     if (logoUrl) {
       return (
         `<img class="${esc(fullClass)}" src="${esc(logoUrl)}" alt="${esc(teamName)}" loading="lazy" ` +
@@ -86,12 +86,17 @@
     }
     return `<span class="${esc(fullFallbackClass)}" aria-hidden="true">${esc(getTeamInitials(teamName))}</span>`;
   }
+  const getTeamCrestHtml = getTeamBadgeHtml;
 
   function getLeagueCrestHtml(leagueName, className) {
     className = className || "league-logo";
-    const base = String(leagueName || "").replace(/\s+\d{2}\/\d{2}$/, "").trim();
+    const base = String(leagueName || "")
+      .replace(/\s+\d{2}\/\d{2}$/, "")
+      .trim();
     const logoUrl =
-      typeof LEAGUE_LOGOS !== "undefined" && LEAGUE_LOGOS ? LEAGUE_LOGOS[base] : null;
+      typeof LEAGUE_LOGOS !== "undefined" && LEAGUE_LOGOS
+        ? LEAGUE_LOGOS[base]
+        : null;
     if (logoUrl) {
       const fullClass = "league-logo " + className;
       return (
@@ -399,7 +404,7 @@
       pA /= totalP;
     }
 
-    // Empirical H2H calibration if at least 2 historical meetings exist
+    // H2H calibration if at least 2 historical meetings exist
     var h2hLen = h2h ? h2h.length : 0;
     if (h2hLen >= 2) {
       var hWins = 0,
@@ -661,13 +666,13 @@
             '<div class="coupon-leg-card">' +
             '<div class="coupon-leg-top">' +
             '<div class="coupon-leg-match">' +
-            getTeamCrestHtml(leg.home, "coupon-slip-crest") +
+            getTeamBadgeHtml(leg.home, "coupon-slip-badge") +
             " " +
             esc(leg.home) +
             " vs " +
             esc(leg.away) +
             " " +
-            getTeamCrestHtml(leg.away, "coupon-slip-crest") +
+            getTeamBadgeHtml(leg.away, "coupon-slip-badge") +
             "</div>" +
             '<button class="coupon-leg-remove-btn" data-action="remove-leg" data-mid="' +
             esc(leg.matchId) +
@@ -1335,13 +1340,17 @@
           c.classList.toggle("expanded", anyCollapsed);
           const header = c.querySelector(".team-name-header");
           if (header)
-            header.setAttribute("aria-expanded", anyCollapsed ? "true" : "false");
+            header.setAttribute(
+              "aria-expanded",
+              anyCollapsed ? "true" : "false",
+            );
         });
         const textSpan = toggleAllBtn.querySelector(".toggle-text");
         const iconSpan = toggleAllBtn.querySelector(".toggle-icon");
         if (textSpan)
           textSpan.textContent = anyCollapsed ? "Collapse All" : "Expand All";
-        if (iconSpan) iconSpan.innerHTML = anyCollapsed ? "&#x2921;" : "&#x2922;";
+        if (iconSpan)
+          iconSpan.innerHTML = anyCollapsed ? "&#x2921;" : "&#x2922;";
         return;
       }
 
@@ -1795,7 +1804,12 @@
     return `<span class="team-win2-pill" title="${esc(tip)}">${esc(label)}: <strong>${pct}%</strong> <span class="team-win2-frac">(${hits}/${played})</span></span>`;
   }
 
-  function formatCorner10VenuePill(cStats, isHome, seasonLabel, fullLeagueName) {
+  function formatCorner10VenuePill(
+    cStats,
+    isHome,
+    seasonLabel,
+    fullLeagueName,
+  ) {
     if (!cStats) return "";
     const played = isHome ? cStats.homeMatches : cStats.awayMatches;
     if (!played) return "";
@@ -1844,7 +1858,9 @@
           ? lg.slice(baseLeague(lg).length).trim() || "Season"
           : "";
         const pills = [true, false]
-          .map((isHome) => formatCorner10VenuePill(overallStats, isHome, "", ""))
+          .map((isHome) =>
+            formatCorner10VenuePill(overallStats, isHome, "", ""),
+          )
           .concat(
             seasonStats
               ? [true, false].map((isHome) =>
@@ -1902,7 +1918,7 @@
       }
     }
 
-    const crestHtml = getTeamCrestHtml(name, "team-header-crest");
+    const crestHtml = getTeamBadgeHtml(name, "team-header-badge");
     let drawerHtml = "";
     if (rec.home.length)
       drawerHtml +=
@@ -2183,7 +2199,7 @@
         '<div class="coupon-card-teams">' +
         '<div class="coupon-team home">' +
         '<div class="coupon-team-row">' +
-        getTeamCrestHtml(home, "coupon-team-crest") +
+        getTeamBadgeHtml(home, "coupon-team-badge") +
         '<span class="coupon-team-name">' +
         esc(home) +
         "</span>" +
@@ -2198,7 +2214,7 @@
         '<span class="coupon-team-name">' +
         esc(away) +
         "</span>" +
-        getTeamCrestHtml(away, "coupon-team-crest") +
+        getTeamBadgeHtml(away, "coupon-team-badge") +
         "</div>" +
         '<span class="coupon-team-sub">' +
         awaySub +
@@ -3853,7 +3869,7 @@
       '<div class="fixture-teams">' +
       '<div class="fixture-team home">' +
       '<div class="fixture-team-row">' +
-      getTeamCrestHtml(home, "fixture-team-crest") +
+      getTeamBadgeHtml(home, "fixture-team-badge") +
       '<span class="fixture-team-name">' +
       esc(home) +
       "</span>" +
@@ -3866,7 +3882,7 @@
       '<span class="fixture-team-name">' +
       esc(away) +
       "</span>" +
-      getTeamCrestHtml(away, "fixture-team-crest") +
+      getTeamBadgeHtml(away, "fixture-team-badge") +
       "</div>" +
       awayStats +
       "</div>" +
