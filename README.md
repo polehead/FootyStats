@@ -747,3 +747,98 @@ Export ALL consistent matchups to CSV
 downloadComboCSV('matchups')
 Filter for 5+ seasons of consistency: console.table(window.comboMatchups.filter(m => parseInt(m.Seasons, 10) >= 5))
 ```
+
+## All fixtures 80%+ HT goals
+
+```js
+(() => {
+  const D = typeof FOOTYDATA !== "undefined" ? FOOTYDATA : null;
+  const F = typeof FOOTYFIXTURES !== "undefined" ? FOOTYFIXTURES : null;
+
+  const fixturesList = F ? F.fixtures || F.matches : null;
+
+  if (!D || !fixturesList) {
+    return console.error(
+      "FOOTYDATA or FOOTYFIXTURES not found in the global scope. Make sure DevTools context is set to 'top' on the FootyStats tab.",
+    );
+  }
+
+  const teamName = (id) => D.t[id];
+
+  // Replicates the 1st half goal probability model in app.js
+  function calcFirstHalfGoal(homeTeam, awayTeam) {
+    let hTot = 0,
+      hHit = 0;
+    let aTot = 0,
+      aHit = 0;
+    let h2hTot = 0,
+      h2hHit = 0;
+
+    for (let i = 0, len = D.m.length; i < len; i++) {
+      const m = D.m[i];
+      const h = teamName(m[1]);
+      const a = teamName(m[2]);
+      const hadHtGoal = (m[6] || 0) + (m[7] || 0) > 0;
+
+      if (h === homeTeam) {
+        hTot++;
+        if (hadHtGoal) hHit++;
+      }
+      if (a === awayTeam) {
+        aTot++;
+        if (hadHtGoal) aHit++;
+      }
+      if (h === homeTeam && a === awayTeam) {
+        h2hTot++;
+        if (hadHtGoal) h2hHit++;
+      }
+    }
+
+    const signals = [];
+    if (hTot >= 3) signals.push(hHit / hTot);
+    if (aTot >= 3) signals.push(aHit / aTot);
+    if (h2hTot >= 2) signals.push(h2hHit / h2hTot);
+
+    if (!signals.length) return null;
+    const avg = signals.reduce((sum, s) => sum + s, 0) / signals.length;
+    const pct = Math.round(avg * 100);
+
+    return {
+      pct,
+      homeForm: `${Math.round((hHit / (hTot || 1)) * 100)}% (${hHit}/${hTot})`,
+      awayForm: `${Math.round((aHit / (aTot || 1)) * 100)}% (${aHit}/${aTot})`,
+      h2h:
+        h2hTot >= 2
+          ? `${Math.round((h2hHit / h2hTot) * 100)}% (${h2hHit}/${h2hTot})`
+          : "N/A",
+    };
+  }
+
+  const results = fixturesList
+    .map((fix) => {
+      const stats = calcFirstHalfGoal(fix.home, fix.away);
+      if (!stats || stats.pct < 80) return null;
+      return {
+        Date: fix.date,
+        Time: fix.time || "-",
+        League: fix.league,
+        Match: `${fix.home} vs ${fix.away}`,
+        "1st Half Goal %": `${stats.pct}%`,
+        "Home Venue Rate": stats.homeForm,
+        "Away Venue Rate": stats.awayForm,
+        "H2H Rate": stats.h2h,
+        _sortPct: stats.pct,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b._sortPct - a._sortPct)
+    .map(({ _sortPct, ...row }) => row);
+
+  console.log(
+    `%c Found ${results.length} fixtures with ≥ 80% 1st Half Goal Chance:`,
+    "color:#00f0ff; font-weight:bold; font-size:14px;",
+  );
+  console.table(results);
+  return results;
+})();
+```
