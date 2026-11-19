@@ -1539,17 +1539,8 @@
 
   // ── Scoreline filter predicate (show-only / filter logic) ────
   function passesScorelineFilter(m) {
-    // HT: when toggled, show ONLY 0-0 half-times
-    if (fShowHT00Only && !(m[M.HTHG] === 0 && m[M.HTAG] === 0)) return false;
-    // In custom mode the score inputs are used for highlighting, not filtering
-    if (activeTab === "custom") return true;
-    // HT exact score filter
-    if (fHtHome !== null && m[M.HTHG] !== fHtHome) return false;
-    if (fHtAway !== null && m[M.HTAG] !== fHtAway) return false;
-    // FT home goals: when set, must match exactly
-    if (fFtHome !== null && m[M.FTHG] !== fFtHome) return false;
-    // FT away goals: when set, must match exactly
-    if (fFtAway !== null && m[M.FTAG] !== fFtAway) return false;
+    // Scoreline filters are only active in Custom mode (where scores highlight matching fixtures)
+    if (activeTab !== "custom") return true;
     return true;
   }
 
@@ -1627,18 +1618,8 @@
         let rec = lgMap[lg][team];
 
         if (!isCustom) {
-          // Must have at least 1 qualifying match (unless scoreline filters are active)
-          const hasScorelineFilter =
-            fShowHT00Only ||
-            fHtHome !== null ||
-            fHtAway !== null ||
-            fFtHome !== null ||
-            fFtAway !== null;
-          if (
-            !hasScorelineFilter &&
-            !rec.home.some((e) => e.q) &&
-            !rec.away.some((e) => e.q)
-          )
+          // Must have at least 1 qualifying match on wins/corners tabs
+          if (!rec.home.some((e) => e.q) && !rec.away.some((e) => e.q))
             return;
         }
 
@@ -1681,7 +1662,8 @@
       renderResultsView();
       return;
     }
-    $filterBar.style.display = "";
+    // Only display the Scoreline Filters bar on the Custom tab
+    $filterBar.style.display = activeTab === "custom" ? "" : "none";
 
     const { data, leagues } = buildView();
     currentViewData = data;
