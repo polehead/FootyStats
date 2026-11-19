@@ -1033,6 +1033,71 @@
     }
   });
 
+  // ── Mobile Navigation Peek / Scroll Discovery ──────────────────
+  function initMobileNavPeek() {
+    try {
+      // 1. Skip if user has already experienced the peek animation
+      if (localStorage.getItem("footystats_nav_peek_seen")) return;
+
+      // 2. Skip if user prefers reduced motion
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        return;
+      }
+
+      const $tabBar = document.querySelector(".tab-bar");
+      if (!$tabBar) return;
+
+      // 3. Wait for initial DOM layout to settle, then verify horizontal overflow
+      setTimeout(() => {
+        // Only run on mobile/narrow viewports where the nav bar actually overflows
+        if ($tabBar.scrollWidth <= $tabBar.clientWidth + 12) return;
+
+        let aborted = false;
+        const markSeenAndCleanup = () => {
+          aborted = true;
+          try {
+            localStorage.setItem("footystats_nav_peek_seen", "1");
+          } catch (_) {}
+          $tabBar.classList.remove("is-peeking");
+          $tabBar.removeEventListener("pointerdown", markSeenAndCleanup);
+          $tabBar.removeEventListener("touchstart", markSeenAndCleanup);
+        };
+
+        // If user interacts with the tabs before/during peek, abort immediately
+        $tabBar.addEventListener("pointerdown", markSeenAndCleanup, {
+          once: true,
+          passive: true,
+        });
+        $tabBar.addEventListener("touchstart", markSeenAndCleanup, {
+          once: true,
+          passive: true,
+        });
+
+        // Add visual peek class
+        $tabBar.classList.add("is-peeking");
+
+        // Step 1: Smoothly nudge to the right (~130px) to reveal hidden tabs
+        $tabBar.scrollTo({ left: 130, behavior: "smooth" });
+
+        // Step 2: Pause briefly so the user sees Upcoming Fixtures & Results, then glide back
+        setTimeout(() => {
+          if (aborted) return;
+          $tabBar.scrollTo({ left: 0, behavior: "smooth" });
+
+          // Cleanup and mark as seen
+          setTimeout(() => {
+            markSeenAndCleanup();
+          }, 500);
+        }, 550);
+      }, 700);
+    } catch (_) {
+      // Graceful fallback if localStorage is restricted
+    }
+  }
+
   // ── Init ──────────────────────────────────────────────────────
   (function init() {
     computeTeamStats();
@@ -1070,6 +1135,7 @@
 
     bindEvents();
     render();
+    initMobileNavPeek();
   })();
 
   // ── Events ────────────────────────────────────────────────────

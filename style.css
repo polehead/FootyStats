@@ -1297,6 +1297,10 @@ body::before {
     max-width: 100%;
     padding-bottom: 2px;
   }
+  .tab-bar.is-peeking {
+    scroll-behavior: smooth;
+    will-change: scroll-position;
+  }
   .tab-bar::-webkit-scrollbar {
     display: none;
   }
