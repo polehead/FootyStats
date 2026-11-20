@@ -255,11 +255,11 @@
       <a href="https://github.com/polehead">polehead</a>
     </footer>
 
-    <!-- PWA Install Banner -->
-    <div
+    <!-- PWA Install Dialog (non-modal top-layer) -->
+    <dialog
       id="pwa-install-banner"
-      role="dialog"
-      aria-label="Install FootyStats app"
+      popover="manual"
+      aria-labelledby="pwa-install-title"
     >
       <img
         class="pwa-banner-icon"
@@ -267,7 +267,9 @@
         alt="FootyStats icon"
       />
       <div class="pwa-banner-text">
-        <div class="pwa-banner-title">Install FootyStats</div>
+        <h2 class="pwa-banner-title" id="pwa-install-title">
+          Install FootyStats
+        </h2>
         <div class="pwa-banner-sub">Add to home screen for offline access</div>
       </div>
       <button class="pwa-install-btn" id="pwa-install-btn" type="button">
@@ -281,17 +283,19 @@
       >
         &#x2715;
       </button>
-    </div>
+    </dialog>
 
-    <!-- PWA Update Banner -->
-    <div
+    <!-- PWA Update Dialog (non-modal top-layer) -->
+    <dialog
       id="pwa-update-banner"
-      role="alertdialog"
-      aria-label="App update available"
+      popover="manual"
+      aria-labelledby="pwa-update-title"
     >
-      <span class="pwa-update-icon">⚡</span>
+      <span class="pwa-update-icon" aria-hidden="true">⚡</span>
       <div class="pwa-banner-text">
-        <div class="pwa-banner-title">New Version Available</div>
+        <h2 class="pwa-banner-title" id="pwa-update-title">
+          New Version Available
+        </h2>
         <div class="pwa-banner-sub">
           Tap Update Now to get the latest data &amp; fixes
         </div>
@@ -307,7 +311,16 @@
       >
         &#x2715;
       </button>
-    </div>
+    </dialog>
+
+    <!-- Mobile Bet Slip Modal Dialog -->
+    <dialog
+      id="coupon-slip-dialog"
+      class="coupon-slip-dialog"
+      closedby="any"
+      aria-labelledby="coupon-slip-dialog-title"
+      aria-label="Bet Slip"
+    ></dialog>
 
     <!-- Core Scripts: Data & Application Logic -->
     <script src="data.js"></script>

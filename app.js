@@ -18,6 +18,151 @@
    11. PWA Service Worker & Install/Update Management
    ═══════════════════════════════════════════════════════════════════ */
 
+// ── Shared Top-Layer Dialog & Animation Helpers ────────────────────
+const FootyDialogs = (function () {
+  "use strict";
+
+  const hasNativePopover = Object.hasOwn(HTMLElement.prototype, "popover");
+  let supportsDisplayTransition;
+
+  // Reliably probe discrete `display` transition support (guards against Firefox bug 1882408
+  // where CSS.supports('transition-behavior', 'allow-discrete') returns true without animating display)
+  function canTransitionDisplay() {
+    if (supportsDisplayTransition !== undefined) return supportsDisplayTransition;
+    if (
+      !window.CSS ||
+      !window.CSS.supports ||
+      !window.CSS.supports("transition-behavior", "allow-discrete") ||
+      !document.body
+    ) {
+      return false;
+    }
+    const probe = document.createElement("div");
+    probe.style.cssText =
+      "transition: display 1s allow-discrete !important; display: block;";
+    document.body.appendChild(probe);
+    getComputedStyle(probe).display;
+    probe.style.display = "none";
+    supportsDisplayTransition = getComputedStyle(probe).display === "block";
+    probe.remove();
+    return supportsDisplayTransition;
+  }
+
+  function supportsTopLayerExit() {
+    return (
+      Boolean(
+        window.CSS &&
+          window.CSS.supports &&
+          window.CSS.supports("overlay", "auto"),
+      ) && canTransitionDisplay()
+    );
+  }
+
+  function isPopoverDialog(el) {
+    return hasNativePopover && el.hasAttribute("popover");
+  }
+
+  function isOpen(el) {
+    if (!el) return false;
+    if (isPopoverDialog(el)) {
+      try {
+        return el.matches(":popover-open");
+      } catch (_) {
+        return Boolean(el.open);
+      }
+    }
+    return Boolean(el.open);
+  }
+
+  function open(el, opts) {
+    if (!el) return;
+    const modal = Boolean(opts && opts.modal);
+    el.removeAttribute("data-closing");
+    if (modal) {
+      if (!el.open && typeof el.showModal === "function") {
+        el.showModal();
+      }
+      return;
+    }
+    if (isPopoverDialog(el)) {
+      if (!isOpen(el)) {
+        el.showPopover();
+      }
+    } else if (!el.open && typeof el.show === "function") {
+      el.show();
+    }
+  }
+
+  async function close(el) {
+    if (!el || !isOpen(el)) return;
+    if (el.hasAttribute("data-closing")) return;
+
+    if (!supportsTopLayerExit()) {
+      el.setAttribute("data-closing", "");
+      const animations =
+        typeof el.getAnimations === "function"
+          ? el.getAnimations({ subtree: true })
+          : [];
+      if (animations.length > 0) {
+        await Promise.race([
+          Promise.allSettled(animations.map((a) => a.finished)),
+          new Promise((r) => setTimeout(r, 2000)),
+        ]);
+      }
+      if (!el.hasAttribute("data-closing")) return;
+      el.removeAttribute("data-closing");
+    }
+
+    if (isPopoverDialog(el)) {
+      if (isOpen(el)) el.hidePopover();
+    } else if (el.open && typeof el.close === "function") {
+      el.close();
+    }
+  }
+
+  // Enhance modal dialogs:
+  // 1) Route native cancel (Esc / closedby) through close() when top-layer exit fallback is needed
+  // 2) Provide bounding-rect pointerdown/pointerup light-dismiss fallback when closedBy is unsupported
+  function enhanceModal(dialog) {
+    if (!dialog || dialog.dataset.modalEnhanced) return;
+    dialog.dataset.modalEnhanced = "1";
+
+    dialog.addEventListener("cancel", (event) => {
+      if (!supportsTopLayerExit()) {
+        event.preventDefault();
+        close(dialog);
+      }
+    });
+
+    if (
+      !("closedBy" in HTMLDialogElement.prototype) &&
+      dialog.getAttribute("closedby") === "any"
+    ) {
+      const outside = (e) => {
+        const r = dialog.getBoundingClientRect();
+        return (
+          e.clientX < r.left ||
+          e.clientX > r.right ||
+          e.clientY < r.top ||
+          e.clientY > r.bottom
+        );
+      };
+      let pressedOutside = false;
+      dialog.addEventListener("pointerdown", (e) => {
+        pressedOutside = outside(e);
+      });
+      dialog.addEventListener("pointerup", (e) => {
+        if (pressedOutside && outside(e)) {
+          close(dialog);
+        }
+        pressedOutside = false;
+      });
+    }
+  }
+
+  return { open, close, isOpen, enhanceModal };
+})();
+
 // ── Application Engine ─────────────────────────────────────────────
 (function () {
   "use strict";
@@ -642,8 +787,10 @@
     };
   }
 
-  function renderCouponSlipHtml(metrics) {
+  function renderCouponSlipHtml(metrics, isModal) {
     var legsHtml = "";
+    var stakeInputId = isModal ? "coupon-modal-stake-input" : "coupon-stake-input";
+    var copyBtnId = isModal ? "coupon-modal-copy-btn" : "coupon-copy-btn";
     if (COUPON_SLIP.length === 0) {
       legsHtml =
         '<div class="coupon-slip-empty">' +
@@ -666,13 +813,13 @@
             '<div class="coupon-leg-card">' +
             '<div class="coupon-leg-top">' +
             '<div class="coupon-leg-match">' +
-            getTeamBadgeHtml(leg.home, "coupon-slip-badge") +
+            getTeamBadgeHtml(leg.home, "coupon-slip-team-badge") +
             " " +
             esc(leg.home) +
             " vs " +
             esc(leg.away) +
             " " +
-            getTeamBadgeHtml(leg.away, "coupon-slip-badge") +
+            getTeamBadgeHtml(leg.away, "coupon-slip-team-badge") +
             "</div>" +
             '<button class="coupon-leg-remove-btn" data-action="remove-leg" data-mid="' +
             esc(leg.matchId) +
@@ -706,7 +853,9 @@
         '<span class="coupon-acc-title">' +
         esc(accTypeTitle) +
         "</span>" +
-        '<span class="coupon-slip-badge">' +
+        '<span class="coupon-slip-badge" style="color:' +
+        metrics.meterColor +
+        ';">' +
         COUPON_SLIP.length +
         " LEGS</span>" +
         "</div>" +
@@ -748,7 +897,9 @@
         "</div>" +
         '<div class="coupon-stake-input-wrap">' +
         '<span class="coupon-currency-symbol">£</span>' +
-        '<input type="number" id="coupon-stake-input" class="coupon-stake-input" min="1" step="1" value="' +
+        '<input type="number" id="' +
+        stakeInputId +
+        '" class="coupon-stake-input" aria-label="Stake amount" min="1" step="1" value="' +
         couponStake +
         '" />' +
         "</div>" +
@@ -759,33 +910,61 @@
         "</span>" +
         "</div>" +
         "</div>" +
-        '<button class="coupon-copy-btn" id="coupon-copy-btn" data-action="copy-slip">' +
+        '<button type="button" class="coupon-copy-btn" id="' +
+        copyBtnId +
+        '" data-action="copy-slip">' +
         "&#128203; Copy Accumulator Summary" +
         "</button>" +
         "</div>";
     }
 
+    var titleHtml = isModal
+      ? '<h2 class="coupon-slip-title" id="coupon-slip-dialog-title">Bet Slip</h2>'
+      : '<span class="coupon-slip-title">Bet Slip</span>';
+
     return (
       '<div class="coupon-slip">' +
-      '<div class="coupon-drawer-handle" data-action="toggle-mobile-drawer"></div>' +
+      (isModal
+        ? '<button type="button" class="coupon-drawer-handle" data-action="close-mobile-drawer" aria-label="Close bet slip"></button>'
+        : "") +
       '<div class="coupon-slip-header">' +
       '<div class="coupon-slip-title-group">' +
-      '<span class="coupon-slip-title">Bet Slip</span>' +
+      titleHtml +
       (COUPON_SLIP.length > 0
-        ? '<span class="coupon-slip-badge">' + COUPON_SLIP.length + "</span>"
+        ? '<span class="coupon-slip-badge" style="color:' +
+          metrics.meterColor +
+          ';">' +
+          COUPON_SLIP.length +
+          "</span>"
         : "") +
       "</div>" +
       '<div class="coupon-slip-actions">' +
       (COUPON_SLIP.length > 0
-        ? '<button class="coupon-slip-clear-btn" data-action="clear-slip">Clear All</button>'
+        ? '<button type="button" class="coupon-slip-clear-btn" data-action="clear-slip">Clear All</button>'
         : "") +
-      '<button class="coupon-slip-close-btn" data-action="close-mobile-drawer" title="Close drawer">&#10005; Close</button>' +
+      (isModal
+        ? '<button type="button" class="coupon-slip-close-btn" data-action="close-mobile-drawer" title="Close drawer" autofocus>&#10005; Close</button>'
+        : "") +
       "</div>" +
       "</div>" +
       legsHtml +
       summaryHtml +
       "</div>"
     );
+  }
+
+  function openCouponSlipDialog() {
+    var dlg = document.getElementById("coupon-slip-dialog");
+    if (!dlg || COUPON_SLIP.length === 0) return;
+    var metrics = computeCouponAccumulator();
+    dlg.innerHTML = renderCouponSlipHtml(metrics, true);
+    FootyDialogs.enhanceModal(dlg);
+    FootyDialogs.open(dlg, { modal: true });
+  }
+
+  function closeCouponSlipDialog() {
+    var dlg = document.getElementById("coupon-slip-dialog");
+    if (dlg) FootyDialogs.close(dlg);
   }
 
   function renderCouponMobileBarHtml(metrics) {
@@ -809,7 +988,7 @@
       "</strong></span>" +
       "</div>" +
       "</div>" +
-      '<button class="coupon-mobile-bar-btn" data-action="open-mobile-drawer">' +
+      '<button type="button" class="coupon-mobile-bar-btn" data-action="open-mobile-drawer">' +
       "View Slip &#x25B5;" +
       "</button>" +
       "</div>"
@@ -821,11 +1000,15 @@
 
     var slipCol = document.getElementById("coupon-slip-column");
     if (slipCol) {
-      slipCol.innerHTML = renderCouponSlipHtml(metrics);
+      slipCol.innerHTML = renderCouponSlipHtml(metrics, false);
+    }
+
+    var slipDialog = document.getElementById("coupon-slip-dialog");
+    if (slipDialog && FootyDialogs.isOpen(slipDialog)) {
       if (COUPON_SLIP.length === 0) {
-        slipCol.classList.remove("drawer-open");
-        var backdrop = document.getElementById("coupon-drawer-backdrop");
-        if (backdrop) backdrop.classList.remove("active");
+        FootyDialogs.close(slipDialog);
+      } else {
+        slipDialog.innerHTML = renderCouponSlipHtml(metrics, true);
       }
     }
 
@@ -1247,58 +1430,110 @@
       render();
     });
 
-    $main.addEventListener("input", (e) => {
-      if (e.target && e.target.id === "coupon-stake-input") {
+    function handleStakeInput(e) {
+      if (e.target && e.target.classList.contains("coupon-stake-input")) {
         var val = parseFloat(e.target.value);
         if (!isNaN(val) && val > 0) {
           couponStake = val;
           saveCouponSlip();
           var metrics = computeCouponAccumulator();
-          var payoutEl = document.querySelector(".coupon-payout-amount");
-          if (payoutEl) payoutEl.textContent = "£" + metrics.potentialReturn;
-          var profEl = document.querySelector(
-            ".coupon-stake-label-group span:last-child",
-          );
-          if (profEl)
-            profEl.textContent = "Profit: £" + metrics.potentialProfit;
+          document.querySelectorAll(".coupon-stake-input").forEach((inp) => {
+            if (inp !== e.target) inp.value = couponStake;
+          });
+          document.querySelectorAll(".coupon-payout-amount").forEach((el) => {
+            el.textContent = "£" + metrics.potentialReturn;
+          });
+          document
+            .querySelectorAll(".coupon-stake-label-group span:last-child")
+            .forEach((el) => {
+              el.textContent = "Profit: £" + metrics.potentialProfit;
+            });
         }
       }
-    });
+    }
+
+    $main.addEventListener("input", handleStakeInput);
+
+    // Native Modal Bet Slip Dialog event delegation & lifecycle
+    const $couponSlipDialog = $("coupon-slip-dialog");
+    if ($couponSlipDialog) {
+      FootyDialogs.enhanceModal($couponSlipDialog);
+
+      $couponSlipDialog.addEventListener("input", handleStakeInput);
+
+      $couponSlipDialog.addEventListener("click", (e) => {
+        if (
+          e.target.closest(
+            '[data-action="close-mobile-drawer"], [data-action="toggle-mobile-drawer"]',
+          )
+        ) {
+          closeCouponSlipDialog();
+          return;
+        }
+        const removeBtn = e.target.closest('[data-action="remove-leg"]');
+        if (removeBtn) {
+          removeCouponLeg(removeBtn.getAttribute("data-mid"));
+          return;
+        }
+        const clearBtn = e.target.closest('[data-action="clear-slip"]');
+        if (clearBtn) {
+          clearCouponSlip();
+          return;
+        }
+        const copyBtn = e.target.closest('[data-action="copy-slip"]');
+        if (copyBtn) {
+          copyCouponSummary(copyBtn);
+          return;
+        }
+      });
+
+      $couponSlipDialog.addEventListener("close", () => {
+        $couponSlipDialog.returnValue = "";
+        $couponSlipDialog.innerHTML = "";
+      });
+
+      if (window.matchMedia) {
+        const desktopMq = window.matchMedia("(min-width: 881px)");
+        const onViewportChange = (ev) => {
+          if (ev.matches && FootyDialogs.isOpen($couponSlipDialog)) {
+            closeCouponSlipDialog();
+          }
+        };
+        if (typeof desktopMq.addEventListener === "function") {
+          desktopMq.addEventListener("change", onViewportChange);
+        }
+      }
+    }
 
     $main.addEventListener("click", (e) => {
-      // Open Mobile Bet Slip Drawer
+      // Open Mobile Bet Slip Modal Dialog
       const openDrawerBtn = e.target.closest(
         '[data-action="open-mobile-drawer"]',
       );
       if (openDrawerBtn) {
-        const slipCol = document.getElementById("coupon-slip-column");
-        const backdrop = document.getElementById("coupon-drawer-backdrop");
-        if (slipCol) slipCol.classList.add("drawer-open");
-        if (backdrop) backdrop.classList.add("active");
+        openCouponSlipDialog();
         return;
       }
 
-      // Close Mobile Bet Slip Drawer
+      // Close Mobile Bet Slip Modal Dialog
       const closeDrawerBtn = e.target.closest(
         '[data-action="close-mobile-drawer"]',
       );
       if (closeDrawerBtn) {
-        const slipCol = document.getElementById("coupon-slip-column");
-        const backdrop = document.getElementById("coupon-drawer-backdrop");
-        if (slipCol) slipCol.classList.remove("drawer-open");
-        if (backdrop) backdrop.classList.remove("active");
+        closeCouponSlipDialog();
         return;
       }
 
-      // Toggle Mobile Bet Slip Drawer
+      // Toggle Mobile Bet Slip Modal Dialog
       const toggleDrawerBtn = e.target.closest(
         '[data-action="toggle-mobile-drawer"]',
       );
       if (toggleDrawerBtn) {
-        const slipCol = document.getElementById("coupon-slip-column");
-        const backdrop = document.getElementById("coupon-drawer-backdrop");
-        if (slipCol) slipCol.classList.toggle("drawer-open");
-        if (backdrop) backdrop.classList.toggle("active");
+        if ($couponSlipDialog && FootyDialogs.isOpen($couponSlipDialog)) {
+          closeCouponSlipDialog();
+        } else {
+          openCouponSlipDialog();
+        }
         return;
       }
 
@@ -2669,15 +2904,17 @@
     }
 
     var metrics = computeCouponAccumulator();
-    var slipHtml = renderCouponSlipHtml(metrics);
+    var slipHtml = renderCouponSlipHtml(metrics, false);
     var mobileBarHtml = renderCouponMobileBarHtml(metrics);
 
-    var wasDrawerOpen = false;
-    var oldSlipCol = document.getElementById("coupon-slip-column");
-    if (oldSlipCol && oldSlipCol.classList.contains("drawer-open")) {
-      wasDrawerOpen = true;
+    var slipDialog = document.getElementById("coupon-slip-dialog");
+    if (slipDialog && FootyDialogs.isOpen(slipDialog)) {
+      if (COUPON_SLIP.length === 0) {
+        FootyDialogs.close(slipDialog);
+      } else {
+        slipDialog.innerHTML = renderCouponSlipHtml(metrics, true);
+      }
     }
-    if (COUPON_SLIP.length === 0) wasDrawerOpen = false;
 
     $main.innerHTML =
       '<div class="coupon-container">' +
@@ -2696,15 +2933,10 @@
       '<div class="coupon-matches-column">' +
       cardsHtml +
       "</div>" +
-      '<div class="coupon-slip-column' +
-      (wasDrawerOpen ? " drawer-open" : "") +
-      '" id="coupon-slip-column">' +
+      '<div class="coupon-slip-column" id="coupon-slip-column">' +
       slipHtml +
       "</div>" +
       "</div>" +
-      '<div class="coupon-drawer-backdrop' +
-      (wasDrawerOpen ? " active" : "") +
-      '" id="coupon-drawer-backdrop" data-action="close-mobile-drawer"></div>' +
       '<div id="coupon-mobile-bar-wrap">' +
       mobileBarHtml +
       "</div>" +
@@ -3964,10 +4196,10 @@
   var waitingSW = null;
 
   function showUpdateBanner() {
-    $updateBanner.classList.add("visible");
+    FootyDialogs.open($updateBanner);
   }
   function hideUpdateBanner() {
-    $updateBanner.classList.remove("visible");
+    FootyDialogs.close($updateBanner);
   }
 
   // Watch a registration for a waiting SW
@@ -4046,14 +4278,14 @@
 
   // Handle Chromium beforeinstallprompt event
   window.addEventListener("beforeinstallprompt", function (e) {
-    // Prevent browser default mini-infobar so custom styled banner is used
+    // Prevent browser default mini-infobar so custom styled dialog is used
     e.preventDefault();
     deferredPrompt = e;
 
     if (!isStandalone && !isDismissedRecently()) {
       setTimeout(function () {
         if (!isStandalone && !isDismissedRecently()) {
-          $installBanner.classList.add("visible");
+          FootyDialogs.open($installBanner);
         }
       }, 3000);
     }
@@ -4070,7 +4302,7 @@
     }
     setTimeout(function () {
       if (!isStandalone && !isDismissedRecently()) {
-        $installBanner.classList.add("visible");
+        FootyDialogs.open($installBanner);
       }
     }, 4000);
   }
@@ -4081,7 +4313,7 @@
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(function (choice) {
       deferredPrompt = null;
-      $installBanner.classList.remove("visible");
+      FootyDialogs.close($installBanner);
       if (choice && choice.outcome === "dismissed") {
         markDismissed();
       }
@@ -4090,14 +4322,14 @@
 
   // Dismiss button click handler
   $installDismiss.addEventListener("click", function () {
-    $installBanner.classList.remove("visible");
+    FootyDialogs.close($installBanner);
     deferredPrompt = null;
     markDismissed();
   });
 
-  // When successfully installed, remove banner and mark dismissed
+  // When successfully installed, remove dialog and mark dismissed
   window.addEventListener("appinstalled", function () {
-    $installBanner.classList.remove("visible");
+    FootyDialogs.close($installBanner);
     deferredPrompt = null;
     markDismissed();
   });

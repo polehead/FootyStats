@@ -1362,7 +1362,7 @@ body::before {
   }
 }
 
-/* ── Mobile: small phones & PWA Banner ──────────────────────────── */
+/* ── Mobile: small phones ───────────────────────────────────────── */
 @media (max-width: 480px) {
   .team-win2-pill {
     font-size: 0.62rem;
@@ -1370,12 +1370,6 @@ body::before {
   }
   .fixture-stats-hint {
     font-size: 0.65rem;
-  }
-  #pwa-install-banner {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    max-width: calc(100% - 24px);
   }
 }
 
@@ -1664,13 +1658,21 @@ body::before {
   }
 }
 
-/* ── PWA Install Banner ──────────────────────────────────────────── */
+/* ── Native Dialog Scroll Containment ────────────────────────────── */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* ── PWA Install Dialog (non-modal top-layer) ────────────────────── */
 #pwa-install-banner {
-  display: none;
   position: fixed;
-  bottom: var(--space-lg);
-  right: var(--space-lg);
-  z-index: 9999;
+  inset: auto var(--space-lg) var(--space-lg) auto;
+  margin: 0;
+  color: var(--text-primary);
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-sm) var(--space-md);
@@ -1682,11 +1684,37 @@ body::before {
     0 8px 32px rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  animation: fadeSlideIn 0.4s var(--ease-out) both;
   max-width: 320px;
+  opacity: 0;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.35s;
+  transition-timing-function: var(--ease-out);
+  transition-behavior: allow-discrete;
 }
-#pwa-install-banner.visible {
+@media (prefers-reduced-motion: no-preference) {
+  #pwa-install-banner {
+    transform: translateY(16px);
+  }
+}
+:is(#pwa-install-banner[open], #pwa-install-banner:popover-open) {
   display: flex;
+}
+:is(#pwa-install-banner[open], #pwa-install-banner:popover-open):where(
+  :not([data-closing])
+) {
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateY(0);
+
+    @starting-style {
+      transform: translateY(16px);
+    }
+  }
 }
 .pwa-banner-icon {
   width: 36px;
@@ -1699,6 +1727,7 @@ body::before {
   min-width: 0;
 }
 .pwa-banner-title {
+  margin: 0;
   font-family: var(--font-display);
   font-size: 0.65rem;
   font-weight: 700;
@@ -1747,9 +1776,8 @@ body::before {
 }
 @media (max-width: 480px) {
   #pwa-install-banner {
-    bottom: var(--space-md);
-    right: var(--space-md);
-    left: var(--space-md);
+    inset: auto var(--space-md) var(--space-md) var(--space-md);
+    width: auto;
     max-width: unset;
   }
 }
@@ -2184,15 +2212,13 @@ body::before {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   18. PWA Update Banner
+   18. PWA Update Dialog (non-modal top-layer)
    ═══════════════════════════════════════════════════════════════════ */
 #pwa-update-banner {
-  display: none;
   position: fixed;
-  top: var(--space-md);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10000;
+  inset: var(--space-md) 0 auto 0;
+  margin: 0 auto;
+  color: var(--text-primary);
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-sm) var(--space-md);
@@ -2206,32 +2232,38 @@ body::before {
   -webkit-backdrop-filter: blur(16px);
   max-width: 480px;
   width: calc(100% - 32px);
-  animation: slideDownFade 0.4s var(--ease-out) both;
+  opacity: 0;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.35s;
+  transition-timing-function: var(--ease-out);
+  transition-behavior: allow-discrete;
 }
 
-#pwa-update-banner.visible {
+@media (prefers-reduced-motion: no-preference) {
+  #pwa-update-banner {
+    transform: translateY(-16px);
+  }
+}
+
+:is(#pwa-update-banner[open], #pwa-update-banner:popover-open) {
   display: flex;
 }
 
-@keyframes slideDownFade {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
+:is(#pwa-update-banner[open], #pwa-update-banner:popover-open):where(
+  :not([data-closing])
+) {
+  opacity: 1;
 
-@keyframes slideDownFadeMobile {
-  from {
+  @starting-style {
     opacity: 0;
-    transform: translateY(-12px);
   }
-  to {
-    opacity: 1;
+
+  @media (prefers-reduced-motion: no-preference) {
     transform: translateY(0);
+
+    @starting-style {
+      transform: translateY(-16px);
+    }
   }
 }
 
@@ -2271,13 +2303,10 @@ body::before {
 
 @media (max-width: 480px) {
   #pwa-update-banner {
-    top: var(--space-sm);
-    left: var(--space-sm);
-    right: var(--space-sm);
-    transform: none;
+    inset: var(--space-sm) var(--space-sm) auto var(--space-sm);
+    margin: 0;
     max-width: unset;
     width: auto;
-    animation-name: slideDownFadeMobile;
   }
 }
 
@@ -3193,14 +3222,21 @@ body::before {
 }
 
 .coupon-slip-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 800;
-  background: var(--neon-blue);
-  color: #06080d;
-  padding: 2px 7px;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: rgba(0, 180, 255, 0.12);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  color: var(--neon-green);
+  padding: 3px 8px;
   border-radius: 100px;
-  box-shadow: 0 0 8px rgba(0, 180, 255, 0.5);
+  box-shadow: 0 0 8px rgba(0, 180, 255, 0.2);
 }
 
 .coupon-slip-clear-btn {
@@ -3628,16 +3664,134 @@ body::before {
   display: none;
 }
 
-.coupon-drawer-backdrop {
-  display: none;
-}
-
 .coupon-drawer-handle {
   display: none;
 }
 
 .coupon-slip-close-btn {
   display: none;
+}
+
+/* Native Modal Bet Slip Dialog (Mobile Bottom Sheet) */
+#coupon-slip-dialog {
+  position: fixed;
+  inset: auto 0 0 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  max-height: 85vh;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  overflow: visible;
+  opacity: 0;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-behavior: allow-discrete;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #coupon-slip-dialog {
+    transform: translateY(100%);
+  }
+}
+
+#coupon-slip-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+#coupon-slip-dialog[open]:where(:not([data-closing])) {
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateY(0);
+
+    @starting-style {
+      transform: translateY(100%);
+    }
+  }
+}
+
+#coupon-slip-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition-property: background-color, backdrop-filter, display, overlay;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+#coupon-slip-dialog[open]:where(:not([data-closing]))::backdrop {
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  @starting-style {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+}
+
+#coupon-slip-dialog .coupon-slip {
+  border-radius: 20px 20px 0 0;
+  border-top: 2px solid var(--neon-blue);
+  border-left: 1px solid rgba(0, 180, 255, 0.3);
+  border-right: 1px solid rgba(0, 180, 255, 0.3);
+  border-bottom: none;
+  box-shadow:
+    0 -12px 40px rgba(0, 0, 0, 0.9),
+    0 0 30px rgba(0, 180, 255, 0.2);
+  max-height: 85vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 16px 28px;
+}
+
+#coupon-slip-dialog .coupon-slip-title {
+  margin: 0;
+}
+
+#coupon-slip-dialog .coupon-drawer-handle {
+  display: block;
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 2px;
+  padding: 0;
+  margin: 0 auto 8px;
+  cursor: pointer;
+}
+
+#coupon-slip-dialog .coupon-slip-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#coupon-slip-dialog .coupon-slip-close-btn:hover {
+  background: rgba(255, 45, 85, 0.15);
+  border-color: var(--neon-red);
+  color: var(--neon-red);
 }
 
 .coupon-slip-actions {
@@ -3738,89 +3892,9 @@ body::before {
     color: #06080d;
   }
 
-  /* Drawer Backdrop */
-  .coupon-drawer-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    z-index: 1050;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .coupon-drawer-backdrop.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* Slip Drawer on Mobile */
+  /* Hide desktop sidebar column on mobile; replaced by native modal #coupon-slip-dialog */
   .coupon-slip-column {
-    position: fixed !important;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto !important;
-    z-index: 1100;
-    max-height: 85vh;
-    transform: translateY(105%);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    padding: 0 !important;
-  }
-
-  .coupon-slip-column.drawer-open {
-    transform: translateY(0);
-  }
-
-  .coupon-slip {
-    border-radius: 20px 20px 0 0 !important;
-    border-top: 2px solid var(--neon-blue) !important;
-    border-left: 1px solid rgba(0, 180, 255, 0.3) !important;
-    border-right: 1px solid rgba(0, 180, 255, 0.3) !important;
-    border-bottom: none !important;
-    box-shadow:
-      0 -12px 40px rgba(0, 0, 0, 0.9),
-      0 0 30px rgba(0, 180, 255, 0.2) !important;
-    max-height: 85vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 12px 16px 28px !important;
-  }
-
-  .coupon-drawer-handle {
-    display: block;
-    width: 40px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 2px;
-    margin: 0 auto 8px;
-    cursor: pointer;
-  }
-
-  .coupon-slip-close-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-sm);
-    color: var(--text-primary);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    padding: 3px 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .coupon-slip-close-btn:hover {
-    background: rgba(255, 45, 85, 0.15);
-    border-color: var(--neon-red);
-    color: var(--neon-red);
+    display: none;
   }
 }
 
@@ -3943,13 +4017,13 @@ body::before {
   font-size: 0.65rem;
 }
 
-.coupon-slip-badge,
+.coupon-slip-team-badge,
 .coupon-slip-crest {
   width: 16px;
   height: 16px;
 }
 
-.coupon-slip-badge-fallback,
+.coupon-slip-team-badge-fallback,
 .coupon-slip-crest-fallback {
   width: 16px;
   height: 16px;
@@ -5096,5 +5170,10 @@ body::before {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  dialog,
+  dialog::backdrop {
+    transition-duration: 0.1s !important;
   }
 }
