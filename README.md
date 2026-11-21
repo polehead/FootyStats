@@ -953,3 +953,58 @@ Filter for 5+ seasons of consistency: console.table(window.comboMatchups.filter(
 })();
 ```
 > Change if (edgePct > 0) to if (edgePct >= 5) if you only want strong edges of +5% or higher.
+
+## Flag any upcoming fixtures with incomplete or very little historical data
+
+```js
+(() => {
+  const D = window.FOOTYDATA;
+  const F = window.FOOTYFIXTURES;
+  const fixtures = F && (F.fixtures || F.matches);
+  if (!D || !D.m || !fixtures) {
+    console.error("FOOTYDATA or FOOTYFIXTURES not loaded. Make sure you are on the FootyStats page.");
+    return;
+  }
+
+  const teamName = (t) => (typeof t === "number" ? D.t[t] : t);
+  const counts = {};
+  const ensure = (n) => (counts[n] || (counts[n] = { h: 0, a: 0, ch: 0, ca: 0 }));
+
+  for (const m of D.m) {
+    const hs = ensure(teamName(m[1]));
+    const as = ensure(teamName(m[2]));
+    hs.h++;
+    as.a++;
+    if (m[8] != null && m[9] != null && m[10] != null && m[10] > 0) {
+      hs.ch++;
+      as.ca++;
+    }
+  }
+
+  const issues = [];
+  for (const fx of fixtures) {
+    const hs = counts[fx.home] || { h: 0, a: 0, ch: 0, ca: 0 };
+    const as = counts[fx.away] || { h: 0, a: 0, ch: 0, ca: 0 };
+    const flags = [];
+    if (hs.h === 0) flags.push("No home history");
+    else if (hs.h < 5) flags.push(`Low home sample (${hs.h})`);
+    if (as.a === 0) flags.push("No away history");
+    else if (as.a < 5) flags.push(`Low away sample (${as.a})`);
+    if (hs.ch === 0 || as.ca === 0) flags.push("Missing corner stats");
+
+    if (flags.length) {
+      issues.push({
+        Date: `${fx.date || ""} ${fx.time || ""}`.trim(),
+        League: fx.league || "",
+        Fixture: `${fx.home} vs ${fx.away}`,
+        "Home Games": hs.h,
+        "Away Games": as.a,
+        "Edge Case(s)": flags.join(", "),
+      });
+    }
+  }
+
+  console.log(`Found ${issues.length} fixture data edge cases:`);
+  console.table(issues);
+})();
+```
