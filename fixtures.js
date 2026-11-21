@@ -1,5 +1,5 @@
 var FOOTYFIXTURES = {
-  "updated": "2026-11-21T01:04:05Z",
+  "updated": "2026-11-21T18:39:45Z",
   "leagues": [
     "Belgium First Division A",
     "Bundesliga",
