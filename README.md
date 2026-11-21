@@ -897,5 +897,59 @@ Filter for 5+ seasons of consistency: console.table(window.comboMatchups.filter(
   console.table(results);
 })();
 ```
-Change combinedPct > 60 to combinedPct >= 60 if you want to include fixtures at exactly 60.0%.
-If you want both teams individually over 60% instead of the combined average, replace if (combinedPct > 60) with if (homePct > 60 && awayPct > 60).
+>Change combinedPct > 60 to combinedPct >= 60 if you want to include fixtures at exactly 60.0%.
+>If you want both teams individually over 60% instead of the combined average, replace if (combinedPct > 60) with if (homePct > 60 && awayPct > 60).
+
+## All positive value edge fixtures (Model % > bookmaker-implied %)
+
+```js
+(() => {
+  const btns = document.querySelectorAll('[data-action="toggle-leg"], [data-action="quick-coupon"]');
+  if (!btns.length) {
+    console.warn("Switch to the 'Upcoming Fixtures' or 'Coupon' tab first, then re-run this command.");
+    return;
+  }
+
+  const seen = new Set();
+  const edges = [];
+
+  for (const btn of btns) {
+    const mid = btn.getAttribute("data-mid") || "";
+    const pick = btn.getAttribute("data-pick") || "";
+    const key = `${mid}|${pick}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const prob = parseFloat(btn.getAttribute("data-prob"));
+    const odds = parseFloat(btn.getAttribute("data-odds"));
+    if (!prob || !odds || odds <= 1) continue;
+
+    const impliedPct = (1 / odds) * 100;
+    const edgePct = prob - impliedPct;
+    const evPct = ((prob / 100) * odds - 1) * 100;
+
+    if (edgePct > 0) {
+      const home = btn.getAttribute("data-home") || "";
+      const away = btn.getAttribute("data-away") || "";
+      const pickLabel = pick === "1" ? `1 (${home})` : pick === "2" ? `2 (${away})` : "X (Draw)";
+      edges.push({
+        Date: `${btn.getAttribute("data-date") || ""} ${btn.getAttribute("data-time") || ""}`.trim(),
+        League: btn.getAttribute("data-lg") || "",
+        Fixture: `${home} vs ${away}`,
+        Pick: pickLabel,
+        "Model %": Number(prob.toFixed(1)),
+        "Implied %": Number(impliedPct.toFixed(1)),
+        "Edge %": Number(edgePct.toFixed(1)),
+        "Book Odds": Number(odds.toFixed(2)),
+        "Fair Odds": btn.getAttribute("data-fair") || "—",
+        "EV %": Number(evPct.toFixed(1)),
+      });
+    }
+  }
+
+  edges.sort((a, b) => b["Edge %"] - a["Edge %"]);
+  console.log(`Found ${edges.length} positive Value Edge picks:`);
+  console.table(edges);
+})();
+```
+> Change if (edgePct > 0) to if (edgePct >= 5) if you only want strong edges of +5% or higher.
