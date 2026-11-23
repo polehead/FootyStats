@@ -1,6 +1,6 @@
 var FOOTYFIXTURES = {
   "source": "bsd",
-  "updated": "2026-11-23T15:39:53Z",
+  "updated": "2026-11-23T23:21:32Z",
   "leagues": [
     "Belgium First Division A",
     "Bundesliga",
@@ -135,7 +135,7 @@ var FOOTYFIXTURES = {
       "round": 13,
       "venue": "Stade du Pays de Charleroi",
       "inj": {
-        "h": 1,
+        "h": 3,
         "a": 0
       },
       "ai_pred": {
@@ -211,7 +211,7 @@ var FOOTYFIXTURES = {
       "round": 13,
       "venue": "Bosuilstadion",
       "inj": {
-        "h": 0,
+        "h": 1,
         "a": 1
       },
       "ai_pred": {
@@ -311,7 +311,7 @@ var FOOTYFIXTURES = {
       },
       "venue": "Weserstadion",
       "inj": {
-        "h": 7,
+        "h": 8,
         "a": 4
       },
       "ai_pred": {
@@ -334,9 +334,25 @@ var FOOTYFIXTURES = {
       "time": "14:30",
       "home": "FC Koln",
       "away": "Elversberg",
-      "odds": null,
+      "odds": {
+        "h": 2.0,
+        "d": 3.7,
+        "a": 3.4
+      },
       "event_id": 213758,
       "round": 11,
+      "btts": {
+        "yes": 1.53,
+        "no": 2.38
+      },
+      "ou": {
+        "o15": 1.17,
+        "u15": 5.0,
+        "o25": 1.57,
+        "u25": 2.38,
+        "o35": 2.38,
+        "u35": 1.57
+      },
       "venue": "RheinEnergieStadion",
       "inj": {
         "h": 4,
@@ -362,12 +378,28 @@ var FOOTYFIXTURES = {
       "time": "14:30",
       "home": "Hamburg",
       "away": "Bayern Munich",
-      "odds": null,
+      "odds": {
+        "h": 8.5,
+        "d": 6.0,
+        "a": 1.25
+      },
       "event_id": 213761,
       "round": 11,
+      "btts": {
+        "yes": 1.57,
+        "no": 2.25
+      },
+      "ou": {
+        "o15": 1.08,
+        "u15": 8.0,
+        "o25": 1.29,
+        "u25": 3.75,
+        "o35": 1.73,
+        "u35": 2.1
+      },
       "venue": "Volksparkstadion",
       "inj": {
-        "h": 5,
+        "h": 6,
         "a": 7
       },
       "ai_pred": {
@@ -390,13 +422,29 @@ var FOOTYFIXTURES = {
       "time": "14:30",
       "home": "Mainz",
       "away": "Union Berlin",
-      "odds": null,
+      "odds": {
+        "h": 1.5,
+        "d": 4.33,
+        "a": 5.75
+      },
       "event_id": 213759,
       "round": 11,
+      "btts": {
+        "yes": 1.7,
+        "no": 2.05
+      },
+      "ou": {
+        "o15": 1.17,
+        "u15": 5.0,
+        "o25": 1.57,
+        "u25": 2.38,
+        "o35": 2.3,
+        "u35": 1.61
+      },
       "venue": "MEWA Arena",
       "inj": {
         "h": 3,
-        "a": 5
+        "a": 6
       },
       "ai_pred": {
         "res": "H",
@@ -418,9 +466,25 @@ var FOOTYFIXTURES = {
       "time": "14:30",
       "home": "Paderborn",
       "away": "Schalke 04",
-      "odds": null,
+      "odds": {
+        "h": 2.35,
+        "d": 3.3,
+        "a": 2.9
+      },
       "event_id": 213763,
       "round": 11,
+      "btts": {
+        "yes": 1.61,
+        "no": 2.2
+      },
+      "ou": {
+        "o15": 1.25,
+        "u15": 4.0,
+        "o25": 1.8,
+        "u25": 2.0,
+        "o35": 3.0,
+        "u35": 1.4
+      },
       "venue": "Home Deluxe Arena",
       "inj": {
         "h": 3,
@@ -480,7 +544,7 @@ var FOOTYFIXTURES = {
       "venue": "Europa-Park-Stadion",
       "inj": {
         "h": 1,
-        "a": 2
+        "a": 3
       },
       "ai_pred": {
         "res": "H",
@@ -507,8 +571,8 @@ var FOOTYFIXTURES = {
       "round": 11,
       "venue": "PreZero Arena",
       "inj": {
-        "h": 4,
-        "a": 5
+        "h": 5,
+        "a": 6
       },
       "ai_pred": {
         "res": "H",
@@ -579,7 +643,7 @@ var FOOTYFIXTURES = {
       "round": 12,
       "venue": "WWK ARENA",
       "inj": {
-        "h": 5,
+        "h": 6,
         "a": 4
       }
     },
@@ -596,7 +660,7 @@ var FOOTYFIXTURES = {
       "venue": "Europa-Park-Stadion",
       "inj": {
         "h": 1,
-        "a": 4
+        "a": 5
       }
     },
     {
@@ -627,7 +691,7 @@ var FOOTYFIXTURES = {
       "round": 12,
       "venue": "Red Bull Arena",
       "inj": {
-        "h": 2,
+        "h": 3,
         "a": 3
       }
     },
@@ -643,8 +707,8 @@ var FOOTYFIXTURES = {
       "round": 12,
       "venue": "An der alten Försterei",
       "inj": {
-        "h": 5,
-        "a": 5
+        "h": 6,
+        "a": 6
       }
     },
     {
@@ -660,7 +724,7 @@ var FOOTYFIXTURES = {
       "venue": "Deutsche Bank Park",
       "inj": {
         "h": 1,
-        "a": 7
+        "a": 8
       }
     },
     {
@@ -1143,41 +1207,46 @@ var FOOTYFIXTURES = {
       "home": "Bristol City",
       "away": "Wrexham",
       "odds": {
-        "h": 2.43,
-        "d": 3.27,
+        "h": 2.42,
+        "d": 3.26,
         "a": 2.84
       },
       "event_id": 214166,
       "round": 17,
       "btts": {
-        "yes": 1.76,
-        "no": 1.95
+        "yes": 1.78,
+        "no": 1.94
       },
       "ou": {
-        "o15": 1.32,
-        "u15": 3.09,
+        "o15": 1.31,
+        "u15": 3.15,
         "o25": 2.03,
         "u25": 1.75,
-        "o35": 3.4,
-        "u35": 1.27
+        "o35": 3.48,
+        "u35": 1.26
       },
       "venue": "Ashton Gate",
       "inj": {
         "h": 1,
-        "a": 3
+        "a": 4
       },
+      "funfacts": [
+        "When playing at home, Bristol City have not lost to Wrexham in their last 3 encounters.",
+        "Bristol City's home record this season: 2-0-6.",
+        "Scott Twine is Bristol City's top scorer with 5 goals. Kieffer Moore has scored 5 times for Wrexham."
+      ],
       "ai_preview": "**Bristol City's form is in freefall, but Wrexham's missing three key attackers — this could be the perfect storm for the Robins to grab a point at home.** 🔴\n\nCity have shipped 9 goals in their last three games and look vulnerable, while Wrexham arrive without **J. Windass**, **N. Broadhead**, and **S. Smith** — a trio that's been crucial to their recent upturn. That said, Wrexham's resilience (2W in last 5) shouldn't be written off lightly.\n\nKey storylines:\n\n- **Bristol City** need to tighten up defensively after consecutive heavy defeats to Norwich and Middlesbrough\n- **Wrexham's** attacking depth is stretched; **C. O'Hare** and **L. O'Brien** will carry extra load with the injury pile-up\n- **A. Randell** and **R. Cardines** are Bristol's creative outlet — if they click, City can punish a depleted Wrexham side\n\nExpected lineups:\n\n- **Bristol City**: B. Collins, G. Tanner, L. McNally, J. Williams, C. Pring, J. Knight, A. Randell, R. Cardines, B. De Keersmaecker, D. Ballard, S. Twine\n- **Wrexham**: A. Patterson, C. Doyle, J. Ekomie, J. Worrall, D. Hyam, B. Whiteman, I. Kaboré, L. O'Brien, K. Moore, O. Rathbone, C. O'Hare\n\nPrediction:\n\n**1-1 draw**. Both teams look evenly matched on the numbers, with neither likely to dominate — a cagey affair that feels destined for a stalemate. 📊",
       "ai_pred": {
         "res": "H",
         "ph": 38.5,
         "pd": 28.6,
-        "pa": 32.9,
+        "pa": 32.8,
         "xhg": 1.34,
         "xag": 1.31,
         "o25": 46.5,
-        "btts": 52.6,
+        "btts": 52.3,
         "score": "1-1",
-        "conf": 0.38
+        "conf": 0.39
       }
     },
     {
@@ -1189,38 +1258,43 @@ var FOOTYFIXTURES = {
       "away": "Preston",
       "odds": {
         "h": 1.49,
-        "d": 4.63,
-        "a": 5.36
+        "d": 4.65,
+        "a": 5.42
       },
       "event_id": 214167,
       "round": 17,
       "btts": {
-        "yes": 1.48,
-        "no": 2.51
+        "yes": 1.52,
+        "no": 2.4
       },
       "ou": {
         "o15": 1.1,
-        "u15": 5.74,
+        "u15": 6.05,
         "o25": 1.39,
         "u25": 2.82,
-        "o35": 2.03,
-        "u35": 1.75
+        "o35": 2.02,
+        "u35": 1.76
       },
       "venue": "Cardiff City Stadium",
       "inj": {
         "h": 3,
         "a": 6
       },
+      "funfacts": [
+        "Cardiff's home record this season: 4-4-0.",
+        "Preston's away record this season: 0-1-6.",
+        "Jack Moylan is Cardiff's top scorer with 10 goals. Callum Lang has scored 4 times for Preston."
+      ],
       "ai_preview": "**Cardiff's firepower meets Preston's injury crisis** — this one has all the makings of a cagey midweek affair at the City Stadium. 🏟️\n\nCardiff are clicking (2W in their last 5), though their defensive wobbles keep things spicy. Preston are struggling badly on the road and walking into this match absolutely decimated by injuries — **five players out** including key defenders and midfielders.\n\nKey storylines:\n\n- **Cardiff's attack** has shown real spark lately (5-4 win over Burnley), but they'll need **C. Robinson** and the front line to stay clinical against a stretched Preston backline\n- **Preston's injury list** is catastrophic — losing A. McCann, H. Clarke, J. Kenny, L. Gibson, and L. Gibbs all at once forces makeshift defending\n- **Head-to-head edge** clearly favors Cardiff (11 wins to Preston's 8 in the last 27 meetings)\n\nExpected lineups:\n\n- **Cardiff City**: N. Trott, J. Bagan, W. T. Fish, G. Osho, P. Ng, A. Robertson\n- **Preston North End**: D. Iversen, A. Hughes, O. Offiah, A. Vukčević, J. Storey, L. Lindsay\n\nPrediction:\n\n**1-1** — both teams are fragile enough that a stalemate feels right, even with Cardiff holding the edge.",
       "ai_pred": {
         "res": "H",
-        "ph": 62.5,
+        "ph": 62.7,
         "pd": 20.1,
-        "pa": 17.4,
+        "pa": 17.2,
         "xhg": 2.02,
         "xag": 1.06,
         "o25": 66.5,
-        "btts": 62.2,
+        "btts": 60.6,
         "score": "1-1",
         "conf": 0.63
       }
@@ -1235,37 +1309,42 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 2.63,
         "d": 3.25,
-        "a": 2.6
+        "a": 2.59
       },
       "event_id": 214168,
       "round": 17,
       "btts": {
-        "yes": 1.72,
-        "no": 2.01
+        "yes": 1.74,
+        "no": 1.99
       },
       "ou": {
-        "o15": 1.3,
-        "u15": 3.2,
+        "o15": 1.29,
+        "u15": 3.25,
         "o25": 1.98,
         "u25": 1.79,
-        "o35": 3.33,
-        "u35": 1.28
+        "o35": 3.42,
+        "u35": 1.27
       },
       "venue": "The Valley",
       "inj": {
         "h": 1,
         "a": 1
       },
+      "funfacts": [
+        "When playing at home, Charlton have not lost to Lincoln in their last 3 encounters.",
+        "Tyreece Campbell is Charlton's top scorer with 4 goals. Mikkel Ladefoged has scored 3 times for Lincoln.",
+        "A year ago, Charlton were number 9 in the table with 23 points. Now they are number 19 with 17 points."
+      ],
       "ai_preview": "**Both teams are limping into this one** — identical 1W-4L records over five games means we're looking at a classic Championship scrap between two sides desperately needing a spark. 🔥\n\nCharlton's got the home advantage at The Valley and slightly better H2H pedigree (2 wins to Lincoln's 4 in the last decade), but Lincoln edges the expected goals battle and can't be written off despite recent form.\n\nKey storylines:\n\n- **Charlton's attack** leans on O. Skipp and K. Grant to unlock a stalled midfield — they need creativity against a Lincoln side missing C. McGrandles's midfield presence\n- **Lincoln's upfront threat** hinges on C. Ogbene and F. Draper staying clinical; they've underperformed xG in recent weeks\n- **Home comforts matter here** — Charlton are 2-1 up H2H at The Valley over the last decade, though both sides remain fragile\n\nExpected lineups:\n\n- **Charlton Athletic**: A. Okonkwo, B. Koumetio, L. Jones, D. McNamara, K. Ramsay, C. Coventry, K. Grant, T. Campbell, O. Skipp, C. Kelman, M. Leaburn\n- **Lincoln City**: G. Wickens, S. Bradley, D. Elerewe, A. Reach, A. Coubiș, B. House, R. Hackett-Fairchild, R. Street, Y. Konak, C. Ogbene, F. Draper\n\nPrediction:\n\n**1-1 draw** — edge to Charlton at home, but neither side has enough rhythm to separate. A stalemate feels honest.",
       "ai_pred": {
         "res": "A",
         "ph": 35.4,
-        "pd": 28.7,
+        "pd": 28.6,
         "pa": 35.9,
         "xhg": 1.24,
         "xag": 1.4,
         "o25": 47.6,
-        "btts": 53.8,
+        "btts": 53.3,
         "score": "1-1",
         "conf": 0.36
       }
@@ -1285,12 +1364,12 @@ var FOOTYFIXTURES = {
       "event_id": 214169,
       "round": 17,
       "btts": {
-        "yes": 1.68,
-        "no": 2.07
+        "yes": 1.66,
+        "no": 2.12
       },
       "ou": {
-        "o15": 1.16,
-        "u15": 4.64,
+        "o15": 1.15,
+        "u15": 4.85,
         "o25": 1.53,
         "u25": 2.37,
         "o35": 2.31,
@@ -1301,6 +1380,11 @@ var FOOTYFIXTURES = {
         "h": 1,
         "a": 6
       },
+      "funfacts": [
+        "When playing at home, Middlesbrough have not lost to Swansea in their last 6 encounters.",
+        "Middlesbrough's home record this season: 5-2-0.",
+        "Swansea's away record this season: 4-0-4."
+      ],
       "ai_preview": "**Boro are on a roll, but Swansea's injury crisis might make this tighter than you'd think.** The hosts have won 3 of their last 5 at the Riverside, while the Swans are limping in with just 1 win in their past five — and they're missing key players.\n\nMiddlesbrough's recent form is **solid**, while Swansea have dropped points left and right. That said, away teams can be tricky customers, and Swansea's toughness under pressure shouldn't be underestimated, even short-handed.\n\nKey storylines:\n\n- **Middlesbrough's midfield control** will be crucial — A. Morris and A. Malanda need to dominate possession against a Swansea side stretched thin\n- **Swansea's defensive depth tested** without C. Burgess and M. Stamenić; B. Cabango and J. Tymon bear extra load\n- **Finishing will be clinical** — xG favors Boro, but set-piece chaos could unlock either side\n\nExpected lineups:\n\n- **Middlesbrough**: R. Vítek, N. Borges, C. Brittain, A. Phillips, A. Malanda, A. Morris, S. Berhalter, W. Lankshear, D. Strelec\n- **Swansea City**: L. Vigouroux, T. Parente, B. Cabango, J. Tymon, J. Fulton, A. Idah, R. Stewart\n\nPrediction:\n\n**1-1** — Boro edge the chances but Swansea's grit keeps them in it; a draw feels right given the chaos both sides are managing.",
       "ai_pred": {
         "res": "H",
@@ -1308,9 +1392,9 @@ var FOOTYFIXTURES = {
         "pd": 20.4,
         "pa": 15.1,
         "xhg": 1.87,
-        "xag": 1.01,
+        "xag": 1.0,
         "o25": 60.4,
-        "btts": 55.0,
+        "btts": 55.4,
         "score": "1-1",
         "conf": 0.64
       }
@@ -1325,21 +1409,21 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 1.98,
         "d": 3.65,
-        "a": 3.41
+        "a": 3.37
       },
       "event_id": 214170,
       "round": 17,
       "btts": {
-        "yes": 1.55,
-        "no": 2.32
+        "yes": 1.56,
+        "no": 2.31
       },
       "ou": {
         "o15": 1.19,
-        "u15": 4.13,
-        "o25": 1.65,
-        "u25": 2.18,
-        "o35": 2.56,
-        "u35": 1.45
+        "u15": 4.22,
+        "o25": 1.64,
+        "u25": 2.19,
+        "o35": 2.58,
+        "u35": 1.44
       },
       "venue": "Carrow Road",
       "inj": {
@@ -1349,13 +1433,13 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Norwich's on a tear, but QPR's got just enough bite to spoil the party.** 🔥 The Canaries have demolished everyone in sight — five straight wins, including a 5-0 demolition of Bristol City — while QPR are quietly solid on the road with three wins in five and a draw against Burnley to prove they're no pushover.\n\nNorwich have all the momentum and are heavy favorites at home, though key injuries to Ahmed, Touré, and Diallo could dull their edge slightly. QPR's missing Mbengue and Lamptey but have shown resilience; Kamara and Poku will need to keep things tight in midfield.\n\nKey storylines:\n\n- **Norwich's attack is ruthless** but QPR's defensive shape under pressure will be crucial to survival\n- **Grimshaw's keep vs. Charles's distribution** — both keepers could matter in a tight one\n- **Crnac and Makama's finishing vs. Kone and Kolli's hold-up play** — clinical edges will decide it\n\nExpected lineups:\n\n- **Norwich City**: Grimshaw, McConville, Stacey, Alves, Chrisene, Wright, Brooks, Kvistgaarden, Slimane, Makama, Crnac\n- **Queens Park Rangers**: Charles, Edwards, Adamson, Dunne, Kemper, Kamara, Smyth, Poku, Varane, Kone, Kolli\n\nPrediction:\n\n**1-1 draw** — Norwich create more but can't finish it; QPR nick a point on the break.",
       "ai_pred": {
         "res": "H",
-        "ph": 47.1,
-        "pd": 25.6,
-        "pa": 27.4,
+        "ph": 46.9,
+        "pd": 25.5,
+        "pa": 27.6,
         "xhg": 1.7,
         "xag": 1.21,
-        "o25": 56.8,
-        "btts": 59.5,
+        "o25": 57.1,
+        "btts": 59.3,
         "score": "1-1",
         "conf": 0.47
       }
@@ -1369,38 +1453,43 @@ var FOOTYFIXTURES = {
       "away": "West Ham",
       "odds": {
         "h": 3.9,
-        "d": 3.69,
+        "d": 3.67,
         "a": 1.84
       },
       "event_id": 214171,
       "round": 17,
       "btts": {
-        "yes": 1.65,
-        "no": 2.13
+        "yes": 1.68,
+        "no": 2.09
       },
       "ou": {
         "o15": 1.22,
-        "u15": 3.78,
+        "u15": 3.89,
         "o25": 1.75,
-        "u25": 2.03,
-        "o35": 2.78,
-        "u35": 1.38
+        "u25": 2.02,
+        "o35": 2.79,
+        "u35": 1.39
       },
       "venue": "Fratton Park",
       "inj": {
         "h": 7,
         "a": 3
       },
+      "funfacts": [
+        "West Ham haven't won in their last 5 games.",
+        "Portsmouth haven't won any of their last 3 games against West Ham.",
+        "West Ham's away record this season: 3-4-1."
+      ],
       "ai_preview": "**Portsmouth host West Ham in a Championship clash that screams \"cagey mid-table tussle\"** — both sides are sputtering lately, and Fratton Park's Tuesday night vibe rarely produces fireworks. 🏟️\n\nPortsmouth's won two of their last five but just shipped a 2-1 at home to Stoke; West Ham are limping along with only draws and losses across the same stretch. This feels like a game where neither team has the juice to break through convincingly.\n\nKey storylines:\n\n- **Portsmouth** are without key players (C. Bishop, E. Adams, J. Swift, K. Anderson, L. Brooke-Smith) — depth will be tested against a West Ham side trying to spark a revival.\n- **West Ham's** attacking potency is muted; M. Kanté and M. Solomon will need to find pockets of space in a defensive grind.\n- **Head-to-head** favors neither — the last 13 meetings are almost perfectly balanced (4-4-5), so form is everything.\n\nExpected lineups:\n\n- **Portsmouth**: N. Schmid, M. Dia, R. Poole, J. Meghoma, Z. Swanson, A. Kamara, A. Segecic, T. Shade, M. Pack, R. K.-McQueen, T. Waddingham\n- **West Ham United**: M. Hermansen, K. Mavropanos, M. Kilman, Morato, K. Walker-Peters, A. Engels, J. Bowen, D. Mukasa, M. Kanté, M. Solomon, P. Felipe\n\nPrediction:\n\n**1-1 draw** — both teams too blunt to find a winner, but organized enough to avoid a rout. Classic stalemate energy. ⚽",
       "ai_pred": {
         "res": "A",
         "ph": 23.9,
-        "pd": 25.3,
+        "pd": 25.4,
         "pa": 50.7,
         "xhg": 1.45,
         "xag": 1.38,
-        "o25": 53.7,
-        "btts": 56.3,
+        "o25": 53.6,
+        "btts": 55.5,
         "score": "1-1",
         "conf": 0.51
       }
@@ -1413,22 +1502,22 @@ var FOOTYFIXTURES = {
       "home": "Sheffield United",
       "away": "Southampton",
       "odds": {
-        "h": 2.5,
-        "d": 3.54,
-        "a": 2.58
+        "h": 2.49,
+        "d": 3.53,
+        "a": 2.57
       },
       "event_id": 214172,
       "round": 17,
       "btts": {
-        "yes": 1.54,
-        "no": 2.36
+        "yes": 1.55,
+        "no": 2.33
       },
       "ou": {
         "o15": 1.2,
-        "u15": 4.04,
+        "u15": 4.12,
         "o25": 1.67,
-        "u25": 2.14,
-        "o35": 2.57,
+        "u25": 2.13,
+        "o35": 2.6,
         "u35": 1.44
       },
       "venue": "Bramall Lane",
@@ -1436,6 +1525,11 @@ var FOOTYFIXTURES = {
         "h": 7,
         "a": 2
       },
+      "funfacts": [
+        "Sheffield United haven't won any of their last 7 games against Southampton.",
+        "Patrick Bamford is Sheffield United's top scorer with 5 goals. Cyle Larin has scored 8 times for Southampton.",
+        "A year ago, Sheffield United were number 22 in the table with 10 points. Now they are number 10 with 22 points."
+      ],
       "ai_preview": "**Sheffield United's vibe is smoke and mirrors—three wins, but a dodgy loss to Charlton and that scoreline against Preston says maybe the defence has cracks.** Both teams are bang in form though, so this smells like a chess match. 🏴󠁧󠁢󠁥󠁮󠁧󠁿\n\nSheffield United have been swaggering (crushed Watford 4-0) but road trips have bitten them. Southampton? Just as hot, same record, and they've got the H2H edge—seven wins in 14 clashes. This is a **proper coin flip energy** match.\n\nKey storylines:\n\n- **B. Brereton Díaz and T. Cannon** lead Sheffield's attack on home turf, but Southampton's defence (J. Stephens, R. Manning) have been stingy lately\n- **J. Ward-Prowse and F. Azaz** pull the strings for Southampton's midfield, trying to outwork Sheffield's L. Kitching and S. Peck in the middle\n- Sheffield are without **five players**, including muscle injuries across the squad—fatigue could creep in\n\nExpected lineups:\n\n- **Sheffield United**: M. Cooper, R. Norrington-Davies, J. Tanganga, K. Phillips, L. Kitching, B. Brereton Díaz, S. Peck, T. Chong, R. Donovan, T. Cannon, J. Ayew\n- **Southampton**: D. Peretz, J. Stephens, R. Manning, Z. Abbott, J. Bree, J. Ward-Prowse, F. Azaz, L. Scienza, K. Matsuki, L. Dobbin, C. Larin\n\nPrediction:\n\n**1-1 draw.** Both defences hold firm; attack doesn't quite fire. Classic Tuesday night stalemate. ⚽",
       "ai_pred": {
         "res": "H",
@@ -1444,8 +1538,8 @@ var FOOTYFIXTURES = {
         "pa": 36.2,
         "xhg": 1.55,
         "xag": 1.31,
-        "o25": 56.0,
-        "btts": 60.1,
+        "o25": 55.9,
+        "btts": 59.7,
         "score": "1-1",
         "conf": 0.37
       }
@@ -1458,21 +1552,21 @@ var FOOTYFIXTURES = {
       "home": "Wolves",
       "away": "Derby",
       "odds": {
-        "h": 1.31,
+        "h": 1.3,
         "d": 5.29,
-        "a": 8.72
+        "a": 8.86
       },
       "event_id": 214173,
       "round": 17,
       "btts": {
-        "yes": 1.81,
-        "no": 1.88
+        "yes": 1.87,
+        "no": 1.85
       },
       "ou": {
-        "o15": 1.16,
-        "u15": 4.63,
+        "o15": 1.15,
+        "u15": 4.85,
         "o25": 1.53,
-        "u25": 2.36,
+        "u25": 2.39,
         "o35": 2.33,
         "u35": 1.56
       },
@@ -1481,16 +1575,21 @@ var FOOTYFIXTURES = {
         "h": 7,
         "a": 7
       },
+      "funfacts": [
+        "A year ago, Derby were number 10 in the table with 23 points. Now they are number 23 with 10 points.",
+        "Wolverhampton haven't lost in their last 7 games.",
+        "Derby haven't won any of their last 6 away matches."
+      ],
       "ai_preview": "**Wolves are rolling at Molineux, but Derby are limping in with half their squad on the physio table.** This should be a coronation — except Championship form gets weird fast. 🔥\n\nWolverhampton's won four of their last five and look genuinely sharp. Derby, meanwhile, are a mess: one win in five, battered 4-0 at home by Norwich, and absolutely decimated by injuries. That said, **Wolves will be without Raúl Jiménez**, which removes some punch upfront.\n\nKey storylines:\n\n- **Wolverhampton's offensive depth** will test a Derby defense that's literally short-staffed — four key players out including **Cashin** and **Forsyth**\n- Derby's resilience: They nicked a 3-1 at Bolton recently, so they're not completely dead, just deeply compromised\n- **Trippier and Armstrong** running Wolves' midfield tempo against a exhausted Derby setup\n\nExpected lineups:\n\n- **Wolverhampton**: J. Sá, G. Konan, L. Krejčí, N. Djiga, K. Trippier, André, H. Bueno, A. Armstrong, R. Gomes, M. Mané, R. Saïd\n- **Derby County**: J. W. Zetterström, D. Sanderson, R. Nyambe, J. Ward, J. Robinson, B. Clark, D. Ozoh, R. Hedges, A. Mowatt, C. Morris, M. Fuseini\n\nPrediction:\n\n**Wolves 1–1 Derby.** Could easily go either way — Wolves should dominate but Derby's scrambling defense might hold on through sheer desperation.",
       "ai_pred": {
         "res": "H",
-        "ph": 71.5,
-        "pd": 17.7,
-        "pa": 10.8,
+        "ph": 71.8,
+        "pd": 17.6,
+        "pa": 10.5,
         "xhg": 1.56,
         "xag": 1.06,
-        "o25": 60.0,
-        "btts": 51.0,
+        "o25": 60.3,
+        "btts": 49.9,
         "score": "1-1",
         "conf": 0.72
       }
@@ -2031,7 +2130,7 @@ var FOOTYFIXTURES = {
       "round": 18,
       "venue": "Racecourse Ground",
       "inj": {
-        "h": 3,
+        "h": 4,
         "a": 7
       },
       "ai_pred": {
@@ -2200,7 +2299,7 @@ var FOOTYFIXTURES = {
       "venue": "Carrow Road",
       "inj": {
         "h": 3,
-        "a": 3
+        "a": 4
       }
     },
     {
@@ -2380,7 +2479,7 @@ var FOOTYFIXTURES = {
       "venue": "Kooi Stadion",
       "inj": {
         "h": 1,
-        "a": 3
+        "a": 4
       },
       "ai_pred": {
         "res": "H",
@@ -2407,7 +2506,7 @@ var FOOTYFIXTURES = {
       "round": 14,
       "venue": "Bingoal Stadium",
       "inj": {
-        "h": 1,
+        "h": 2,
         "a": 1
       },
       "ai_pred": {
@@ -2579,7 +2678,7 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "Het Kasteel",
       "inj": {
-        "h": 3,
+        "h": 4,
         "a": 2
       }
     },
@@ -2675,58 +2774,8 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "Bingoal Stadium",
       "inj": {
-        "h": 1,
+        "h": 2,
         "a": 0
-      }
-    },
-    {
-      "div": "SP1",
-      "league": "La Liga",
-      "date": "23/11/2026",
-      "time": "20:00",
-      "home": "Levante",
-      "away": "Elche",
-      "odds": {
-        "h": 2.16,
-        "d": 3.58,
-        "a": 3.12
-      },
-      "event_id": 213644,
-      "round": 13,
-      "btts": {
-        "yes": 1.55,
-        "no": 2.34
-      },
-      "ou": {
-        "o15": 1.21,
-        "u15": 4.19,
-        "o25": 1.68,
-        "u25": 2.19,
-        "o35": 2.66,
-        "u35": 1.46
-      },
-      "venue": "Ciudad de Valencia",
-      "inj": {
-        "h": 1,
-        "a": 3
-      },
-      "funfacts": [
-        "When playing at home, Levante have not lost to Elche in their last 18 encounters.",
-        "Brugue is Levante's top scorer with 5 goals. Fernando Nino has scored 6 times for Elche.",
-        "Dela has more yellow cards (4) than any other player at Levante. Gonzalo Villar has collected 4 for Elche."
-      ],
-      "ai_preview": "**Levante's looking to flex at home**, and they've got every reason to — the H2H record is basically a cheat code in their favor. 🔴‍⚪ Both sides scraped through identical 2W-1D-2L runs, but Levante's the one with home advantage and way better historical luck against Elche.\n\nElche are limping in with **three first-team bodies down** — Houary, Aguado, and Lemar all out. That's a bummer for depth. Levante have one concern in Sánchez (hamstring), but their squad looks fresher and their recent form at home less porous than Elche's.\n\nKey storylines:\n\n- **Levante's historical grip** on this fixture (10 wins in 20 meetings) gives them serious edge going in\n- **Elche's injury list** (Houary, Aguado, Lemar) is a real headache — they'll struggle to hold the midfield battle\n- **Home fortress potential**: Levante haven't looked unbeatable but they know how to manage this opponent\n\nExpected lineups:\n\n- **Levante UD**: M. Ryan, T. Fernández, A. Mandi, Adri, J. Toljan, O. Rey, J. A. Olasagasti, D. Requena, V. García, R. Brugué, I. Romero\n- **Elche**: M. Dituro, R. Revivo, V. Chust, G. Valera, B. Sangaré, F. Redondo, J. Morcillo, G. Villar, L. Cepeda, F. Niño, F. Buonanotte\n\nPrediction:\n\n**Levante 2-0 Elche**. Injury crisis + history = lean to the hosts. 📍",
-      "ai_pred": {
-        "res": "H",
-        "ph": 43.6,
-        "pd": 26.3,
-        "pa": 30.2,
-        "xhg": 1.69,
-        "xag": 1.3,
-        "o25": 56.6,
-        "btts": 59.9,
-        "score": "1-1",
-        "conf": 0.44
       }
     },
     {
@@ -2970,7 +3019,7 @@ var FOOTYFIXTURES = {
       "venue": "Estadio Abanca Balaídos",
       "inj": {
         "h": 3,
-        "a": 2
+        "a": 3
       },
       "ai_pred": {
         "res": "H",
@@ -3121,7 +3170,7 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "Estadio de la Ceramica",
       "inj": {
-        "h": 2,
+        "h": 3,
         "a": 5
       }
     },
@@ -3224,56 +3273,6 @@ var FOOTYFIXTURES = {
     {
       "div": "SP2",
       "league": "La Liga 2",
-      "date": "23/11/2026",
-      "time": "19:30",
-      "home": "Ceuta",
-      "away": "Almeria",
-      "odds": {
-        "h": 3.52,
-        "d": 3.69,
-        "a": 1.88
-      },
-      "event_id": 214920,
-      "round": 15,
-      "btts": {
-        "yes": 1.61,
-        "no": 2.18
-      },
-      "ou": {
-        "o15": 1.19,
-        "u15": 4.49,
-        "o25": 1.63,
-        "u25": 2.23,
-        "o35": 2.52,
-        "u35": 1.5
-      },
-      "venue": "Estadio Municipal Alfonso Murube",
-      "inj": {
-        "h": 1,
-        "a": 1
-      },
-      "funfacts": [
-        "Carlos Hernandez has more yellow cards (4) than any other player at Ceuta. Marcos Luna has collected 5 for Almeria.",
-        "A year ago, Almeria were number 5 in the table with 25 points. Now they are number 1 with 32 points.",
-        "A year ago, Ceuta were number 7 in the table with 21 points. Now they are number 22 with 5 points."
-      ],
-      "ai_preview": "**Almería rolls into Ceuta riding a three-game winning streak, while the hosts are stuck in a rough patch** 🔴 This is textbook mismatch territory in the Segunda División.\n\nCeuta's picked up just one win in their last five and have conceded six goals in their last two home matches. Almería, meanwhile, are unbeaten in five (3W 2D) with momentum that's impossible to ignore. The visitors are missing **N. Melamed** and **R. Ely** but their depth looks plenty strong.\n\nKey storylines:\n\n- **Almería's attack** has found rhythm—three wins and two draws show consistency that Ceuta's shaky defence won't want to face\n- **Ceuta's home form** is bleeding goals; they need to tighten up or this gets ugly fast\n- Recent head-to-head is split, but current form tells a completely different story\n\nExpected lineups:\n\n- **AD Ceuta**: G. Vallejo, J. Matos, Carlos, A. Caparrós, T. Abad, Y. Bodiger, K. Zalazar, M. Illescas, K. A. Kone, J. Escobar, A. Camacho\n- **Almería**: A. Fernández, Á. Muñoz, F. Bonini, Chumi, M. Luna, J. Muñoz, Q. Junyent, B. Cipenga, S. Arribas, Léo Baptistão, M. d. l. Fuente\n\nPrediction:\n\n**Almería 2–0 Ceuta**. Visitors have the edge in form and should cruise. 🎯",
-      "ai_pred": {
-        "res": "A",
-        "ph": 26.1,
-        "pd": 24.9,
-        "pa": 48.9,
-        "xhg": 1.16,
-        "xag": 1.85,
-        "o25": 57.7,
-        "btts": 58.6,
-        "score": "1-1",
-        "conf": 0.49
-      }
-    },
-    {
-      "div": "SP2",
-      "league": "La Liga 2",
       "date": "27/11/2026",
       "time": "19:30",
       "home": "Leganes",
@@ -3322,9 +3321,25 @@ var FOOTYFIXTURES = {
       "time": "13:00",
       "home": "Las Palmas",
       "away": "Andorra",
-      "odds": null,
+      "odds": {
+        "h": 2.01,
+        "d": 3.5,
+        "a": 3.2
+      },
       "event_id": 214937,
       "round": 16,
+      "btts": {
+        "yes": 1.67,
+        "no": 2.1
+      },
+      "ou": {
+        "o15": 1.22,
+        "u15": 4.0,
+        "o25": 1.75,
+        "u25": 2.05,
+        "o35": 2.75,
+        "u35": 1.4
+      },
       "venue": "Gran Canaria",
       "inj": {
         "h": 5,
@@ -3767,37 +3782,42 @@ var FOOTYFIXTURES = {
       "home": "Blackpool",
       "away": "Leicester",
       "odds": {
-        "h": 3.67,
-        "d": 3.93,
-        "a": 1.82
+        "h": 3.86,
+        "d": 3.95,
+        "a": 1.77
       },
       "event_id": 605037,
       "round": 9,
       "btts": {
-        "yes": 1.42,
-        "no": 2.65
+        "yes": 1.47,
+        "no": 2.53
       },
       "ou": {
-        "o15": 1.12,
-        "u15": 5.22,
-        "o25": 1.44,
-        "u25": 2.63,
-        "o35": 2.13,
-        "u35": 1.67
+        "o15": 1.11,
+        "u15": 5.61,
+        "o25": 1.42,
+        "u25": 2.69,
+        "o35": 2.1,
+        "u35": 1.69
       },
       "venue": "Bloomfield Road",
+      "funfacts": [
+        "When playing at home, Blackpool have not lost to Leicester in their last 3 encounters.",
+        "Leicester haven't lost in their last 5 games.",
+        "Leicester have a winning streak of 3 matches."
+      ],
       "ai_preview": "**Leicester roll into the Fylde Coast as heavy favorites, but Blackpool's got just enough grit to nick a point here.** 🔵\n\nLeicester are flying — three wins in their last five and a **5-0 edge in head-to-heads** over Blackpool's recent history. The Foxes look primed for another slice of League One. Blackpool, though, are scrappy: only one loss in their last three at home and they know how to frustrate better teams.\n\nKey storylines:\n\n- **Leicester's attacking spark** hinges on **E. R. Jacobsen** and **S. Braybrooke** finding space in the final third — the Foxes' expected goals are marginally higher but it's tight.\n- **Blackpool's midfield battle**: **A. Morgan** anchoring and **Z. Ashworth** pushing forward will need to shield **B. Peacock-Farrell** and disrupt Leicester's rhythm.\n- **H2H weight**: Leicester have owned this fixture, but neither team has broken 1 goal per side in xG — a low-volume affair brewing.\n\nExpected lineups:\n\n- **Blackpool**: B. Peacock-Farrell, H. Coulson, O. Casey, J. Earl, A. Morgan, Z. Ashworth, J. Bowler, J. Yates, T. Bloxham, D. Charles\n- **Leicester City**: F. Ravizzoli, L. Thomas, W. O'Hora, H. Souttar, A. McCarthy, W. Alves, L. Page, J. Lundstram, S. Braybrooke, E. R. Jacobsen, W. Burns\n\nPrediction:\n\n**Leicester 1-1 Blackpool**. Leicester edge the quality metric, but Blackpool's home grit and Leicester's thin xG cushion point to a share of the spoils. 🤝",
       "ai_pred": {
         "res": "A",
-        "ph": 25.3,
-        "pd": 23.6,
-        "pa": 51.0,
+        "ph": 24.1,
+        "pd": 23.5,
+        "pa": 52.4,
         "xhg": 1.52,
         "xag": 1.4,
-        "o25": 64.1,
-        "btts": 64.3,
+        "o25": 64.9,
+        "btts": 62.9,
         "score": "1-1",
-        "conf": 0.51
+        "conf": 0.52
       }
     },
     {
@@ -3808,36 +3828,41 @@ var FOOTYFIXTURES = {
       "home": "Bradford",
       "away": "Barnsley",
       "odds": {
-        "h": 1.65,
+        "h": 1.62,
         "d": 3.98,
-        "a": 4.73
+        "a": 4.75
       },
       "event_id": 605187,
       "round": 8,
       "btts": {
         "yes": 1.65,
-        "no": 2.13
+        "no": 2.12
       },
       "ou": {
-        "o15": 1.18,
-        "u15": 4.22,
+        "o15": 1.19,
+        "u15": 4.29,
         "o25": 1.6,
-        "u25": 2.26,
-        "o35": 2.45,
+        "u25": 2.27,
+        "o35": 2.49,
         "u35": 1.48
       },
       "venue": "Valley Parade",
       "derby": true,
+      "funfacts": [
+        "Barnsley have lost 7 away matches in a row.",
+        "During the last 12 meetings with Bradford playing at home, Bradford have won 5 times, there have been 4 draws while Barnsley have won 3 times. The goal difference is 21-14 in favour of Bradford.",
+        "Last season's matches: 2-2 (Bradford at home) and 2-2 (Barnsley at home)."
+      ],
       "ai_preview": "**Bradford's on a tear, but Barnsley's visit is a proper test** — the Bantams have won two of their last five, yet they'll face a side that's got their number historically. 🔥\n\nBradford's form masks some defensive fragility (that 7-0 blitz vs Marine looks nicer than it plays), while Barnsley are genuinely struggling — just one win in five and losses piling up. Neither team screams confidence, which usually means a cagey cup final vibe.\n\nKey storylines:\n\n- **C. Dawson** and **M. Pennington** anchor Bradford's back line against Barnsley's attacking trio of **V. Yoganathan**, **R. Cleary**, and **A. Richards**\n- **J. Beesley** and **A. Sarcevic** will need to unlock space in midfield; Barnsley's **P. Kelly** sits deep to disrupt\n- Head-to-head history slightly favors **Barnsley** (4 wins to Bradford's 1 in the last eight), so expect streetwise defending\n\nExpected lineups:\n\n- **Bradford City**: C. Dawson, M. Pennington, A. Baldwin, J. McCracken, G. Pratt, I. Touray, C. Connolly, B. Pointon\n- **Barnsley**: C. Slicker, A. Kay, S. Gale, J. Shepherd, C. McGeehan, P. Kelly, V. Yoganathan, R. Cleary\n\nPrediction:\n\n**1-1**. Scrappy, tight, and neither side quite clinical enough to break through — a draw feels like the floor here. 📋",
       "ai_pred": {
         "res": "H",
-        "ph": 56.7,
-        "pd": 23.5,
-        "pa": 19.8,
+        "ph": 57.2,
+        "pd": 23.3,
+        "pa": 19.5,
         "xhg": 1.78,
         "xag": 0.98,
-        "o25": 58.2,
-        "btts": 55.9,
+        "o25": 58.3,
+        "btts": 55.8,
         "score": "1-1",
         "conf": 0.57
       }
@@ -3850,37 +3875,40 @@ var FOOTYFIXTURES = {
       "home": "Bromley",
       "away": "Wycombe",
       "odds": {
-        "h": 3.44,
-        "d": 3.57,
-        "a": 2.0
+        "h": 3.55,
+        "d": 3.61,
+        "a": 1.94
       },
       "event_id": 649914,
       "round": 9,
       "btts": {
-        "yes": 1.57,
-        "no": 2.27
+        "yes": 1.58,
+        "no": 2.23
       },
       "ou": {
-        "o15": 1.17,
-        "u15": 4.29,
+        "o15": 1.19,
+        "u15": 4.1,
         "o25": 1.66,
-        "u25": 2.17,
-        "o35": 2.58,
+        "u25": 2.15,
+        "o35": 2.56,
         "u35": 1.44
       },
       "venue": "Hayes Lane",
+      "funfacts": [
+        "Bromley have played 5 home matches in a row without winning."
+      ],
       "ai_preview": "**Wycombe roll into the Stoop chasing momentum**, but **Bromley are quietly brewing something** after that upset win at Reading. 🔵\n\nWycombe sit pretty with 2W-2D in their last five, though they nearly threw away a 2-0 lead at Oxford. Bromley are streaky—one win in five—but that victory on the road shows they've got fight when it counts.\n\nKey storylines:\n\n- **Wycombe's attack** (Ings, Onyedinma, Wareham) will test a Bromley backline that's been leaky, conceding 2 at home to Rotherham and 3 away at Wigan.\n- **Bromley's set-piece threat** through Saville and Thompson could be their best route past Hazard's Wycombe side.\n- **The midfield battle** between Wycombe's Boyd-Munce and Henderson versus Bromley's Pinnock and Hondermarck will decide tempo and shape.\n\nExpected lineups:\n\n- **Bromley**: O. Mason, M. Ifill, O. Sowunmi, A. Jackson, K. Grant, G. Saville, M. Pinnock, W. Hondermarck, B. Thompson, K. Conteh, V. Adeboyejo\n- **Wycombe Wanderers**: C. Hazard, D. Harvie, C. Taylor, J. Grimmer, A. Hagelskjær, C. Boyd-Munce, E. Henderson, J. Wareham, J. Scowen, F. Onyedinma, D. Ings\n\nPrediction:\n\n**1-1 draw** — both sides have enough quality to create but neither quite clinical enough to separate. Slight edge to Wycombe's experience, but Bromley won't roll over.",
       "ai_pred": {
         "res": "A",
-        "ph": 27.2,
-        "pd": 26.2,
-        "pa": 46.7,
+        "ph": 26.2,
+        "pd": 25.8,
+        "pa": 48.0,
         "xhg": 1.43,
-        "xag": 1.46,
-        "o25": 56.5,
-        "btts": 58.9,
+        "xag": 1.45,
+        "o25": 56.3,
+        "btts": 58.3,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.48
       }
     },
     {
@@ -3891,35 +3919,39 @@ var FOOTYFIXTURES = {
       "home": "Stevenage",
       "away": "Sheffield Weds",
       "odds": {
-        "h": 2.84,
-        "d": 3.3,
-        "a": 2.34
+        "h": 2.81,
+        "d": 3.31,
+        "a": 2.36
       },
       "event_id": 605035,
       "round": 8,
       "btts": {
         "yes": 1.66,
-        "no": 2.14
+        "no": 2.1
       },
       "ou": {
-        "o15": 1.25,
-        "u15": 3.62,
-        "o25": 1.87,
-        "u25": 1.92,
-        "o35": 3.12,
+        "o15": 1.27,
+        "u15": 3.42,
+        "o25": 1.88,
+        "u25": 1.89,
+        "o35": 3.17,
         "u35": 1.31
       },
       "venue": "Broadhall Way",
+      "funfacts": [
+        "Stevenage haven't lost in their last 4 games.",
+        "Stevenage have a winning streak of 3 matches."
+      ],
       "ai_preview": "**Stevenage's hot streak meets Sheffield Wednesday's steadiness** — a midweek clash where form collides with pedigree, and the Boro are quietly looking like one of League One's sneakiest operators. 🔥\n\nStevenage have won three of their last five and picked up points on the road consistently. Sheffield Wednesday hover around the mid-table sweet spot with steady results, but they've dropped points to Oldham recently — no guaranteed cruises in this division.\n\nKey storylines:\n\n- **Stevenage's away form** has been genuinely impressive (wins at Notts County and Oxford), so this isn't a classic trap-game scenario for the visitors\n- **Head-to-head edge tilts Stevenage's way** after winning both recent meetings, though that counts for less in a compressed season\n- **Sheffield Wednesday's defensive stability vs. Stevenage's attacking rhythm** — midfield battle between Phillips/Kemp and Bannan/Slattery will likely decide the tempo\n\nExpected lineups:\n\n- **Stevenage**: T. Setford, L. Freestone, C. Piergianni, T. Vancooten, L. James-Wildin, D. Phillips, D. Kemp, J. Houghton, J. Magennis, O. Sanderson, J. Roberts\n- **Sheffield Wednesday**: A. Maynard-Brewer, R. James, E. Weaver, Otegbayo, Y. Valery, B. Bannan, C. Slattery, D. Keillor-Dunn, J. Heskey, K. Morrison, J. Lowe\n\nPrediction:\n\n**1-1 draw** — both sides have enough quality to avoid defeat but neither quite edges through; expect a cagey midweek stalemate. ⚽",
       "ai_pred": {
         "res": "A",
-        "ph": 32.5,
-        "pd": 28.0,
-        "pa": 39.5,
+        "ph": 32.9,
+        "pd": 27.9,
+        "pa": 39.2,
         "xhg": 1.51,
         "xag": 0.94,
-        "o25": 50.3,
-        "btts": 55.5,
+        "o25": 49.8,
+        "btts": 55.1,
         "score": "1-1",
         "conf": 0.39
       }
@@ -3951,14 +3983,15 @@ var FOOTYFIXTURES = {
         "u35": 1.52
       },
       "venue": "Eco-Power Stadium",
+      "ai_preview": "**Doncaster host Huddersfield in a Thursday night League One clash where both teams are searching for consistency.** Neither side has found real groove lately — Rovers are bleeding goals, Town can't quite string wins together. 🔴\n\nDoncaster's last three have been rough (0-3, 1-6 heavy losses), but they did grab a draw at Bradford most recently. Huddersfield have won their last two before back-to-back home defeats to Leicester and Exeter, so they're fragile too.\n\nKey storylines:\n\n- **Doncaster's defence** is creaking badly — giving up 9 goals in three games is a full-blown crisis.\n- **Huddersfield's away form** has them here as the slight edge despite midweek travel and recent wobbles at home.\n- **H2H leans Rovers' way** (2 wins in four), but form trumps history tonight.\n\nExpected lineups:\n\n- **Doncaster Rovers**: T. Simkin, J. Husband, S. Grehan, J. McGrath, L. Ayinde, O. Bailey, R. Gotts, A. May, N. Byrne, B. Hanlan, W. Keane\n- **Huddersfield Town**: M. Young, S. Roughan, I. Bowat, R. Balker, I. Bronkhorst, A. Collins, C. Humphreys, E. Brierley, B. Mumba, J. Taylor, D. S. Fernandes\n\nPrediction:\n\n**1-1 draw**. Huddersfield have the slight lean, but Doncaster's unpredictability and home turf keep this tight — a stalemate feels right. ⚽",
       "ai_pred": {
         "res": "A",
-        "ph": 23.7,
+        "ph": 23.6,
         "pd": 23.1,
         "pa": 53.2,
         "xhg": 1.32,
-        "xag": 1.5,
-        "o25": 59.9,
+        "xag": 1.51,
+        "o25": 60.1,
         "btts": 60.0,
         "score": "1-1",
         "conf": 0.53
@@ -4443,28 +4476,33 @@ var FOOTYFIXTURES = {
       "event_id": 605188,
       "round": 8,
       "btts": {
-        "yes": 1.51,
-        "no": 2.42
+        "yes": 1.52,
+        "no": 2.4
       },
       "ou": {
         "o15": 1.15,
-        "u15": 4.7,
+        "u15": 4.77,
         "o25": 1.55,
         "u25": 2.36,
-        "o35": 2.31,
+        "o35": 2.35,
         "u35": 1.53
       },
       "venue": "Broadfield Stadium",
+      "funfacts": [
+        "When playing at home, Crawley have not lost to Barnet in their last 3 encounters.",
+        "Crawley's home record this season: 0-2-4.",
+        "Barnet's away record this season: 3-3-0."
+      ],
       "ai_preview": "**Barnet rocks up to Sussex looking to keep their perfect record going** — Crawley's solid at home but the visitors are absolutely humming right now. 🔥\n\nCrawley have won their last two at the Broadfield, but Barnet arrive unbeaten in five and sitting pretty. This is shaping up as a proper midweek tussle between two sides with serious momentum.\n\nKey storylines:\n\n- **Barnet's flawless run** — three wins and two draws since the start of the month, they're the form team in this fixture\n- **Crawley's home fortress** — back-to-back wins in front of their own fans, but they'll need to weather early pressure\n- **H2H balance** — only one goal separates these sides over a decade of fixtures, expect a cagey affair\n\nExpected lineups:\n\n- **Crawley Town**: J. Izquierdo, C. Barker, P. Farquharson, J. Russell, A. Odimayo, J. Arthurs, D. Morgan\n- **Barnet**: M. Cox, D. Collinge, A. Senior, Z. Williams, R. Crichlow, C. Lakin, O. Gallagher\n\nPrediction:\n\n**1-1 draw** — both teams have enough quality to nick a goal, but neither quite has the edge to push clear. Classic midweek stalemate vibes.",
       "ai_pred": {
         "res": "A",
         "ph": 25.1,
         "pd": 24.5,
         "pa": 50.4,
-        "xhg": 1.14,
+        "xhg": 1.15,
         "xag": 1.79,
         "o25": 60.1,
-        "btts": 61.0,
+        "btts": 60.6,
         "score": "1-1",
         "conf": 0.5
       }
@@ -4484,18 +4522,23 @@ var FOOTYFIXTURES = {
       "event_id": 606203,
       "round": 8,
       "btts": {
-        "yes": 1.86,
-        "no": 1.86
+        "yes": 1.9,
+        "no": 1.81
       },
       "ou": {
-        "o15": 1.35,
-        "u15": 2.94,
-        "o25": 2.14,
+        "o15": 1.36,
+        "u15": 2.93,
+        "o25": 2.13,
         "u25": 1.67,
-        "o35": 3.71,
-        "u35": 1.23
+        "o35": 3.91,
+        "u35": 1.22
       },
       "venue": "Vale Park",
+      "funfacts": [
+        "When playing at home, Port Vale have not lost to Northampton in their last 5 encounters.",
+        "Port Vale's home record this season: 5-2-0.",
+        "Northampton's away record this season: 1-4-2."
+      ],
       "ai_preview": "**Port Vale host Northampton in a League Two clash that screams \"cagey midweek grind\"** — the visitors are fragile defensively, but Vale's recent form wobbles between brilliant and brittle. 🏟️\n\nVale arrive hot off back-to-back wins (4-2 demolitions of Accrington and Scunthorpe), though that 1-2 loss to Barnet away is a timely reminder they're not untouchable. Northampton are the real puzzle — one win in five, mixed results, and a heavy 0-4 hammering by York suggests defensive holes, yet they nicked a 3-2 at home vs Rochdale. The H2H is dead even (7-7-6 over 20 games), so there's no clear edge in history either.\n\nKey storylines:\n\n- **Port Vale's midfield** (Humphreys, Headley, Dempsey) need to control tempo and exploit Northampton's fragility on transitions\n- **Northampton's attack** (Lemonheigh-Evans, Warhurst, List) must stay sharp on the counter or risk being overrun in Vale's 3-5-2 shape\n- **Defensive solidity** will likely decide this — both sides have leaked goals lately, so clean sheets feel premium\n\nExpected lineups:\n\n- **Port Vale**: Maroši, Lawrence-Gabriel, Hall, Montsma, Moon, Humphreys, Headley, Dempsey, Garrity, Hernández, Waine\n- **Northampton Town**: Jeacock, Moore, Guthrie, Dyche, Donacien, Wormleighton, Dale, Evans, Lemonheigh-Evans, Warhurst, List\n\nPrediction:\n\n**1-1 draw** — both sides cancel each other out in a tight, edgy affair. Vale slight edge. ⚽",
       "ai_pred": {
         "res": "H",
@@ -4504,8 +4547,8 @@ var FOOTYFIXTURES = {
         "pa": 25.9,
         "xhg": 1.41,
         "xag": 0.94,
-        "o25": 43.8,
-        "btts": 49.7,
+        "o25": 43.9,
+        "btts": 48.6,
         "score": "1-1",
         "conf": 0.46
       }
@@ -5041,7 +5084,7 @@ var FOOTYFIXTURES = {
       "venue": "Stade Raymond Kopa",
       "inj": {
         "h": 1,
-        "a": 3
+        "a": 5
       },
       "ai_pred": {
         "res": "A",
@@ -5296,7 +5339,7 @@ var FOOTYFIXTURES = {
       "round": 13,
       "venue": "Stade Bollaert-Delelis",
       "inj": {
-        "h": 3,
+        "h": 5,
         "a": 4
       }
     },
@@ -5394,95 +5437,6 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 2,
         "a": 4
-      }
-    },
-    {
-      "div": "F2",
-      "league": "Ligue 2",
-      "date": "23/11/2026",
-      "time": "19:45",
-      "home": "Nantes",
-      "away": "Grenoble",
-      "odds": {
-        "h": 1.42,
-        "d": 4.11,
-        "a": 6.97
-      },
-      "event_id": 655429,
-      "round": 13,
-      "btts": {
-        "yes": 2.07,
-        "no": 1.68
-      },
-      "ou": {
-        "o15": 1.27,
-        "u15": 3.45,
-        "o25": 1.92,
-        "u25": 1.85,
-        "o35": 3.24,
-        "u35": 1.31
-      },
-      "venue": "Stade de la Beaujoire",
-      "funfacts": [
-        "When playing at home, Nantes have not lost to Grenoble in their last 3 encounters.",
-        "Killian Corredor is Nantes's top scorer with 3 goals. Ugo Bonnet has scored 3 times for Grenoble."
-      ],
-      "ai_preview": "**Nantes host inconsistent Grenoble in a match that really should be a walk in the park** — the hosts have momentum and a far superior home record, but Grenoble's proven they can nick goals on anyone's turf. 🔥\n\nNantes are clicking after wins over Pau and that annihilation of Castelbourgeois, though the draw at home to Clermont hints at occasional sloppiness. Grenoble, meanwhile, are streaky as hell — won twice but lost three of their last five, including a heavy defeat to Dijon.\n\nKey storylines:\n\n- **Nantes' attacking trio of Ganago, Cafaro, and Robinet** will fancy their chances against a Grenoble backline that's been leaky\n- **Grenoble's L. Bernadou** and midfield need to stay compact and hit on the counter; they've stolen results before\n- Home advantage at the Beaujoire is massive for **Nantes** — they rarely drop points there\n\nExpected lineups:\n\n- **Nantes**: Carlgren, Perrin, Amian, Sow, Guilbert, Doucouré, Lepenant, Hachem, Cafaro, Ganago, Robinet\n- **Grenoble Foot 38**: Olliero, Xantippe, Vidal, Pelon, Zahui, Magnin, Mouazan, Diba, Bernadou, Maçon, Bonnet\n\nPrediction:\n\n**Nantes 2–0 Grenoble** — slight favorite, but don't be shocked if Grenoble sneak a scrappy goal. 📍",
-      "ai_pred": {
-        "res": "H",
-        "ph": 64.5,
-        "pd": 22.3,
-        "pa": 13.2,
-        "xhg": 1.38,
-        "xag": 1.22,
-        "o25": 49.0,
-        "btts": 45.2,
-        "score": "1-1",
-        "conf": 0.65
-      }
-    },
-    {
-      "div": "F2",
-      "league": "Ligue 2",
-      "date": "23/11/2026",
-      "time": "19:45",
-      "home": "Sochaux",
-      "away": "Dunkerque",
-      "odds": {
-        "h": 2.28,
-        "d": 3.26,
-        "a": 2.86
-      },
-      "event_id": 604951,
-      "round": 13,
-      "btts": {
-        "yes": 1.64,
-        "no": 2.14
-      },
-      "ou": {
-        "o15": 1.25,
-        "u15": 3.66,
-        "o25": 1.84,
-        "u25": 1.94,
-        "o35": 3.08,
-        "u35": 1.34
-      },
-      "venue": "Stade Bonal",
-      "funfacts": [
-        "Sochaux-Montbeliard have a losing streak of 4 matches in Ligue 2."
-      ],
-      "ai_preview": "**Sochaux are in freefall, and USL Dunkerque smell blood.** This is a clash between a team desperately needing a W and visitors who've found some rhythm — though neither side is exactly lighting Ligue 2 on fire. 🔥\n\nSochaux have gone **1D 4L** in five, while Dunkerque sit at **2W 1D 2L**, which isn't much better but at least points upward. The head-to-head slightly favors Sochaux, but form is everything right now.\n\nKey storylines:\n\n- **Sochaux's defensive fragility** — zero wins, two straight defeats away from home. They need to tighten things up against a Dunkerque side that just hammered Guingamp 3-0.\n- **Dunkerque's inconsistency** — a 3-0 thrashing of Guingamp followed by a 0-3 home loss to Quevilly shows this team is feast-or-famine.\n- **Midfield battle**: **J. Morel** and **T. Massock** vs **J. Masson** and **B. Diawara** could decide the tempo.\n\nExpected lineups:\n\n- **Sochaux**: M. Jeannin, D. Tavares, M. Peybernes, A. Vitelli, É. N'Gatta, J. Masson, B. Diawara, B. Gomel, S. Baghdadi, Y. Demoncy, M. Clairicia\n- **USL Dunkerque**: M. Ramos, F. Abner, O. Sangante, O. Touré, A. Linguet, J. Morel, T. Massock, E. Prutsev, A. Lebeau, G. Robail, M. Niang\n\nPrediction:\n\n**1-1 draw** — both teams too flaky to pull off a convincing win, but Sochaux just solid enough at home to hold on.",
-      "ai_pred": {
-        "res": "H",
-        "ph": 40.1,
-        "pd": 28.0,
-        "pa": 31.9,
-        "xhg": 1.21,
-        "xag": 1.4,
-        "o25": 51.2,
-        "btts": 56.2,
-        "score": "1-1",
-        "conf": 0.4
       }
     },
     {
@@ -5602,34 +5556,39 @@ var FOOTYFIXTURES = {
       "away": "Halifax",
       "odds": {
         "h": 1.88,
-        "d": 3.9,
-        "a": 3.31
+        "d": 3.86,
+        "a": 3.28
       },
       "event_id": 588316,
       "round": 19,
       "btts": {
-        "yes": 1.37,
-        "no": 2.87
+        "yes": 1.39,
+        "no": 2.77
       },
       "ou": {
-        "o15": 1.09,
-        "u15": 6.14,
+        "o15": 1.1,
+        "u15": 6.21,
         "o25": 1.39,
         "u25": 2.8,
-        "o35": 2.01,
+        "o35": 2.02,
         "u35": 1.72
       },
       "venue": "Mill Farm",
+      "funfacts": [
+        "Luca Thomas is Fylde's top scorer with 6 goals. Benjamin Lee Tollitt has scored 6 times for Halifax.",
+        "Fylde have won 4 home matches in a row.",
+        "Fylde have a winning streak of 4 matches."
+      ],
       "ai_preview": "**Fylde are absolutely rolling right now — but Halifax's proven pedigree in this head-to-head makes this a proper cup-tie vibe.** 🔥\n\nFylde's last five is **4W 1D**, including a thumping 4-1 over Harrogate. Halifax, meanwhile, are streaky — they demolished Woking 5-0 but got picked apart by Cheltenham. The H2H tells the real story though: Halifax lead 4-2 across the last nine meetings.\n\nKey storylines:\n\n- **Fylde's attack is firing**: L. Thomas and C. Main have been central to the recent goal glut, and home advantage at Mill Farm is no joke\n- **Halifax's mid-block under pressure**: B. Tollitt and C. Douglas will need to shield T. Grant, whose backline has shipped two against Cheltenham recently\n- **Tactical chess match**: Both shape like 4-2-3-1 / 4-1-4-1 — expect a cagey opening before one side stamps authority\n\nExpected lineups:\n\n- **AFC Fylde**: P. Boyes, A. Drewe, M. Taylor, W. Lancaster, C. Merrie, J. Morris, D. Mayor, E. Mitchell, L. Thomas, C. Main\n- **FC Halifax Town**: T. Grant, D. Hill, S. Hobson, R. Conte, M. Bardell, B. Tollitt, C. Douglas, A. Morgan-Smith, T. McDermott, C. Carty, D. Kawa\n\nPrediction:\n\n**1-1** — Fylde edge the balance but Halifax's historical grip in this fixture shows up just enough to nick a point. 📍",
       "ai_pred": {
         "res": "H",
-        "ph": 48.8,
-        "pd": 23.5,
-        "pa": 27.7,
+        "ph": 48.5,
+        "pd": 23.6,
+        "pa": 27.8,
         "xhg": 1.8,
         "xag": 1.44,
         "o25": 66.5,
-        "btts": 67.0,
+        "btts": 66.0,
         "score": "1-1",
         "conf": 0.49
       }
@@ -5642,35 +5601,40 @@ var FOOTYFIXTURES = {
       "home": "Altrincham",
       "away": "Wealdstone",
       "odds": {
-        "h": 1.82,
-        "d": 3.79,
-        "a": 3.6
+        "h": 1.83,
+        "d": 3.75,
+        "a": 3.57
       },
       "event_id": 588317,
       "round": 19,
       "btts": {
-        "yes": 1.47,
-        "no": 2.53
+        "yes": 1.48,
+        "no": 2.48
       },
       "ou": {
-        "o15": 1.15,
-        "u15": 4.91,
-        "o25": 1.5,
+        "o15": 1.14,
+        "u15": 5.03,
+        "o25": 1.49,
         "u25": 2.45,
         "o35": 2.29,
         "u35": 1.57
       },
       "venue": "Moss Lane",
+      "funfacts": [
+        "Altrincham haven't won in their last 5 games.",
+        "Jimmy Knowles is Altrincham's top scorer with 5 goals. Olufela Olomola has scored 6 times for Wealdstone.",
+        "A year ago, Altrincham were number 19 in the table with 17 points. Now they are number 9 with 28 points."
+      ],
       "ai_preview": "**Altrincham's form is dire, but Wealdstone's on the road hasn't been pretty either** — this feels like a stalemate waiting to happen. 🔒\n\nAlty are winless in five with a couple of heavy defeats, while Wealdstone won't fancy another away day after getting spanked at Dover. That said, the hosts have size and structure, and Wealdstone's solid at the back when they show up.\n\nKey storylines:\n\n- **Altrincham's midfield engine** — M. Kosylo and S. Taylor need to control tempo and limit Wealdstone's transitions\n- **Wealdstone's attacking bite on the counter** — F. Okenabirhie and M. Oni have pace; if Alty's shape slips, they'll punish it\n- **Set-piece battle** — both sides lean on standards; expect scrappy, physical basketball-ish stuff at Moss Lane\n\nExpected lineups:\n\n- **Altrincham FC**: H. Isted, A. Barlow, J. Southern-Cooper, R. L. White, S. Barnes, M. Kosylo, S. Taylor, J. Hinchy, L. Weaver, K. Dennis, J. Knowles\n- **Wealdstone**: D. Baptiste, A. Kanu, A. F. Clarke, J. Cook, C. McAvoy, J. Newton, D. Kadji, J. Wells-Morrison, M. Oni, F. Okenabirhie, L. Norris\n\nPrediction:\n\n**1-1 draw** — both teams too blunt in front of goal to break through; a point feels fair and probably what both need.",
       "ai_pred": {
         "res": "H",
-        "ph": 50.4,
-        "pd": 24.2,
-        "pa": 25.5,
+        "ph": 50.0,
+        "pd": 24.4,
+        "pa": 25.6,
         "xhg": 1.76,
         "xag": 1.4,
-        "o25": 61.9,
-        "btts": 62.9,
+        "o25": 62.1,
+        "btts": 62.3,
         "score": "1-1",
         "conf": 0.5
       }
@@ -5683,35 +5647,40 @@ var FOOTYFIXTURES = {
       "home": "Boston Utd",
       "away": "Barrow",
       "odds": {
-        "h": 2.87,
-        "d": 3.54,
-        "a": 2.18
+        "h": 2.83,
+        "d": 3.5,
+        "a": 2.2
       },
       "event_id": 588318,
       "round": 19,
       "btts": {
-        "yes": 1.46,
-        "no": 2.56
+        "yes": 1.47,
+        "no": 2.49
       },
       "ou": {
-        "o15": 1.14,
-        "u15": 4.88,
-        "o25": 1.55,
-        "u25": 2.35,
-        "o35": 2.33,
-        "u35": 1.52
+        "o15": 1.15,
+        "u15": 4.81,
+        "o25": 1.56,
+        "u25": 2.31,
+        "o35": 2.41,
+        "u35": 1.51
       },
       "venue": "York Street",
+      "funfacts": [
+        "When playing at home, Boston have not lost to Barrow in their last 4 encounters.",
+        "Thomas Cursons is Boston's top scorer with 7 goals. Innes Cameron has scored 6 times for Barrow.",
+        "Sai Sachdev has more yellow cards (5) than any other player at Boston. Isaac Marriott has collected 7 for Barrow."
+      ],
       "ai_preview": "**Barrow rolls into York Street looking to extend their hot streak, but Boston's got nothing to lose at home.** This is a classic mid-table clash where form meets opportunity. 🔥\n\nBarrow are flying — three wins in their last five and a thumping 3-0 over Gateshead shows real teeth. Boston, meanwhile, bounced back with a 2-1 win over Scunthorpe but got hammered twice by Sutton and Carlisle recently. That's a momentum gap worth watching.\n\nKey storylines:\n\n- **Barrow's traveling defense** has been rock-solid; they've only lost once in five and held Gillingham to a single goal on the road\n- **Boston need to find attacking rhythm** — K. Aboh and L. John-Lewis have to create chances because Barrow's setup (D. Mooney, K. Ward, R. Harper) is disciplined\n- **L. Chadwick and B. Winterbottom** will be crucial in what shapes as a cagey affair\n\nExpected lineups:\n\n- **Boston United**: L. Chadwick, G. Gent, J. Grimes, C. Teale, N. Canavan, J. Holmes, J. Sutton, C. McBride, K. Aboh, L. John-Lewis, L. Wheeldon\n- **Barrow AFC**: B. Winterbottom, M. Oakley, T. Latty-Fairweather, X. Benjamin, A. Allen, D. Mooney, K. Ward, R. Harper, A. Reid, I. Cameron, M. Lane\n\nPrediction:\n\n**1-1 draw** — both teams have the quality to nick a goal, but neither looks clinical enough to run away with it. Classic stalemate energy. ⚽",
       "ai_pred": {
         "res": "A",
-        "ph": 32.0,
-        "pd": 25.9,
-        "pa": 42.1,
+        "ph": 32.3,
+        "pd": 26.1,
+        "pa": 41.6,
         "xhg": 1.55,
         "xag": 1.42,
-        "o25": 60.0,
-        "btts": 63.1,
+        "o25": 59.5,
+        "btts": 62.4,
         "score": "1-1",
         "conf": 0.42
       }
@@ -5725,34 +5694,39 @@ var FOOTYFIXTURES = {
       "away": "Tamworth",
       "odds": {
         "h": 1.4,
-        "d": 4.78,
-        "a": 5.94
+        "d": 4.74,
+        "a": 5.88
       },
       "event_id": 588319,
       "round": 19,
       "btts": {
         "yes": 1.5,
-        "no": 2.45
+        "no": 2.42
       },
       "ou": {
         "o15": 1.09,
-        "u15": 6.45,
+        "u15": 6.46,
         "o25": 1.35,
         "u25": 3.04,
-        "o35": 1.92,
-        "u35": 1.8
+        "o35": 1.91,
+        "u35": 1.81
       },
       "venue": "Brunton Park",
+      "funfacts": [
+        "When playing at home, Carlisle have not lost to Tamworth in their last 4 encounters.",
+        "Tamworth's away record this season: 1-1-6.",
+        "Regan Linney is Carlisle's top scorer with 5 goals. Kieren Donnelly has scored 8 times for Tamworth."
+      ],
       "ai_preview": "**Carlisle are absolutely rolling right now**, and Tamworth are showing up to Brunton Park in freefall. This is a classic mismatch in form 🔥\n\nCarlisle's won their last five straight with clean sheets piling up, while Tamworth have lost four of their last five and shipped goals for fun. The home side also hold a **3-1 edge in the last four H2H meetings**, which tells you everything about the power gap here.\n\nKey storylines:\n\n- **Carlisle's defensive solidity** — three straight shutouts heading into this one is elite form even for National League\n- **Tamworth's attacking drought** — only one win in five and leaking chances across the board, they'll struggle against a locked-down back line\n- **Home advantage matters** — Brunton Park has been a fortress, and Tamworth travel in chaos\n\nExpected lineups:\n\n- **Carlisle United**: Desbois, Richardson, Duru, Nicholson, Feeney, Galvin, Whelan, Ajiboye, Jenks, Wearne, Obiero\n- **Tamworth**: Lovett, Rye, Handley, Cullinane-Liburd, Parkes, Roberts, Calder, Hutchinson, McGlinchey, Donnelly, Creaney\n\nPrediction:\n\n**Carlisle 2-1 Tamworth.** Carlisle's just too sharp right now — expect them to control this and secure another three points.",
       "ai_pred": {
         "res": "H",
-        "ph": 65.4,
-        "pd": 19.2,
-        "pa": 15.4,
+        "ph": 65.2,
+        "pd": 19.3,
+        "pa": 15.5,
         "xhg": 2.17,
         "xag": 1.21,
         "o25": 69.0,
-        "btts": 61.8,
+        "btts": 61.5,
         "score": "2-1",
         "conf": 0.65
       }
@@ -5765,35 +5739,40 @@ var FOOTYFIXTURES = {
       "home": "Eastleigh",
       "away": "Yeovil",
       "odds": {
-        "h": 2.91,
-        "d": 3.63,
+        "h": 2.9,
+        "d": 3.59,
         "a": 2.11
       },
       "event_id": 588320,
       "round": 19,
       "btts": {
         "yes": 1.49,
-        "no": 2.47
+        "no": 2.46
       },
       "ou": {
-        "o15": 1.15,
-        "u15": 4.72,
-        "o25": 1.53,
-        "u25": 2.36,
-        "o35": 2.37,
-        "u35": 1.53
+        "o15": 1.16,
+        "u15": 4.71,
+        "o25": 1.55,
+        "u25": 2.32,
+        "o35": 2.41,
+        "u35": 1.52
       },
       "venue": "Silverlake Stadium",
+      "funfacts": [
+        "When playing at home, Eastleigh have not lost to Yeovil in their last 5 encounters.",
+        "Aaron Blair is Eastleigh's top scorer with 9 goals. Johl Powell has scored 8 times for Yeovil.",
+        "A year ago, Yeovil were number 16 in the table with 20 points. Now they are number 5 with 29 points."
+      ],
       "ai_preview": "**Midweek battle in the lower reaches of the National League** — Eastleigh host Yeovil Town in a clash that could shake up both teams' seasons. 🔥\n\nEastleigh are stumbling badly (1W in 5), while **Yeovil have clawed back some form** with 2 wins from their last 5. The fixture leans Yeovil's way on recent momentum, but Eastleigh know their home crowd can make Tuesday's midweek grind hostile.\n\nKey storylines:\n\n- **Yeovil's attacking threat** (3-4 demolition vs Chesterfield, 3-2 over Forest Green) will test an **Eastleigh defence** that shipped 2 goals at home to Shrewsbury and Fylde\n- **H. Ghandour and B. Stone** lead Eastleigh's forward line with limited scoring returns; Yeovil's **M. Obeng and J. Daly** carry more punch\n- **H2H leans Eastleigh** (4 wins to Yeovil's 3), but that form edge doesn't match current league momentum\n\nExpected lineups:\n\n- **Eastleigh**: J. Jeffries, I. Bakare, J. Caprice, T. Dobson-Ventura, A. Blair, D. Rankine, J. Cousins, J. Williams\n- **Yeovil Town**: J. Barker, H. Muller, J. Kingdon, J. Gubbins, A. Davies, C. Lennon, J. Powell, R. Jones\n\nPrediction:\n\n**1-1 draw** — Yeovil edge the vibe but Eastleigh's home turf keeps it tight. 🤝",
       "ai_pred": {
         "res": "A",
         "ph": 31.4,
-        "pd": 25.2,
-        "pa": 43.4,
-        "xhg": 1.54,
+        "pd": 25.4,
+        "pa": 43.2,
+        "xhg": 1.55,
         "xag": 1.63,
-        "o25": 60.6,
-        "btts": 62.2,
+        "o25": 60.0,
+        "btts": 62.1,
         "score": "1-1",
         "conf": 0.43
       }
@@ -5807,34 +5786,39 @@ var FOOTYFIXTURES = {
       "away": "Southend",
       "odds": {
         "h": 2.22,
-        "d": 3.81,
-        "a": 2.63
+        "d": 3.79,
+        "a": 2.61
       },
       "event_id": 588321,
       "round": 19,
       "btts": {
         "yes": 1.34,
-        "no": 3.08
+        "no": 3.01
       },
       "ou": {
         "o15": 1.1,
-        "u15": 6.19,
+        "u15": 6.25,
         "o25": 1.35,
         "u25": 3.03,
-        "o35": 1.94,
-        "u35": 1.78
+        "o35": 1.93,
+        "u35": 1.8
       },
       "venue": "The New Lawn",
+      "funfacts": [
+        "Southend's away record this season: 4-4-1.",
+        "Kyle McAllister is Forest Green's top scorer with 5 goals. Leon Chambers-Parillon has scored 8 times for Southend.",
+        "Jayden Clarke has more yellow cards (5) than any other player at Forest Green. Darren Oldaker has collected 7 for Southend."
+      ],
       "ai_preview": "**This one's shaping up to be a proper midtable scrap** — both sides hovering in that murky zone where three points feel like gold dust. 🏆\n\nForest Green Rovers have been stuttering at home (2W 1D 2L lately), while Southend arrive off the back of yet another frustrating loss. The H2H is dead even (2-2-2 from their last seven), so expect a cagey affair on Tuesday night.\n\nKey storylines:\n\n- **Forest Green's home form** has been wildly inconsistent; they need to tighten up defensively if they're going to break Southend's resilience.\n- **Southend's away struggles** continue a worrying trend — they've dropped points regularly on the road, and The New Lawn won't be a friendly visit.\n- **Grigg and McAllister** will carry Forest Green's attacking load, but Southend's compact shape (Duncan and his backline) have shown they can weather pressure.\n\nExpected lineups:\n\n- **Forest Green Rovers**: McNicholas, Kircough, Mabete, Abrefa, Pemberton, Campbell, Clarke, Mellor, McAllister, Grigg, Marquez\n- **Southend United**: Duncan, Goodliffe, Mcadam, Daley Campbell, Cox, Hartigan, Chambers-Parillon, Colclough, Oldaker, Omochere, Cardwell\n\nPrediction:\n\n**1-1 draw**. Slight lean to **Southend** sneaking something, but this feels like a stalemate waiting to happen. 🤝",
       "ai_pred": {
         "res": "H",
-        "ph": 41.2,
+        "ph": 41.0,
         "pd": 24.0,
-        "pa": 34.8,
+        "pa": 34.9,
         "xhg": 1.61,
         "xag": 1.67,
         "o25": 68.8,
-        "btts": 68.9,
+        "btts": 68.5,
         "score": "1-1",
         "conf": 0.41
       }
@@ -5847,36 +5831,41 @@ var FOOTYFIXTURES = {
       "home": "Hornchurch",
       "away": "Sutton",
       "odds": {
-        "h": 2.53,
-        "d": 3.26,
-        "a": 2.57
+        "h": 2.51,
+        "d": 3.18,
+        "a": 2.56
       },
       "event_id": 588322,
       "round": 19,
       "btts": {
-        "yes": 1.64,
-        "no": 2.14
+        "yes": 1.7,
+        "no": 2.04
       },
       "ou": {
-        "o15": 1.25,
-        "u15": 3.55,
-        "o25": 1.87,
-        "u25": 1.87,
-        "o35": 3.17,
-        "u35": 1.3
+        "o15": 1.28,
+        "u15": 3.41,
+        "o25": 1.92,
+        "u25": 1.82,
+        "o35": 3.34,
+        "u35": 1.29
       },
       "venue": "Hornchurch Stadium",
       "derby": true,
+      "funfacts": [
+        "Hornchurch's home record this season: 6-0-2.",
+        "Joe Kizzi is Hornchurch's top scorer with 3 goals. Temi Babalola has scored 5 times for Sutton.",
+        "Henry Hearn has more yellow cards (5) than any other player at Hornchurch. Jake Taylor has collected 6 for Sutton."
+      ],
       "ai_preview": "**Hornchurch's form is a mess, but Sutton's rolling in here with momentum** — this could be the perfect storm for a cup-tie feeling midweek. 🔥\n\nThe hosts have won just one of their last five and got battered 4-0 at Wealdstone, while Sutton's won three of their last five and looking sharp. Home advantage matters, but the visitors have all the vibes right now.\n\nKey storylines:\n\n- **Hornchurch's leaky defense** needs to tighten up against an in-form **Sutton United** attack or this gets ugly fast\n- **R. Loft** and **N. Ferguson** up front will need to convert chances if the hosts want to nick something\n- **Sutton's midfield** (Bell, Ogbonna, Osadebe) controlling tempo could be the difference in an open game\n\nExpected lineups:\n\n- **Hornchurch**: R. Byrne, F. L. Edwards, W. Greenidge, J. Baldwin, T. Dallison, R. Inniss, A. Massey, C. Pegrum, N. Ferguson, H. Hearn, R. Loft\n- **Sutton United**: C. Haigh, B. Topalloj, D. Urpens, B. Amartey, S. Folarin, C. Bell, D. Ogbonna, E. Osadebe, B. Brookes, T. Babalola, B. Njoku\n\nPrediction:\n\n**1-1 draw** — both sides leave with a point in a cagey Tuesday night affair. Hornchurch stays solid enough at home, Sutton doesn't capitalize fully on their edge.",
       "ai_pred": {
         "res": "H",
-        "ph": 36.2,
-        "pd": 28.1,
-        "pa": 35.7,
+        "ph": 36.1,
+        "pd": 28.5,
+        "pa": 35.4,
         "xhg": 1.5,
         "xag": 1.3,
-        "o25": 50.1,
-        "btts": 56.5,
+        "o25": 48.9,
+        "btts": 54.6,
         "score": "1-1",
         "conf": 0.36
       }
@@ -5889,37 +5878,42 @@ var FOOTYFIXTURES = {
       "home": "Scunthorpe",
       "away": "Gateshead",
       "odds": {
-        "h": 1.42,
-        "d": 4.64,
-        "a": 5.85
+        "h": 1.41,
+        "d": 4.58,
+        "a": 5.8
       },
       "event_id": 588323,
       "round": 19,
       "btts": {
-        "yes": 1.56,
-        "no": 2.3
+        "yes": 1.57,
+        "no": 2.25
       },
       "ou": {
         "o15": 1.11,
-        "u15": 5.68,
-        "o25": 1.42,
-        "u25": 2.66,
-        "o35": 2.07,
-        "u35": 1.68
+        "u15": 5.8,
+        "o25": 1.43,
+        "u25": 2.65,
+        "o35": 2.09,
+        "u35": 1.67
       },
       "venue": "Glanford Park",
+      "funfacts": [
+        "Scunthorpe haven't won in their last 6 games.",
+        "Gateshead's away record this season: 0-0-9.",
+        "Gateshead haven't won any of their last 12 away matches."
+      ],
       "ai_preview": "**Two basement dwellers collide in a must-not-lose affair** — Scunthorpe and Gateshead are both hemorrhaging points, and someone's gotta stop the rot on Tuesday. 🔥\n\nScunthorpe's found a draw recently but are otherwise spiraling hard; Gateshead haven't won in five and look genuinely stuck. This has all the makings of a messy, tight match where one mistake decides it.\n\nKey storylines:\n\n- **Scunthorpe's attack needs to click**: H. Parker and J. Gale have to find the net against a Gateshead side that's let in a ton of soft goals lately.\n- **Gateshead's away form is brutal**: D. Eguaibor and L. Supyk will face a Scunthorpe defense that, while leaky, plays at home with an edge.\n- **Head-to-head split**: These two have traded wins recently — Scunthorpe hold the slight edge in momentum despite the form book.\n\nExpected lineups:\n\n- **Scunthorpe United**: L. Jones, J. Starbuck, S. Ashbee, W. Evans, T. Denton, D. Batty, L. Brennan, J. Norwood, P. Jones, H. Parker, J. Gale\n- **Gateshead**: P. Jameson, T. Lavery, Home, H. Holgate, A. Lankshear, F. John, F. Issaka, R. Coyle, J. Hiwula, D. Eguaibor, L. Supyk\n\nPrediction:\n\n**Scunthorpe United 2-1 Gateshead**. Home side edges it in a low-quality but high-stakes dogfight. 📍",
       "ai_pred": {
         "res": "H",
-        "ph": 64.6,
-        "pd": 19.8,
+        "ph": 64.5,
+        "pd": 19.9,
         "pa": 15.7,
         "xhg": 2.21,
         "xag": 1.14,
-        "o25": 65.1,
-        "btts": 59.4,
+        "o25": 64.9,
+        "btts": 58.8,
         "score": "2-1",
-        "conf": 0.65
+        "conf": 0.64
       }
     },
     {
@@ -5930,15 +5924,15 @@ var FOOTYFIXTURES = {
       "home": "Woking",
       "away": "Worthing",
       "odds": {
-        "h": 2.23,
-        "d": 3.57,
-        "a": 2.79
+        "h": 2.22,
+        "d": 3.56,
+        "a": 2.76
       },
       "event_id": 588324,
       "round": 19,
       "btts": {
-        "yes": 1.41,
-        "no": 2.71
+        "yes": 1.43,
+        "no": 2.61
       },
       "ou": {
         "o15": 1.14,
@@ -5949,16 +5943,21 @@ var FOOTYFIXTURES = {
         "u35": 1.58
       },
       "venue": "Kingfield Stadium",
+      "funfacts": [
+        "Worthing's away record this season: 4-3-1.",
+        "John Marquis is Woking's top scorer with 8 goals. Razzaq Coleman De Graft has scored 7 times for Worthing.",
+        "Shadrach Ogie has more yellow cards (5) than any other player at Woking. Joe Cook has collected 4 for Worthing."
+      ],
       "ai_preview": "**Woking host Worthing in a National League scrap where neither side can afford to drop points.** Both teams are chasing form heading into the winter grind. 🔴\n\nWoking have flipped a coin recently—hammered 5-0 at Halifax, then scrappy wins over Tamworth. Worthing look steadier, posting 2W 2D 1L, but that 3-0 home loss to Sutton suggests they're beatable on their day.\n\nKey storylines:\n\n- **Woking's attack** hinges on T. Akinola and R. Syla linking with midfield engine S. Turner, but they've been wasteful lately\n- **Worthing's back four** (C. Waller, C. Adjetey-Brew, J. Moore anchored by J. Wadham and J. Cook) have to weather the pressure\n- **Kingfield Stadium momentum** matters—Woking will lean on home advantage to snap their inconsistency\n\nExpected lineups:\n\n- **Woking**: W. Jääskeläinen, S. Ogie, C. Okoli, T. Odusina, J. Putman, S. Turner, A. Georgiou, H. Sohna, R. Syla, T. Akinola, A. O'Brien\n- **Worthing FC**: T. Seymour, C. Waller, C. Adjetey-Brew, J. Moore, J. Cook, J. Wadham, R. d. Graft, C. Kendall, R. Aguiar, B. Smith, D. Johnson-Fisher\n\nPrediction:\n\n**1-1 draw.** Woking edge it on paper, but Worthing's solidity keeps them honest—classic midweek stalemate.",
       "ai_pred": {
         "res": "H",
-        "ph": 41.3,
-        "pd": 25.8,
-        "pa": 33.0,
-        "xhg": 1.78,
+        "ph": 41.2,
+        "pd": 25.7,
+        "pa": 33.1,
+        "xhg": 1.77,
         "xag": 1.53,
         "o25": 62.0,
-        "btts": 65.4,
+        "btts": 64.3,
         "score": "1-1",
         "conf": 0.41
       }
@@ -6473,56 +6472,6 @@ var FOOTYFIXTURES = {
     {
       "div": "E0",
       "league": "Premier League",
-      "date": "23/11/2026",
-      "time": "20:00",
-      "home": "Brentford",
-      "away": "Everton",
-      "odds": {
-        "h": 2.28,
-        "d": 3.48,
-        "a": 2.99
-      },
-      "event_id": 209637,
-      "round": 11,
-      "btts": {
-        "yes": 1.64,
-        "no": 2.18
-      },
-      "ou": {
-        "o15": 1.24,
-        "u15": 3.86,
-        "o25": 1.82,
-        "u25": 2.01,
-        "o35": 2.93,
-        "u35": 1.39
-      },
-      "venue": "Brentford Community Stadium",
-      "inj": {
-        "h": 8,
-        "a": 0
-      },
-      "funfacts": [
-        "Kevin Schade is Brentford's top scorer with 3 goals. Thierno Barry has scored 6 times for Everton.",
-        "A year ago, Everton were number 14 in the table with 12 points. Now they are number 6 with 16 points.",
-        "A year ago, Brentford were number 12 in the table with 13 points. Now they are number 8 with 14 points."
-      ],
-      "ai_preview": "**Brentford's stumbling at exactly the wrong time — Everton arrives in hot form and ready to punish.** 🔥 This is a proper mismatch on paper, with the Bees reeling (1W in 5) while the Toffees have flicked a switch (3W in their last 5).\n\nBrentford's missing half their attack with **Carvalho** out and **Milambo** sidelined, which leaves them threadbare up top. **Everton**, meanwhile, have found their groove and look genuinely dangerous. The home side are underdogs here — rare, but earned.\n\nKey storylines:\n\n- **Brentford's thin attacking resources** (Carvalho and Milambo both out) could leave them toothless against a sharp Everton back line\n- **Everton's winning streak** shows they've got momentum — three straight league wins heading into London\n- **Brentford's midfield** (Sangare, Janelt) will need to overwork defensively with so much defensive cover needed\n\nExpected lineups:\n\n- **Brentford**: E. Balcombe, M. Kayode, S. van den Berg, J. Schuster, K. Lewis-Potter, V. Janelt, M. Sangare, K. Schade, J. Anthony, C. Kelleher, K. Ajer\n- **Everton**: J. Pickford, J. O'Brien, J. Branthwaite, J. Tarkowski, V. Mykolenko, J. Garner, H. Armstrong, K. Dewsbury-Hall, T. George, B. Johnson, T. Barry\n\nPrediction:\n\n**Everton 2-0 Brentford.** Slight favorite to the visitors — they've got the form, Brentford's got the injuries.",
-      "ai_pred": {
-        "res": "H",
-        "ph": 41.4,
-        "pd": 27.1,
-        "pa": 31.5,
-        "xhg": 1.58,
-        "xag": 1.15,
-        "o25": 52.4,
-        "btts": 56.6,
-        "score": "1-1",
-        "conf": 0.41
-      }
-    },
-    {
-      "div": "E0",
-      "league": "Premier League",
       "date": "27/11/2026",
       "time": "20:00",
       "home": "Nott'm Forest",
@@ -6604,7 +6553,7 @@ var FOOTYFIXTURES = {
       "round": 12,
       "venue": "Old Trafford",
       "inj": {
-        "h": 7,
+        "h": 8,
         "a": 8
       },
       "ai_pred": {
@@ -6957,7 +6906,7 @@ var FOOTYFIXTURES = {
       "venue": "St James' Park",
       "inj": {
         "h": 3,
-        "a": 7
+        "a": 8
       }
     },
     {
@@ -7052,7 +7001,7 @@ var FOOTYFIXTURES = {
       "round": 14,
       "venue": "Old Trafford",
       "inj": {
-        "h": 7,
+        "h": 8,
         "a": 7
       }
     },
@@ -7324,7 +7273,7 @@ var FOOTYFIXTURES = {
       "round": 12,
       "venue": "Estádio do Dragão",
       "inj": {
-        "h": 2,
+        "h": 3,
         "a": 0
       },
       "ai_pred": {
@@ -7397,7 +7346,7 @@ var FOOTYFIXTURES = {
       "venue": "Estadio de São Miguel",
       "inj": {
         "h": 3,
-        "a": 2
+        "a": 3
       }
     },
     {
@@ -7506,37 +7455,42 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 1.61,
         "d": 4.13,
-        "a": 4.82
+        "a": 4.83
       },
       "event_id": 604922,
       "round": 12,
       "btts": {
-        "yes": 1.6,
-        "no": 2.22
+        "yes": 1.65,
+        "no": 2.14
       },
       "ou": {
         "o15": 1.16,
-        "u15": 4.75,
+        "u15": 4.81,
         "o25": 1.58,
-        "u25": 2.35,
-        "o35": 2.4,
-        "u35": 1.53
+        "u25": 2.31,
+        "o35": 2.42,
+        "u35": 1.52
       },
       "venue": "Easter Road",
       "inj": {
         "h": 3,
         "a": 4
       },
+      "funfacts": [
+        "When playing at home, Hibernian have not lost to Dundee FC in their last 20 encounters.",
+        "Hibernian's home record this season: 0-1-5.",
+        "Hibernian have played 7 home matches in a row without winning."
+      ],
       "ai_preview": "**Hibernian host a Dundee side both running on fumes** — identical records in their last five, but the Easter Road faithful should fancy their chances here. 🏴󠁁󠁢󠁳󠁣󠁴󠁿\n\nHibs have won 13 of their last 24 head-to-heads against Dundee, a gulf that shows up in xG too (2.0 vs 1.1). Both squads are injury-hit going in, but Hibernian's depth looks to hold up better. Dundee's 0-8 hammering at Hearts last time out is the kind of scoreline that lingers.\n\nKey storylines:\n\n- **Hibernian's midfield** (Mulligan, C. Chaiwa, Mayor) need to control tempo and avoid the mistakes that led to that 0-4 loss to Dundee United at home\n\n- **Dundee's visitors** will lean on set pieces and **Astley's** solidity at the back to frustrate a side still rebuilding confidence\n\n- **Lowe and Šuto** up top for Hibs should find more joy than Dundee's **Fink and Hay** pairing, especially with home advantage\n\nExpected lineups:\n\n- **Hibernian**: Sallinger, Kerr, Ivezić, Hanley, Iredale, Mulligan, C. Chaiwa, Mayor, McGrath, Šuto, Lowe\n\n- **Dundee FC**: Goodman, Astley, Wright, Bevan, Samuels, Hamilton, Forrest, J. Bevan, Jones, Fink, Hay\n\nPrediction: **1-1**\n\nHibernian edge it on paper but Dundee's defensive grit makes a stalemate the most likely outcome here.",
       "ai_pred": {
         "res": "H",
         "ph": 58.0,
         "pd": 22.6,
-        "pa": 19.4,
+        "pa": 19.3,
         "xhg": 1.97,
         "xag": 1.13,
-        "o25": 59.7,
-        "btts": 58.0,
+        "o25": 59.4,
+        "btts": 56.5,
         "score": "1-1",
         "conf": 0.58
       }
@@ -7549,39 +7503,44 @@ var FOOTYFIXTURES = {
       "home": "Rangers",
       "away": "Aberdeen",
       "odds": {
-        "h": 1.25,
-        "d": 6.02,
-        "a": 9.73
+        "h": 1.24,
+        "d": 6.06,
+        "a": 9.88
       },
       "event_id": 211176,
       "round": 12,
       "btts": {
-        "yes": 1.8,
-        "no": 1.93
+        "yes": 1.82,
+        "no": 1.91
       },
       "ou": {
-        "o15": 1.11,
-        "u15": 5.97,
-        "o25": 1.42,
-        "u25": 2.72,
-        "o35": 2.07,
-        "u35": 1.72
+        "o15": 1.1,
+        "u15": 6.02,
+        "o25": 1.41,
+        "u25": 2.77,
+        "o35": 2.05,
+        "u35": 1.73
       },
       "venue": "Ibrox",
       "inj": {
         "h": 6,
         "a": 5
       },
+      "funfacts": [
+        "Aberdeen haven't won any of their last 6 games against Rangers.",
+        "When playing at home, Rangers have not lost to Aberdeen in their last 7 encounters.",
+        "Rangers haven't lost in their last 13 games."
+      ],
       "ai_preview": "**Rangers hosting Aberdeen with a **heavy favorite tag** — the Dons are reeling after back-to-back hammerings, and the Gers' home record is basically a fortress.** 🔴\n\nRangers sit pretty at 3W-2D, while Aberdeen's crashed to 2W-3L over five. The head-to-head tells the whole story: Rangers 31, Aberdeen 7 in the last half-century. This one smells like a layup for the home side.\n\nKey storylines:\n\n- **Rangers' depth test**: Missing five players to injury (Devlin, Shankland, Cifuentes and co.) but still humming — the attacking depth needs to click early\n- **Aberdeen's form cliff**: That 4-0 hammering by Hibs last time out was brutal; they've now shipped 5 in two matches and look fragile defensively\n- **xG gap**: Rangers' 2.2 expected goals vs Aberdeen's 0.9 tells you everything about the gulf in quality\n\nExpected lineups:\n\n- **Rangers**: I. Pandur, J. Penrice, E. Fernandez, O. Makhanya, D. Sterling, N. Raskin, D. Neil, M. Kim, B. Bouanani, D. Gassama, R. D. Naderi\n- **Aberdeen**: M. Müller, N. Guinness-Walker, G. Molloy, C. Ronan, J. Milne, B. Lyons, A. Afeez, K. Nisbet, S. Armstrong, A. Mouloua, T. Olusanya\n\nPrediction:\n\n**Rangers 2-0 Aberdeen.** The Dons are wounded, the Gers are rolling — this feels like a statement victory. ⚪",
       "ai_pred": {
         "res": "H",
-        "ph": 74.8,
-        "pd": 15.5,
-        "pa": 9.6,
+        "ph": 75.2,
+        "pd": 15.4,
+        "pa": 9.4,
         "xhg": 2.24,
         "xag": 0.9,
-        "o25": 65.4,
-        "btts": 51.8,
+        "o25": 65.9,
+        "btts": 51.5,
         "score": "2-0",
         "conf": 0.75
       }
@@ -7944,56 +7903,6 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 3,
         "a": 6
-      }
-    },
-    {
-      "div": "I1",
-      "league": "Serie A",
-      "date": "23/11/2026",
-      "time": "19:45",
-      "home": "Monza",
-      "away": "Fiorentina",
-      "odds": {
-        "h": 3.56,
-        "d": 3.8,
-        "a": 1.94
-      },
-      "event_id": 210173,
-      "round": 12,
-      "btts": {
-        "yes": 1.5,
-        "no": 2.46
-      },
-      "ou": {
-        "o15": 1.17,
-        "u15": 4.75,
-        "o25": 1.57,
-        "u25": 2.4,
-        "o35": 2.43,
-        "u35": 1.55
-      },
-      "venue": "U-Power Stadium",
-      "inj": {
-        "h": 3,
-        "a": 3
-      },
-      "funfacts": [
-        "A year ago, Fiorentina were number 20 in the table with 5 points. Now they are number 15 with 9 points.",
-        "Monza have lost 4 matches in a row.",
-        "Monza have a losing streak of 4 matches in Serie A."
-      ],
-      "ai_preview": "**Monza's in freefall, Fiorentina's found some groove** — this feels like a classic trap game where the red-hot visitor gets complacent against a side desperately hunting a W. 🔴\n\nMonza have won just once in five and shipped 4 past their own fans against Napoli. Fiorentina, meanwhile, are mixing draws with statement wins (that 4-2 at Sassuolo was crisp) and sit in a much healthier headspace overall.\n\nKey storylines:\n\n- **Monza's desperation vs Fiorentina's rhythm**: The hosts need this badly; visitors are building something\n- **Zeballos & Varela up top vs a solid Viola defense**: Can Monza's creative duo find space against **De Gea** and the back line?\n- **Brescianini's midfield control**: The Florence engine room will want to slow the tempo and dictate play\n\nExpected lineups:\n\n- **Monza**: Törnqvist, Lucchesi, Goglichidze, Bakoune, Robinson, Varela, Zeballos, and others\n- **Fiorentina**: De Gea, Drăguşin, Viery, Jiménez, Fagioli, Gonçalves, Mastantuono, and others\n\nPrediction:\n\n**Monza 0–2 Fiorentina**\n\nFiorentina's got the edge in form and personnel; expect a controlled away performance with Monza unable to unlock a tired offense.",
-      "ai_pred": {
-        "res": "A",
-        "ph": 26.5,
-        "pd": 24.8,
-        "pa": 48.6,
-        "xhg": 1.62,
-        "xag": 1.36,
-        "o25": 60.2,
-        "btts": 61.7,
-        "score": "1-1",
-        "conf": 0.49
       }
     },
     {
@@ -8453,21 +8362,21 @@ var FOOTYFIXTURES = {
       "away": "Catanzaro",
       "odds": {
         "h": 1.87,
-        "d": 3.54,
-        "a": 3.81
+        "d": 3.53,
+        "a": 3.84
       },
       "event_id": 605723,
       "round": 13,
       "btts": {
-        "yes": 1.59,
-        "no": 2.26
+        "yes": 1.6,
+        "no": 2.23
       },
       "ou": {
         "o15": 1.19,
-        "u15": 4.23,
-        "o25": 1.67,
-        "u25": 2.13,
-        "o35": 2.66,
+        "u15": 4.25,
+        "o25": 1.68,
+        "u25": 2.12,
+        "o35": 2.72,
         "u35": 1.42
       },
       "venue": "Stadio Romeo Menti",
@@ -8475,16 +8384,21 @@ var FOOTYFIXTURES = {
         "h": 1,
         "a": 0
       },
+      "funfacts": [
+        "Catanzaro's away record this season: 0-2-5.",
+        "Antonio Di Nardo is Stabia's top scorer with 7 goals. Pietro Iemmello has scored 2 times for Catanzaro.",
+        "A year ago, Catanzaro were number 8 in the table with 15 points. Now they are number 20 with 6 points."
+      ],
       "ai_preview": "**A dead rubber between two sides stuck in neutral** — Juve Stabia host Catanzaro in a Serie B clash that screams \"grinding, cagey, probably ends level.\" 🤐\n\nStabia have been patchy: two wins sandwiched around losses to Modena and draws with Empoli. Catanzaro's even more all over the shop — one win in five, but they did hammer Palermo 3-1 at home not long ago. This one's written all over it as a **tight, low-event affair**.\n\nKey storylines:\n\n- **Juve Stabia's home comfort** vs a Catanzaro side that's struggled on the road (1-0 loss at Cesena most recent)\n- **Catanzaro's attack needs clicking** — P. Iemmello and S. Pafundi on paper but inconsistent service getting there\n- **Head-to-head leans Stabia's way** — 5 wins to 4 across 20 meetings, though draws (11) dominate the script\n\nExpected lineups:\n\n- **Juve Stabia**: A. Vuković, M. Bellich, T. Douglas, N. Pietrangeli, T. Maggioni, C. Pierobon, F. Artioli, J. Kumi, A. Di Nardo, F. Maistro, R. Sandrucci\n- **Catanzaro**: M. Pigliacelli, M. Antonini, M. Imperiale, A. Candela, M. Ruggero, R. Frosinini, J. Petriccione, M. Dorval, F. Tchaouna, P. Iemmello, S. Pafundi\n\nPrediction:\n\n**1-1 draw**. Neither side's firing on all cylinders, and Stabia's modest xG edge won't be enough to break through. Classic midtable stalemate. 📍",
       "ai_pred": {
         "res": "H",
-        "ph": 49.5,
-        "pd": 26.2,
-        "pa": 24.3,
+        "ph": 49.6,
+        "pd": 26.3,
+        "pa": 24.1,
         "xhg": 1.53,
         "xag": 1.24,
-        "o25": 55.8,
-        "btts": 58.3,
+        "o25": 55.6,
+        "btts": 57.9,
         "score": "1-1",
         "conf": 0.5
       }
@@ -8498,21 +8412,21 @@ var FOOTYFIXTURES = {
       "away": "Empoli",
       "odds": {
         "h": 1.56,
-        "d": 4.04,
-        "a": 5.26
+        "d": 4.03,
+        "a": 5.28
       },
       "event_id": 605720,
       "round": 13,
       "btts": {
-        "yes": 1.75,
-        "no": 1.96
+        "yes": 1.78,
+        "no": 1.95
       },
       "ou": {
-        "o15": 1.2,
-        "u15": 4.04,
+        "o15": 1.21,
+        "u15": 4.08,
         "o25": 1.71,
         "u25": 2.08,
-        "o35": 2.75,
+        "o35": 2.78,
         "u35": 1.4
       },
       "venue": "Stadio Ciro Vigorito",
@@ -8520,16 +8434,21 @@ var FOOTYFIXTURES = {
         "h": 1,
         "a": 0
       },
+      "funfacts": [
+        "Empoli haven't won in their last 9 games.",
+        "Benevento haven't won in their last 4 games.",
+        "Benevento's home record this season: 2-4-1."
+      ],
       "ai_preview": "**Benevento's looking to punish a wobbly Empoli side** — the visitors are winless in five and riding a rough patch, while the Stregoni have at least steadied the ship with a couple draws. 🔴\n\nBenevento's form is mixed but they're at home; Empoli's genuinely struggling and can't seem to string together a result. The visitors have drawn twice in their last three outings but lack the attacking threat to hurt a team with Benevento's setup.\n\nKey storylines:\n\n- **Benevento's midfield** anchored by M. Maita will need to control tempo against an Empoli side that's creaky defensively\n- **Empoli's 3-5-2 shape** relies on width through D. Bembnista and K. Zedadka, but those flanks are vulnerable to Benevento's pressing\n- Home advantage at Stadio Ciro Vigorito paired with Empoli's confidence crisis should tip the scales decisively\n\nExpected lineups:\n\n- **Benevento**: G. Vannucchi, S. Scognamillo, P. Saio, P. Beruatto, C. Dalle Mura, M. Maita, C. Kouan, A. Siatounis, D. Lamesta, L. Sernicola, F. Salvemini\n- **Empoli**: J. Seghetti, C. Cauz, M. Curto, S. Romagnoli, D. Bembnista, G. Indragoli, N. Corrado, K. Zedadka, L. Magnino, E. Saporiti, B. Popov\n\nPrediction:\n\n**Benevento 2-0 Empoli**. The hosts should cruise past a team lacking conviction and rhythm.",
       "ai_pred": {
         "res": "H",
         "ph": 59.4,
-        "pd": 22.9,
+        "pd": 23.0,
         "pa": 17.6,
         "xhg": 2.05,
         "xag": 0.82,
         "o25": 54.8,
-        "btts": 52.5,
+        "btts": 51.9,
         "score": "2-0",
         "conf": 0.59
       }
@@ -8548,7 +8467,16 @@ var FOOTYFIXTURES = {
       },
       "event_id": 605721,
       "round": 13,
+      "btts": {
+        "yes": 1.64,
+        "no": 2.13
+      },
       "venue": "Orogel Stadium-Dino Manuzzi",
+      "funfacts": [
+        "Cesena's home record this season: 2-4-0.",
+        "Cristian Shpendi is Cesena's top scorer with 9 goals. Andrea Silipo has scored 4 times for Ascoli.",
+        "Cristian Shpendi has more yellow cards (4) than any other player at Cesena. Abdoul Guiebre has collected 5 for Ascoli."
+      ],
       "ai_preview": "**Cesena's on a roll at home, but Ascoli's draw machine is set to stun.** This is a classic clash of momentum vs. steadiness in Serie B 🔄\n\nCesena have won three of their last five and demolished Hellas Verona away; Ascoli, meanwhile, haven't lost in five (2W, 3D) and treat draws like a lifestyle choice. The H2H leans Cesena's way historically, but Ascoli's defensive discipline might just frustrate the hosts.\n\nKey storylines:\n\n- **Cesena's attacking teeth:** Shpendi and D'Andrea have been clinical up front in recent weeks, keen to press their home advantage.\n- **Ascoli's stubborn backline:** Vitale, Curado, and Rizzo form a wall that's conceded sparingly; Corradini and D'Uffizi hold the midfield together.\n- **Draw culture:** 12 draws in 25 head-to-heads tells you everything—this rivalry breeds stalemates.\n\nExpected lineups:\n\n- **Cesena**: Siano, Ciofi, Mangraviti, Ilić, Gelli, Pagano, Bisoli, Bohinen, Fiori, Shpendi, D'Andrea\n- **Ascoli**: Vitale, Guiebre, Curado, Rizzo, Venuti, Silipo, Corradini, D'Uffizi, Acampora, Damiani, Brunori\n\nPrediction:\n\n**1-1 draw.** Cesena's firepower meets Ascoli's rock-solid resolve—a stalemate feels inevitable. 📍",
       "ai_pred": {
         "res": "A",
@@ -8558,7 +8486,7 @@ var FOOTYFIXTURES = {
         "xhg": 1.15,
         "xag": 1.46,
         "o25": 48.2,
-        "btts": 52.1,
+        "btts": 55.9,
         "score": "1-1",
         "conf": 0.37
       }
@@ -8572,21 +8500,21 @@ var FOOTYFIXTURES = {
       "away": "Sudtirol",
       "odds": {
         "h": 1.44,
-        "d": 4.46,
+        "d": 4.45,
         "a": 6.26
       },
       "event_id": 605727,
       "round": 13,
       "btts": {
-        "yes": 1.71,
-        "no": 2.04
+        "yes": 1.75,
+        "no": 1.98
       },
       "ou": {
-        "o15": 1.15,
-        "u15": 4.67,
-        "o25": 1.58,
-        "u25": 2.29,
-        "o35": 2.4,
+        "o15": 1.17,
+        "u15": 4.63,
+        "o25": 1.59,
+        "u25": 2.28,
+        "o35": 2.44,
         "u35": 1.5
       },
       "venue": "Renzo Barbera",
@@ -8594,6 +8522,11 @@ var FOOTYFIXTURES = {
         "h": 3,
         "a": 2
       },
+      "funfacts": [
+        "Palermo's home record this season: 5-0-0.",
+        "Mattia Bani has more yellow cards (3) than any other player at Palermo. Giacomo Stabile has collected 3 for Sudtirol Bolzano.",
+        "A year ago, Palermo were number 5 in the table with 19 points. Now they are number 1 with 27 points."
+      ],
       "ai_preview": "**Palermo host Südtirol looking to tighten their grip on Serie B's top two** — the hosts have momentum, Südtirol are stuck in neutral. 🏟️\n\nPalermo's bounced back from that Catanzaro hammering with consecutive wins at home, while Südtirol have won just once in five and keep coughing up draws. The head-to-head is comfortably Palermo's territory too.\n\nKey storylines:\n\n- **Palermo's attack** needs to stay clinical without the defensive cover usually offered by the missing Bani — Ceccaroni and Cassandro will get tested\n- **Südtirol's leaky defense** (1.8 xG conceded per game on average this window) faces a sharp Palermo forward line spearheaded by Pohjanpalo\n- **Stabile and the back three** have to weather the pressure — Südtirol's missing Vasić through suspension, which weakens their shape\n\nExpected lineups:\n\n- **Palermo**: M. Perin, P. Ceccaroni, T. Cassandro, F. Barba, P. Peda, T. Augello, F. Ranocchia, D. Johnsen, J. Segre, D. Vavassori, J. Pohjanpalo\n- **Südtirol**: A. Plizzari, A. Giorgini, R. Stivanello, G. Stabile, D. Veroli, S. Molina, S. Tronchin, K. Zeroli, R. Burnete, A. O. Okoro, K. Mixtur\n\nPrediction:\n\n**Palermo 1–0 Südtirol**. Tight affair, but the hosts' edge in form and home turf tips the scales. 💪",
       "ai_pred": {
         "res": "H",
@@ -8602,8 +8535,8 @@ var FOOTYFIXTURES = {
         "pa": 14.8,
         "xhg": 1.84,
         "xag": 0.92,
-        "o25": 58.8,
-        "btts": 54.0,
+        "o25": 58.5,
+        "btts": 53.0,
         "score": "1-0",
         "conf": 0.64
       }
@@ -8616,39 +8549,44 @@ var FOOTYFIXTURES = {
       "home": "Vicenza",
       "away": "Carrarese",
       "odds": {
-        "h": 2.7,
-        "d": 3.08,
+        "h": 2.69,
+        "d": 3.1,
         "a": 2.59
       },
       "event_id": 605724,
       "round": 13,
       "btts": {
-        "yes": 1.64,
-        "no": 2.15
+        "yes": 1.7,
+        "no": 2.04
       },
       "ou": {
         "o15": 1.27,
-        "u15": 3.48,
-        "o25": 1.89,
-        "u25": 1.87,
-        "o35": 3.13,
-        "u35": 1.32
+        "u15": 3.46,
+        "o25": 1.9,
+        "u25": 1.86,
+        "o35": 3.19,
+        "u35": 1.31
       },
       "venue": "Stadio Romeo Menti",
       "inj": {
         "h": 2,
         "a": 0
       },
+      "funfacts": [
+        "L.R. Vicenza haven't won in their last 4 games.",
+        "A year ago, Carrarese were number 11 in the table with 14 points. Now they are number 17 with 10 points.",
+        "L.R. Vicenza have played 4 home matches in a row without winning."
+      ],
       "ai_preview": "**Vicenza host Carrarese in a midweek clash where neither side's really firing on all cylinders** — both teams are stuck in that awkward run where you snatch wins but can't string them together. 🔴\n\nVicenza have wobbled at home (hammered 1-4 by Cremonese recently), while Carrarese haven't won away all season and just took a 3-0 spanking at Verona. The hosts have the sharper xG profile and home advantage, but they're missing Tsadjout — a gap that matters up front.\n\nKey storylines:\n\n- **Vicenza's attack without Tsadjout** leans on Merkaj and Rauti to create chaos in a 3-5-2\n- **Carrarese's road record is brutal** — scoring only 1 goal in three away fixtures is criminal\n- **Midfield control** between Cuomo/Bellemo and Carrarese's Dagba/Schiavi will determine shape and rhythm\n\nExpected lineups:\n\n- **L.R. Vicenza**: Gagno, Brighenti, Marchizza, Papetti, Sandon, Cuomo, Bellemo, Pellizzari, Pietrelli, Merkaj, Rauti\n- **Carrarese**: Pizzignacco, Oliana, Ruggeri, Reale, Romani, Dagba, Rouhi, Schiavi, Parlanti, Abiuso, Rubino\n\nPrediction:\n\n**1-1 draw.** Vicenza edge it on possession and shot volume, but Carrarese's compact defense keeps them honest — neither side breaks through cleanly.",
       "ai_pred": {
         "res": "A",
-        "ph": 34.3,
-        "pd": 30.0,
+        "ph": 34.4,
+        "pd": 29.9,
         "pa": 35.7,
         "xhg": 1.78,
         "xag": 0.97,
-        "o25": 49.8,
-        "btts": 56.2,
+        "o25": 49.6,
+        "btts": 54.4,
         "score": "1-1",
         "conf": 0.36
       }
@@ -8662,38 +8600,43 @@ var FOOTYFIXTURES = {
       "away": "Verona",
       "odds": {
         "h": 3.15,
-        "d": 3.15,
+        "d": 3.14,
         "a": 2.26
       },
       "event_id": 605729,
       "round": 13,
       "btts": {
-        "yes": 1.76,
-        "no": 1.96
+        "yes": 1.82,
+        "no": 1.9
       },
       "ou": {
-        "o15": 1.32,
-        "u15": 3.12,
-        "o25": 2.05,
-        "u25": 1.73,
-        "o35": 3.64,
-        "u35": 1.24
+        "o15": 1.33,
+        "u15": 3.11,
+        "o25": 2.06,
+        "u25": 1.72,
+        "o35": 3.76,
+        "u35": 1.23
       },
       "venue": "Stadio Comunale di Chiavari",
       "inj": {
         "h": 1,
         "a": 2
       },
+      "funfacts": [
+        "Entella haven't won in their last 5 games.",
+        "Entella haven't won any of their last 4 games against Hellas Verona.",
+        "Entella's home record this season: 0-3-3."
+      ],
       "ai_preview": "**Verona rides in as heavy favorites, but Entella's got nothing to lose at home** — a clash between a resurgent Hellas side and a Liguria outfit desperately searching for a W. 🔴⚪\n\nEntella are in freefall (0W-1D-4L), while Verona have found their rhythm with back-to-back wins and a 3-0 demolition of Carrarese. The head-to-head is brutal for the hosts — Verona have won 3 of the last 4 meetings. That said, **expect Verona to feel the Chiavari pressure** — they're missing key defenders and an edge of sharpness.\n\nKey storylines:\n\n- **Verona's away form** has been the backbone of their rise, but Entella will throw bodies forward and make life uncomfortable\n- **Entella without Tiritiello** (red card suspension) forces a reshuffle in an already threadbare squad\n- **Sarr and Livramento** up top for Verona should dictate, but Edmundsson and Zappa will need to stay switched on against Guiu and Cuppone's work rate\n\nExpected lineups:\n\n- **Virtus Entella**: Del Frate, Parodi, Marconi, Previtali, Turicchia, Franzoni, Di Mario, Squizzato, Guiu, Cuppone\n- **Hellas Verona**: Perilli, Zappa, Edmundsson, Slotsager, Dawidowicz, Iannoni, Le Borgne, Bernede, Sarr, Mosquera, Livramento\n\nPrediction: **1-1** — Verona edge it on the road but Entella scrape a point at home; enough to ease the pressure, not enough to ignite a revival 🤝",
       "ai_pred": {
         "res": "A",
-        "ph": 29.5,
+        "ph": 29.4,
         "pd": 29.5,
-        "pa": 41.1,
+        "pa": 41.0,
         "xhg": 1.49,
         "xag": 0.94,
-        "o25": 45.7,
-        "btts": 52.2,
+        "o25": 45.4,
+        "btts": 50.8,
         "score": "1-1",
         "conf": 0.41
       }
@@ -8870,7 +8813,7 @@ var FOOTYFIXTURES = {
         "ph": 39.6,
         "pd": 29.0,
         "pa": 31.4,
-        "xhg": 1.24,
+        "xhg": 1.25,
         "xag": 1.4,
         "o25": 51.0,
         "btts": 56.8,
@@ -9498,7 +9441,7 @@ var FOOTYFIXTURES = {
       "round": 12,
       "venue": "Kleanthis Vikelides",
       "inj": {
-        "h": 4,
+        "h": 1,
         "a": 4
       },
       "ai_pred": {
@@ -9603,7 +9546,7 @@ var FOOTYFIXTURES = {
       "venue": "Apostolos Nikolaidis Stadium",
       "inj": {
         "h": 2,
-        "a": 4
+        "a": 1
       }
     },
     {
@@ -9652,56 +9595,6 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 1,
         "a": 0
-      }
-    },
-    {
-      "div": "T1",
-      "league": "Super Lig",
-      "date": "23/11/2026",
-      "time": "17:00",
-      "home": "Buyuksehyr",
-      "away": "Corum",
-      "odds": {
-        "h": 1.91,
-        "d": 3.72,
-        "a": 3.59
-      },
-      "event_id": 216243,
-      "round": 12,
-      "btts": {
-        "yes": 1.5,
-        "no": 2.46
-      },
-      "ou": {
-        "o15": 1.18,
-        "u15": 4.73,
-        "o25": 1.59,
-        "u25": 2.35,
-        "o35": 2.41,
-        "u35": 1.54
-      },
-      "venue": "Basaksehir Fatih Terim Stadium",
-      "inj": {
-        "h": 3,
-        "a": 1
-      },
-      "funfacts": [
-        "Eldor Shomurodov is Basaksehir's top scorer with 8 goals. Jesus . Ramirez has scored 6 times for Corum.",
-        "Basaksehir have won 3 home matches in a row.",
-        "In Super Lig, Basaksehir have 3 successive home wins."
-      ],
-      "ai_preview": "**Başakşehir's red-hot streak meets Çorum's wildly inconsistent form in a lopsided Istanbul showdown.** The hosts are firing on all cylinders after that demolition of Samsunspor, while visitors Çorum just got embarrassed 5-0 by Fenerbahçe. 🔥\n\nBaşakşehir are **3-1 unbeaten in their last four**, mixing dominant wins with defensive solidity. Çorum, meanwhile, **flip between convincing road victories and brutal home collapses** — they beat Erzurumspor away but leaked five at home to Fener. That's a pretty wild swing.\n\nKey storylines:\n\n- **Başakşehir's attacking firepower** — E. Shomurodov and A. Skov Olsen have been clinical; Çorum's backline is fragile enough to punish ruthlessly\n- **Çorum's resilience test** — Can they steady the ship with B. Özdemir and S. Saatçı sidelined, or is this another collapse waiting to happen?\n- **Home advantage matters** — Başakşehir unbeaten at Basaksehir Fatih Terim Stadium; Çorum just conceded five in front of their own fans\n\nExpected lineups:\n\n- **Başakşehir FK**: D. Dilmen, M. Karbownik, E. Bayram, O. Ba, J. Kałuziński, I. Brnić, A. Skov Olsen, E. Shomurodov\n- **Çorum FK**: M. Felipe, A. Borza, H. Smolčić, A. Penetra, Y. Ramadani, M. Diomande, Fredy, C. Ünder\n\nPrediction: **3-0 Başakşehir**. The hosts are primed to punish; Çorum's injuries and form say \"no thanks.\" 📍",
-      "ai_pred": {
-        "res": "H",
-        "ph": 48.9,
-        "pd": 25.1,
-        "pa": 26.0,
-        "xhg": 1.57,
-        "xag": 1.3,
-        "o25": 59.4,
-        "btts": 61.4,
-        "score": "1-1",
-        "conf": 0.49
       }
     },
     {
