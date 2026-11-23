@@ -25,17 +25,19 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run Fixtures Export
-        run: python export_fixtures.py
+      - name: Run 26/27 BSD Fixtures Export
+        env:
+          BZZOIRO_API_KEY: ${{ secrets.BZZOIRO_API_KEY }}
+        run: python footyapi.py --export-fixtures
 
       - name: Commit and Push if updated
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add fixtures.js csv_cache/fixtures.csv
+          git add fixtures.js
           if git diff --staged --quiet; then
             echo "No fixture changes detected."
           else
-            git commit -m "Auto-update upcoming fixtures [skip ci]"
+            git commit -m "Auto-update 26/27 BSD upcoming fixtures [skip ci]"
             git push
           fi

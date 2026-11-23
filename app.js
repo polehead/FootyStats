@@ -28,7 +28,8 @@ const FootyDialogs = (function () {
   // Reliably probe discrete `display` transition support (guards against Firefox bug 1882408
   // where CSS.supports('transition-behavior', 'allow-discrete') returns true without animating display)
   function canTransitionDisplay() {
-    if (supportsDisplayTransition !== undefined) return supportsDisplayTransition;
+    if (supportsDisplayTransition !== undefined)
+      return supportsDisplayTransition;
     if (
       !window.CSS ||
       !window.CSS.supports ||
@@ -52,8 +53,8 @@ const FootyDialogs = (function () {
     return (
       Boolean(
         window.CSS &&
-          window.CSS.supports &&
-          window.CSS.supports("overlay", "auto"),
+        window.CSS.supports &&
+        window.CSS.supports("overlay", "auto"),
       ) && canTransitionDisplay()
     );
   }
@@ -491,51 +492,220 @@ const FootyDialogs = (function () {
     return (Math.exp(-lambda) * Math.pow(lambda, k)) / fact(k);
   }
 
-  // ── Predictive Model: 1X2 Outright Probabilities ──────────────
-  function predictMatchOutright(homeTeam, awayTeam, h2h, odds) {
-    var baseHomeGoals = 1.5;
-    var baseAwayGoals = 1.2;
+  // ── Chronological xG + Underlying Stats + Elo Rating Engine ───
+  const MODEL_RATINGS = {
+    teams: {},
+    leagues: {},
+    preMatch2627: {},
+  };
 
+  function parseDateKeyInt(dateStr) {
+    if (!dateStr) return 0;
+    const p = dateStr.split("/");
+    if (p.length !== 3) return 0;
+    return parseInt(p[2], 10) * 10000 + parseInt(p[1], 10) * 100 + parseInt(p[0], 10);
+  }
+
+  function computeModelRatings() {
+    MODEL_RATINGS.teams = {};
+    MODEL_RATINGS.leagues = {};
+    MODEL_RATINGS.preMatch2627 = {};
+    if (!D || !D.m || !D.m.length) return;
+
+    const bsdMeta = D.bsd2627 || {};
+    const rows = new Array(D.m.length);
+    for (let i = 0, len = D.m.length; i < len; i++) {
+      const m = D.m[i];
+      rows[i] = { m, dk: parseDateKeyInt(m[M.DATE]), idx: i };
+    }
+    rows.sort((a, b) => a.dk - b.dk || a.idx - b.idx);
+
+    const teams = MODEL_RATINGS.teams;
+    const leagues = MODEL_RATINGS.leagues;
+    const ensureT = (name) =>
+      teams[name] ||
+      (teams[name] = { att: 1.0, def: 1.0, elo: 1500, n: 0, lastSeason: "" });
+    const ensureL = (bl) =>
+      leagues[bl] || (leagues[bl] = { w: 0, hg: 0, ag: 0 });
+
+    const SEASON_REG = 0.30;
+    const LR = 0.05;
+    const ELO_K = 20;
+    const HOME_ELO = 55;
+    const ELO_XG_W = 0.45;
+
+    for (let i = 0, len = rows.length; i < len; i++) {
+      const m = rows[i].m;
+      const lgName = D.l[m[M.LG]] || "";
+      const bl = baseLeague(lgName);
+      const season = lgName.slice(-5);
+      const is2627 = lgName.includes("26/27");
+      const h = teamName(m[M.HOME]);
+      const a = teamName(m[M.AWAY]);
+      const fthg = m[M.FTHG] || 0;
+      const ftag = m[M.FTAG] || 0;
+      const ftr = m[M.FTR];
+
+      const ht = ensureT(h);
+      const at = ensureT(a);
+      const lt = ensureL(bl);
+
+      // Inter-season mean regression for squad turnover & promotion/relegation
+      if (ht.lastSeason && ht.lastSeason !== season) {
+        ht.att = 1.0 + (ht.att - 1.0) * (1 - SEASON_REG);
+        ht.def = 1.0 + (ht.def - 1.0) * (1 - SEASON_REG);
+        ht.elo = 1500 + (ht.elo - 1500) * (1 - SEASON_REG);
+      }
+      ht.lastSeason = season;
+
+      if (at.lastSeason && at.lastSeason !== season) {
+        at.att = 1.0 + (at.att - 1.0) * (1 - SEASON_REG);
+        at.def = 1.0 + (at.def - 1.0) * (1 - SEASON_REG);
+        at.elo = 1500 + (at.elo - 1500) * (1 - SEASON_REG);
+      }
+      at.lastSeason = season;
+
+      const baseH = lt.w >= 30 ? lt.hg / lt.w : 1.48;
+      const baseA = lt.w >= 30 ? lt.ag / lt.w : 1.18;
+      const matchKey = is2627 ? lgName + "|" + m[M.DATE] + "|" + h + "|" + a : "";
+      const meta = matchKey ? bsdMeta[matchKey] : null;
+
+      // Snapshot strict pre-match ratings for zero-lookahead Results backtesting
+      if (is2627) {
+        MODEL_RATINGS.preMatch2627[matchKey] = {
+          hAtt: ht.att,
+          hDef: ht.def,
+          hElo: ht.elo,
+          aAtt: at.att,
+          aDef: at.def,
+          aElo: at.elo,
+          baseH: baseH,
+          baseA: baseA,
+          derby: Boolean(meta && meta.derby),
+        };
+      }
+
+      // Build composite underlying attacking output (actual xG + xGOT/shots/big-chances + goals)
+      const hasXg = Boolean(meta && meta.hxg != null && meta.axg != null);
+      let obsH = fthg;
+      let obsA = ftag;
+      if (hasXg) {
+        const hasXgot = meta.hxgot != null && meta.axgot != null;
+        const hasShots = meta.hsot != null && meta.asot != null;
+        if (hasXgot || hasShots) {
+          const qH = hasXgot
+            ? meta.hxgot
+            : Math.min(5, 0.09 * meta.hsot + 0.32 * (meta.hbc || 0));
+          const qA = hasXgot
+            ? meta.axgot
+            : Math.min(5, 0.09 * meta.asot + 0.32 * (meta.abc || 0));
+          obsH = 0.55 * meta.hxg + 0.15 * qH + 0.30 * fthg;
+          obsA = 0.55 * meta.axg + 0.15 * qA + 0.30 * ftag;
+        } else {
+          obsH = 0.70 * meta.hxg + 0.30 * fthg;
+          obsA = 0.70 * meta.axg + 0.30 * ftag;
+        }
+      } else if (meta && meta.hsot != null && meta.asot != null) {
+        const qH = Math.min(5, 0.09 * meta.hsot + 0.32 * (meta.hbc || 0));
+        const qA = Math.min(5, 0.09 * meta.asot + 0.32 * (meta.abc || 0));
+        obsH = 0.30 * qH + 0.70 * fthg;
+        obsA = 0.30 * qA + 0.70 * ftag;
+      }
+
+      // Opponent-adjusted multiplicative attack/defense update (outlier-clipped)
+      const expH = Math.max(0.25, baseH * ht.att * at.def);
+      const expA = Math.max(0.25, baseA * at.att * ht.def);
+      const errH = Math.max(-2.5, Math.min(2.5, obsH - expH));
+      const errA = Math.max(-2.5, Math.min(2.5, obsA - expA));
+
+      ht.att = Math.max(0.45, Math.min(2.1, ht.att * Math.exp((LR * errH) / Math.max(0.8, expH))));
+      at.def = Math.max(0.45, Math.min(2.1, at.def * Math.exp((LR * errH) / Math.max(0.8, expH))));
+      at.att = Math.max(0.45, Math.min(2.1, at.att * Math.exp((LR * errA) / Math.max(0.8, expA))));
+      ht.def = Math.max(0.45, Math.min(2.1, ht.def * Math.exp((LR * errA) / Math.max(0.8, expA))));
+
+      // xG-enhanced Elo update
+      const dElo = ht.elo + (meta && meta.derby ? 35 : HOME_ELO) - at.elo;
+      const eScore = 1 / (1 + Math.pow(10, -dElo / 400));
+      const actRes = ftr === "H" ? 1 : ftr === "D" ? 0.5 : 0;
+      let perf = actRes;
+      if (hasXg) {
+        const xgScore = 1 / (1 + Math.exp(-(meta.hxg - meta.axg) * 1.1));
+        perf = (1 - ELO_XG_W) * actRes + ELO_XG_W * xgScore;
+      }
+      const margin = Math.log(Math.abs(fthg - ftag) + 1) * 0.4 + 1;
+      const delta = ELO_K * margin * (perf - eScore);
+      ht.elo += delta;
+      at.elo -= delta;
+
+      ht.n++;
+      at.n++;
+      lt.w += 1;
+      lt.hg += fthg;
+      lt.ag += ftag;
+    }
+  }
+
+  // ── Predictive Model: 1X2 Outright Probabilities (xG + Elo + Dixon-Coles + BSD AI Ensemble) ──
+  function predictMatchOutright(homeTeam, awayTeam, h2h, odds, ctx) {
+    ctx = ctx || {};
     var hStats = TEAM_STATS[homeTeam];
     var aStats = TEAM_STATS[awayTeam];
 
-    var homeAtt =
-      hStats && hStats.homeMatches >= 3
-        ? hStats.hGF / hStats.homeMatches
-        : baseHomeGoals;
-    var homeDef =
-      hStats && hStats.homeMatches >= 3
-        ? hStats.hGA / hStats.homeMatches
-        : baseAwayGoals;
+    var snap = ctx.preMatch || null;
+    var ht = snap
+      ? { att: snap.hAtt, def: snap.hDef, elo: snap.hElo }
+      : MODEL_RATINGS.teams[homeTeam] || { att: 1.0, def: 1.0, elo: 1500 };
+    var at = snap
+      ? { att: snap.aAtt, def: snap.aDef, elo: snap.aElo }
+      : MODEL_RATINGS.teams[awayTeam] || { att: 1.0, def: 1.0, elo: 1500 };
 
-    var awayAtt =
-      aStats && aStats.awayMatches >= 3
-        ? aStats.aGF / aStats.awayMatches
-        : baseAwayGoals;
-    var awayDef =
-      aStats && aStats.awayMatches >= 3
-        ? aStats.aGA / aStats.awayMatches
-        : baseHomeGoals;
+    var lgInfo = ctx.league
+      ? MODEL_RATINGS.leagues[baseLeague(ctx.league)]
+      : null;
+    var baseHomeGoals = snap
+      ? snap.baseH
+      : lgInfo && lgInfo.w >= 30
+        ? lgInfo.hg / lgInfo.w
+        : 1.48;
+    var baseAwayGoals = snap
+      ? snap.baseA
+      : lgInfo && lgInfo.w >= 30
+        ? lgInfo.ag / lgInfo.w
+        : 1.18;
 
-    // Expected Goals (xG) using bivariate venue relative attack/defense rates
-    var lambda =
-      (homeAtt / baseHomeGoals) * (awayDef / baseHomeGoals) * baseHomeGoals;
-    var mu =
-      (awayAtt / baseAwayGoals) * (homeDef / baseAwayGoals) * baseAwayGoals;
+    var isDerby = Boolean(ctx.derby || (snap && snap.derby));
+    var homeEloAdv = isDerby ? 35 : 55;
 
-    // Clamp lambda and mu between realistic bounds (0.2 to 4.5)
-    lambda = Math.max(0.2, Math.min(4.5, lambda));
-    mu = Math.max(0.2, Math.min(4.5, mu));
+    // Context modifier: unavailable/injured player net imbalance (capped)
+    var injH = ctx.inj && ctx.inj.h ? ctx.inj.h : 0;
+    var injA = ctx.inj && ctx.inj.a ? ctx.inj.a : 0;
+    var netInj = injA - injH; // positive favors home
+    var injEloAdj = Math.max(-24, Math.min(24, netInj * 6));
+    var injAttMultH = Math.max(0.92, Math.min(1.08, 1 + Math.max(-4, Math.min(4, -injH * 0.012 + injA * 0.008))));
+    var injAttMultA = Math.max(0.92, Math.min(1.08, 1 + Math.max(-4, Math.min(4, -injA * 0.012 + injH * 0.008))));
 
-    // Compute 7x7 scoreline probability matrix (0..6 goals)
+    // Expected Goals (lambda / mu) from opponent-adjusted xG/underlying ratings
+    var lambda = baseHomeGoals * ht.att * at.def * injAttMultH;
+    var mu = baseAwayGoals * at.att * ht.def * injAttMultA;
+
+    lambda = Math.max(0.25, Math.min(4.2, lambda));
+    mu = Math.max(0.25, Math.min(4.2, mu));
+
+    // Dixon-Coles low-score correlation adjustment (fixes 0-0 / 1-1 draw calibration)
+    var rho = isDerby ? -0.13 : -0.10;
     var pH = 0,
       pD = 0,
       pA = 0;
     for (var i = 0; i <= 6; i++) {
       var probI = poissonProb(i, lambda);
       for (var j = 0; j <= 6; j++) {
-        var probJ = poissonProb(j, mu);
-        var cell = probI * probJ;
+        var cell = probI * poissonProb(j, mu);
+        var tau = 1;
+        if (i === 0 && j === 0) tau = 1 - lambda * mu * rho;
+        else if (i === 0 && j === 1) tau = 1 + lambda * rho;
+        else if (i === 1 && j === 0) tau = 1 + mu * rho;
+        else if (i === 1 && j === 1) tau = 1 - rho;
+        cell *= Math.max(0.01, tau);
         if (i > j) pH += cell;
         else if (i === j) pD += cell;
         else pA += cell;
@@ -549,7 +719,22 @@ const FootyDialogs = (function () {
       pA /= totalP;
     }
 
-    // H2H calibration if at least 2 historical meetings exist
+    // Blend 65% Dixon-Coles + 35% xG-Enhanced Elo (High-Confidence calibrated profile)
+    var dElo = ht.elo + homeEloAdv + injEloAdj - at.elo;
+    var eH = 1 / (1 + Math.pow(10, -dElo / 400));
+    var eDraw = (isDerby ? 0.29 : 0.27) * Math.exp(-Math.pow(dElo / 320, 2));
+    var pHE = eH * (1 - eDraw);
+    var pAE = (1 - eH) * (1 - eDraw);
+    pH = 0.65 * pH + 0.35 * pHE;
+    pD = 0.65 * pD + 0.35 * eDraw;
+    pA = 0.65 * pA + 0.35 * pAE;
+
+    var normElo = pH + pD + pA;
+    pH /= normElo;
+    pD /= normElo;
+    pA /= normElo;
+
+    // Sample-shrunk venue H2H calibration (max 6% at 6+ historical meetings)
     var h2hLen = h2h ? h2h.length : 0;
     if (h2hLen >= 2) {
       var hWins = 0,
@@ -561,27 +746,44 @@ const FootyDialogs = (function () {
         else if (r === "D") draws++;
         else if (r === "A") aWins++;
       }
-      var h2hH = hWins / h2hLen;
-      var h2hD = draws / h2hLen;
-      var h2hA = aWins / h2hLen;
+      var h2hW = (0.06 * Math.min(h2hLen, 6)) / 6;
+      pH = (1 - h2hW) * pH + h2hW * (hWins / h2hLen);
+      pD = (1 - h2hW) * pD + h2hW * (draws / h2hLen);
+      pA = (1 - h2hW) * pA + h2hW * (aWins / h2hLen);
 
-      // Blend 75% Poisson model + 25% empirical venue H2H
-      pH = 0.75 * pH + 0.25 * h2hH;
-      pD = 0.75 * pD + 0.25 * h2hD;
-      pA = 0.75 * pA + 0.25 * h2hA;
-
-      var norm = pH + pD + pA;
-      pH /= norm;
-      pD /= norm;
-      pA /= norm;
+      var normH2H = pH + pD + pA;
+      pH /= normH2H;
+      pD /= normH2H;
+      pA /= normH2H;
     }
 
-    // Fair odds (1 / P)
+    // Ensemble blend: 70% FootyStats (xG/Elo/DC) + 30% BSD AI ML (strictly independent of bookmaker odds)
+    var usedEnsemble = false;
+    var ai = ctx.aiPred;
+    if (ai && ai.ph != null && ai.pd != null && ai.pa != null) {
+      var aiSum = ai.ph + ai.pd + ai.pa;
+      if (aiSum > 0) {
+        pH = 0.70 * pH + 0.30 * (ai.ph / aiSum);
+        pD = 0.70 * pD + 0.30 * (ai.pd / aiSum);
+        pA = 0.70 * pA + 0.30 * (ai.pa / aiSum);
+        var normEns = pH + pD + pA;
+        pH /= normEns;
+        pD /= normEns;
+        pA /= normEns;
+        if (ai.xhg != null && ai.xag != null) {
+          lambda = 0.70 * lambda + 0.30 * ai.xhg;
+          mu = 0.70 * mu + 0.30 * ai.xag;
+        }
+        usedEnsemble = true;
+      }
+    }
+
+    // Fair decimal odds under the hood (displayed via decimalToFractional)
     var fairH = pH > 0 ? (1 / pH).toFixed(2) : "—";
     var fairD = pD > 0 ? (1 / pD).toFixed(2) : "—";
     var fairA = pA > 0 ? (1 / pA).toFixed(2) : "—";
 
-    // Calculate Value Edge vs Market Odds if odds provided
+    // Calculate pure Value Edge strictly vs bookmaker market odds
     var edgeH = null,
       edgeD = null,
       edgeA = null;
@@ -614,6 +816,8 @@ const FootyDialogs = (function () {
       h2hLen: h2hLen,
       homeMatches: hStats ? hStats.homeMatches : 0,
       awayMatches: aStats ? aStats.awayMatches : 0,
+      usedEnsemble: usedEnsemble,
+      modelVersion: "xg-dc-elo-v2",
     };
   }
 
@@ -754,8 +958,9 @@ const FootyDialogs = (function () {
     if (COUPON_SLIP.length === 0) formattedProbPct = "0.0";
 
     var displayFairOdds =
-      combinedFairOdds > 0 ? combinedFairOdds.toFixed(2) : "—";
-    var displayMktOdds = combinedMktOdds > 0 ? combinedMktOdds.toFixed(2) : "—";
+      combinedFairOdds > 0 ? decimalToFractional(combinedFairOdds) : "—";
+    var displayMktOdds =
+      combinedMktOdds > 0 ? decimalToFractional(combinedMktOdds) : "—";
     var potentialReturn = (
       couponStake * (combinedMktOdds > 0 ? combinedMktOdds : combinedFairOdds)
     ).toFixed(2);
@@ -789,7 +994,9 @@ const FootyDialogs = (function () {
 
   function renderCouponSlipHtml(metrics, isModal) {
     var legsHtml = "";
-    var stakeInputId = isModal ? "coupon-modal-stake-input" : "coupon-stake-input";
+    var stakeInputId = isModal
+      ? "coupon-modal-stake-input"
+      : "coupon-stake-input";
     var copyBtnId = isModal ? "coupon-modal-copy-btn" : "coupon-copy-btn";
     if (COUPON_SLIP.length === 0) {
       legsHtml =
@@ -808,7 +1015,9 @@ const FootyDialogs = (function () {
               : leg.pick === "2"
                 ? "AWAY WIN (" + leg.away + ")"
                 : "DRAW";
-          var effectiveOdds = leg.odds ? leg.odds : leg.fairOdds;
+          var effectiveOdds = decimalToFractional(
+            leg.odds ? leg.odds : leg.fairOdds,
+          );
           return (
             '<div class="coupon-leg-card">' +
             '<div class="coupon-leg-top">' +
@@ -1158,7 +1367,7 @@ const FootyDialogs = (function () {
           : leg.pick === "2"
             ? "Away Win (" + leg.away + ")"
             : "Draw";
-      var effOdds = leg.odds ? leg.odds : leg.fairOdds;
+      var effOdds = decimalToFractional(leg.odds ? leg.odds : leg.fairOdds);
       text +=
         i + 1 + ". " + leg.home + " vs " + leg.away + " (" + leg.league + ")\n";
       text +=
@@ -1173,7 +1382,7 @@ const FootyDialogs = (function () {
       combinedOdds *= leg.odds || parseFloat(leg.fairOdds) || 2.0;
     });
     var probPct = (accProb * 100).toFixed(1);
-    var combOddsStr = combinedOdds.toFixed(2);
+    var combOddsStr = decimalToFractional(combinedOdds);
     var retStr = (couponStake * combinedOdds).toFixed(2);
     text += "\nAccumulator (" + COUPON_SLIP.length + " Fold):\n";
     text += "Overall Win Probability: " + probPct + "%\n";
@@ -1284,6 +1493,7 @@ const FootyDialogs = (function () {
   // ── Init ──────────────────────────────────────────────────────
   (function init() {
     computeTeamStats();
+    computeModelRatings();
     computeWins2PlusStats();
     computeCorners10PlusStats();
     loadCouponSlip();
@@ -1854,8 +2064,7 @@ const FootyDialogs = (function () {
 
         if (!isCustom) {
           // Must have at least 1 qualifying match on wins/corners tabs
-          if (!rec.home.some((e) => e.q) && !rec.away.some((e) => e.q))
-            return;
+          if (!rec.home.some((e) => e.q) && !rec.away.some((e) => e.q)) return;
         }
 
         // Opponent filter
@@ -2415,7 +2624,12 @@ const FootyDialogs = (function () {
       var away = fix.away;
       var matchId = (fix.date || "") + "_" + home + "_" + away;
       var h2h = getH2HAtHome(home, away);
-      var pred = predictMatchOutright(home, away, h2h, fix.odds);
+      var pred = predictMatchOutright(home, away, h2h, fix.odds, {
+        league: fix.league,
+        aiPred: fix.ai_pred,
+        derby: fix.derby,
+        inj: fix.inj,
+      });
       var cur = getCouponLeg(matchId);
 
       var htGoalPct = calcFirstHalfGoalPct(home, away, h2h);
@@ -2449,14 +2663,14 @@ const FootyDialogs = (function () {
       var hasSelectedAny = isSelectedH || isSelectedD || isSelectedA;
 
       var oddsHDisplay = pred.oddsH
-        ? "Mkt: <strong>" + pred.oddsH + "</strong>"
-        : "Fair: <strong>" + pred.fairOddsH + "</strong>";
+        ? "Mkt: <strong>" + decimalToFractional(pred.oddsH) + "</strong>"
+        : "Fair: <strong>" + decimalToFractional(pred.fairOddsH) + "</strong>";
       var oddsDDisplay = pred.oddsD
-        ? "Mkt: <strong>" + pred.oddsD + "</strong>"
-        : "Fair: <strong>" + pred.fairOddsD + "</strong>";
+        ? "Mkt: <strong>" + decimalToFractional(pred.oddsD) + "</strong>"
+        : "Fair: <strong>" + decimalToFractional(pred.fairOddsD) + "</strong>";
       var oddsADisplay = pred.oddsA
-        ? "Mkt: <strong>" + pred.oddsA + "</strong>"
-        : "Fair: <strong>" + pred.fairOddsA + "</strong>";
+        ? "Mkt: <strong>" + decimalToFractional(pred.oddsA) + "</strong>"
+        : "Fair: <strong>" + decimalToFractional(pred.fairOddsA) + "</strong>";
 
       return (
         '<div class="coupon-card' +
@@ -2668,7 +2882,12 @@ const FootyDialogs = (function () {
         var away = fix.away;
         var matchId = (fix.date || "") + "_" + home + "_" + away;
         var h2h = getH2HAtHome(home, away);
-        var pred = predictMatchOutright(home, away, h2h, fix.odds);
+        var pred = predictMatchOutright(home, away, h2h, fix.odds, {
+          league: fix.league,
+          aiPred: fix.ai_pred,
+          derby: fix.derby,
+          inj: fix.inj,
+        });
 
         var candidates = [
           {
@@ -2747,7 +2966,9 @@ const FootyDialogs = (function () {
             .map(function (hp) {
               var cur = getCouponLeg(hp.matchId);
               var isSelected = cur && cur.pick === hp.pick;
-              var effectiveOdds = hp.odds ? hp.odds : hp.fair;
+              var effectiveOdds = decimalToFractional(
+                hp.odds ? hp.odds : hp.fair,
+              );
               var edgeTag =
                 hp.edge > 0
                   ? '<span class="hot-pick-edge-tag" title="Model edge vs bookmaker odds">+' +
@@ -2926,7 +3147,7 @@ const FootyDialogs = (function () {
       "</div>" +
       "</div>" +
       '<p class="coupon-subtext">' +
-      "Outright win probabilities are computed using <strong>bivariate Poisson goal distributions</strong> based on historical venue attack/defense rates, calibrated against <strong>empirical head-to-head records</strong>. Add selections to calculate cumulative accumulator probabilities, fair decimal odds, and expected payouts." +
+      "Outright win probabilities are computed using <strong>bivariate Poisson goal distributions</strong> based on historical venue attack/defense rates, calibrated against <strong>empirical head-to-head records</strong>. Add selections to calculate cumulative accumulator probabilities, fair fractional odds, and expected payouts." +
       "</p>" +
       "</div>" +
       '<div class="coupon-layout">' +
@@ -3177,7 +3398,12 @@ const FootyDialogs = (function () {
         if (!hOpp && !aOpp) return;
       }
 
-      const pred = predictMatchOutright(home, away);
+      const matchKey = item.lgName + "|" + m[M.DATE] + "|" + home + "|" + away;
+      const preMatch = MODEL_RATINGS.preMatch2627[matchKey] || null;
+      const pred = predictMatchOutright(home, away, null, null, {
+        league: item.lgName,
+        preMatch: preMatch,
+      });
       let pick = "H",
         pickLabel = "Home Win",
         pickProb = pred.probH;
@@ -3676,8 +3902,10 @@ const FootyDialogs = (function () {
 
   // ── Decimal → Fractional odds conversion ─────────────────────
   function decimalToFractional(dec) {
-    if (!dec || dec <= 1) return "—";
-    var num = Math.round((dec - 1) * 100);
+    var d = parseFloat(dec);
+    if (!Number.isFinite(d) || d <= 1) return "—";
+    var num = Math.round((d - 1) * 100);
+    if (num <= 0) return "1/100";
     var den = 100;
     var g = gcd(num, den);
     return num / g + "/" + den / g;
@@ -3685,7 +3913,6 @@ const FootyDialogs = (function () {
 
   function gcd(a, b) {
     return b === 0 ? a : gcd(b, a % b);
-    M.DATE;
   }
 
   // ── H2H history: home team at home vs away team ───────────────
@@ -4046,7 +4273,12 @@ const FootyDialogs = (function () {
 
     // Coupon quick-add chips
     var matchId = (fix.date || "") + "_" + home + "_" + away;
-    var outrightPred = predictMatchOutright(home, away, h2h, fix.odds);
+    var outrightPred = predictMatchOutright(home, away, h2h, fix.odds, {
+      league: fix.league,
+      aiPred: fix.ai_pred,
+      derby: fix.derby,
+      inj: fix.inj,
+    });
     var curLeg = getCouponLeg(matchId);
 
     var couponChipsHtml =
@@ -4133,6 +4365,8 @@ const FootyDialogs = (function () {
       "</div>" +
       "</div>";
 
+    var intelHtml = renderFixtureIntelHtml(fix, home, away);
+
     return (
       '<div class="fixture-card">' +
       '<div class="fixture-header">' +
@@ -4172,6 +4406,223 @@ const FootyDialogs = (function () {
       htProbHtml +
       c10ProbHtml +
       couponChipsHtml +
+      intelHtml +
+      "</div>"
+    );
+  }
+
+  // ── BSD API Intel: AI Prediction, Fun Facts & AI Match Preview ──
+  function formatInlineMd(escapedText) {
+    return escapedText.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  }
+
+  function extractAiScoreTeaser(rawText) {
+    if (!rawText) return "";
+    const m = String(rawText).match(
+      /Prediction:\s*(?:\r?\n)+\s*\*\*([^*]{3,42}?)\*\*/i,
+    );
+    return m ? m[1].replace(/\.$/, "").trim() : "";
+  }
+
+  function formatAiPreviewHtml(rawText) {
+    if (!rawText) return "";
+    const blocks = String(rawText)
+      .split(/\r?\n\s*\r?\n/)
+      .map((b) => b.trim())
+      .filter(Boolean);
+    const out = [];
+    for (let i = 0; i < blocks.length; i++) {
+      const lines = blocks[i]
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter(Boolean);
+      const isBulletBlock = lines.every((l) => /^[-•]\s+/.test(l));
+      if (isBulletBlock) {
+        out.push(
+          '<ul class="ai-preview-list">' +
+            lines
+              .map(
+                (l) =>
+                  "<li>" +
+                  formatInlineMd(esc(l.replace(/^[-•]\s+/, ""))) +
+                  "</li>",
+              )
+              .join("") +
+            "</ul>",
+        );
+      } else if (
+        lines.length === 1 &&
+        /^(Key storylines|Expected lineups|Prediction):$/i.test(lines[0])
+      ) {
+        out.push(
+          '<div class="ai-preview-subhead">' +
+            esc(lines[0].replace(/:$/, "")) +
+            "</div>",
+        );
+      } else {
+        const joined = lines.map((l) => formatInlineMd(esc(l))).join("<br />");
+        const isPredCallout =
+          i === blocks.length - 1 &&
+          out.length > 0 &&
+          out[out.length - 1].includes(">Prediction<");
+        out.push(
+          '<p class="ai-preview-para' +
+            (isPredCallout ? " ai-preview-verdict" : "") +
+            '">' +
+            joined +
+            "</p>",
+        );
+      }
+    }
+    return out.join("");
+  }
+
+  function renderFixtureIntelHtml(fix, home, away) {
+    const pred = fix && fix.ai_pred ? fix.ai_pred : null;
+    const funfacts =
+      fix && Array.isArray(fix.funfacts) && fix.funfacts.length
+        ? fix.funfacts
+        : null;
+    const preview = fix && fix.ai_preview ? fix.ai_preview : null;
+
+    let predHtml = "";
+    if (pred) {
+      const resCode = pred.res || "";
+      const pickText =
+        resCode === "H"
+          ? esc(home)
+          : resCode === "A"
+            ? esc(away)
+            : resCode === "D"
+              ? "Draw"
+              : "";
+      const recLabels = {
+        winner: "Winner",
+        favorite: "Favourite",
+        over_25: "Over 2.5",
+        btts: "BTTS",
+      };
+      const recBadges = Array.isArray(pred.rec)
+        ? pred.rec
+            .map(
+              (r) =>
+                '<span class="fixture-ai-rec-pill">&#9733; ' +
+                esc(recLabels[r] || r) +
+                "</span>",
+            )
+            .join("")
+        : "";
+      const scoreBadge = pred.score
+        ? '<span class="fixture-ai-score-pill" title="Most likely scoreline">' +
+          esc(pred.score) +
+          "</span>"
+        : "";
+      const xgStr =
+        pred.xhg != null && pred.xag != null
+          ? Number(pred.xhg).toFixed(2) + "–" + Number(pred.xag).toFixed(2)
+          : null;
+
+      predHtml =
+        '<div class="fixture-ai-pred">' +
+        '<div class="fixture-ai-pred-top">' +
+        '<span class="fixture-ai-label"><span class="fixture-ai-spark" aria-hidden="true">&#10022;</span> Model Pick' +
+        (pickText
+          ? ': <strong class="fixture-ai-pick">' + pickText + "</strong>"
+          : "") +
+        "</span>" +
+        '<div class="fixture-ai-badges">' +
+        recBadges +
+        scoreBadge +
+        "</div>" +
+        "</div>" +
+        '<div class="fixture-ai-metrics">' +
+        (pred.ph != null
+          ? '<span class="fixture-ai-metric' +
+            (resCode === "H" ? " lead" : "") +
+            '">1 <strong>' +
+            Math.round(pred.ph) +
+            "%</strong></span>"
+          : "") +
+        (pred.pd != null
+          ? '<span class="fixture-ai-metric' +
+            (resCode === "D" ? " lead" : "") +
+            '">X <strong>' +
+            Math.round(pred.pd) +
+            "%</strong></span>"
+          : "") +
+        (pred.pa != null
+          ? '<span class="fixture-ai-metric' +
+            (resCode === "A" ? " lead" : "") +
+            '">2 <strong>' +
+            Math.round(pred.pa) +
+            "%</strong></span>"
+          : "") +
+        (xgStr
+          ? '<span class="fixture-ai-metric xg">xG <strong>' +
+            xgStr +
+            "</strong></span>"
+          : "") +
+        (pred.o25 != null
+          ? '<span class="fixture-ai-metric">O2.5 <strong>' +
+            Math.round(pred.o25) +
+            "%</strong></span>"
+          : "") +
+        (pred.btts != null
+          ? '<span class="fixture-ai-metric">BTTS <strong>' +
+            Math.round(pred.btts) +
+            "%</strong></span>"
+          : "") +
+        "</div>" +
+        "</div>";
+    } else {
+      predHtml =
+        '<div class="fixture-ai-pred fixture-ai-pred-tbd">' +
+        '<div class="fixture-ai-pred-top">' +
+        '<span class="fixture-ai-label"><span class="fixture-ai-spark" aria-hidden="true">&#10022;</span> Model Pick: <strong class="fixture-ai-pick fixture-ai-tbd">TBD</strong></span>' +
+        "</div>" +
+        "</div>";
+    }
+
+    let accordionsHtml = "";
+    if (funfacts) {
+      accordionsHtml +=
+        '<details class="fixture-intel-details">' +
+        '<summary class="fixture-intel-summary">' +
+        '<span class="fixture-intel-title">Intel</span>' +
+        '<span class="fixture-intel-pill cyan">' +
+        funfacts.length +
+        "</span>" +
+        "</summary>" +
+        '<div class="fixture-intel-body">' +
+        '<ul class="fixture-funfacts-list">' +
+        funfacts.map((s) => "<li>" + esc(s) + "</li>").join("") +
+        "</ul>" +
+        "</div>" +
+        "</details>";
+    }
+
+    if (preview) {
+      const teaser = extractAiScoreTeaser(preview);
+      accordionsHtml +=
+        '<details class="fixture-intel-details ai-preview">' +
+        '<summary class="fixture-intel-summary">' +
+        '<span class="fixture-intel-title">Match Preview</span>' +
+        (teaser
+          ? '<span class="fixture-intel-pill purple">' + esc(teaser) + "</span>"
+          : "") +
+        "</summary>" +
+        '<div class="fixture-intel-body ai-preview-body">' +
+        formatAiPreviewHtml(preview) +
+        "</div>" +
+        "</details>";
+    }
+
+    return (
+      '<div class="fixture-intel-wrap">' +
+      predHtml +
+      (accordionsHtml
+        ? '<div class="fixture-intel-accordions">' + accordionsHtml + "</div>"
+        : "") +
       "</div>"
     );
   }

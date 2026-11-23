@@ -4,3 +4,7 @@ backups
 TODO.md
 data_key.txt
 FootyStats.code-workspace
+test.html
+__pycache__
+.venv
+download_logos.py
