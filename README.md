@@ -842,3 +842,169 @@ Filter for 5+ seasons of consistency: console.table(window.comboMatchups.filter(
   return results;
 })();
 ```
+
+## Fixtures with a 60+ percent of having 10 or more corners
+
+```js
+(() => {
+  const D = window.FOOTYDATA;
+  const F = window.FOOTYFIXTURES;
+  const fixtures = F && (F.fixtures || F.matches);
+  if (!D || !D.m || !fixtures) {
+    console.error("FOOTYDATA or FOOTYFIXTURES not loaded. Make sure you are on the FootyStats page.");
+    return;
+  }
+
+  const teamName = (t) => (typeof t === "number" ? D.t[t] : t);
+  const stats = {};
+  const ensure = (n) => (stats[n] || (stats[n] = { hg: 0, hh: 0, htc: 0, ag: 0, ah: 0, atc: 0 }));
+
+  for (const m of D.m) {
+    const hc = m[8], ac = m[9], tc = m[10], c10 = m[13];
+    if (hc == null || ac == null || tc == null || tc <= 0) continue; // skip matches without corner data
+    const hit = c10 === 1 || c10 === true || tc >= 10 ? 1 : 0;
+    const hs = ensure(teamName(m[1]));
+    hs.hg++; hs.hh += hit; hs.htc += tc;
+    const as = ensure(teamName(m[2]));
+    as.ag++; as.ah += hit; as.atc += tc;
+  }
+
+  const results = [];
+  for (const fx of fixtures) {
+    const hs = stats[fx.home];
+    const as = stats[fx.away];
+    if (!hs || !as || hs.hg === 0 || as.ag === 0) continue;
+
+    const homePct = (hs.hh / hs.hg) * 100;
+    const awayPct = (as.ah / as.ag) * 100;
+    const combinedPct = (homePct + awayPct) / 2;
+
+    if (combinedPct > 60) {
+      results.push({
+        Date: fx.date + (fx.time ? " " + fx.time : ""),
+        League: fx.league || "",
+        Fixture: `${fx.home} vs ${fx.away}`,
+        "10+ Corners %": Number(combinedPct.toFixed(1)),
+        "Home 10+%": `${homePct.toFixed(0)}% (${hs.hh}/${hs.hg})`,
+        "Away 10+%": `${awayPct.toFixed(0)}% (${as.ah}/${as.ag})`,
+        "Avg Corners": Number((((hs.htc / hs.hg) + (as.atc / as.ag)) / 2).toFixed(2)),
+      });
+    }
+  }
+
+  results.sort((a, b) => b["10+ Corners %"] - a["10+ Corners %"]);
+  console.log(`Found ${results.length} fixtures with >60% 10+ corners rate:`);
+  console.table(results);
+})();
+```
+>Change combinedPct > 60 to combinedPct >= 60 if you want to include fixtures at exactly 60.0%.
+>If you want both teams individually over 60% instead of the combined average, replace if (combinedPct > 60) with if (homePct > 60 && awayPct > 60).
+
+## All positive value edge fixtures (Model % > bookmaker-implied %)
+
+```js
+(() => {
+  const btns = document.querySelectorAll('[data-action="toggle-leg"], [data-action="quick-coupon"]');
+  if (!btns.length) {
+    console.warn("Switch to the 'Upcoming Fixtures' or 'Coupon' tab first, then re-run this command.");
+    return;
+  }
+
+  const seen = new Set();
+  const edges = [];
+
+  for (const btn of btns) {
+    const mid = btn.getAttribute("data-mid") || "";
+    const pick = btn.getAttribute("data-pick") || "";
+    const key = `${mid}|${pick}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const prob = parseFloat(btn.getAttribute("data-prob"));
+    const odds = parseFloat(btn.getAttribute("data-odds"));
+    if (!prob || !odds || odds <= 1) continue;
+
+    const impliedPct = (1 / odds) * 100;
+    const edgePct = prob - impliedPct;
+    const evPct = ((prob / 100) * odds - 1) * 100;
+
+    if (edgePct > 0) {
+      const home = btn.getAttribute("data-home") || "";
+      const away = btn.getAttribute("data-away") || "";
+      const pickLabel = pick === "1" ? `1 (${home})` : pick === "2" ? `2 (${away})` : "X (Draw)";
+      edges.push({
+        Date: `${btn.getAttribute("data-date") || ""} ${btn.getAttribute("data-time") || ""}`.trim(),
+        League: btn.getAttribute("data-lg") || "",
+        Fixture: `${home} vs ${away}`,
+        Pick: pickLabel,
+        "Model %": Number(prob.toFixed(1)),
+        "Implied %": Number(impliedPct.toFixed(1)),
+        "Edge %": Number(edgePct.toFixed(1)),
+        "Book Odds": Number(odds.toFixed(2)),
+        "Fair Odds": btn.getAttribute("data-fair") || "—",
+        "EV %": Number(evPct.toFixed(1)),
+      });
+    }
+  }
+
+  edges.sort((a, b) => b["Edge %"] - a["Edge %"]);
+  console.log(`Found ${edges.length} positive Value Edge picks:`);
+  console.table(edges);
+})();
+```
+> Change if (edgePct > 0) to if (edgePct >= 5) if you only want strong edges of +5% or higher.
+
+## Flag any upcoming fixtures with incomplete or very little historical data
+
+```js
+(() => {
+  const D = window.FOOTYDATA;
+  const F = window.FOOTYFIXTURES;
+  const fixtures = F && (F.fixtures || F.matches);
+  if (!D || !D.m || !fixtures) {
+    console.error("FOOTYDATA or FOOTYFIXTURES not loaded. Make sure you are on the FootyStats page.");
+    return;
+  }
+
+  const teamName = (t) => (typeof t === "number" ? D.t[t] : t);
+  const counts = {};
+  const ensure = (n) => (counts[n] || (counts[n] = { h: 0, a: 0, ch: 0, ca: 0 }));
+
+  for (const m of D.m) {
+    const hs = ensure(teamName(m[1]));
+    const as = ensure(teamName(m[2]));
+    hs.h++;
+    as.a++;
+    if (m[8] != null && m[9] != null && m[10] != null && m[10] > 0) {
+      hs.ch++;
+      as.ca++;
+    }
+  }
+
+  const issues = [];
+  for (const fx of fixtures) {
+    const hs = counts[fx.home] || { h: 0, a: 0, ch: 0, ca: 0 };
+    const as = counts[fx.away] || { h: 0, a: 0, ch: 0, ca: 0 };
+    const flags = [];
+    if (hs.h === 0) flags.push("No home history");
+    else if (hs.h < 5) flags.push(`Low home sample (${hs.h})`);
+    if (as.a === 0) flags.push("No away history");
+    else if (as.a < 5) flags.push(`Low away sample (${as.a})`);
+    if (hs.ch === 0 || as.ca === 0) flags.push("Missing corner stats");
+
+    if (flags.length) {
+      issues.push({
+        Date: `${fx.date || ""} ${fx.time || ""}`.trim(),
+        League: fx.league || "",
+        Fixture: `${fx.home} vs ${fx.away}`,
+        "Home Games": hs.h,
+        "Away Games": as.a,
+        "Edge Case(s)": flags.join(", "),
+      });
+    }
+  }
+
+  console.log(`Found ${issues.length} fixture data edge cases:`);
+  console.table(issues);
+})();
+```
