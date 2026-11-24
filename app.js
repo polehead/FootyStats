@@ -2562,7 +2562,7 @@ const FootyDialogs = (function () {
       $stats.innerHTML =
         '<div class="stat-chip"><strong>0</strong> upcoming fixtures for coupon</div>';
       $main.innerHTML =
-        '<div class="empty-state"><h2>NO FIXTURES LOADED</h2><p>Could not find fixtures in fixtures.js. Run <code>python export_fixtures.py</code> to download upcoming matches.</p></div>';
+        '<div class="empty-state"><h2>NO FIXTURES LOADED</h2><p>Could not find fixtures in fixtures.js. Run <code>python footyapi.py --export-fixtures</code> to download upcoming matches.</p></div>';
       return;
     }
 
@@ -3173,7 +3173,7 @@ const FootyDialogs = (function () {
       $stats.innerHTML =
         '<div class="stat-chip"><strong>0</strong> upcoming fixtures</div>';
       $main.innerHTML =
-        '<div class="empty-state"><h2>NO FIXTURES LOADED</h2><p>Could not find fixtures in fixtures.js. Run <code>python export_fixtures.py</code> to download upcoming matches.</p></div>';
+        '<div class="empty-state"><h2>NO FIXTURES LOADED</h2><p>Could not find fixtures in fixtures.js. Run <code>python footyapi.py --export-fixtures</code> to download upcoming matches.</p></div>';
       return;
     }
 

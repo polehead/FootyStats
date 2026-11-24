@@ -3,16 +3,15 @@
 # dependencies = []
 # ///
 """
-Export football analysis data to data.js for the web frontend.
+Historical football-data.co.uk CSV helpers (19/20-25/26 seasons).
 
-Downloads current-season CSV files from football-data.co.uk and reads
-previously cached historical seasons from ./csv_cache (fetching historical
-files only when missing from the cache), builds both wins (2+ goals) and
-corners (10+) datasets, then writes `data.js` with global FOOTYDATA.
-This avoids CORS issues with file:// protocol.
+The 26/27 season (results and fixtures) now comes exclusively from the
+Bzzoiro Sports Data API via `footyapi.py`. This module only serves the static,
+cached historical seasons in ./csv_cache (fetched only when missing) and is
+imported by `footyapi.py`. Generate `data.js` / `fixtures.js` with:
 
-Usage:
-    uv run export_data.py
+    python footyapi.py --export-results
+    python footyapi.py --export-fixtures
 """
 
 from __future__ import annotations
@@ -37,7 +36,6 @@ if sys.platform == "win32":
 
 # ── CSV sources (url -> pretty league name) ───────────────────────────────────
 LEAGUE_FILES: dict[str, str] = {
-    "https://football-data.co.uk/mmz4281/2627/E0.csv": "Premier League 26/27",
     "https://football-data.co.uk/mmz4281/2526/E0.csv": "Premier League 25/26",
     "https://football-data.co.uk/mmz4281/2425/E0.csv": "Premier League 24/25",
     "https://football-data.co.uk/mmz4281/2324/E0.csv": "Premier League 23/24",
@@ -45,7 +43,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/E0.csv": "Premier League 21/22",
     "https://football-data.co.uk/mmz4281/2021/E0.csv": "Premier League 20/21",
     "https://football-data.co.uk/mmz4281/1920/E0.csv": "Premier League 19/20",
-    "https://football-data.co.uk/mmz4281/2627/E1.csv": "Championship 26/27",
     "https://football-data.co.uk/mmz4281/2526/E1.csv": "Championship 25/26",
     "https://football-data.co.uk/mmz4281/2425/E1.csv": "Championship 24/25",
     "https://football-data.co.uk/mmz4281/2324/E1.csv": "Championship 23/24",
@@ -53,7 +50,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/E1.csv": "Championship 21/22",
     "https://football-data.co.uk/mmz4281/2021/E1.csv": "Championship 20/21",
     "https://football-data.co.uk/mmz4281/1920/E1.csv": "Championship 19/20",
-    "https://football-data.co.uk/mmz4281/2627/E2.csv": "League One 26/27",
     "https://football-data.co.uk/mmz4281/2526/E2.csv": "League One 25/26",
     "https://football-data.co.uk/mmz4281/2425/E2.csv": "League One 24/25",
     "https://football-data.co.uk/mmz4281/2324/E2.csv": "League One 23/24",
@@ -61,7 +57,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/E2.csv": "League One 21/22",
     "https://football-data.co.uk/mmz4281/2021/E2.csv": "League One 20/21",
     "https://football-data.co.uk/mmz4281/1920/E2.csv": "League One 19/20",
-    "https://football-data.co.uk/mmz4281/2627/E3.csv": "League Two 26/27",
     "https://football-data.co.uk/mmz4281/2526/E3.csv": "League Two 25/26",
     "https://football-data.co.uk/mmz4281/2425/E3.csv": "League Two 24/25",
     "https://football-data.co.uk/mmz4281/2324/E3.csv": "League Two 23/24",
@@ -69,7 +64,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/E3.csv": "League Two 21/22",
     "https://football-data.co.uk/mmz4281/2021/E3.csv": "League Two 20/21",
     "https://football-data.co.uk/mmz4281/1920/E3.csv": "League Two 19/20",
-    "https://football-data.co.uk/mmz4281/2627/EC.csv": "National League 26/27",
     "https://football-data.co.uk/mmz4281/2526/EC.csv": "National League 25/26",
     "https://football-data.co.uk/mmz4281/2425/EC.csv": "National League 24/25",
     "https://football-data.co.uk/mmz4281/2324/EC.csv": "National League 23/24",
@@ -77,7 +71,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/EC.csv": "National League 21/22",
     "https://football-data.co.uk/mmz4281/2021/EC.csv": "National League 20/21",
     "https://football-data.co.uk/mmz4281/1920/EC.csv": "National League 19/20",
-    "https://football-data.co.uk/mmz4281/2627/SC0.csv": "Scottish Premiership 26/27",
     "https://football-data.co.uk/mmz4281/2526/SC0.csv": "Scottish Premiership 25/26",
     "https://football-data.co.uk/mmz4281/2425/SC0.csv": "Scottish Premiership 24/25",
     "https://football-data.co.uk/mmz4281/2324/SC0.csv": "Scottish Premiership 23/24",
@@ -85,7 +78,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/SC0.csv": "Scottish Premiership 21/22",
     "https://football-data.co.uk/mmz4281/2021/SC0.csv": "Scottish Premiership 20/21",
     "https://football-data.co.uk/mmz4281/1920/SC0.csv": "Scottish Premiership 19/20",
-    "https://football-data.co.uk/mmz4281/2627/SC1.csv": "Scottish League One 26/27",
     "https://football-data.co.uk/mmz4281/2526/SC1.csv": "Scottish League One 25/26",
     "https://football-data.co.uk/mmz4281/2425/SC1.csv": "Scottish League One 24/25",
     "https://football-data.co.uk/mmz4281/2324/SC1.csv": "Scottish League One 23/24",
@@ -93,7 +85,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/SC1.csv": "Scottish League One 21/22",
     "https://football-data.co.uk/mmz4281/2021/SC1.csv": "Scottish League One 20/21",
     "https://football-data.co.uk/mmz4281/1920/SC1.csv": "Scottish League One 19/20",
-    "https://football-data.co.uk/mmz4281/2627/SP1.csv": "La Liga 26/27",
     "https://football-data.co.uk/mmz4281/2526/SP1.csv": "La Liga 25/26",
     "https://football-data.co.uk/mmz4281/2425/SP1.csv": "La Liga 24/25",
     "https://football-data.co.uk/mmz4281/2324/SP1.csv": "La Liga 23/24",
@@ -101,7 +92,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/SP1.csv": "La Liga 21/22",
     "https://football-data.co.uk/mmz4281/2021/SP1.csv": "La Liga 20/21",
     "https://football-data.co.uk/mmz4281/1920/SP1.csv": "La Liga 19/20",
-    "https://football-data.co.uk/mmz4281/2627/SP2.csv": "La Liga 2 26/27",
     "https://football-data.co.uk/mmz4281/2526/SP2.csv": "La Liga 2 25/26",
     "https://football-data.co.uk/mmz4281/2425/SP2.csv": "La Liga 2 24/25",
     "https://football-data.co.uk/mmz4281/2324/SP2.csv": "La Liga 2 23/24",
@@ -109,7 +99,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/SP2.csv": "La Liga 2 21/22",
     "https://football-data.co.uk/mmz4281/2021/SP2.csv": "La Liga 2 20/21",
     "https://football-data.co.uk/mmz4281/1920/SP2.csv": "La Liga 2 19/20",
-    "https://football-data.co.uk/mmz4281/2627/D1.csv": "Bundesliga 26/27",
     "https://football-data.co.uk/mmz4281/2526/D1.csv": "Bundesliga 25/26",
     "https://football-data.co.uk/mmz4281/2425/D1.csv": "Bundesliga 24/25",
     "https://football-data.co.uk/mmz4281/2324/D1.csv": "Bundesliga 23/24",
@@ -117,7 +106,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/D1.csv": "Bundesliga 21/22",
     "https://football-data.co.uk/mmz4281/2021/D1.csv": "Bundesliga 20/21",
     "https://football-data.co.uk/mmz4281/1920/D1.csv": "Bundesliga 19/20",
-    "https://football-data.co.uk/mmz4281/2627/D2.csv": "Bundesliga 2 26/27",
     "https://football-data.co.uk/mmz4281/2526/D2.csv": "Bundesliga 2 25/26",
     "https://football-data.co.uk/mmz4281/2425/D2.csv": "Bundesliga 2 24/25",
     "https://football-data.co.uk/mmz4281/2324/D2.csv": "Bundesliga 2 23/24",
@@ -125,7 +113,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/D2.csv": "Bundesliga 2 21/22",
     "https://football-data.co.uk/mmz4281/2021/D2.csv": "Bundesliga 2 20/21",
     "https://football-data.co.uk/mmz4281/1920/D2.csv": "Bundesliga 2 19/20",
-    "https://football-data.co.uk/mmz4281/2627/I1.csv": "Serie A 26/27",
     "https://football-data.co.uk/mmz4281/2526/I1.csv": "Serie A 25/26",
     "https://football-data.co.uk/mmz4281/2425/I1.csv": "Serie A 24/25",
     "https://football-data.co.uk/mmz4281/2324/I1.csv": "Serie A 23/24",
@@ -133,7 +120,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/I1.csv": "Serie A 21/22",
     "https://football-data.co.uk/mmz4281/2021/I1.csv": "Serie A 20/21",
     "https://football-data.co.uk/mmz4281/1920/I1.csv": "Serie A 19/20",
-    "https://football-data.co.uk/mmz4281/2627/I2.csv": "Serie B 26/27",
     "https://football-data.co.uk/mmz4281/2526/I2.csv": "Serie B 25/26",
     "https://football-data.co.uk/mmz4281/2425/I2.csv": "Serie B 24/25",
     "https://football-data.co.uk/mmz4281/2324/I2.csv": "Serie B 23/24",
@@ -141,7 +127,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/I2.csv": "Serie B 21/22",
     "https://football-data.co.uk/mmz4281/2021/I2.csv": "Serie B 20/21",
     "https://football-data.co.uk/mmz4281/1920/I2.csv": "Serie B 19/20",
-    "https://football-data.co.uk/mmz4281/2627/F1.csv": "Ligue 1 26/27",
     "https://football-data.co.uk/mmz4281/2526/F1.csv": "Ligue 1 25/26",
     "https://football-data.co.uk/mmz4281/2425/F1.csv": "Ligue 1 24/25",
     "https://football-data.co.uk/mmz4281/2324/F1.csv": "Ligue 1 23/24",
@@ -149,7 +134,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/F1.csv": "Ligue 1 21/22",
     "https://football-data.co.uk/mmz4281/2021/F1.csv": "Ligue 1 20/21",
     "https://football-data.co.uk/mmz4281/1920/F1.csv": "Ligue 1 19/20",
-    "https://football-data.co.uk/mmz4281/2627/F2.csv": "Ligue 2 26/27",
     "https://football-data.co.uk/mmz4281/2526/F2.csv": "Ligue 2 25/26",
     "https://football-data.co.uk/mmz4281/2425/F2.csv": "Ligue 2 24/25",
     "https://football-data.co.uk/mmz4281/2324/F2.csv": "Ligue 2 23/24",
@@ -157,7 +141,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/F2.csv": "Ligue 2 21/22",
     "https://football-data.co.uk/mmz4281/2021/F2.csv": "Ligue 2 20/21",
     "https://football-data.co.uk/mmz4281/1920/F2.csv": "Ligue 2 19/20",
-    "https://football-data.co.uk/mmz4281/2627/N1.csv": "Eredivisie 26/27",
     "https://football-data.co.uk/mmz4281/2526/N1.csv": "Eredivisie 25/26",
     "https://football-data.co.uk/mmz4281/2425/N1.csv": "Eredivisie 24/25",
     "https://football-data.co.uk/mmz4281/2324/N1.csv": "Eredivisie 23/24",
@@ -165,7 +148,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/N1.csv": "Eredivisie 21/22",
     "https://football-data.co.uk/mmz4281/2021/N1.csv": "Eredivisie 20/21",
     "https://football-data.co.uk/mmz4281/1920/N1.csv": "Eredivisie 19/20",
-    "https://football-data.co.uk/mmz4281/2627/P1.csv": "Primeira Liga 26/27",
     "https://football-data.co.uk/mmz4281/2526/P1.csv": "Primeira Liga 25/26",
     "https://football-data.co.uk/mmz4281/2425/P1.csv": "Primeira Liga 24/25",
     "https://football-data.co.uk/mmz4281/2324/P1.csv": "Primeira Liga 23/24",
@@ -173,7 +155,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/P1.csv": "Primeira Liga 21/22",
     "https://football-data.co.uk/mmz4281/2021/P1.csv": "Primeira Liga 20/21",
     "https://football-data.co.uk/mmz4281/1920/P1.csv": "Primeira Liga 19/20",
-    "https://football-data.co.uk/mmz4281/2627/B1.csv": "Belgium First Division A 26/27",
     "https://football-data.co.uk/mmz4281/2526/B1.csv": "Belgium First Division A 25/26",
     "https://football-data.co.uk/mmz4281/2425/B1.csv": "Belgium First Division A 24/25",
     "https://football-data.co.uk/mmz4281/2324/B1.csv": "Belgium First Division A 23/24",
@@ -181,7 +162,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/B1.csv": "Belgium First Division A 21/22",
     "https://football-data.co.uk/mmz4281/2021/B1.csv": "Belgium First Division A 20/21",
     "https://football-data.co.uk/mmz4281/1920/B1.csv": "Belgium First Division A 19/20",
-    "https://football-data.co.uk/mmz4281/2627/T1.csv": "Super Lig 26/27",
     "https://football-data.co.uk/mmz4281/2526/T1.csv": "Super Lig 25/26",
     "https://football-data.co.uk/mmz4281/2425/T1.csv": "Super Lig 24/25",
     "https://football-data.co.uk/mmz4281/2324/T1.csv": "Super Lig 23/24",
@@ -189,7 +169,6 @@ LEAGUE_FILES: dict[str, str] = {
     "https://football-data.co.uk/mmz4281/2122/T1.csv": "Super Lig 21/22",
     "https://football-data.co.uk/mmz4281/2021/T1.csv": "Super Lig 20/21",
     "https://football-data.co.uk/mmz4281/1920/T1.csv": "Super Lig 19/20",
-    "https://football-data.co.uk/mmz4281/2627/G1.csv": "Super League Greece 26/27",
     "https://football-data.co.uk/mmz4281/2526/G1.csv": "Super League Greece 25/26",
     "https://football-data.co.uk/mmz4281/2425/G1.csv": "Super League Greece 24/25",
     "https://football-data.co.uk/mmz4281/2324/G1.csv": "Super League Greece 23/24",
@@ -200,7 +179,6 @@ LEAGUE_FILES: dict[str, str] = {
 }
 
 CACHE_DIR_NAME = "csv_cache"
-CURRENT_SEASON = "2627"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -315,8 +293,7 @@ def build_all_data(base_dir: Path) -> dict:
 
     for url, league_name in LEAGUE_FILES.items():
         print(f"{league_name}:")
-        refresh = season_code(url) == CURRENT_SEASON
-        text = fetch_csv_text(url, cache_dir, refresh=refresh)
+        text = fetch_csv_text(url, cache_dir, refresh=False)
         if text is None:
             continue
 
@@ -355,24 +332,10 @@ def build_all_data(base_dir: Path) -> dict:
 
 
 def main() -> None:
-    base_dir = Path(__file__).resolve().parent
-    data = build_all_data(base_dir)
-
-    if not data["m"]:
-        print("No matches loaded - check your connection / URLs. data.js not written.")
-        sys.exit(1)
-
-    out_path = base_dir / "data.js"
-    json_str = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
-
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(f"var FOOTYDATA = {json_str};\n")
-
-    n = len(data["m"])
-    nl = len(data["l"])
-    nt = len(data["t"])
-    sz = out_path.stat().st_size / 1024
-    print(f"Exported {n:,} matches | {nl} leagues | {nt} teams | {sz:.0f} KB -> {out_path}")
+    sys.exit(
+        "export_data.py no longer writes data.js: 26/27 now comes from the BSD API.\n"
+        "Run: python footyapi.py --export-results"
+    )
 
 
 if __name__ == "__main__":

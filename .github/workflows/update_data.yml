@@ -1,0 +1,82 @@
+name: Update Match Data (BSD API)
+
+# Refreshes 26/27 results (data.js + bsd_cache/) and upcoming fixtures (fixtures.js)
+# from the Bzzoiro Sports Data API. Scheduled for 09:00 and 22:00 UK time.
+# GitHub cron runs in UTC, so the BST (summer) hours are one hour earlier.
+
+on:
+  schedule:
+    # UK Winter (GMT = UTC+0: Jan, Feb, Nov, Dec): 09:00 & 22:00 UK = 09:00 & 22:00 UTC
+    - cron: "0 9,22 * 1,2,11,12 *"
+    # UK Summer (BST = UTC+1: Apr-Sep): 09:00 & 22:00 UK = 08:00 & 21:00 UTC
+    - cron: "0 8,21 * 4,5,6,7,8,9 *"
+    # DST transition months (March & October): cover both GMT/BST offsets
+    - cron: "0 8,9,21,22 * 3,10 *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "What to refresh"
+        type: choice
+        options:
+          - all
+          - results
+          - fixtures
+        default: all
+      full_refresh:
+        description: "Force a full 26/27 results re-sync instead of incremental"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify API key secret is configured
+        env:
+          BZZOIRO_API_KEY: ${{ secrets.BZZOIRO_API_KEY }}
+        run: |
+          if [ -z "$BZZOIRO_API_KEY" ]; then
+            echo "::error::Repository secret BZZOIRO_API_KEY is not set."
+            exit 1
+          fi
+
+      - name: Export 26/27 data from BSD API
+        env:
+          BZZOIRO_API_KEY: ${{ secrets.BZZOIRO_API_KEY }}
+          MODE: ${{ inputs.mode || 'all' }}
+          FULL_REFRESH: ${{ inputs.full_refresh || 'false' }}
+        run: |
+          args="--export-all"
+          if [ "$MODE" = "results" ]; then args="--export-results"; fi
+          if [ "$MODE" = "fixtures" ]; then args="--export-fixtures"; fi
+          if [ "$FULL_REFRESH" = "true" ] && [ "$MODE" != "fixtures" ]; then args="$args --full-refresh"; fi
+          python footyapi.py $args
+
+      - name: Commit and push if updated
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.js fixtures.js bsd_cache/
+          if git diff --staged --quiet; then
+            echo "No data changes detected."
+          else
+            git commit -m "Auto-update 26/27 BSD results & fixtures [skip ci]"
+            git pull --rebase
+            git push
+          fi

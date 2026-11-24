@@ -924,8 +924,6 @@ def load_historical_csv_data(
     global_pool: set[str] = set()
 
     for url, league_name in export_data.LEAGUE_FILES.items():
-        if export_data.season_code(url) == export_data.CURRENT_SEASON:
-            continue  # 26/27 comes from BSD API
         text = export_data.fetch_csv_text(url, cache_dir, refresh=False)
         if text is None:
             continue
