@@ -252,7 +252,7 @@ const FootyDialogs = (function () {
     }
     return "";
   }
-  let activeTab = "wins";
+  let activeTab = "fixtures";
   let fTeam = "",
     fOpp = "",
     fLeague = "";
