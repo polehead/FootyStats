@@ -1338,13 +1338,163 @@ def fetch_upcoming_predictions_map(api_key: str) -> dict[int, dict[str, Any]]:
     return by_event
 
 
+BSD_H2H_CACHE_FILE = "h2h_cache.json"
+
+
+def build_local_home_h2h_pairs(
+    base_dir: Path,
+    hist_by_league: dict[str, list[list[Any]]],
+    resolver: CanonicalTeamResolver,
+) -> set[tuple[str, str]]:
+    """Return all (home, away) pairs with >=1 meeting in 19/20-25/26 CSVs or 26/27 BSD cache."""
+    pairs: set[tuple[str, str]] = set()
+    for matches in hist_by_league.values():
+        for m in matches:
+            if len(m) >= 3 and m[1] and m[2]:
+                pairs.add((str(m[1]), str(m[2])))
+
+    results_cache = base_dir / BSD_CACHE_DIR / BSD_RESULTS_CACHE_FILE
+    if results_cache.exists():
+        try:
+            cached = json.loads(results_cache.read_text(encoding="utf-8"))
+            for ev in (cached.get("events") or {}).values():
+                lg_id = ev.get("league_id")
+                if lg_id not in AVAILABLE_LEAGUE_IDS:
+                    continue
+                bl = AVAILABLE_LEAGUE_IDS[lg_id]
+                h = resolver.resolve(ev.get("home_team") or "", bl, ev.get("home_short") or "")
+                a = resolver.resolve(ev.get("away_team") or "", bl, ev.get("away_short") or "")
+                if h and a:
+                    pairs.add((h, a))
+        except Exception:
+            pass
+    return pairs
+
+
+def extract_compact_api_h2h(ev_detail: dict[str, Any]) -> dict[str, Any] | None:
+    """Extract compact H2H summary + up to 6 recent meetings from /api/events/<id>/."""
+    h2h = ev_detail.get("head_to_head")
+    if not isinstance(h2h, dict):
+        return None
+
+    home_obj = ev_detail.get("home_team_obj")
+    cur_home_id = home_obj.get("id") if isinstance(home_obj, dict) else None
+    cur_home_norm = norm(extract_team_name(ev_detail, "home"))
+
+    recent_compact: list[list[Any]] = []
+    for rm in (h2h.get("recent_matches") or []):
+        if not isinstance(rm, dict):
+            continue
+        date_str, _, _ = parse_iso_to_ddmmyyyy_and_hm(rm.get("date") or "")
+        hs = rm.get("home_score")
+        as_ = rm.get("away_score")
+        if not date_str or hs is None or as_ is None:
+            continue
+        try:
+            hs_i = int(hs)
+            as_i = int(as_)
+        except (TypeError, ValueError):
+            continue
+
+        rm_hid = rm.get("home_team_id")
+        if cur_home_id is not None and rm_hid is not None:
+            at_home = 1 if int(rm_hid) == int(cur_home_id) else 0
+        else:
+            at_home = 1 if norm(str(rm.get("home") or "")) == cur_home_norm else 0
+
+        if hs_i == as_i:
+            res = "D"
+        elif (at_home == 1 and hs_i > as_i) or (at_home == 0 and as_i > hs_i):
+            res = "W"
+        else:
+            res = "L"
+
+        recent_compact.append([date_str, at_home, hs_i, as_i, res])
+        if len(recent_compact) >= 6:
+            break
+
+    total_n = safe_int_zero(h2h.get("total_matches")) or len(recent_compact)
+    if total_n <= 0 and not recent_compact:
+        return None
+
+    out: dict[str, Any] = {
+        "n": total_n,
+        "w": safe_int_zero(h2h.get("home_wins")),
+        "d": safe_int_zero(h2h.get("draws")),
+        "l": safe_int_zero(h2h.get("away_wins")),
+        "m": recent_compact,
+    }
+    avg_g = safe_float_opt(h2h.get("avg_total_goals"))
+    if avg_g is not None:
+        out["ag"] = avg_g
+    return out
+
+
+def backfill_missing_api_h2h(
+    api_key: str,
+    base_dir: Path,
+    fixtures: list[dict[str, Any]],
+    local_pairs: set[tuple[str, str]],
+) -> tuple[int, int, int]:
+    """Fetch & cache BSD /api/events/<id>/ head_to_head ONLY for fixtures with 0 local H2H."""
+    cache_dir = base_dir / BSD_CACHE_DIR
+    cache_dir.mkdir(exist_ok=True)
+    cache_path = cache_dir / BSD_H2H_CACHE_FILE
+
+    cached_events: dict[str, Any] = {}
+    if cache_path.exists():
+        try:
+            raw = json.loads(cache_path.read_text(encoding="utf-8"))
+            if isinstance(raw, dict) and isinstance(raw.get("events"), dict):
+                cached_events = raw["events"]
+        except Exception:
+            cached_events = {}
+
+    missing_targets = [
+        f for f in fixtures
+        if f.get("event_id") is not None and (f["home"], f["away"]) not in local_pairs
+    ]
+    fetched = 0
+    populated = 0
+    dirty = False
+
+    for f in missing_targets:
+        eid_key = str(f["event_id"])
+        if eid_key in cached_events:
+            api_h2h = cached_events[eid_key]
+        else:
+            try:
+                detail = fetch_json(f"{BASE_URL}/api/events/{eid_key}/", api_key)
+                api_h2h = extract_compact_api_h2h(detail) if isinstance(detail, dict) else None
+                cached_events[eid_key] = api_h2h
+                fetched += 1
+                dirty = True
+            except Exception as exc:
+                print(f"  [warn] H2H fetch failed for event {eid_key} ({f['home']} vs {f['away']}): {exc}")
+                api_h2h = None
+
+        if api_h2h:
+            f["api_h2h"] = api_h2h
+            populated += 1
+
+    if dirty:
+        cache_payload = {
+            "updated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "events": cached_events,
+        }
+        cache_path.write_text(json.dumps(cache_payload, ensure_ascii=False), encoding="utf-8")
+
+    return len(missing_targets), populated, fetched
+
+
 def run_export_fixtures(
     api_key: str,
     base_dir: Path,
     days: int = 14,
 ) -> int:
-    _, country_pools, global_pool = load_historical_csv_data(base_dir)
+    hist_by_league, country_pools, global_pool = load_historical_csv_data(base_dir)
     resolver = CanonicalTeamResolver(country_pools, global_pool)
+    local_h2h_pairs = build_local_home_h2h_pairs(base_dir, hist_by_league, resolver)
 
     today = dt.date.today()
     date_from = today.isoformat()
@@ -1465,6 +1615,10 @@ def run_export_fixtures(
     for f in fixtures:
         f.pop("_sort", None)
 
+    n_h2h_miss, n_h2h_api, n_h2h_fetched = backfill_missing_api_h2h(
+        api_key, base_dir, fixtures, local_h2h_pairs
+    )
+
     leagues_with_fixtures = sorted({f["league"] for f in fixtures})
     payload = {
         "source": "bsd",
@@ -1480,7 +1634,8 @@ def run_export_fixtures(
     print(
         f"Exported fixtures.js: {len(fixtures)} upcoming fixtures across "
         f"{len(leagues_with_fixtures)} leagues "
-        f"(ai_pred: {n_ai_pred}, ai_preview: {n_ai_prev}, funfacts: {n_ff}) -> {out_path.name}"
+        f"(ai_pred: {n_ai_pred}, ai_preview: {n_ai_prev}, funfacts: {n_ff}, "
+        f"api_h2h: {n_h2h_api}/{n_h2h_miss} [fetched {n_h2h_fetched}]) -> {out_path.name}"
     )
     if resolver.unmatched:
         print(f"New / unmapped BSD fixture team names ({len(resolver.unmatched)}):")

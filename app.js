@@ -3263,16 +3263,17 @@ const FootyDialogs = (function () {
     leaguesOrder.forEach((lg, idx) => {
       const list = groups[lg];
       const cardsHtml = list.map(renderFixtureCard).join("");
+      const deferredCls = idx >= 2 ? " fixtures-league-deferred" : "";
 
       parts.push(
-        `<section class="league-section${initialCollapse}" style="animation-delay:${idx * 30}ms">` +
-          `<div class="league-header" role="button" tabindex="0" aria-label="Toggle ${esc(lg)}">` +
+        `<section class="league-section fixtures-league-section${initialCollapse}${deferredCls}" style="animation-delay:${Math.min(idx, 8) * 24}ms">` +
+          `<div class="league-header fixtures-league-header" role="button" tabindex="0" aria-label="Toggle ${esc(lg)}">` +
           `<div class="league-title-group">` +
           getLeagueCrestHtml(lg, "league-header-logo") +
           `<h2 class="league-name">${esc(lg)}</h2>` +
           `</div>` +
-          `<span class="league-badge">${list.length} ${list.length === 1 ? "fixture" : "fixtures"}</span>` +
-          `<span class="league-toggle">&#9660;</span></div>` +
+          `<span class="league-badge">${list.length} ${list.length === 1 ? "match" : "matches"}</span>` +
+          `<span class="league-toggle" aria-hidden="true">&#9660;</span></div>` +
           `<div class="league-body"><div class="fixtures-grid">${cardsHtml}</div></div>` +
           `</section>`,
       );
@@ -4039,6 +4040,33 @@ const FootyDialogs = (function () {
     return Math.round(avg * 100);
   }
 
+  function formatFixtureDateShort(dStr) {
+    if (!dStr) return "";
+    var p = String(dStr).split("/");
+    if (p.length === 3) {
+      var d = new Date(p[2], p[1] - 1, p[0]);
+      if (!isNaN(d.getTime())) {
+        var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        var months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        return days[d.getDay()] + " " + parseInt(p[0], 10) + " " + months[d.getMonth()];
+      }
+    }
+    return String(dStr);
+  }
+
   function renderVenueFormHint(team, isHome) {
     var st = TEAM_STATS[team];
     if (!st) return "";
@@ -4052,7 +4080,7 @@ const FootyDialogs = (function () {
     var winPct = Math.round((w / played) * 100);
     var avgGf = (gf / played).toFixed(2);
     var avgGa = (ga / played).toFixed(2);
-    var venueLabel = isHome ? "Home Win" : "Away Win";
+    var venueLabel = isHome ? "Home" : "Away";
     var titleAttr =
       venueLabel +
       " record: " +
@@ -4069,13 +4097,11 @@ const FootyDialogs = (function () {
     return (
       '<span class="fixture-stats-hint" title="' +
       esc(titleAttr) +
-      '">' +
-      venueLabel +
-      ": <strong>" +
+      '"><strong>' +
       winPct +
-      "%</strong> \u00b7 " +
+      "%</strong> W \u00b7 " +
       avgGf +
-      " GF/g</span>"
+      " GF</span>"
     );
   }
 
@@ -4085,193 +4111,35 @@ const FootyDialogs = (function () {
 
     var homeStats = renderVenueFormHint(home, true);
     var awayStats = renderVenueFormHint(away, false);
+    var injH = fix.inj && fix.inj.h ? Number(fix.inj.h) : 0;
+    var injA = fix.inj && fix.inj.a ? Number(fix.inj.a) : 0;
+    var homeInjHtml =
+      injH > 0
+        ? '<span class="fixture-inj-tag" title="' +
+          injH +
+          ' unavailable player' +
+          (injH === 1 ? "" : "s") +
+          '">' +
+          injH +
+          " out</span>"
+        : "";
+    var awayInjHtml =
+      injA > 0
+        ? '<span class="fixture-inj-tag" title="' +
+          injA +
+          ' unavailable player' +
+          (injA === 1 ? "" : "s") +
+          '">' +
+          injA +
+          " out</span>"
+        : "";
 
-    // Fractional odds
-    var oddsHtml = "";
-    if (fix.odds && (fix.odds.h || fix.odds.d || fix.odds.a)) {
-      var fh = decimalToFractional(fix.odds.h);
-      var fd = decimalToFractional(fix.odds.d);
-      var fa = decimalToFractional(fix.odds.a);
-      oddsHtml =
-        '<div class="fixture-odds-strip" title="Market 1X2 Odds (fractional)">' +
-        '<div class="odds-item"><span class="odds-label">Home</span><span class="odds-val">' +
-        fh +
-        "</span></div>" +
-        '<div class="odds-divider"></div>' +
-        '<div class="odds-item"><span class="odds-label">Draw</span><span class="odds-val">' +
-        fd +
-        "</span></div>" +
-        '<div class="odds-divider"></div>' +
-        '<div class="odds-item"><span class="odds-label">Away</span><span class="odds-val">' +
-        fa +
-        "</span></div>" +
-        "</div>";
-    }
-
-    // H2H (home team at home vs away team)
+    // H2H (home team at home vs away team) & sub-market probabilities
     var h2h = getH2HAtHome(home, away);
     var htGoalPct = calcFirstHalfGoalPct(home, away, h2h);
     var c10Pct = calcCorners10PlusPct(home, away, h2h);
 
-    var h2hHtml = "";
-    if (h2h.length === 0) {
-      h2hHtml =
-        '<div class="fixture-h2h-empty">No Previous Meetings Currently in The Database</div>';
-    } else if (h2h.length > 0) {
-      var recent = h2h.slice(0, 6);
-      var rows = recent
-        .map(function (m) {
-          var res = m[M.FTR] === "H" ? "W" : m[M.FTR] === "A" ? "L" : "D";
-          var resCls = res === "W" ? "bw" : res === "L" ? "bl" : "bd";
-          var htGoals = m[M.HTHG] + m[M.HTAG];
-          var htFlag =
-            htGoals > 0
-              ? '<span class="h2h-ht-goal">\u26bd HT</span>'
-              : '<span class="h2h-ht-nil">0-0 HT</span>';
-          var c10Flag = m[M.C10]
-            ? '<span class="h2h-c10-pill" title="Home: ' +
-              m[M.HC] +
-              " \u00b7 Away: " +
-              m[M.AC] +
-              '">' +
-              m[M.TC] +
-              "</span>"
-            : '<span class="h2h-c10-sub" title="Home: ' +
-              m[M.HC] +
-              " \u00b7 Away: " +
-              m[M.AC] +
-              '">' +
-              m[M.TC] +
-              "</span>";
-          return (
-            "<tr>" +
-            '<td class="h2h-date">' +
-            '<span class="h2h-date-full">' +
-            esc(m[M.DATE]) +
-            "</span>" +
-            '<span class="h2h-date-year">' +
-            esc(m[M.DATE].slice(-4)) +
-            "</span>" +
-            "</td>" +
-            '<td class="h2h-score">' +
-            m[M.FTHG] +
-            "\u2013" +
-            m[M.FTAG] +
-            "</td>" +
-            '<td class="h2h-ht">' +
-            m[M.HTHG] +
-            "\u2013" +
-            m[M.HTAG] +
-            "</td>" +
-            "<td>" +
-            htFlag +
-            "</td>" +
-            '<td class="h2h-corners">' +
-            c10Flag +
-            "</td>" +
-            '<td><span class="b ' +
-            resCls +
-            '">' +
-            res +
-            "</span></td>" +
-            "</tr>"
-          );
-        })
-        .join("");
-
-      h2hHtml =
-        '<div class="fixture-h2h">' +
-        '<div class="h2h-header">' +
-        '<span class="h2h-title">H2H at Home</span>' +
-        '<span class="h2h-count">' +
-        h2h.length +
-        " previous</span>" +
-        "</div>" +
-        '<table class="h2h-table"><thead><tr>' +
-        "<th>Date</th><th>FT</th><th>HT</th><th>1st Half</th><th>Corners</th><th>Res</th>" +
-        "</tr></thead><tbody>" +
-        rows +
-        "</tbody></table>" +
-        "</div>";
-    }
-
-    // First-half goal probability
-    var htProbHtml = "";
-    if (htGoalPct !== null) {
-      var barColor =
-        htGoalPct >= 70
-          ? "var(--neon-green)"
-          : htGoalPct >= 45
-            ? "var(--neon-yellow)"
-            : "var(--neon-red)";
-      var sources = [];
-      if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches >= 3)
-        sources.push(esc(home) + " (home)");
-      if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches >= 3)
-        sources.push(esc(away) + " (away)");
-      if (h2h.length >= 2) sources.push("H2H (" + h2h.length + ")");
-      htProbHtml =
-        '<div class="fixture-ht-prob">' +
-        '<div class="ht-prob-label">' +
-        "<span>\u26bd 1st Half Goal Probability</span>" +
-        '<span class="ht-prob-pct" style="color:' +
-        barColor +
-        '">' +
-        htGoalPct +
-        "%</span>" +
-        "</div>" +
-        '<div class="ht-prob-bar-bg">' +
-        '<div class="ht-prob-bar-fill" style="width:' +
-        htGoalPct +
-        "%;background:" +
-        barColor +
-        '"></div>' +
-        "</div>" +
-        '<div class="ht-prob-sources">' +
-        sources.join(" \u00b7 ") +
-        "</div>" +
-        "</div>";
-    }
-
-    // 10+ Corners probability
-    var c10ProbHtml = "";
-    if (c10Pct !== null) {
-      var c10BarColor =
-        c10Pct >= 70
-          ? "var(--neon-green)"
-          : c10Pct >= 45
-            ? "var(--neon-yellow)"
-            : "var(--neon-red)";
-      var c10Sources = [];
-      if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches >= 3)
-        c10Sources.push(esc(home) + " (home)");
-      if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches >= 3)
-        c10Sources.push(esc(away) + " (away)");
-      if (h2h.length >= 2) c10Sources.push("H2H (" + h2h.length + ")");
-      c10ProbHtml =
-        '<div class="fixture-c10-prob">' +
-        '<div class="c10-prob-label">' +
-        "<span>\ud83d\udea9 10+ Corners Probability</span>" +
-        '<span class="c10-prob-pct" style="color:' +
-        c10BarColor +
-        '">' +
-        c10Pct +
-        "%</span>" +
-        "</div>" +
-        '<div class="c10-prob-bar-bg">' +
-        '<div class="c10-prob-bar-fill" style="width:' +
-        c10Pct +
-        "%;background:" +
-        c10BarColor +
-        '"></div>' +
-        "</div>" +
-        '<div class="c10-prob-sources">' +
-        c10Sources.join(" \u00b7 ") +
-        "</div>" +
-        "</div>";
-    }
-
-    // Coupon quick-add chips
+    // Unified 1X2 Market Odds + Model Probabilities + 1-click Coupon Matrix
     var matchId = (fix.date || "") + "_" + home + "_" + away;
     var outrightPred = predictMatchOutright(home, away, h2h, fix.odds, {
       league: fix.league,
@@ -4281,104 +4149,261 @@ const FootyDialogs = (function () {
     });
     var curLeg = getCouponLeg(matchId);
 
-    var couponChipsHtml =
-      '<div class="fixture-coupon-bar" data-fixture-id="' +
+    var leadPick = "1";
+    if (
+      outrightPred.probA > outrightPred.probH &&
+      outrightPred.probA >= outrightPred.probD
+    ) {
+      leadPick = "2";
+    } else if (
+      outrightPred.probD > outrightPred.probH &&
+      outrightPred.probD > outrightPred.probA
+    ) {
+      leadPick = "X";
+    }
+
+    var tiles = [
+      {
+        pick: "1",
+        code: "1 · HOME",
+        shortLabel: "Home Win",
+        prob: outrightPred.probH,
+        odds: outrightPred.oddsH,
+        fair: outrightPred.fairOddsH,
+        edge: outrightPred.edgeH,
+      },
+      {
+        pick: "X",
+        code: "X · DRAW",
+        shortLabel: "Draw",
+        prob: outrightPred.probD,
+        odds: outrightPred.oddsD,
+        fair: outrightPred.fairOddsD,
+        edge: outrightPred.edgeD,
+      },
+      {
+        pick: "2",
+        code: "2 · AWAY",
+        shortLabel: "Away Win",
+        prob: outrightPred.probA,
+        odds: outrightPred.oddsA,
+        fair: outrightPred.fairOddsA,
+        edge: outrightPred.edgeA,
+      },
+    ];
+
+    var marketTilesHtml = tiles
+      .map(function (t) {
+        var isActive = curLeg && curLeg.pick === t.pick;
+        var isLead = leadPick === t.pick;
+        var fracOdds = t.odds ? decimalToFractional(t.odds) : "\u2014";
+        var hasEdge = t.edge != null && t.edge >= 3.0;
+        var edgeHtml = hasEdge
+          ? '<span class="fmt-edge" title="Model value edge vs bookmaker implied probability">+' +
+            t.edge.toFixed(1) +
+            "%</span>"
+          : "";
+        var barWidth = Math.max(4, Math.min(100, Math.round(t.prob || 0)));
+        return (
+          '<button type="button" class="fixture-coupon-chip fixture-market-tile' +
+          (isActive ? " active" : "") +
+          (isLead ? " model-lead" : "") +
+          '" data-action="quick-coupon" data-mid="' +
+          esc(matchId) +
+          '" data-pick="' +
+          t.pick +
+          '" data-home="' +
+          esc(home) +
+          '" data-away="' +
+          esc(away) +
+          '" data-lg="' +
+          esc(fix.league) +
+          '" data-date="' +
+          esc(fix.date) +
+          '" data-time="' +
+          esc(fix.time) +
+          '" data-prob="' +
+          t.prob +
+          '" data-odds="' +
+          (t.odds || "") +
+          '" data-fair="' +
+          t.fair +
+          '" title="' +
+          t.shortLabel +
+          " \u00b7 Model " +
+          t.prob +
+          "%" +
+          (t.odds ? " \u00b7 Market " + fracOdds : "") +
+          ' (click to add/remove from Coupon)">' +
+          '<span class="fmt-top"><span class="fmt-code">' +
+          t.code +
+          "</span>" +
+          edgeHtml +
+          "</span>" +
+          '<span class="fmt-odds' +
+          (t.odds ? "" : " is-empty") +
+          '">' +
+          esc(fracOdds) +
+          "</span>" +
+          '<span class="fmt-prob-row"><span>Model <strong>' +
+          t.prob +
+          '%</strong></span><span class="fmt-check" aria-hidden="true">&#10003;</span></span>' +
+          '<span class="fmt-bar" aria-hidden="true"><span class="fmt-bar-fill" style="width:' +
+          barWidth +
+          '%"></span></span>' +
+          "</button>"
+        );
+      })
+      .join("");
+
+    var marketBlockHtml =
+      '<div class="fixture-market-block" data-fixture-id="' +
       esc(matchId) +
       '">' +
-      '<span class="fixture-coupon-label"><span class="fixture-coupon-dot"></span>Add to Coupon:</span>' +
-      '<div class="fixture-coupon-chips">' +
-      '<button class="fixture-coupon-chip' +
-      (curLeg && curLeg.pick === "1" ? " active" : "") +
-      '" data-action="quick-coupon" data-mid="' +
-      esc(matchId) +
-      '" data-pick="1" data-home="' +
-      esc(home) +
-      '" data-away="' +
-      esc(away) +
-      '" data-lg="' +
-      esc(fix.league) +
-      '" data-date="' +
-      esc(fix.date) +
-      '" data-time="' +
-      esc(fix.time) +
-      '" data-prob="' +
-      outrightPred.probH +
-      '" data-odds="' +
-      (outrightPred.oddsH || "") +
-      '" data-fair="' +
-      outrightPred.fairOddsH +
-      '" title="Home Win (Model: ' +
-      outrightPred.probH +
-      '%)">1: ' +
-      outrightPred.probH +
-      "%</button>" +
-      '<button class="fixture-coupon-chip' +
-      (curLeg && curLeg.pick === "X" ? " active" : "") +
-      '" data-action="quick-coupon" data-mid="' +
-      esc(matchId) +
-      '" data-pick="X" data-home="' +
-      esc(home) +
-      '" data-away="' +
-      esc(away) +
-      '" data-lg="' +
-      esc(fix.league) +
-      '" data-date="' +
-      esc(fix.date) +
-      '" data-time="' +
-      esc(fix.time) +
-      '" data-prob="' +
-      outrightPred.probD +
-      '" data-odds="' +
-      (outrightPred.oddsD || "") +
-      '" data-fair="' +
-      outrightPred.fairOddsD +
-      '" title="Draw (Model: ' +
-      outrightPred.probD +
-      '%)">X: ' +
-      outrightPred.probD +
-      "%</button>" +
-      '<button class="fixture-coupon-chip' +
-      (curLeg && curLeg.pick === "2" ? " active" : "") +
-      '" data-action="quick-coupon" data-mid="' +
-      esc(matchId) +
-      '" data-pick="2" data-home="' +
-      esc(home) +
-      '" data-away="' +
-      esc(away) +
-      '" data-lg="' +
-      esc(fix.league) +
-      '" data-date="' +
-      esc(fix.date) +
-      '" data-time="' +
-      esc(fix.time) +
-      '" data-prob="' +
-      outrightPred.probA +
-      '" data-odds="' +
-      (outrightPred.oddsA || "") +
-      '" data-fair="' +
-      outrightPred.fairOddsA +
-      '" title="Away Win (Model: ' +
-      outrightPred.probA +
-      '%)">2: ' +
-      outrightPred.probA +
-      "%</button>" +
+      '<div class="fixture-market-kicker">' +
+      "<span>1X2 Market &amp; Model</span>" +
+      '<span class="fixture-market-hint">Click tile to add to coupon</span>' +
+      "</div>" +
+      '<div class="fixture-market-grid">' +
+      marketTilesHtml +
       "</div>" +
       "</div>";
 
-    var intelHtml = renderFixtureIntelHtml(fix, home, away);
+    // Compact Dual Probability Meters (1H Goal + 10+ Corners) & Secondary Markets (BTTS / O2.5)
+    var meterCellsHtml = "";
+    if (htGoalPct !== null) {
+      var htColor =
+        htGoalPct >= 70
+          ? "var(--neon-green)"
+          : htGoalPct >= 45
+            ? "var(--neon-yellow)"
+            : "var(--neon-red)";
+      var htSources = [];
+      if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches >= 3)
+        htSources.push(home + " (H)");
+      if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches >= 3)
+        htSources.push(away + " (A)");
+      if (h2h.length >= 2) htSources.push("H2H (" + h2h.length + ")");
+      meterCellsHtml +=
+        '<div class="fixture-meter-cell" title="1st Half Goal Probability \u00b7 ' +
+        esc(htSources.join(" \u00b7 ") || "Historical model") +
+        '">' +
+        '<div class="fixture-meter-top">' +
+        '<span class="fixture-meter-label">1H Goal</span>' +
+        '<span class="fixture-meter-pct" style="color:' +
+        htColor +
+        '">' +
+        htGoalPct +
+        "%</span>" +
+        "</div>" +
+        '<div class="fixture-meter-track"><div class="fixture-meter-fill" style="width:' +
+        htGoalPct +
+        "%;background:" +
+        htColor +
+        '"></div></div>' +
+        "</div>";
+    }
+
+    if (c10Pct !== null) {
+      var c10Color =
+        c10Pct >= 70
+          ? "var(--neon-green)"
+          : c10Pct >= 45
+            ? "var(--neon-yellow)"
+            : "var(--neon-red)";
+      var c10Sources = [];
+      if (TEAM_STATS[home] && TEAM_STATS[home].homeMatches >= 3)
+        c10Sources.push(home + " (H)");
+      if (TEAM_STATS[away] && TEAM_STATS[away].awayMatches >= 3)
+        c10Sources.push(away + " (A)");
+      if (h2h.length >= 2) c10Sources.push("H2H (" + h2h.length + ")");
+      meterCellsHtml +=
+        '<div class="fixture-meter-cell" title="10+ Match Corners Probability \u00b7 ' +
+        esc(c10Sources.join(" \u00b7 ") || "Historical model") +
+        '">' +
+        '<div class="fixture-meter-top">' +
+        '<span class="fixture-meter-label">10+ Corners</span>' +
+        '<span class="fixture-meter-pct" style="color:' +
+        c10Color +
+        '">' +
+        c10Pct +
+        "%</span>" +
+        "</div>" +
+        '<div class="fixture-meter-track"><div class="fixture-meter-fill" style="width:' +
+        c10Pct +
+        "%;background:" +
+        c10Color +
+        '"></div></div>' +
+        "</div>";
+    }
+
+    var secChips = [];
+    if (fix.btts && (fix.btts.yes || fix.btts.no)) {
+      var bttsStr = [];
+      if (fix.btts.yes)
+        bttsStr.push("Y <strong>" + esc(decimalToFractional(fix.btts.yes)) + "</strong>");
+      if (fix.btts.no)
+        bttsStr.push("N <strong>" + esc(decimalToFractional(fix.btts.no)) + "</strong>");
+      secChips.push(
+        '<span class="fixture-sec-chip" title="Both Teams to Score odds (fractional)">BTTS ' +
+          bttsStr.join(" / ") +
+          "</span>",
+      );
+    }
+    if (fix.ou && (fix.ou.o25 || fix.ou.u25)) {
+      var ouStr = [];
+      if (fix.ou.o25)
+        ouStr.push("O2.5 <strong>" + esc(decimalToFractional(fix.ou.o25)) + "</strong>");
+      if (fix.ou.u25)
+        ouStr.push("U2.5 <strong>" + esc(decimalToFractional(fix.ou.u25)) + "</strong>");
+      secChips.push(
+        '<span class="fixture-sec-chip" title="Over / Under 2.5 Goals odds (fractional)">' +
+          ouStr.join(" / ") +
+          "</span>",
+      );
+    }
+
+    var signalsStripHtml = "";
+    if (meterCellsHtml || secChips.length) {
+      signalsStripHtml =
+        '<div class="fixture-signals-strip">' +
+        (meterCellsHtml
+          ? '<div class="fixture-meters-grid">' + meterCellsHtml + "</div>"
+          : "") +
+        (secChips.length
+          ? '<div class="fixture-secondary-odds">' + secChips.join("") + "</div>"
+          : "") +
+        "</div>";
+    }
+
+    var intelHtml = renderFixtureIntelHtml(fix, home, away, h2h);
+
+    var metaTagsHtml = "";
+    if (fix.round != null && fix.round !== "") {
+      metaTagsHtml += '<span class="fixture-tag">R' + esc(String(fix.round)) + "</span>";
+    }
+    if (fix.derby) {
+      metaTagsHtml += '<span class="fixture-tag derby">Derby</span>';
+    }
+    var venueTitle = fix.venue ? String(fix.venue).trim() : "";
 
     return (
-      '<div class="fixture-card">' +
-      '<div class="fixture-header">' +
+      '<article class="fixture-card">' +
+      '<div class="fixture-header"' +
+      (venueTitle ? ' title="Venue: ' + esc(venueTitle) + '"' : "") +
+      ">" +
       '<div class="fixture-date-chip">' +
       "<span>" +
-      esc(fix.date) +
-      " ·" +
+      esc(formatFixtureDateShort(fix.date)) +
       "</span>" +
+      '<span class="fixture-meta-sep" aria-hidden="true">&middot;</span>' +
       '<span class="fixture-time-badge">' +
-      esc(fix.time) +
+      esc(fix.time || "TBD") +
       "</span>" +
       "</div>" +
+      (metaTagsHtml
+        ? '<div class="fixture-meta-tags">' + metaTagsHtml + "</div>"
+        : "") +
       "</div>" +
       '<div class="fixture-teams">' +
       '<div class="fixture-team home">' +
@@ -4388,9 +4413,11 @@ const FootyDialogs = (function () {
       esc(home) +
       "</span>" +
       "</div>" +
-      homeStats +
+      (homeStats || homeInjHtml
+        ? '<div class="fixture-team-meta">' + homeStats + homeInjHtml + "</div>"
+        : "") +
       "</div>" +
-      '<div class="fixture-vs">VS</div>' +
+      '<div class="fixture-vs" aria-hidden="true">VS</div>' +
       '<div class="fixture-team away">' +
       '<div class="fixture-team-row">' +
       '<span class="fixture-team-name">' +
@@ -4398,20 +4425,19 @@ const FootyDialogs = (function () {
       "</span>" +
       getTeamBadgeHtml(away, "fixture-team-badge") +
       "</div>" +
-      awayStats +
+      (awayStats || awayInjHtml
+        ? '<div class="fixture-team-meta">' + awayInjHtml + awayStats + "</div>"
+        : "") +
       "</div>" +
       "</div>" +
-      oddsHtml +
-      h2hHtml +
-      htProbHtml +
-      c10ProbHtml +
-      couponChipsHtml +
+      marketBlockHtml +
+      signalsStripHtml +
       intelHtml +
-      "</div>"
+      "</article>"
     );
   }
 
-  // ── BSD API Intel: AI Prediction, Fun Facts & AI Match Preview ──
+  // ── BSD API Intel: AI Prediction, H2H Drawer, Fun Facts & AI Preview ──
   function formatInlineMd(escapedText) {
     return escapedText.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   }
@@ -4477,7 +4503,196 @@ const FootyDialogs = (function () {
     return out.join("");
   }
 
-  function renderFixtureIntelHtml(fix, home, away) {
+  function renderFixtureH2HDrawerHtml(h2h, apiH2H, home, away) {
+    if (!h2h || !h2h.length) {
+      if (apiH2H && ((apiH2H.m && apiH2H.m.length) || apiH2H.n > 0)) {
+        var apiRows = (apiH2H.m || [])
+          .map(function (row) {
+            var dStr = row[0] || "";
+            var atHome = row[1] === 1;
+            var hs = row[2];
+            var as_ = row[3];
+            var res = row[4] || "D";
+            var resCls = res === "W" ? "bw" : res === "L" ? "bl" : "bd";
+            var venueLabel = atHome ? "H" : "A";
+            var venueCls = atHome ? "is-home" : "is-away";
+            var matchTitle = atHome
+              ? home + " " + hs + "\u2013" + as_ + " " + away + " (Home)"
+              : away + " " + hs + "\u2013" + as_ + " " + home + " (Away)";
+            return (
+              '<tr title="' +
+              esc(matchTitle) +
+              '">' +
+              '<td class="h2h-date">' +
+              '<span class="h2h-date-full">' +
+              esc(dStr) +
+              "</span>" +
+              '<span class="h2h-date-year">' +
+              esc(dStr.slice(-4)) +
+              "</span>" +
+              "</td>" +
+              '<td><span class="h2h-venue-pill ' +
+              venueCls +
+              '">' +
+              venueLabel +
+              "</span></td>" +
+              '<td class="h2h-score">' +
+              hs +
+              "\u2013" +
+              as_ +
+              "</td>" +
+              '<td><span class="b ' +
+              resCls +
+              '">' +
+              res +
+              "</span></td>" +
+              "</tr>"
+            );
+          })
+          .join("");
+
+        var summaryStat =
+          (apiH2H.w || 0) +
+          "W-" +
+          (apiH2H.d || 0) +
+          "D-" +
+          (apiH2H.l || 0) +
+          "L" +
+          (apiH2H.ag != null ? " \u00b7 " + Number(apiH2H.ag).toFixed(1) + " g/m" : "");
+
+        return (
+          '<details class="fixture-intel-details h2h-details api-h2h">' +
+          '<summary class="fixture-intel-summary">' +
+          '<span class="fixture-intel-title">H2H</span>' +
+          '<span class="fixture-intel-pill cyan">' +
+          (apiH2H.n || (apiH2H.m ? apiH2H.m.length : 0)) +
+          "</span>" +
+          '<span class="fixture-intel-pill api-src" title="Historical H2H from Bzzoiro Sports Data API (all venues)">API</span>' +
+          '<span class="fixture-h2h-summary-stat">' +
+          esc(summaryStat) +
+          "</span>" +
+          "</summary>" +
+          '<div class="fixture-intel-body">' +
+          (apiRows
+            ? '<div class="fixture-h2h-table-wrap">' +
+              '<table class="h2h-table"><thead><tr>' +
+              "<th>Date</th><th>Venue</th><th>FT</th><th>Res</th>" +
+              "</tr></thead><tbody>" +
+              apiRows +
+              "</tbody></table>" +
+              "</div>"
+            : "") +
+          "</div>" +
+          "</details>"
+        );
+      }
+
+      return (
+        '<div class="fixture-h2h-empty">' +
+        "<span>H2H at Home</span><span>No previous meetings in database</span>" +
+        "</div>"
+      );
+    }
+
+    var htHits = 0;
+    var c10Hits = 0;
+    for (var i = 0; i < h2h.length; i++) {
+      if ((h2h[i][M.HTHG] || 0) + (h2h[i][M.HTAG] || 0) > 0) htHits++;
+      if (h2h[i][M.C10]) c10Hits++;
+    }
+
+    var recent = h2h.slice(0, 6);
+    var rows = recent
+      .map(function (m) {
+        var res = m[M.FTR] === "H" ? "W" : m[M.FTR] === "A" ? "L" : "D";
+        var resCls = res === "W" ? "bw" : res === "L" ? "bl" : "bd";
+        var htGoals = (m[M.HTHG] || 0) + (m[M.HTAG] || 0);
+        var htFlag =
+          htGoals > 0
+            ? '<span class="h2h-ht-goal">1H</span>'
+            : '<span class="h2h-ht-nil">0-0</span>';
+        var c10Flag = m[M.C10]
+          ? '<span class="h2h-c10-pill" title="Home: ' +
+            m[M.HC] +
+            " \u00b7 Away: " +
+            m[M.AC] +
+            '">' +
+            m[M.TC] +
+            "</span>"
+          : '<span class="h2h-c10-sub" title="Home: ' +
+            m[M.HC] +
+            " \u00b7 Away: " +
+            m[M.AC] +
+            '">' +
+            m[M.TC] +
+            "</span>";
+        return (
+          "<tr>" +
+          '<td class="h2h-date">' +
+          '<span class="h2h-date-full">' +
+          esc(m[M.DATE]) +
+          "</span>" +
+          '<span class="h2h-date-year">' +
+          esc(m[M.DATE].slice(-4)) +
+          "</span>" +
+          "</td>" +
+          '<td class="h2h-score">' +
+          m[M.FTHG] +
+          "\u2013" +
+          m[M.FTAG] +
+          "</td>" +
+          '<td class="h2h-ht">' +
+          m[M.HTHG] +
+          "\u2013" +
+          m[M.HTAG] +
+          "</td>" +
+          "<td>" +
+          htFlag +
+          "</td>" +
+          '<td class="h2h-corners">' +
+          c10Flag +
+          "</td>" +
+          '<td><span class="b ' +
+          resCls +
+          '">' +
+          res +
+          "</span></td>" +
+          "</tr>"
+        );
+      })
+      .join("");
+
+    return (
+      '<details class="fixture-intel-details h2h-details">' +
+      '<summary class="fixture-intel-summary">' +
+      '<span class="fixture-intel-title">H2H at Home</span>' +
+      '<span class="fixture-intel-pill cyan">' +
+      h2h.length +
+      "</span>" +
+      '<span class="fixture-h2h-summary-stat">' +
+      htHits +
+      "/" +
+      h2h.length +
+      " HT \u00b7 " +
+      c10Hits +
+      "/" +
+      h2h.length +
+      " 10+C</span>" +
+      "</summary>" +
+      '<div class="fixture-intel-body">' +
+      '<div class="fixture-h2h-table-wrap">' +
+      '<table class="h2h-table"><thead><tr>' +
+      "<th>Date</th><th>FT</th><th>HT</th><th>1H</th><th>Crn</th><th>Res</th>" +
+      "</tr></thead><tbody>" +
+      rows +
+      "</tbody></table>" +
+      "</div>" +
+      "</div>" +
+      "</details>"
+    );
+  }
+
+  function renderFixtureIntelHtml(fix, home, away, h2h) {
     const pred = fix && fix.ai_pred ? fix.ai_pred : null;
     const funfacts =
       fix && Array.isArray(fix.funfacts) && fix.funfacts.length
@@ -4584,6 +4799,15 @@ const FootyDialogs = (function () {
     }
 
     let accordionsHtml = "";
+    if (typeof h2h !== "undefined") {
+      accordionsHtml += renderFixtureH2HDrawerHtml(
+        h2h,
+        fix && fix.api_h2h ? fix.api_h2h : null,
+        home,
+        away,
+      );
+    }
+
     if (funfacts) {
       accordionsHtml +=
         '<details class="fixture-intel-details">' +

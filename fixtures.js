@@ -1,6 +1,6 @@
 var FOOTYFIXTURES = {
   "source": "bsd",
-  "updated": "2026-11-24T22:24:10Z",
+  "updated": "2026-11-25T14:16:50Z",
   "leagues": [
     "Belgium First Division A",
     "Bundesliga",
@@ -32,7 +32,7 @@ var FOOTYFIXTURES = {
       "away": "Kortrijk",
       "odds": {
         "h": 1.93,
-        "d": 3.69,
+        "d": 3.71,
         "a": 3.51
       },
       "event_id": 212829,
@@ -54,11 +54,12 @@ var FOOTYFIXTURES = {
         "h": 0,
         "a": 1
       },
+      "ai_preview": "**Leuven's looking sharp, but Kortrijk won't roll over without a fight** — the visitors are due a result, and home-field advantage at Den Dreef doesn't guarantee anything in a league this tight. 🏟️\n\nLeuven have found their groove with two wins in their last three, while Kortrijk are stuck in a rut (1D, 4L across five). The head-to-head leans Kortrijk's way historically, but form is king right now — and Leuven have it.\n\nKey storylines:\n\n- **Leuven's attacking depth** around Schrijvers and Balikwisha versus Kortrijk's leaky backline, which has shipped three goals in their last outing\n- **Kortrijk without Lambert** due to suspension narrows their midfield options; Anderson and Dejaegere will carry the load\n- **A.I. edge for Leuven** but xG suggests a cagier affair than the form lines alone suggest\n\nExpected lineups:\n\n- **Oud-Heverlee Leuven**: D. v. d. Heuvel, J. Lawrence, R. Nyakossi, Ó. Gil, W. Balikwisha, S. Schrijvers, R. Mirisola\n- **KV Kortrijk**: M. Ilić, H. Murray-Campbell, A. Drouhin, M. Anderson, T. Ambrose, G. Koyalipou, S. Podgoreanu\n\nPrediction:\n\n**1-1 draw** — Leuven edge the play but can't break through; Kortrijk soak it up and nick one on the counter. Coin flip, really. ⚽",
       "ai_pred": {
         "res": "H",
-        "ph": 48.2,
-        "pd": 25.2,
-        "pa": 26.5,
+        "ph": 48.3,
+        "pd": 25.1,
+        "pa": 26.6,
         "xhg": 1.62,
         "xag": 0.99,
         "o25": 58.3,
@@ -76,7 +77,7 @@ var FOOTYFIXTURES = {
       "away": "RAAL La Louviere",
       "odds": {
         "h": 1.94,
-        "d": 3.6,
+        "d": 3.59,
         "a": 3.54
       },
       "event_id": 212827,
@@ -88,8 +89,8 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.21,
         "u15": 4.12,
-        "o25": 1.69,
-        "u25": 2.11,
+        "o25": 1.71,
+        "u25": 2.1,
         "o35": 2.72,
         "u35": 1.43
       },
@@ -100,15 +101,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 54.8,
-        "pd": 22.6,
-        "pa": 22.6,
+        "ph": 47.9,
+        "pd": 25.8,
+        "pa": 26.3,
         "xhg": 1.94,
         "xag": 1.25,
-        "o25": 60.6,
-        "btts": 58.6,
+        "o25": 55.8,
+        "btts": 58.2,
         "score": "1-1",
-        "conf": 0.55
+        "conf": 0.48
       }
     },
     {
@@ -144,15 +145,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 54.5,
-        "pd": 22.8,
-        "pa": 22.8,
+        "ph": 47.8,
+        "pd": 25.6,
+        "pa": 26.6,
         "xhg": 1.92,
         "xag": 1.24,
-        "o25": 60.0,
-        "btts": 58.3,
+        "o25": 56.5,
+        "btts": 58.7,
         "score": "1-1",
-        "conf": 0.54
+        "conf": 0.48
       }
     },
     {
@@ -181,6 +182,57 @@ var FOOTYFIXTURES = {
         "btts": 53.6,
         "score": "1-1",
         "conf": 0.64
+      },
+      "api_h2h": {
+        "n": 20,
+        "w": 8,
+        "d": 10,
+        "l": 2,
+        "m": [
+          [
+            "20/02/2021",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "02/12/2020",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "30/11/2019",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "31/08/2019",
+            0,
+            0,
+            4,
+            "W"
+          ],
+          [
+            "26/01/2019",
+            1,
+            2,
+            2,
+            "D"
+          ],
+          [
+            "22/09/2018",
+            0,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.25
       }
     },
     {
@@ -191,9 +243,9 @@ var FOOTYFIXTURES = {
       "home": "Lommel SK",
       "away": "Waregem",
       "odds": {
-        "h": 2.6,
+        "h": 2.62,
         "d": 3.6,
-        "a": 2.39
+        "a": 2.41
       },
       "event_id": 212828,
       "round": 13,
@@ -211,16 +263,39 @@ var FOOTYFIXTURES = {
       },
       "venue": "Soevereinstadion",
       "ai_pred": {
-        "res": "H",
-        "ph": 47.1,
-        "pd": 24.8,
-        "pa": 28.0,
+        "res": "A",
+        "ph": 35.6,
+        "pd": 25.7,
+        "pa": 38.7,
         "xhg": 1.7,
         "xag": 1.3,
-        "o25": 56.8,
-        "btts": 57.4,
+        "o25": 59.9,
+        "btts": 63.1,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.39
+      },
+      "api_h2h": {
+        "n": 2,
+        "w": 1,
+        "d": 1,
+        "l": 0,
+        "m": [
+          [
+            "01/05/2024",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "27/04/2024",
+            0,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 1.5
       }
     },
     {
@@ -256,15 +331,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 38.7,
+        "ph": 40.2,
         "pd": 25.3,
-        "pa": 35.9,
+        "pa": 34.4,
         "xhg": 1.55,
         "xag": 1.48,
-        "o25": 57.3,
-        "btts": 58.4,
+        "o25": 63.5,
+        "btts": 65.0,
         "score": "1-1",
-        "conf": 0.39
+        "conf": 0.4
       }
     },
     {
@@ -276,14 +351,14 @@ var FOOTYFIXTURES = {
       "away": "Anderlecht",
       "odds": {
         "h": 3.44,
-        "d": 3.78,
+        "d": 3.81,
         "a": 1.91
       },
       "event_id": 212831,
       "round": 13,
       "btts": {
-        "yes": 1.52,
-        "no": 2.38
+        "yes": 1.53,
+        "no": 2.35
       },
       "ou": {
         "o15": 1.17,
@@ -300,15 +375,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 31.5,
-        "pd": 25.9,
-        "pa": 42.5,
+        "ph": 27.0,
+        "pd": 24.5,
+        "pa": 48.5,
         "xhg": 1.35,
         "xag": 1.55,
-        "o25": 54.7,
-        "btts": 56.5,
+        "o25": 59.0,
+        "btts": 60.6,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.49
       }
     },
     {
@@ -318,9 +393,25 @@ var FOOTYFIXTURES = {
       "time": "17:30",
       "home": "Standard",
       "away": "Club Brugge",
-      "odds": null,
+      "odds": {
+        "h": 4.99,
+        "d": 4.51,
+        "a": 1.53
+      },
       "event_id": 212834,
       "round": 13,
+      "btts": {
+        "yes": 1.48,
+        "no": 2.49
+      },
+      "ou": {
+        "o15": 1.1,
+        "u15": 6.19,
+        "o25": 1.39,
+        "u25": 2.88,
+        "o35": 2.01,
+        "u35": 1.78
+      },
       "venue": "Maurice Dufrasne",
       "inj": {
         "h": 5,
@@ -359,7 +450,7 @@ var FOOTYFIXTURES = {
         "ph": 58.7,
         "pd": 24.2,
         "pa": 17.2,
-        "xhg": 1.76,
+        "xhg": 1.77,
         "xag": 0.93,
         "o25": 50.2,
         "btts": 50.4,
@@ -376,8 +467,8 @@ var FOOTYFIXTURES = {
       "away": "M'gladbach",
       "odds": {
         "h": 1.73,
-        "d": 4.13,
-        "a": 4.07
+        "d": 4.12,
+        "a": 4.05
       },
       "event_id": 213764,
       "round": 11,
@@ -388,8 +479,8 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.14,
         "u15": 5.15,
-        "o25": 1.48,
-        "u25": 2.58,
+        "o25": 1.49,
+        "u25": 2.59,
         "o35": 2.21,
         "u35": 1.68
       },
@@ -398,9 +489,10 @@ var FOOTYFIXTURES = {
         "h": 8,
         "a": 4
       },
+      "ai_preview": "**Bremen's on a roll, but Gladbach won't roll over easy** — the hosts have won three of their last five and are clicking at home, yet they're hosting a side that's proven gritty despite recent wobbles. 🔥\n\nBremen's looking sharp with back-to-back home wins, though injury depth in midfield and attack is stretched thin. Gladbach has been inconsistent but showed fight against Dortmund and scraped a win over Standard — they won't come to Weserstadion to fold.\n\nKey storylines:\n\n- **N. Füllkrug** and **E. Dinkçi** spearhead Bremen's attack with limited squad rotation options due to injuries up front\n- **F. Neuhaus** and **Z. Uno** anchor Gladbach's midfield in a 3-4-2 shape designed to absorb pressure and hit on the break\n- Both sides carry hefty injury lists — Bremen missing **J. Stage** and **F. Agu**, Gladbach without **T. Kleindienst** — squads stretched for depth\n\nExpected lineups:\n\n- **SV Werder Bremen**: K. Hein, M. Friedl, A. Pieper, O. Deman, M. Schmetgens, Y. Regeer, L. Reis, M. Grüll, Arthur, N. Füllkrug, E. Dinkçi\n- **Borussia M'gladbach**: D. Batz, D. Herold, F. Chiarodia, K. Diks, J. Scally, Z. Uno, F. Neuhaus, P. Sander, R. Hack, S. Machino, N. Kühn\n\nPrediction:\n\n**1-1 draw** — Bremen edges the xG but Gladbach's defensive shape and counter threat keeps it tight.",
       "ai_pred": {
         "res": "H",
-        "ph": 54.2,
+        "ph": 54.1,
         "pd": 22.7,
         "pa": 23.1,
         "xhg": 1.78,
@@ -419,9 +511,9 @@ var FOOTYFIXTURES = {
       "home": "FC Koln",
       "away": "Elversberg",
       "odds": {
-        "h": 1.99,
+        "h": 2.0,
         "d": 3.79,
-        "a": 3.34
+        "a": 3.37
       },
       "event_id": 213758,
       "round": 11,
@@ -444,13 +536,13 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 47.0,
-        "pd": 25.4,
-        "pa": 27.6,
+        "ph": 47.1,
+        "pd": 24.8,
+        "pa": 28.1,
         "xhg": 1.69,
-        "xag": 1.52,
-        "o25": 60.3,
-        "btts": 60.8,
+        "xag": 1.53,
+        "o25": 60.6,
+        "btts": 62.5,
         "score": "1-1",
         "conf": 0.47
       }
@@ -488,15 +580,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 10.8,
-        "pd": 15.4,
-        "pa": 73.8,
+        "ph": 10.2,
+        "pd": 14.0,
+        "pa": 75.8,
         "xhg": 1.18,
         "xag": 2.58,
-        "o25": 74.2,
-        "btts": 59.1,
+        "o25": 74.4,
+        "btts": 60.1,
         "score": "1-2",
-        "conf": 0.74
+        "conf": 0.76
       }
     },
     {
@@ -519,7 +611,7 @@ var FOOTYFIXTURES = {
       },
       "ou": {
         "o15": 1.16,
-        "u15": 4.75,
+        "u15": 4.77,
         "o25": 1.54,
         "u25": 2.42,
         "o35": 2.34,
@@ -532,15 +624,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 62.2,
-        "pd": 21.6,
-        "pa": 16.2,
+        "ph": 62.9,
+        "pd": 20.6,
+        "pa": 16.4,
         "xhg": 2.21,
         "xag": 1.12,
-        "o25": 60.4,
-        "btts": 55.0,
+        "o25": 61.2,
+        "btts": 56.9,
         "score": "2-1",
-        "conf": 0.62
+        "conf": 0.63
       }
     },
     {
@@ -564,27 +656,27 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.24,
         "u15": 3.83,
-        "o25": 1.79,
-        "u25": 2.03,
+        "o25": 1.78,
+        "u25": 2.04,
         "o35": 2.91,
         "u35": 1.4
       },
       "venue": "Home Deluxe Arena",
       "inj": {
-        "h": 3,
+        "h": 1,
         "a": 3
       },
       "ai_pred": {
         "res": "H",
-        "ph": 39.6,
-        "pd": 28.2,
-        "pa": 32.1,
+        "ph": 39.3,
+        "pd": 27.1,
+        "pa": 33.6,
         "xhg": 1.73,
         "xag": 1.26,
-        "o25": 52.8,
-        "btts": 57.7,
+        "o25": 53.3,
+        "btts": 58.0,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.39
       }
     },
     {
@@ -597,19 +689,19 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 1.73,
         "d": 4.43,
-        "a": 3.81
+        "a": 3.8
       },
       "event_id": 213766,
       "round": 11,
       "btts": {
         "yes": 1.3,
-        "no": 3.28
+        "no": 3.31
       },
       "ou": {
         "o15": 1.05,
         "u15": 8.28,
-        "o25": 1.27,
-        "u25": 3.56,
+        "o25": 1.26,
+        "u25": 3.62,
         "o35": 1.72,
         "u35": 2.15
       },
@@ -620,15 +712,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 59.6,
-        "pd": 20.0,
-        "pa": 20.4,
+        "ph": 54.2,
+        "pd": 21.2,
+        "pa": 24.6,
         "xhg": 2.22,
         "xag": 1.33,
-        "o25": 67.0,
-        "btts": 62.0,
+        "o25": 73.4,
+        "btts": 70.7,
         "score": "2-1",
-        "conf": 0.6
+        "conf": 0.54
       }
     },
     {
@@ -652,8 +744,8 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.13,
         "u15": 5.19,
-        "o25": 1.46,
-        "u25": 2.63,
+        "o25": 1.47,
+        "u25": 2.61,
         "o35": 2.19,
         "u35": 1.69
       },
@@ -663,16 +755,16 @@ var FOOTYFIXTURES = {
         "a": 3
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 43.2,
-        "pd": 23.0,
-        "pa": 33.8,
-        "xhg": 1.82,
+        "res": "A",
+        "ph": 35.7,
+        "pd": 24.6,
+        "pa": 39.7,
+        "xhg": 1.81,
         "xag": 1.6,
-        "o25": 64.8,
-        "btts": 63.0,
+        "o25": 64.3,
+        "btts": 66.5,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.4
       }
     },
     {
@@ -682,9 +774,25 @@ var FOOTYFIXTURES = {
       "time": "16:30",
       "home": "Hoffenheim",
       "away": "Augsburg",
-      "odds": null,
+      "odds": {
+        "h": 1.71,
+        "d": 4.4,
+        "a": 3.97
+      },
       "event_id": 213765,
       "round": 11,
+      "btts": {
+        "yes": 1.33,
+        "no": 3.13
+      },
+      "ou": {
+        "o15": 1.06,
+        "u15": 8.15,
+        "o25": 1.3,
+        "u25": 3.38,
+        "o35": 1.78,
+        "u35": 2.06
+      },
       "venue": "PreZero Arena",
       "inj": {
         "h": 5,
@@ -694,7 +802,7 @@ var FOOTYFIXTURES = {
         "res": "H",
         "ph": 53.9,
         "pd": 21.4,
-        "pa": 24.8,
+        "pa": 24.7,
         "xhg": 2.08,
         "xag": 1.43,
         "o25": 66.2,
@@ -710,9 +818,25 @@ var FOOTYFIXTURES = {
       "time": "18:30",
       "home": "Dortmund",
       "away": "Leverkusen",
-      "odds": null,
+      "odds": {
+        "h": 2.13,
+        "d": 3.82,
+        "a": 3.0
+      },
       "event_id": 213760,
       "round": 11,
+      "btts": {
+        "yes": 1.41,
+        "no": 2.72
+      },
+      "ou": {
+        "o15": 1.14,
+        "u15": 4.92,
+        "o25": 1.47,
+        "u25": 2.61,
+        "o35": 2.2,
+        "u35": 1.69
+      },
       "venue": "Signal Iduna Park",
       "inj": {
         "h": 4,
@@ -720,15 +844,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 46.7,
-        "pd": 23.5,
-        "pa": 29.8,
-        "xhg": 1.81,
-        "xag": 1.44,
-        "o25": 61.7,
+        "ph": 46.2,
+        "pd": 23.6,
+        "pa": 30.1,
+        "xhg": 1.8,
+        "xag": 1.45,
+        "o25": 61.6,
         "btts": 60.7,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.46
       }
     },
     {
@@ -744,7 +868,7 @@ var FOOTYFIXTURES = {
       "venue": "Allianz Arena",
       "inj": {
         "h": 7,
-        "a": 3
+        "a": 1
       }
     },
     {
@@ -883,9 +1007,9 @@ var FOOTYFIXTURES = {
       "home": "Bochum",
       "away": "Darmstadt",
       "odds": {
-        "h": 1.74,
+        "h": 1.73,
         "d": 3.86,
-        "a": 4.0
+        "a": 4.01
       },
       "event_id": 602732,
       "round": 13,
@@ -906,11 +1030,12 @@ var FOOTYFIXTURES = {
         "h": 2,
         "a": 5
       },
+      "ai_preview": "**Bochum's on fire, Darmstadt's patchy** — the hosts have won four of their last five, but the visitors just upset Heidenheim and won't roll over. This should be tighter than the form suggests. ⚽\n\nBochum's clicking in front of goal (4-1 demolition of Verl is fresh), yet they got battered 2-0 at St. Pauli recently. Darmstadt have wobbled away from home (0-2 to Nürnberg) but showed resilience at the Böllenfalltor. The head-to-head is deadlocked at six wins each — expect chess, not chaos.\n\nKey storylines:\n\n- **Bochum's attacking flow vs Darmstadt's thin away record** — the hosts smell blood after back-to-back home wins, but the visitors' road struggles loom large.\n- **Miyoshi and Hofmann's spark in midfield** — Bochum's creative duo will hunt space against a Darmstadt side missing several bodies on the injury front.\n- **Darmstadt's shape under pressure** — with five unavailable, their defense has to be watertight to nick anything in Bochum.\n\nExpected lineups:\n\n- **VfL Bochum 1848**: T. Horn, M. Wittek, K. Mets, S. Klaiber, M. Pannewig, T. Meyer, K. Miyoshi, P. Hofmann, J. Steuckers\n- **Darmstadt 98**: A. Brunst, R. Petretta, Y. Lührs, W. Mikelbrencis, N. Weißhaupt, K. Klefisch, H. Akiyama, M. Bader, L. Ho-jae\n\nPrediction:\n\n**1-1 draw** — Bochum edges the xG battle but Darmstadt's defensive discipline keeps them in it. Coin flip feels right.",
       "ai_pred": {
         "res": "H",
-        "ph": 53.0,
-        "pd": 23.9,
-        "pa": 23.1,
+        "ph": 53.2,
+        "pd": 23.8,
+        "pa": 22.9,
         "xhg": 1.58,
         "xag": 1.22,
         "o25": 59.8,
@@ -927,9 +1052,9 @@ var FOOTYFIXTURES = {
       "home": "Heidenheim",
       "away": "Nurnberg",
       "odds": {
-        "h": 2.03,
-        "d": 3.85,
-        "a": 3.04
+        "h": 2.06,
+        "d": 3.81,
+        "a": 2.98
       },
       "event_id": 602731,
       "round": 13,
@@ -939,9 +1064,9 @@ var FOOTYFIXTURES = {
       },
       "ou": {
         "o15": 1.08,
-        "u15": 6.52,
-        "o25": 1.35,
-        "u25": 3.01,
+        "u15": 6.5,
+        "o25": 1.36,
+        "u25": 3.0,
         "o35": 1.92,
         "u35": 1.88
       },
@@ -950,17 +1075,18 @@ var FOOTYFIXTURES = {
         "h": 3,
         "a": 3
       },
+      "ai_preview": "**Heidenheim and Nürnberg are both treading water** — neither team can string wins together, and this Friday matchup screams \"anyone's game\" vibes. 🎭\n\nHeidenheim's winless drought continues at home, with **three losses in their last five** making the Voith-Arena feel anything but a fortress. Nürnberg's slightly better record is misleading: **two wins buried in a messy 2W-3L run** shows inconsistency all over. The head-to-head is dead even too — Heidenheim hold a narrow edge, but draws loom large in this rivalry.\n\nKey storylines:\n\n- **Heidenheim** badly need a spark up front with **Zivzivadze and Kaufmann** tasked with breaking down a Nürnberg defence that's shipped goals freely\n- **Nürnberg's** midfield balance hinges on **Markhiev and Fernández** controlling tempo against a Heidenheim side hunting for any result\n- Injuries bite both teams: Heidenheim are thin at the back, Nürnberg missing key bodies in defence\n\nExpected lineups:\n\n- **1. FC Heidenheim**: F. Feller, M. Heule, P. Mainka, T. Siersleben, O. Mhamdi, P. Hennrich, J. Schöppner, J. Niehues, M. Costly, B. Zivzivadze, M. Kaufmann\n- **1. FC Nürnberg**: J. Reichert, A. Kalogeropoulos, E. Porstner, F. Otto, T. Janisch, A. Markhiev, J. Fernández, P. Scobel, J. Justvan, W. Bøving, R. Ghrieb\n\nPrediction:\n\n**1-1 draw** — both teams have enough rust and defensive holes that a stalemate feels right. Slight lean Heidenheim at home. ⚽",
       "ai_pred": {
         "res": "H",
-        "ph": 45.6,
-        "pd": 24.0,
-        "pa": 30.4,
+        "ph": 44.8,
+        "pd": 24.2,
+        "pa": 31.0,
         "xhg": 1.67,
         "xag": 1.62,
-        "o25": 68.7,
+        "o25": 68.5,
         "btts": 68.3,
         "score": "1-1",
-        "conf": 0.46
+        "conf": 0.45
       }
     },
     {
@@ -972,8 +1098,8 @@ var FOOTYFIXTURES = {
       "away": "St Pauli",
       "odds": {
         "h": 2.68,
-        "d": 3.41,
-        "a": 2.39
+        "d": 3.43,
+        "a": 2.38
       },
       "event_id": 602735,
       "round": 13,
@@ -992,17 +1118,17 @@ var FOOTYFIXTURES = {
       "venue": "Rudolf-Harbig-Stadion",
       "inj": {
         "h": 4,
-        "a": 1
+        "a": 0
       },
       "ai_pred": {
         "res": "A",
-        "ph": 34.3,
-        "pd": 27.2,
-        "pa": 38.5,
+        "ph": 34.4,
+        "pd": 26.9,
+        "pa": 38.7,
         "xhg": 1.86,
         "xag": 1.05,
-        "o25": 54.9,
-        "btts": 53.9,
+        "o25": 55.6,
+        "btts": 59.4,
         "score": "1-1",
         "conf": 0.39
       }
@@ -1015,19 +1141,19 @@ var FOOTYFIXTURES = {
       "home": "Hertha",
       "away": "Karlsruhe",
       "odds": {
-        "h": 1.41,
+        "h": 1.4,
         "d": 4.9,
-        "a": 5.89
+        "a": 5.92
       },
       "event_id": 602733,
       "round": 13,
       "btts": {
-        "yes": 1.49,
-        "no": 2.5
+        "yes": 1.5,
+        "no": 2.46
       },
       "ou": {
         "o15": 1.08,
-        "u15": 6.77,
+        "u15": 6.73,
         "o25": 1.34,
         "u25": 3.08,
         "o35": 1.91,
@@ -1040,15 +1166,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 64.7,
-        "pd": 19.3,
-        "pa": 16.0,
+        "ph": 65.7,
+        "pd": 18.8,
+        "pa": 15.5,
         "xhg": 2.21,
         "xag": 1.09,
-        "o25": 62.5,
-        "btts": 57.0,
+        "o25": 69.3,
+        "btts": 61.6,
         "score": "2-1",
-        "conf": 0.65
+        "conf": 0.66
       }
     },
     {
@@ -1059,9 +1185,9 @@ var FOOTYFIXTURES = {
       "home": "Holstein Kiel",
       "away": "Kaiserslautern",
       "odds": {
-        "h": 2.31,
+        "h": 2.3,
         "d": 3.46,
-        "a": 2.78
+        "a": 2.75
       },
       "event_id": 602734,
       "round": 13,
@@ -1084,13 +1210,13 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 40.1,
-        "pd": 26.4,
-        "pa": 33.5,
+        "ph": 40.0,
+        "pd": 26.6,
+        "pa": 33.4,
         "xhg": 1.38,
         "xag": 1.32,
-        "o25": 50.6,
-        "btts": 54.1,
+        "o25": 55.1,
+        "btts": 59.3,
         "score": "1-1",
         "conf": 0.4
       }
@@ -1103,7 +1229,7 @@ var FOOTYFIXTURES = {
       "home": "Osnabruck",
       "away": "Hannover",
       "odds": {
-        "h": 2.96,
+        "h": 2.93,
         "d": 3.61,
         "a": 2.13
       },
@@ -1115,11 +1241,11 @@ var FOOTYFIXTURES = {
       },
       "ou": {
         "o15": 1.15,
-        "u15": 4.95,
-        "o25": 1.56,
-        "u25": 2.38,
-        "o35": 2.35,
-        "u35": 1.54
+        "u15": 4.86,
+        "o25": 1.57,
+        "u25": 2.37,
+        "o35": 2.38,
+        "u35": 1.53
       },
       "venue": "Bremer Brücke",
       "inj": {
@@ -1128,15 +1254,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 33.3,
-        "pd": 26.1,
-        "pa": 40.6,
+        "ph": 31.4,
+        "pd": 25.5,
+        "pa": 43.2,
         "xhg": 1.38,
         "xag": 1.51,
-        "o25": 54.6,
-        "btts": 56.6,
+        "o25": 59.9,
+        "btts": 62.8,
         "score": "1-1",
-        "conf": 0.41
+        "conf": 0.43
       }
     },
     {
@@ -1146,25 +1272,85 @@ var FOOTYFIXTURES = {
       "time": "12:30",
       "home": "Braunschweig",
       "away": "Wolfsburg",
-      "odds": null,
+      "odds": {
+        "h": 3.45,
+        "d": 3.91,
+        "a": 1.84
+      },
       "event_id": 602738,
       "round": 13,
+      "btts": {
+        "yes": 1.41,
+        "no": 2.71
+      },
+      "ou": {
+        "o15": 1.1,
+        "u15": 5.89,
+        "o25": 1.41,
+        "u25": 2.74,
+        "o35": 2.07,
+        "u35": 1.74
+      },
       "venue": "Eintracht-Stadion",
       "inj": {
         "h": 1,
         "a": 0
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 40.8,
-        "pd": 24.8,
-        "pa": 34.5,
+        "res": "A",
+        "ph": 26.7,
+        "pd": 23.4,
+        "pa": 50.0,
         "xhg": 1.63,
         "xag": 1.49,
-        "o25": 59.1,
-        "btts": 59.4,
+        "o25": 65.7,
+        "btts": 65.2,
         "score": "1-1",
-        "conf": 0.41
+        "conf": 0.5
+      },
+      "api_h2h": {
+        "n": 5,
+        "w": 1,
+        "d": 1,
+        "l": 3,
+        "m": [
+          [
+            "18/10/2022",
+            1,
+            1,
+            2,
+            "L"
+          ],
+          [
+            "29/05/2017",
+            1,
+            0,
+            1,
+            "L"
+          ],
+          [
+            "25/05/2017",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "15/03/2014",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "05/10/2013",
+            0,
+            0,
+            2,
+            "W"
+          ]
+        ],
+        "ag": 1.8
       }
     },
     {
@@ -1174,25 +1360,41 @@ var FOOTYFIXTURES = {
       "time": "12:30",
       "home": "Greuther Furth",
       "away": "Bielefeld",
-      "odds": null,
+      "odds": {
+        "h": 2.96,
+        "d": 3.48,
+        "a": 2.16
+      },
       "event_id": 602739,
       "round": 13,
+      "btts": {
+        "yes": 1.54,
+        "no": 2.33
+      },
+      "ou": {
+        "o15": 1.19,
+        "u15": 4.33,
+        "o25": 1.67,
+        "u25": 2.16,
+        "o35": 2.56,
+        "u35": 1.46
+      },
       "venue": "Sportpark Ronhof Thomas Sommer",
       "inj": {
         "h": 0,
         "a": 2
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 37.8,
-        "pd": 25.7,
-        "pa": 36.5,
+        "res": "A",
+        "ph": 31.1,
+        "pd": 26.4,
+        "pa": 42.5,
         "xhg": 1.5,
-        "xag": 1.46,
-        "o25": 56.1,
-        "btts": 57.6,
+        "xag": 1.47,
+        "o25": 56.4,
+        "btts": 60.0,
         "score": "1-1",
-        "conf": 0.38
+        "conf": 0.43
       }
     },
     {
@@ -1202,9 +1404,25 @@ var FOOTYFIXTURES = {
       "time": "12:30",
       "home": "Magdeburg",
       "away": "Cottbus",
-      "odds": null,
+      "odds": {
+        "h": 1.6,
+        "d": 4.32,
+        "a": 4.33
+      },
       "event_id": 602737,
       "round": 13,
+      "btts": {
+        "yes": 1.4,
+        "no": 2.8
+      },
+      "ou": {
+        "o15": 1.08,
+        "u15": 6.78,
+        "o25": 1.34,
+        "u25": 3.07,
+        "o35": 1.93,
+        "u35": 1.87
+      },
       "venue": "Avnet Arena",
       "inj": {
         "h": 1,
@@ -1212,15 +1430,38 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 61.8,
-        "pd": 20.0,
-        "pa": 18.3,
-        "xhg": 2.2,
+        "ph": 57.5,
+        "pd": 21.3,
+        "pa": 21.2,
+        "xhg": 2.19,
         "xag": 1.22,
-        "o25": 64.7,
-        "btts": 59.7,
+        "o25": 69.4,
+        "btts": 66.0,
         "score": "2-1",
-        "conf": 0.62
+        "conf": 0.57
+      },
+      "api_h2h": {
+        "n": 2,
+        "w": 0,
+        "d": 0,
+        "l": 2,
+        "m": [
+          [
+            "03/08/2013",
+            1,
+            0,
+            1,
+            "L"
+          ],
+          [
+            "01/08/2009",
+            1,
+            1,
+            3,
+            "L"
+          ]
+        ],
+        "ag": 2.5
       }
     },
     {
@@ -1253,6 +1494,29 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 2,
         "a": 0
+      },
+      "api_h2h": {
+        "n": 2,
+        "w": 1,
+        "d": 0,
+        "l": 1,
+        "m": [
+          [
+            "13/03/2011",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "22/10/2010",
+            0,
+            2,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 2.0
       }
     },
     {
@@ -1347,7 +1611,7 @@ var FOOTYFIXTURES = {
       "round": 14,
       "venue": "Millerntor-Stadion",
       "inj": {
-        "h": 1,
+        "h": 0,
         "a": 3
       }
     },
@@ -1376,22 +1640,22 @@ var FOOTYFIXTURES = {
       "away": "West Brom",
       "odds": {
         "h": 3.47,
-        "d": 3.6,
-        "a": 1.99
+        "d": 3.55,
+        "a": 2.0
       },
       "event_id": 214174,
       "round": 17,
       "btts": {
         "yes": 1.61,
-        "no": 2.22
+        "no": 2.2
       },
       "ou": {
         "o15": 1.21,
-        "u15": 4.01,
-        "o25": 1.69,
-        "u25": 2.12,
-        "o35": 2.69,
-        "u35": 1.41
+        "u15": 3.92,
+        "o25": 1.72,
+        "u25": 2.07,
+        "o35": 2.75,
+        "u35": 1.4
       },
       "venue": "Toughsheet Community Stadium ",
       "inj": {
@@ -1406,15 +1670,66 @@ var FOOTYFIXTURES = {
       "ai_preview": "**West Brom's unbeaten run comes to Wanderers' house**, and frankly this feels like a coin flip wrapped in a Championship stalemate. Bolton's been all over the map lately — one win in five — but WBA's pulling 2W 3D of its own, so neither team's exactly on fire. 🔥\n\nBolton's injury list is *brutal* (five players out), which'll test their depth at a choppy venue. West Brom's steadier form and defensive solidity gives them an edge, but the visitors won't roll over either.\n\nKey storylines:\n\n- **Bolton's injury crisis** vs **West Brom's creeping consistency** — the former could be the tipping point in a tight affair\n- **Defensive battle looming**: expect low-scoring, cagey football with both teams leaning on organisation over flair\n- **Head-to-head throwback**: these two have split honours recently (3-3-8 in the last 14), so another draw wouldn't shock anyone\n\nExpected lineups:\n\n- **Bolton Wanderers**: Bazunu, Conway, Famewo, Brunt, Davies, Sheehan, Gale, Dalby, Rodrigues, Dong, Bair\n- **West Bromwich Albion**: O'Leary, Styles, Mepham, Pereira, Campbell, Molumby, Nzingoula, Morgan, Myhre, Heggebø, Stewart\n\nPrediction:\n\n**1-1 draw**. West Brom edges the form chart, but Bolton at home with a depleted squad? This screams stalemate. 👀",
       "ai_pred": {
         "res": "A",
-        "ph": 27.0,
-        "pd": 26.0,
-        "pa": 47.0,
+        "ph": 26.9,
+        "pd": 26.3,
+        "pa": 46.7,
         "xhg": 1.5,
         "xag": 1.35,
-        "o25": 55.5,
-        "btts": 57.8,
+        "o25": 54.6,
+        "btts": 57.6,
         "score": "1-1",
         "conf": 0.47
+      },
+      "api_h2h": {
+        "n": 14,
+        "w": 3,
+        "d": 8,
+        "l": 3,
+        "m": [
+          [
+            "21/01/2019",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "04/08/2018",
+            0,
+            1,
+            2,
+            "W"
+          ],
+          [
+            "06/05/2012",
+            1,
+            2,
+            2,
+            "D"
+          ],
+          [
+            "19/11/2011",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "26/12/2010",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "02/10/2010",
+            0,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.07
       }
     },
     {
@@ -1425,23 +1740,23 @@ var FOOTYFIXTURES = {
       "home": "Burnley",
       "away": "Birmingham",
       "odds": {
-        "h": 2.58,
-        "d": 3.56,
-        "a": 2.48
+        "h": 2.67,
+        "d": 3.45,
+        "a": 2.44
       },
       "event_id": 214175,
       "round": 17,
       "btts": {
-        "yes": 1.57,
-        "no": 2.28
+        "yes": 1.59,
+        "no": 2.25
       },
       "ou": {
-        "o15": 1.19,
-        "u15": 4.17,
-        "o25": 1.66,
-        "u25": 2.15,
-        "o35": 2.65,
-        "u35": 1.43
+        "o15": 1.22,
+        "u15": 3.88,
+        "o25": 1.74,
+        "u25": 2.04,
+        "o35": 2.8,
+        "u35": 1.39
       },
       "venue": "Turf Moor",
       "inj": {
@@ -1456,13 +1771,13 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Burnley's form is a mess right now, and Birmingham City's rolling in hot.** This could be the perfect storm for a mid-table upset. 🔴\n\nBurnley haven't won in five games—three draws and two losses, including that bonkers 4-5 loss to Cardiff. Meanwhile Birmingham have won three of their last five and just demolished Millwall 3-0 at home. The visitors absolutely have the momentum edge here.\n\nKey storylines:\n\n- **Burnley's injury crisis** is real: Roberts, Satpayev, and Mejbri all out. Depth is getting tested hard on a congested fixture list.\n- **Birmingham's recent form** (3W in 5) gives them genuine confidence away from home, flipping the script from earlier in the season.\n- **Dead rubber vibes**—the H2H is completely even (4-4-6), so expect a cagey, tactical battle rather than a barnstormer.\n\nExpected lineups:\n\n- **Burnley**: Coudert, Pires, Júlio, Walker, Alleyne, Laurent, Ramazani, Bruun Larsen, Hatate, Hountondji, Broja\n- **Birmingham City**: Beadle, Cochrane, Klarer, Neumann, Osayi-Samuel, Iwata, Solís, Millar, Stansfield, Roberts, Priske\n\nPrediction:\n\n**1-1 draw**. Both sides cancel each other out in a tightly-contested affair, with Burnley's injuries and Birmingham's form converging on a share of the spoils. ⚽",
       "ai_pred": {
         "res": "A",
-        "ph": 36.2,
-        "pd": 26.2,
-        "pa": 37.6,
+        "ph": 34.9,
+        "pd": 27.0,
+        "pa": 38.1,
         "xhg": 1.2,
         "xag": 1.49,
-        "o25": 56.1,
-        "btts": 58.6,
+        "o25": 53.8,
+        "btts": 58.1,
         "score": "1-1",
         "conf": 0.38
       }
@@ -1475,23 +1790,23 @@ var FOOTYFIXTURES = {
       "home": "Watford",
       "away": "Blackburn",
       "odds": {
-        "h": 2.5,
-        "d": 3.41,
-        "a": 2.64
+        "h": 2.48,
+        "d": 3.37,
+        "a": 2.67
       },
       "event_id": 214177,
       "round": 17,
       "btts": {
-        "yes": 1.67,
-        "no": 2.1
+        "yes": 1.72,
+        "no": 2.03
       },
       "ou": {
-        "o15": 1.25,
-        "u15": 3.59,
-        "o25": 1.84,
-        "u25": 1.93,
-        "o35": 2.98,
-        "u35": 1.34
+        "o15": 1.27,
+        "u15": 3.46,
+        "o25": 1.88,
+        "u25": 1.89,
+        "o35": 3.14,
+        "u35": 1.32
       },
       "venue": "Vicarage Road",
       "inj": {
@@ -1506,15 +1821,15 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Watford and Blackburn square up in a midtable dogfight**, and honestly, both sides are feeling the heat — this screams \"cagey Championship grind\" with a point up for grabs. 🔥\n\nWatford's lurching between brilliant (1-0 Lincoln) and absolutely shocking (0-4 Sheffield United), while **Blackburn are grinding out results** despite carrying injuries. The H2H is dead level over 18 games, and that symmetry feels prophetic here.\n\nKey storylines:\n\n- **Watford's shaky away form vs Blackburn's patchy road record** — both teams have wobbled recently, so home advantage at Vicarage Road could be marginal\n- **Watford's attack needs **M. Doumbia** and **I. Bravo** to click** after that Sheffield United mauling; midfield trio of Traore, Kayembe, Kyprianou has to hold the line\n- **Blackburn missing Forshaw and Tóth** — weakens an already stretched squad, leaves **T. Cantwell** and **O. Afolayan** carrying more creative burden\n\nExpected lineups:\n\n- **Watford**: F. Ravaglia, M. Pollock, B. Mlačić, M. Bola, O. Traore, E. Kayembe, M. Payero, M. Doumbia, I. Bravo\n- **Blackburn Rovers**: A. Pears, S. McLoughlin, H. Pickering, S. Morsy, T. Cantwell, A. Guðjohnsen, K. Montgomery, H. Carter\n\nPrediction: **1-1 draw.** Both teams scrapping but neither breaking through — classic midtable stalemate.",
       "ai_pred": {
         "res": "H",
-        "ph": 37.3,
-        "pd": 27.4,
-        "pa": 35.3,
+        "ph": 37.5,
+        "pd": 27.6,
+        "pa": 34.9,
         "xhg": 1.27,
-        "xag": 1.27,
-        "o25": 50.9,
-        "btts": 55.3,
+        "xag": 1.26,
+        "o25": 50.0,
+        "btts": 53.9,
         "score": "1-1",
-        "conf": 0.37
+        "conf": 0.38
       }
     },
     {
@@ -1526,22 +1841,22 @@ var FOOTYFIXTURES = {
       "away": "Millwall",
       "odds": {
         "h": 2.23,
-        "d": 3.32,
-        "a": 3.14
+        "d": 3.3,
+        "a": 3.12
       },
       "event_id": 214176,
       "round": 17,
       "btts": {
-        "yes": 1.73,
-        "no": 2.01
+        "yes": 1.78,
+        "no": 1.96
       },
       "ou": {
-        "o15": 1.29,
-        "u15": 3.28,
-        "o25": 1.95,
-        "u25": 1.82,
-        "o35": 3.29,
-        "u35": 1.29
+        "o15": 1.3,
+        "u15": 3.25,
+        "o25": 1.96,
+        "u25": 1.81,
+        "o35": 3.35,
+        "u35": 1.28
       },
       "venue": "bet365 Stadium",
       "inj": {
@@ -1556,13 +1871,13 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Stoke are red-hot, but Millwall's proven to be a nuisance — this could be tighter than the form suggests.** 🔥 The hosts have rattled off four wins in five, while the Lions are limping in with just one win across their last five outings.\n\nStoke's rolling and have home advantage at the bet365 Stadium, but **Millwall's H2H record is nothing to sniff at** — they've got nine wins in the last 18 meetings and seven draws to lean on. That history matters, especially when Stoke are without key players like **A. Ampah** and **L. Cissé**, while Millwall miss **Z. Sturge** through suspension but can still field a stubborn shape.\n\nKey storylines:\n\n- **Stoke's attacking momentum** vs a Millwall side desperate to snap their three-game losing streak and avoid another blank\n- **R. Boženík** leading the Stoke line needs to stay clinical — no room for wastage against a compact defence\n- **L. Dykes** and **K. Lisbie** will hunt any loose balls on the counter; Millwall's shape could frustrate if they stay disciplined\n\nExpected lineups:\n\n- **Stoke City**: V. Johansson, B. Wilmot, L. Graham, B. Johnson, E. Bocat, J. McGlynn, E. Galbraith, R. Boženík, S. Gallagher, G. Hirst\n- **Millwall**: M. Crocombe, C. Taylor, J. Cooper, J. Osei-Tutu, C. Neghli, J. Metcalfe, L. Dykes, L. Cundle, K. Lisbie\n\nPrediction:\n\n**1-1 draw.** Stoke edge it on chances but Millwall's defensive resolve earns a point away from home.",
       "ai_pred": {
         "res": "H",
-        "ph": 42.0,
-        "pd": 28.2,
-        "pa": 29.8,
+        "ph": 41.8,
+        "pd": 28.3,
+        "pa": 29.9,
         "xhg": 1.33,
         "xag": 1.22,
-        "o25": 48.2,
-        "btts": 53.5,
+        "o25": 48.0,
+        "btts": 52.3,
         "score": "1-1",
         "conf": 0.42
       }
@@ -1575,22 +1890,22 @@ var FOOTYFIXTURES = {
       "home": "Southampton",
       "away": "Middlesbrough",
       "odds": {
-        "h": 2.74,
-        "d": 3.74,
-        "a": 2.26
+        "h": 2.8,
+        "d": 3.73,
+        "a": 2.25
       },
       "event_id": 214185,
       "round": 18,
       "btts": {
-        "yes": 1.45,
-        "no": 2.6
+        "yes": 1.46,
+        "no": 2.58
       },
       "ou": {
-        "o15": 1.15,
-        "u15": 4.67,
-        "o25": 1.51,
+        "o15": 1.16,
+        "u15": 4.75,
+        "o25": 1.53,
         "u25": 2.37,
-        "o35": 2.25,
+        "o35": 2.29,
         "u35": 1.59
       },
       "venue": "St. Mary's Stadium",
@@ -1598,17 +1913,18 @@ var FOOTYFIXTURES = {
         "h": 2,
         "a": 1
       },
+      "ai_preview": "**Middlesbrough roll into St. Mary's on a hot streak, but Southampton's home form keeps this one tight.** Both sides are firing right now — Boro's won three of their last five, while the Saints have picked up points with consistency. 🔥\n\nSouthampton's recent form at home has been solid (2W, 2D in their last five), and they've got the head-to-head edge historically. But Middlesbrough's current momentum is real: three wins in five, including back-to-back home shutouts vs Swansea and Bristol City. Missing **Schlotterbeck** defensively is a blow for the hosts.\n\nKey storylines:\n\n- **Southampton's midfield** (Ward-Prowse, Azaz) will need to control tempo against Boro's energy\n- **Middlesbrough's attack** has found rhythm — Conway, Cozier-Duberry, and Peart-Harris linking well in recent wins\n- Injury depth test for both: Saints without Jander and Schlotterbeck; Boro missing Pukštas\n\nExpected lineups:\n\n- **Southampton**: Peretz, Stephens, Manning, Abbott, Bree, Ward-Prowse, Azaz, Larin, Dobbin, Scienza, Matsuki\n- **Middlesbrough**: Vítek, Borges, Phillips, Malanda, Brittain, Morris, Berhalter, McGree, Conway, Cozier-Duberry, Peart-Harris\n\nPrediction:\n\n**1-1 draw.** Middlesbrough's form gives them the edge, but Southampton's home comfort and historical record make them stubborn opponents — expect a cagey, well-matched affair. 🤝",
       "ai_pred": {
         "res": "A",
-        "ph": 34.0,
-        "pd": 24.9,
-        "pa": 41.2,
+        "ph": 33.4,
+        "pd": 25.1,
+        "pa": 41.5,
         "xhg": 1.47,
         "xag": 1.39,
-        "o25": 60.7,
-        "btts": 63.4,
+        "o25": 60.4,
+        "btts": 63.1,
         "score": "1-1",
-        "conf": 0.41
+        "conf": 0.42
       }
     },
     {
@@ -1640,19 +1956,19 @@ var FOOTYFIXTURES = {
       "venue": "Ewood Park",
       "inj": {
         "h": 3,
-        "a": 1
+        "a": 2
       },
       "ai_pred": {
         "res": "H",
-        "ph": 51.8,
+        "ph": 51.1,
         "pd": 26.0,
-        "pa": 22.2,
-        "xhg": 1.46,
-        "xag": 1.09,
-        "o25": 49.8,
-        "btts": 53.4,
+        "pa": 22.9,
+        "xhg": 1.44,
+        "xag": 1.13,
+        "o25": 50.7,
+        "btts": 53.1,
         "score": "1-1",
-        "conf": 0.52
+        "conf": 0.51
       }
     },
     {
@@ -1663,40 +1979,40 @@ var FOOTYFIXTURES = {
       "home": "Lincoln",
       "away": "Wolves",
       "odds": {
-        "h": 4.93,
-        "d": 3.93,
-        "a": 1.64
+        "h": 4.89,
+        "d": 3.84,
+        "a": 1.66
       },
       "event_id": 214181,
       "round": 18,
       "btts": {
-        "yes": 1.73,
-        "no": 2.01
+        "yes": 1.74,
+        "no": 1.99
       },
       "ou": {
-        "o15": 1.21,
-        "u15": 3.93,
-        "o25": 1.71,
-        "u25": 2.05,
-        "o35": 2.7,
-        "u35": 1.4
+        "o15": 1.24,
+        "u15": 3.78,
+        "o25": 1.78,
+        "u25": 1.99,
+        "o35": 2.88,
+        "u35": 1.37
       },
       "venue": "Sincil Bank",
       "inj": {
         "h": 1,
-        "a": 7
+        "a": 4
       },
       "ai_pred": {
         "res": "A",
-        "ph": 18.2,
-        "pd": 23.9,
-        "pa": 57.9,
-        "xhg": 1.58,
-        "xag": 1.06,
-        "o25": 54.5,
-        "btts": 53.4,
+        "ph": 19.2,
+        "pd": 24.4,
+        "pa": 56.4,
+        "xhg": 1.53,
+        "xag": 1.12,
+        "o25": 52.6,
+        "btts": 53.3,
         "score": "1-1",
-        "conf": 0.58
+        "conf": 0.56
       }
     },
     {
@@ -1707,38 +2023,38 @@ var FOOTYFIXTURES = {
       "home": "Preston",
       "away": "Norwich",
       "odds": {
-        "h": 4.58,
-        "d": 4.15,
-        "a": 1.64
+        "h": 4.63,
+        "d": 4.11,
+        "a": 1.65
       },
       "event_id": 214183,
       "round": 18,
       "btts": {
-        "yes": 1.5,
-        "no": 2.45
+        "yes": 1.55,
+        "no": 2.33
       },
       "ou": {
-        "o15": 1.14,
-        "u15": 4.82,
-        "o25": 1.46,
-        "u25": 2.52,
-        "o35": 2.16,
-        "u35": 1.65
+        "o15": 1.16,
+        "u15": 4.61,
+        "o25": 1.52,
+        "u25": 2.39,
+        "o35": 2.31,
+        "u35": 1.58
       },
       "venue": "Deepdale",
       "inj": {
-        "h": 6,
+        "h": 5,
         "a": 3
       },
       "ai_pred": {
         "res": "A",
-        "ph": 20.0,
-        "pd": 22.5,
-        "pa": 57.4,
-        "xhg": 1.31,
-        "xag": 1.59,
-        "o25": 63.1,
-        "btts": 60.4,
+        "ph": 20.3,
+        "pd": 22.8,
+        "pa": 56.9,
+        "xhg": 1.36,
+        "xag": 1.55,
+        "o25": 60.8,
+        "btts": 59.7,
         "score": "1-1",
         "conf": 0.57
       }
@@ -1776,15 +2092,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 51.9,
-        "pd": 24.8,
-        "pa": 23.2,
+        "ph": 63.4,
+        "pd": 21.1,
+        "pa": 15.5,
         "xhg": 1.73,
         "xag": 1.14,
-        "o25": 53.9,
-        "btts": 54.7,
+        "o25": 58.6,
+        "btts": 54.8,
         "score": "1-1",
-        "conf": 0.52
+        "conf": 0.63
       }
     },
     {
@@ -1820,15 +2136,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 49.2,
-        "pd": 26.6,
-        "pa": 24.2,
-        "xhg": 1.58,
-        "xag": 1.08,
-        "o25": 49.4,
-        "btts": 52.1,
+        "ph": 44.1,
+        "pd": 27.1,
+        "pa": 28.8,
+        "xhg": 1.56,
+        "xag": 1.1,
+        "o25": 50.6,
+        "btts": 54.7,
         "score": "1-1",
-        "conf": 0.49
+        "conf": 0.44
       }
     },
     {
@@ -1839,9 +2155,9 @@ var FOOTYFIXTURES = {
       "home": "Millwall",
       "away": "Burnley",
       "odds": {
-        "h": 2.22,
+        "h": 2.21,
         "d": 3.61,
-        "a": 2.94
+        "a": 2.92
       },
       "event_id": 214182,
       "round": 18,
@@ -1864,15 +2180,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 53.4,
-        "pd": 25.4,
-        "pa": 21.2,
-        "xhg": 1.68,
-        "xag": 1.04,
-        "o25": 50.8,
-        "btts": 52.2,
+        "ph": 42.2,
+        "pd": 25.9,
+        "pa": 31.9,
+        "xhg": 1.69,
+        "xag": 1.03,
+        "o25": 57.1,
+        "btts": 59.7,
         "score": "1-1",
-        "conf": 0.53
+        "conf": 0.42
       }
     },
     {
@@ -1883,40 +2199,40 @@ var FOOTYFIXTURES = {
       "home": "QPR",
       "away": "Sheffield United",
       "odds": {
-        "h": 2.1,
-        "d": 3.59,
-        "a": 3.19
+        "h": 2.08,
+        "d": 3.51,
+        "a": 3.31
       },
       "event_id": 214184,
       "round": 18,
       "btts": {
-        "yes": 1.53,
-        "no": 2.37
+        "yes": 1.59,
+        "no": 2.25
       },
       "ou": {
-        "o15": 1.17,
-        "u15": 4.06,
-        "o25": 1.62,
-        "u25": 2.19,
-        "o35": 2.45,
-        "u35": 1.45
+        "o15": 1.21,
+        "u15": 3.85,
+        "o25": 1.7,
+        "u25": 2.08,
+        "o35": 2.72,
+        "u35": 1.39
       },
       "venue": "Loftus Road Stadium",
       "inj": {
         "h": 2,
-        "a": 7
+        "a": 5
       },
       "ai_pred": {
         "res": "H",
-        "ph": 37.9,
-        "pd": 27.4,
-        "pa": 34.8,
-        "xhg": 1.4,
-        "xag": 1.32,
-        "o25": 50.8,
-        "btts": 54.2,
+        "ph": 44.6,
+        "pd": 26.1,
+        "pa": 29.3,
+        "xhg": 1.39,
+        "xag": 1.31,
+        "o25": 57.1,
+        "btts": 60.1,
         "score": "1-1",
-        "conf": 0.38
+        "conf": 0.45
       }
     },
     {
@@ -1927,36 +2243,40 @@ var FOOTYFIXTURES = {
       "home": "West Brom",
       "away": "Bristol City",
       "odds": {
-        "h": 1.76,
-        "d": 3.76,
-        "a": 4.38
+        "h": 1.75,
+        "d": 3.73,
+        "a": 4.35
       },
       "event_id": 214187,
       "round": 18,
       "btts": {
-        "yes": 1.72,
-        "no": 2.0
+        "yes": 1.71,
+        "no": 2.03
       },
       "ou": {
-        "o25": 1.8,
-        "u25": 2.0
+        "o15": 1.24,
+        "u15": 3.44,
+        "o25": 1.78,
+        "u25": 1.95,
+        "o35": 2.83,
+        "u35": 1.35
       },
       "venue": "The Hawthorns",
       "inj": {
         "h": 5,
-        "a": 1
+        "a": 2
       },
       "ai_pred": {
         "res": "H",
-        "ph": 54.1,
-        "pd": 25.3,
-        "pa": 20.7,
+        "ph": 53.5,
+        "pd": 25.0,
+        "pa": 21.5,
         "xhg": 1.69,
-        "xag": 1.02,
-        "o25": 50.7,
-        "btts": 52.0,
+        "xag": 1.01,
+        "o25": 52.5,
+        "btts": 53.6,
         "score": "1-1",
-        "conf": 0.54
+        "conf": 0.53
       }
     },
     {
@@ -1968,18 +2288,22 @@ var FOOTYFIXTURES = {
       "away": "Stoke",
       "odds": {
         "h": 1.54,
-        "d": 4.32,
-        "a": 5.39
+        "d": 4.28,
+        "a": 5.33
       },
       "event_id": 214188,
       "round": 18,
       "btts": {
         "yes": 1.66,
-        "no": 2.1
+        "no": 2.12
       },
       "ou": {
-        "o25": 1.61,
-        "u25": 2.3
+        "o15": 1.17,
+        "u15": 4.12,
+        "o25": 1.59,
+        "u25": 2.25,
+        "o35": 2.39,
+        "u35": 1.48
       },
       "venue": "London Stadium",
       "inj": {
@@ -1988,15 +2312,66 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 51.8,
-        "pd": 24.9,
-        "pa": 23.3,
+        "ph": 60.9,
+        "pd": 21.7,
+        "pa": 17.4,
         "xhg": 1.72,
-        "xag": 1.14,
-        "o25": 53.9,
-        "btts": 54.7,
+        "xag": 1.13,
+        "o25": 58.5,
+        "btts": 55.7,
         "score": "1-1",
-        "conf": 0.52
+        "conf": 0.61
+      },
+      "api_h2h": {
+        "n": 22,
+        "w": 7,
+        "d": 8,
+        "l": 7,
+        "m": [
+          [
+            "16/04/2018",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "16/12/2017",
+            0,
+            0,
+            3,
+            "W"
+          ],
+          [
+            "29/04/2017",
+            0,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "05/11/2016",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "15/05/2016",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "12/12/2015",
+            1,
+            0,
+            0,
+            "D"
+          ]
+        ],
+        "ag": 2.14
       }
     },
     {
@@ -2007,36 +2382,40 @@ var FOOTYFIXTURES = {
       "home": "Wrexham",
       "away": "Portsmouth",
       "odds": {
-        "h": 1.94,
-        "d": 3.45,
-        "a": 3.82
+        "h": 1.95,
+        "d": 3.38,
+        "a": 3.76
       },
       "event_id": 214189,
       "round": 18,
       "btts": {
-        "yes": 1.83,
-        "no": 1.83
+        "yes": 1.81,
+        "no": 1.9
       },
       "ou": {
+        "o15": 1.32,
+        "u15": 3.06,
         "o25": 2.0,
-        "u25": 1.8
+        "u25": 1.76,
+        "o35": 3.38,
+        "u35": 1.27
       },
       "venue": "Racecourse Ground",
       "inj": {
         "h": 4,
-        "a": 7
+        "a": 6
       },
       "ai_pred": {
         "res": "H",
-        "ph": 49.6,
-        "pd": 26.7,
-        "pa": 23.8,
-        "xhg": 1.58,
-        "xag": 1.07,
-        "o25": 49.1,
-        "btts": 51.8,
+        "ph": 48.3,
+        "pd": 27.2,
+        "pa": 24.5,
+        "xhg": 1.57,
+        "xag": 1.05,
+        "o25": 47.4,
+        "btts": 50.1,
         "score": "1-1",
-        "conf": 0.5
+        "conf": 0.48
       }
     },
     {
@@ -2047,36 +2426,40 @@ var FOOTYFIXTURES = {
       "home": "Swansea",
       "away": "Cardiff",
       "odds": {
-        "h": 1.86,
-        "d": 3.8,
-        "a": 3.79
+        "h": 1.99,
+        "d": 3.82,
+        "a": 3.26
       },
       "event_id": 214186,
       "round": 18,
       "btts": {
-        "yes": 1.53,
-        "no": 2.37
+        "yes": 1.41,
+        "no": 2.72
       },
       "ou": {
-        "o25": 1.57,
-        "u25": 2.37
+        "o15": 1.13,
+        "u15": 5.22,
+        "o25": 1.46,
+        "u25": 2.58,
+        "o35": 2.14,
+        "u35": 1.66
       },
       "venue": "Swansea.com Stadium",
       "inj": {
-        "h": 5,
+        "h": 4,
         "a": 3
       },
       "ai_pred": {
         "res": "H",
-        "ph": 40.8,
-        "pd": 25.3,
-        "pa": 33.9,
-        "xhg": 1.58,
-        "xag": 1.43,
-        "o25": 57.1,
-        "btts": 58.2,
+        "ph": 50.5,
+        "pd": 24.7,
+        "pa": 24.8,
+        "xhg": 1.62,
+        "xag": 1.42,
+        "o25": 60.0,
+        "btts": 60.5,
         "score": "1-1",
-        "conf": 0.41
+        "conf": 0.51
       }
     },
     {
@@ -2091,7 +2474,7 @@ var FOOTYFIXTURES = {
       "round": 19,
       "venue": "Bramall Lane",
       "inj": {
-        "h": 7,
+        "h": 5,
         "a": 3
       }
     },
@@ -2109,6 +2492,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 6,
         "a": 3
+      },
+      "api_h2h": {
+        "n": 36,
+        "w": 13,
+        "d": 10,
+        "l": 13,
+        "m": [
+          [
+            "22/04/2019",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "06/10/2018",
+            1,
+            0,
+            1,
+            "L"
+          ],
+          [
+            "28/12/2015",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "28/08/2015",
+            0,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "11/03/2015",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "26/12/2014",
+            1,
+            2,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 2.36
       }
     },
     {
@@ -2123,8 +2557,8 @@ var FOOTYFIXTURES = {
       "round": 19,
       "venue": "Ashton Gate",
       "inj": {
-        "h": 1,
-        "a": 5
+        "h": 2,
+        "a": 4
       }
     },
     {
@@ -2187,7 +2621,7 @@ var FOOTYFIXTURES = {
       "round": 19,
       "venue": "The Valley",
       "inj": {
-        "h": 1,
+        "h": 2,
         "a": 2
       }
     },
@@ -2219,7 +2653,7 @@ var FOOTYFIXTURES = {
       "round": 19,
       "venue": "Fratton Park",
       "inj": {
-        "h": 7,
+        "h": 6,
         "a": 5
       }
     },
@@ -2251,7 +2685,7 @@ var FOOTYFIXTURES = {
       "round": 19,
       "venue": "Molineux Stadium",
       "inj": {
-        "h": 7,
+        "h": 4,
         "a": 2
       }
     },
@@ -2268,7 +2702,7 @@ var FOOTYFIXTURES = {
       "venue": "Turf Moor",
       "inj": {
         "h": 3,
-        "a": 6
+        "a": 5
       }
     },
     {
@@ -2300,7 +2734,7 @@ var FOOTYFIXTURES = {
       "venue": "The Den",
       "inj": {
         "h": 7,
-        "a": 7
+        "a": 5
       }
     },
     {
@@ -2316,7 +2750,58 @@ var FOOTYFIXTURES = {
       "venue": "Loftus Road Stadium",
       "inj": {
         "h": 2,
-        "a": 7
+        "a": 4
+      },
+      "api_h2h": {
+        "n": 10,
+        "w": 5,
+        "d": 1,
+        "l": 4,
+        "m": [
+          [
+            "10/02/2018",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "28/10/2017",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "31/12/2016",
+            0,
+            1,
+            2,
+            "W"
+          ],
+          [
+            "01/12/2016",
+            1,
+            1,
+            2,
+            "L"
+          ],
+          [
+            "23/01/2016",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "19/08/2015",
+            0,
+            2,
+            3,
+            "W"
+          ]
+        ],
+        "ag": 2.7
       }
     },
     {
@@ -2331,8 +2816,52 @@ var FOOTYFIXTURES = {
       "round": 20,
       "venue": "Swansea.com Stadium",
       "inj": {
-        "h": 5,
+        "h": 4,
         "a": 6
+      },
+      "api_h2h": {
+        "n": 5,
+        "w": 3,
+        "d": 1,
+        "l": 1,
+        "m": [
+          [
+            "02/03/2019",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "10/11/2018",
+            0,
+            0,
+            1,
+            "W"
+          ],
+          [
+            "21/04/2012",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "28/01/2012",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "29/10/2011",
+            1,
+            3,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 2.4
       }
     },
     {
@@ -2364,7 +2893,7 @@ var FOOTYFIXTURES = {
       "venue": "Racecourse Ground",
       "inj": {
         "h": 4,
-        "a": 1
+        "a": 2
       }
     },
     {
@@ -2397,6 +2926,121 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 3,
         "a": 1
+      },
+      "api_h2h": {
+        "n": 28,
+        "w": 12,
+        "d": 6,
+        "l": 10,
+        "m": [
+          [
+            "21/01/2017",
+            0,
+            1,
+            3,
+            "W"
+          ],
+          [
+            "01/10/2016",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "20/03/2012",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "29/11/2011",
+            0,
+            0,
+            2,
+            "W"
+          ],
+          [
+            "24/05/2009",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "25/02/2009",
+            0,
+            2,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 2.36
+      }
+    },
+    {
+      "div": "E1",
+      "league": "Championship",
+      "date": "09/12/2026",
+      "time": "19:45",
+      "home": "Derby",
+      "away": "Bristol City",
+      "odds": null,
+      "event_id": 214210,
+      "round": 20,
+      "venue": "Pride Park Stadium",
+      "inj": {
+        "h": 7,
+        "a": 2
+      }
+    },
+    {
+      "div": "E1",
+      "league": "Championship",
+      "date": "09/12/2026",
+      "time": "19:45",
+      "home": "Lincoln",
+      "away": "Stoke",
+      "odds": null,
+      "event_id": 214211,
+      "round": 20,
+      "venue": "Sincil Bank",
+      "inj": {
+        "h": 1,
+        "a": 5
+      }
+    },
+    {
+      "div": "E1",
+      "league": "Championship",
+      "date": "09/12/2026",
+      "time": "19:45",
+      "home": "Preston",
+      "away": "Portsmouth",
+      "odds": null,
+      "event_id": 214212,
+      "round": 20,
+      "venue": "Deepdale",
+      "inj": {
+        "h": 5,
+        "a": 6
+      }
+    },
+    {
+      "div": "E1",
+      "league": "Championship",
+      "date": "09/12/2026",
+      "time": "20:00",
+      "home": "Southampton",
+      "away": "Burnley",
+      "odds": null,
+      "event_id": 214213,
+      "round": 20,
+      "venue": "St. Mary's Stadium",
+      "inj": {
+        "h": 2,
+        "a": 3
       }
     },
     {
@@ -2407,9 +3051,9 @@ var FOOTYFIXTURES = {
       "home": "Groningen",
       "away": "Willem II",
       "odds": {
-        "h": 1.4,
-        "d": 4.89,
-        "a": 6.52
+        "h": 1.41,
+        "d": 4.9,
+        "a": 6.39
       },
       "event_id": 210918,
       "round": 14,
@@ -2430,17 +3074,18 @@ var FOOTYFIXTURES = {
         "h": 1,
         "a": 2
       },
+      "ai_preview": "**Two teams drowning in form collide on Friday night — but one has the home crowd and history on their side.** 🏟️ Groningen and Willem II are both winless in five, trading losses like collectibles, yet the Euroborg faithful could be the difference-maker here.\n\nGroningen's leaking goals (conceded 10 in their last three) but they've found the net consistently too — that 3-4 shootout vs AZ shows they can trade blows. Willem II, meanwhile, got absolutely demolished by PSV and haven't recovered; they're the softer touch on the road right now.\n\nKey storylines:\n\n- **FC Groningen** at home with a **27-21 edge** in the all-time H2H — historical comfort zone matters\n- Both offenses clicking enough to punish sloppy defending; expect end-to-end football\n- **Willem II** without **J. Hoogma** (knee injury) and suspended players — lineup depth in crisis\n\nExpected lineups:\n\n- **FC Groningen**: E. Vaessen, D. v. d. Werff, T. Blokzijl, H. Hateboer, T. d. Jonge, J. Schreuders, P. Clement, B. Darri Willumsson, J. Ondrejka, and others\n- **Willem II Tilburg**: T. Didillon, H. ter Avest, F. Stam, M. Dekker, C. Twigt, U. v. Aalst, D. Haen, T. Vilhena, and others\n\nPrediction:\n\n**FC Groningen 2–1 Willem II Tilburg.** Groningen's home edge and injury-hit visitors push the needle toward the hosts.",
       "ai_pred": {
         "res": "H",
-        "ph": 66.6,
+        "ph": 66.3,
         "pd": 19.1,
-        "pa": 14.3,
+        "pa": 14.6,
         "xhg": 2.38,
         "xag": 1.21,
         "o25": 65.0,
         "btts": 57.6,
         "score": "2-1",
-        "conf": 0.67
+        "conf": 0.66
       }
     },
     {
@@ -2451,21 +3096,21 @@ var FOOTYFIXTURES = {
       "home": "Excelsior",
       "away": "Telstar",
       "odds": {
-        "h": 2.02,
-        "d": 3.6,
-        "a": 3.34
+        "h": 2.0,
+        "d": 3.57,
+        "a": 3.46
       },
       "event_id": 210917,
       "round": 14,
       "btts": {
-        "yes": 1.52,
-        "no": 2.41
+        "yes": 1.54,
+        "no": 2.33
       },
       "ou": {
         "o15": 1.19,
         "u15": 4.41,
-        "o25": 1.64,
-        "u25": 2.25,
+        "o25": 1.66,
+        "u25": 2.22,
         "o35": 2.54,
         "u35": 1.5
       },
@@ -2476,15 +3121,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 42.3,
-        "pd": 23.3,
-        "pa": 34.4,
+        "ph": 46.2,
+        "pd": 25.9,
+        "pa": 27.9,
         "xhg": 1.78,
         "xag": 1.6,
-        "o25": 64.0,
-        "btts": 62.6,
+        "o25": 58.2,
+        "btts": 61.5,
         "score": "1-1",
-        "conf": 0.42
+        "conf": 0.46
       }
     },
     {
@@ -2495,22 +3140,22 @@ var FOOTYFIXTURES = {
       "home": "PSV Eindhoven",
       "away": "Go Ahead Eagles",
       "odds": {
-        "h": 1.24,
-        "d": 6.8,
-        "a": 9.0
+        "h": 1.25,
+        "d": 6.7,
+        "a": 8.46
       },
       "event_id": 210923,
       "round": 14,
       "btts": {
-        "yes": 1.46,
-        "no": 2.58
+        "yes": 1.43,
+        "no": 2.66
       },
       "ou": {
         "o15": 1.02,
         "u15": 9.7,
         "o25": 1.19,
-        "u25": 4.4,
-        "o35": 1.52,
+        "u25": 4.39,
+        "o35": 1.53,
         "u35": 2.46
       },
       "venue": "Philips Stadion",
@@ -2520,15 +3165,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 74.8,
-        "pd": 14.3,
-        "pa": 10.9,
-        "xhg": 2.76,
-        "xag": 1.14,
-        "o25": 72.5,
-        "btts": 60.5,
+        "ph": 75.8,
+        "pd": 13.8,
+        "pa": 10.4,
+        "xhg": 2.73,
+        "xag": 1.19,
+        "o25": 78.4,
+        "btts": 63.6,
         "score": "2-1",
-        "conf": 0.75
+        "conf": 0.76
       }
     },
     {
@@ -2539,9 +3184,9 @@ var FOOTYFIXTURES = {
       "home": "Cambuur",
       "away": "Sparta Rotterdam",
       "odds": {
-        "h": 2.15,
+        "h": 2.14,
         "d": 3.83,
-        "a": 2.87
+        "a": 2.88
       },
       "event_id": 210924,
       "round": 14,
@@ -2564,15 +3209,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 48.5,
-        "pd": 21.6,
-        "pa": 29.9,
-        "xhg": 2.02,
+        "ph": 43.3,
+        "pd": 24.3,
+        "pa": 32.4,
+        "xhg": 2.03,
         "xag": 1.6,
-        "o25": 68.3,
-        "btts": 65.0,
+        "o25": 67.0,
+        "btts": 68.9,
         "score": "1-1",
-        "conf": 0.48
+        "conf": 0.43
       }
     },
     {
@@ -2583,9 +3228,9 @@ var FOOTYFIXTURES = {
       "home": "Den Haag",
       "away": "Utrecht",
       "odds": {
-        "h": 2.68,
+        "h": 2.66,
         "d": 3.61,
-        "a": 2.36
+        "a": 2.35
       },
       "event_id": 210916,
       "round": 14,
@@ -2596,8 +3241,8 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.18,
         "u15": 4.69,
-        "o25": 1.61,
-        "u25": 2.32,
+        "o25": 1.6,
+        "u25": 2.35,
         "o35": 2.44,
         "u35": 1.55
       },
@@ -2608,15 +3253,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 28.6,
-        "pd": 23.4,
-        "pa": 48.0,
+        "ph": 34.8,
+        "pd": 25.8,
+        "pa": 39.5,
         "xhg": 1.43,
         "xag": 1.82,
-        "o25": 61.7,
-        "btts": 60.6,
+        "o25": 59.2,
+        "btts": 62.5,
         "score": "1-1",
-        "conf": 0.48
+        "conf": 0.39
       }
     },
     {
@@ -2627,9 +3272,9 @@ var FOOTYFIXTURES = {
       "home": "Feyenoord",
       "away": "Ajax",
       "odds": {
-        "h": 2.11,
-        "d": 3.91,
-        "a": 2.92
+        "h": 2.14,
+        "d": 3.88,
+        "a": 2.85
       },
       "event_id": 210919,
       "round": 14,
@@ -2652,15 +3297,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 42.4,
-        "pd": 22.2,
-        "pa": 35.4,
-        "xhg": 1.89,
+        "ph": 44.2,
+        "pd": 23.8,
+        "pa": 31.9,
+        "xhg": 1.86,
         "xag": 1.72,
-        "o25": 67.9,
-        "btts": 65.2,
+        "o25": 68.0,
+        "btts": 69.3,
         "score": "1-1",
-        "conf": 0.42
+        "conf": 0.44
       }
     },
     {
@@ -2672,7 +3317,7 @@ var FOOTYFIXTURES = {
       "away": "Heerenveen",
       "odds": {
         "h": 3.45,
-        "d": 3.68,
+        "d": 3.67,
         "a": 1.95
       },
       "event_id": 210920,
@@ -2696,15 +3341,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 30.6,
-        "pd": 24.1,
-        "pa": 45.3,
+        "ph": 27.0,
+        "pd": 25.3,
+        "pa": 47.7,
         "xhg": 1.45,
         "xag": 1.73,
-        "o25": 60.3,
-        "btts": 60.0,
+        "o25": 59.4,
+        "btts": 62.2,
         "score": "1-1",
-        "conf": 0.45
+        "conf": 0.48
       }
     },
     {
@@ -2715,9 +3360,9 @@ var FOOTYFIXTURES = {
       "home": "Zwolle",
       "away": "AZ Alkmaar",
       "odds": {
-        "h": 5.07,
-        "d": 4.39,
-        "a": 1.54
+        "h": 5.01,
+        "d": 4.4,
+        "a": 1.55
       },
       "event_id": 210922,
       "round": 14,
@@ -2741,14 +3386,14 @@ var FOOTYFIXTURES = {
       "ai_pred": {
         "res": "A",
         "ph": 18.4,
-        "pd": 20.8,
-        "pa": 60.7,
+        "pd": 21.2,
+        "pa": 60.4,
         "xhg": 1.18,
         "xag": 2.08,
-        "o25": 61.9,
-        "btts": 58.2,
+        "o25": 64.3,
+        "btts": 61.0,
         "score": "1-2",
-        "conf": 0.61
+        "conf": 0.6
       }
     },
     {
@@ -2758,9 +3403,25 @@ var FOOTYFIXTURES = {
       "time": "19:00",
       "home": "Nijmegen",
       "away": "Twente",
-      "odds": null,
+      "odds": {
+        "h": 3.6,
+        "d": 3.94,
+        "a": 1.83
+      },
       "event_id": 210921,
       "round": 14,
+      "btts": {
+        "yes": 1.37,
+        "no": 2.88
+      },
+      "ou": {
+        "o15": 1.1,
+        "u15": 6.51,
+        "o25": 1.39,
+        "u25": 2.94,
+        "o35": 1.98,
+        "u35": 1.85
+      },
       "venue": "Stadion de Goffert",
       "inj": {
         "h": 2,
@@ -2921,6 +3582,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 2,
         "a": 0
+      },
+      "api_h2h": {
+        "n": 20,
+        "w": 9,
+        "d": 7,
+        "l": 4,
+        "m": [
+          [
+            "25/05/2024",
+            0,
+            7,
+            1,
+            "L"
+          ],
+          [
+            "22/05/2024",
+            1,
+            1,
+            2,
+            "L"
+          ],
+          [
+            "29/05/2022",
+            1,
+            4,
+            4,
+            "D"
+          ],
+          [
+            "24/05/2022",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "25/04/2019",
+            1,
+            3,
+            1,
+            "W"
+          ],
+          [
+            "01/09/2018",
+            0,
+            2,
+            4,
+            "W"
+          ]
+        ],
+        "ag": 4.35
       }
     },
     {
@@ -2931,7 +3643,7 @@ var FOOTYFIXTURES = {
       "home": "Levante",
       "away": "Santander",
       "odds": {
-        "h": 2.08,
+        "h": 2.07,
         "d": 3.79,
         "a": 3.12
       },
@@ -2943,22 +3655,23 @@ var FOOTYFIXTURES = {
       },
       "ou": {
         "o15": 1.14,
-        "u15": 5.13,
-        "o25": 1.47,
-        "u25": 2.59,
+        "u15": 5.12,
+        "o25": 1.48,
+        "u25": 2.61,
         "o35": 2.23,
         "u35": 1.67
       },
       "venue": "Ciudad de Valencia",
       "inj": {
         "h": 1,
-        "a": 3
+        "a": 4
       },
+      "ai_preview": "**Levante's looking to spoil Racing's flying form** — but the visitors are quietly one of La Liga's hottest teams right now. 🔥 This clash has \"tight, cagey affair\" written all over it.\n\nLevante's grinding through a mid-table slog (1W from 5), while **Racing are absolutely rolling** with 4 wins in their last 5. The hosts will need to tighten up defensively; Racing pack real attacking threat despite missing **Gueye** and **Martín**. Home turf at Ciudad de Valencia could be the edge Levante needs to stay unbeaten here.\n\nKey storylines:\n\n- **Levante's backline** (Mandi, Toljan, Tape, Adri) tested by **Racing's in-form attack** led by Canales and Villalibre\n- Racing's relentless momentum vs. Levante's defensive solidity — a classic unstoppable force scenario\n- History slightly favors the hosts (6W, 6D in last 16 H2H), but form says visitors\n\nExpected lineups:\n\n- **Levante UD**: Ryan, Mandi, Toljan, Tape, Adri, Brugué, Olasagasti, Requena, Fernández, Romero, Ratkov\n- **Real Racing Club**: Gómez, Ramón, Belocian, Salinas, Mantilla, Vicente, Prati, Zabiri, Canales, Villalibre, Agirrezabala\n\nPrediction:\n\n**1-1 draw**. Racing's too hot to lose, but Levante's defensive shape should hold firm at home.",
       "ai_pred": {
         "res": "H",
-        "ph": 45.1,
-        "pd": 24.8,
-        "pa": 30.1,
+        "ph": 45.3,
+        "pd": 24.7,
+        "pa": 30.0,
         "xhg": 1.81,
         "xag": 1.6,
         "o25": 63.8,
@@ -2975,19 +3688,19 @@ var FOOTYFIXTURES = {
       "home": "Betis",
       "away": "Vallecano",
       "odds": {
-        "h": 1.57,
-        "d": 4.31,
-        "a": 5.14
+        "h": 1.58,
+        "d": 4.28,
+        "a": 5.12
       },
       "event_id": 213656,
       "round": 14,
       "btts": {
-        "yes": 1.6,
-        "no": 2.24
+        "yes": 1.59,
+        "no": 2.26
       },
       "ou": {
         "o15": 1.17,
-        "u15": 4.68,
+        "u15": 4.7,
         "o25": 1.54,
         "u25": 2.39,
         "o35": 2.36,
@@ -2995,20 +3708,20 @@ var FOOTYFIXTURES = {
       },
       "venue": "Estadio de la Cartuja",
       "inj": {
-        "h": 4,
-        "a": 3
+        "h": 2,
+        "a": 4
       },
       "ai_pred": {
         "res": "H",
-        "ph": 63.3,
-        "pd": 21.6,
-        "pa": 15.0,
+        "ph": 59.6,
+        "pd": 22.0,
+        "pa": 18.4,
         "xhg": 1.71,
-        "xag": 1.13,
-        "o25": 61.6,
-        "btts": 55.6,
+        "xag": 1.11,
+        "o25": 60.4,
+        "btts": 58.2,
         "score": "1-1",
-        "conf": 0.63
+        "conf": 0.6
       }
     },
     {
@@ -3019,9 +3732,9 @@ var FOOTYFIXTURES = {
       "home": "Malaga",
       "away": "Ath Bilbao",
       "odds": {
-        "h": 4.41,
-        "d": 3.69,
-        "a": 1.76
+        "h": 4.49,
+        "d": 3.7,
+        "a": 1.75
       },
       "event_id": 213655,
       "round": 14,
@@ -3035,24 +3748,75 @@ var FOOTYFIXTURES = {
         "o25": 1.91,
         "u25": 1.9,
         "o35": 3.15,
-        "u35": 1.35
+        "u35": 1.34
       },
       "venue": "La Rosaleda",
       "inj": {
         "h": 4,
-        "a": 5
+        "a": 6
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 39.1,
-        "pd": 27.6,
-        "pa": 33.4,
+        "res": "A",
+        "ph": 21.3,
+        "pd": 25.4,
+        "pa": 53.3,
         "xhg": 1.41,
         "xag": 1.28,
-        "o25": 50.1,
-        "btts": 53.7,
+        "o25": 49.9,
+        "btts": 51.6,
         "score": "1-1",
-        "conf": 0.39
+        "conf": 0.53
+      },
+      "api_h2h": {
+        "n": 60,
+        "w": 15,
+        "d": 20,
+        "l": 25,
+        "m": [
+          [
+            "25/02/2018",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "23/09/2017",
+            1,
+            3,
+            3,
+            "D"
+          ],
+          [
+            "05/03/2017",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "02/10/2016",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "17/04/2016",
+            1,
+            0,
+            1,
+            "L"
+          ],
+          [
+            "06/12/2015",
+            0,
+            0,
+            0,
+            "D"
+          ]
+        ],
+        "ag": 2.3
       }
     },
     {
@@ -3063,15 +3827,15 @@ var FOOTYFIXTURES = {
       "home": "Elche",
       "away": "Ath Madrid",
       "odds": {
-        "h": 5.83,
-        "d": 4.5,
-        "a": 1.5
+        "h": 5.89,
+        "d": 4.53,
+        "a": 1.49
       },
       "event_id": 213652,
       "round": 14,
       "btts": {
-        "yes": 1.65,
-        "no": 2.13
+        "yes": 1.67,
+        "no": 2.11
       },
       "ou": {
         "o15": 1.17,
@@ -3088,15 +3852,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 30.2,
-        "pd": 26.0,
-        "pa": 43.8,
+        "ph": 16.2,
+        "pd": 21.0,
+        "pa": 62.9,
         "xhg": 1.31,
         "xag": 1.56,
-        "o25": 54.1,
-        "btts": 56.0,
+        "o25": 60.1,
+        "btts": 56.3,
         "score": "1-1",
-        "conf": 0.44
+        "conf": 0.63
       }
     },
     {
@@ -3108,8 +3872,8 @@ var FOOTYFIXTURES = {
       "away": "Alaves",
       "odds": {
         "h": 1.15,
-        "d": 8.15,
-        "a": 15.08
+        "d": 8.61,
+        "a": 14.86
       },
       "event_id": 213657,
       "round": 14,
@@ -3121,26 +3885,26 @@ var FOOTYFIXTURES = {
         "o15": 1.07,
         "u15": 7.2,
         "o25": 1.33,
-        "u25": 3.2,
-        "o35": 1.89,
-        "u35": 1.94
+        "u25": 3.21,
+        "o35": 1.88,
+        "u35": 1.96
       },
       "venue": "Bernabéu",
       "inj": {
-        "h": 5,
+        "h": 4,
         "a": 3
       },
       "ai_pred": {
         "res": "H",
-        "ph": 68.4,
-        "pd": 18.8,
-        "pa": 12.8,
-        "xhg": 2.21,
+        "ph": 82.1,
+        "pd": 11.6,
+        "pa": 6.3,
+        "xhg": 2.23,
         "xag": 0.96,
-        "o25": 60.1,
-        "btts": 53.9,
+        "o25": 70.1,
+        "btts": 48.9,
         "score": "2-0",
-        "conf": 0.68
+        "conf": 0.82
       }
     },
     {
@@ -3151,9 +3915,9 @@ var FOOTYFIXTURES = {
       "home": "Valencia",
       "away": "Osasuna",
       "odds": {
-        "h": 2.12,
+        "h": 2.13,
         "d": 3.25,
-        "a": 3.5
+        "a": 3.44
       },
       "event_id": 215659,
       "round": 14,
@@ -3164,27 +3928,27 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.4,
         "u15": 2.86,
-        "o25": 2.22,
+        "o25": 2.23,
         "u25": 1.66,
         "o35": 3.78,
         "u35": 1.24
       },
       "venue": "Mestalla",
       "inj": {
-        "h": 5,
+        "h": 4,
         "a": 4
       },
       "ai_pred": {
         "res": "H",
-        "ph": 45.6,
-        "pd": 26.8,
-        "pa": 27.7,
+        "ph": 44.3,
+        "pd": 28.9,
+        "pa": 26.8,
         "xhg": 1.54,
         "xag": 1.18,
-        "o25": 50.8,
-        "btts": 53.6,
+        "o25": 43.2,
+        "btts": 49.4,
         "score": "1-1",
-        "conf": 0.46
+        "conf": 0.44
       }
     },
     {
@@ -3213,6 +3977,57 @@ var FOOTYFIXTURES = {
         "btts": 59.5,
         "score": "1-1",
         "conf": 0.53
+      },
+      "api_h2h": {
+        "n": 56,
+        "w": 14,
+        "d": 10,
+        "l": 32,
+        "m": [
+          [
+            "29/04/2018",
+            1,
+            2,
+            4,
+            "L"
+          ],
+          [
+            "17/12/2017",
+            0,
+            4,
+            0,
+            "L"
+          ],
+          [
+            "12/03/2017",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "15/10/2016",
+            0,
+            4,
+            0,
+            "L"
+          ],
+          [
+            "20/04/2016",
+            1,
+            0,
+            8,
+            "L"
+          ],
+          [
+            "12/12/2015",
+            0,
+            2,
+            2,
+            "D"
+          ]
+        ],
+        "ag": 3.18
       }
     },
     {
@@ -3222,9 +4037,25 @@ var FOOTYFIXTURES = {
       "time": "17:30",
       "home": "Celta",
       "away": "Villarreal",
-      "odds": null,
+      "odds": {
+        "h": 2.67,
+        "d": 3.46,
+        "a": 2.48
+      },
       "event_id": 213650,
       "round": 14,
+      "btts": {
+        "yes": 1.61,
+        "no": 2.22
+      },
+      "ou": {
+        "o15": 1.24,
+        "u15": 3.92,
+        "o25": 1.78,
+        "u25": 2.04,
+        "o35": 2.83,
+        "u35": 1.42
+      },
       "venue": "Estadio Abanca Balaídos",
       "inj": {
         "h": 3,
@@ -3250,9 +4081,25 @@ var FOOTYFIXTURES = {
       "time": "20:00",
       "home": "Sociedad",
       "away": "Sevilla",
-      "odds": null,
+      "odds": {
+        "h": 2.14,
+        "d": 3.55,
+        "a": 3.2
+      },
       "event_id": 215658,
       "round": 14,
+      "btts": {
+        "yes": 1.64,
+        "no": 2.15
+      },
+      "ou": {
+        "o15": 1.26,
+        "u15": 3.75,
+        "o25": 1.79,
+        "u25": 2.03,
+        "o35": 2.9,
+        "u35": 1.4
+      },
       "venue": "Reale Arena",
       "inj": {
         "h": 5,
@@ -3294,7 +4141,7 @@ var FOOTYFIXTURES = {
         "xhg": 1.45,
         "xag": 0.95,
         "o25": 43.5,
-        "btts": 48.0,
+        "btts": 48.1,
         "score": "1-1",
         "conf": 0.49
       }
@@ -3312,7 +4159,7 @@ var FOOTYFIXTURES = {
       "venue": "Reale Arena",
       "inj": {
         "h": 5,
-        "a": 5
+        "a": 4
       }
     },
     {
@@ -3359,7 +4206,7 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "El Sardinero",
       "inj": {
-        "h": 3,
+        "h": 4,
         "a": 2
       }
     },
@@ -3375,7 +4222,7 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "Estadio de Vallecas",
       "inj": {
-        "h": 3,
+        "h": 4,
         "a": 1
       }
     },
@@ -3439,8 +4286,8 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "San Mamés",
       "inj": {
-        "h": 5,
-        "a": 5
+        "h": 6,
+        "a": 4
       }
     },
     {
@@ -3456,7 +4303,7 @@ var FOOTYFIXTURES = {
       "venue": "Coliseum Alfonso Pérez",
       "inj": {
         "h": 3,
-        "a": 5
+        "a": 4
       }
     },
     {
@@ -3472,7 +4319,7 @@ var FOOTYFIXTURES = {
       "venue": "Riyadh Air Metropolitano",
       "inj": {
         "h": 3,
-        "a": 4
+        "a": 2
       }
     },
     {
@@ -3489,6 +4336,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 2,
         "a": 4
+      },
+      "api_h2h": {
+        "n": 52,
+        "w": 20,
+        "d": 15,
+        "l": 17,
+        "m": [
+          [
+            "28/02/2018",
+            0,
+            0,
+            1,
+            "W"
+          ],
+          [
+            "30/09/2017",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "01/05/2017",
+            0,
+            4,
+            2,
+            "L"
+          ],
+          [
+            "17/12/2016",
+            1,
+            4,
+            1,
+            "W"
+          ],
+          [
+            "16/01/2016",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "21/08/2015",
+            0,
+            0,
+            0,
+            "D"
+          ]
+        ],
+        "ag": 2.52
       }
     },
     {
@@ -3499,22 +4397,22 @@ var FOOTYFIXTURES = {
       "home": "Leganes",
       "away": "Sabadell",
       "odds": {
-        "h": 2.4,
+        "h": 2.41,
         "d": 2.98,
         "a": 2.91
       },
       "event_id": 214938,
       "round": 16,
       "btts": {
-        "yes": 1.92,
-        "no": 1.8
+        "yes": 1.96,
+        "no": 1.77
       },
       "ou": {
         "o15": 1.44,
-        "u15": 2.72,
-        "o25": 2.36,
-        "u25": 1.59,
-        "o35": 4.54,
+        "u15": 2.66,
+        "o25": 2.37,
+        "u25": 1.56,
+        "o35": 4.32,
         "u35": 1.19
       },
       "venue": "Estadio Municipal de Butarque",
@@ -3522,15 +4420,16 @@ var FOOTYFIXTURES = {
         "h": 1,
         "a": 2
       },
+      "ai_preview": "**Leganés are on a roll, but Sabadell's proven they can frustrate anyone** — this Segunda División clash shapes up as a classic clash of momentum vs. unpredictability. 🔥\n\nLeganés have won three of their last five and look sharp going forward, while Sabadell sit mid-table with a mixed run but just pulled off a 3-0 away win at Utebo. The visitors won't roll over, and home advantage alone won't settle this one.\n\nKey storylines:\n\n- **Leganés' firepower** has been clinical (back-to-back 3-1 wins), but they're missing **Á. Morata** to injury — depth will matter\n- **Sabadell's inconsistency** is their calling card (draw, win, loss, loss in four), yet their defensive shape has held firm in patches\n- **Head-to-head leans Leganés' way** (2W-1D-1L), but draws in this pairing suggest tight margins\n\nExpected lineups:\n\n- **Leganés**: L. Zidane, E. Franquesa, F. Montero, Marvel, I. Gharbi, M. Atienza, D. Rodríguez, Á. Sancris, P. Soko, Á. Millán\n- **CE Sabadell**: D. Fuoli, G. Fornés, E. González, J. L. Catala, T. Ripoll, Á. Baena, O. S. Naval, A. Orriols, J. Priego, G. Valles\n\nPrediction:\n\n**Leganés 1–1 CE Sabadell.** The hosts edge it on form, but Sabadell's defensive grit keeps it even. 🤝",
       "ai_pred": {
         "res": "H",
-        "ph": 38.0,
-        "pd": 30.6,
+        "ph": 37.9,
+        "pd": 30.7,
         "pa": 31.4,
         "xhg": 1.16,
         "xag": 1.05,
-        "o25": 40.2,
-        "btts": 48.2,
+        "o25": 39.6,
+        "btts": 47.3,
         "score": "1-1",
         "conf": 0.38
       }
@@ -3587,9 +4486,9 @@ var FOOTYFIXTURES = {
       "home": "Albacete",
       "away": "Tenerife",
       "odds": {
-        "h": 2.12,
-        "d": 3.18,
-        "a": 3.2
+        "h": 2.13,
+        "d": 3.19,
+        "a": 3.26
       },
       "event_id": 214931,
       "round": 16,
@@ -3612,13 +4511,13 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 42.8,
-        "pd": 27.1,
-        "pa": 30.0,
+        "ph": 43.1,
+        "pd": 28.8,
+        "pa": 28.1,
         "xhg": 1.49,
         "xag": 1.23,
-        "o25": 50.6,
-        "btts": 53.8,
+        "o25": 46.7,
+        "btts": 52.7,
         "score": "1-1",
         "conf": 0.43
       }
@@ -3631,9 +4530,9 @@ var FOOTYFIXTURES = {
       "home": "Eldense",
       "away": "Girona",
       "odds": {
-        "h": 2.92,
-        "d": 3.2,
-        "a": 2.28
+        "h": 2.93,
+        "d": 3.21,
+        "a": 2.3
       },
       "event_id": 214933,
       "round": 16,
@@ -3656,15 +4555,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 35.1,
+        "ph": 31.3,
         "pd": 28.5,
-        "pa": 36.4,
+        "pa": 40.2,
         "xhg": 1.28,
         "xag": 1.29,
-        "o25": 47.5,
-        "btts": 52.1,
+        "o25": 47.3,
+        "btts": 53.1,
         "score": "1-1",
-        "conf": 0.36
+        "conf": 0.4
       }
     },
     {
@@ -3675,9 +4574,9 @@ var FOOTYFIXTURES = {
       "home": "Eibar",
       "away": "Burgos",
       "odds": {
-        "h": 1.82,
-        "d": 3.22,
-        "a": 4.19
+        "h": 1.83,
+        "d": 3.27,
+        "a": 4.15
       },
       "event_id": 214935,
       "round": 16,
@@ -3700,15 +4599,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 47.9,
-        "pd": 28.3,
-        "pa": 23.8,
+        "ph": 50.0,
+        "pd": 28.0,
+        "pa": 22.0,
         "xhg": 1.46,
         "xag": 1.0,
-        "o25": 44.8,
-        "btts": 49.2,
+        "o25": 45.6,
+        "btts": 49.4,
         "score": "1-1",
-        "conf": 0.48
+        "conf": 0.5
       }
     },
     {
@@ -3719,9 +4618,9 @@ var FOOTYFIXTURES = {
       "home": "Valladolid",
       "away": "Sociedad B",
       "odds": {
-        "h": 1.76,
-        "d": 3.76,
-        "a": 3.9
+        "h": 1.75,
+        "d": 3.78,
+        "a": 3.97
       },
       "event_id": 214941,
       "round": 16,
@@ -3733,7 +4632,7 @@ var FOOTYFIXTURES = {
         "o15": 1.18,
         "u15": 4.61,
         "o25": 1.63,
-        "u25": 2.27,
+        "u25": 2.29,
         "o35": 2.52,
         "u35": 1.52
       },
@@ -3744,15 +4643,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 51.6,
-        "pd": 24.8,
-        "pa": 23.6,
+        "ph": 52.5,
+        "pd": 24.3,
+        "pa": 23.2,
         "xhg": 1.73,
         "xag": 1.16,
-        "o25": 54.4,
-        "btts": 55.0,
+        "o25": 58.2,
+        "btts": 58.8,
         "score": "1-1",
-        "conf": 0.52
+        "conf": 0.53
       }
     },
     {
@@ -3762,9 +4661,25 @@ var FOOTYFIXTURES = {
       "time": "13:00",
       "home": "Granada",
       "away": "Ceuta",
-      "odds": null,
+      "odds": {
+        "h": 1.51,
+        "d": 4.11,
+        "a": 5.24
+      },
       "event_id": 214936,
       "round": 16,
+      "btts": {
+        "yes": 1.74,
+        "no": 1.98
+      },
+      "ou": {
+        "o15": 1.21,
+        "u15": 4.33,
+        "o25": 1.69,
+        "u25": 2.17,
+        "o35": 2.68,
+        "u35": 1.46
+      },
       "venue": "Estadio Nuevo Los Carmenes",
       "inj": {
         "h": 1,
@@ -3772,15 +4687,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 68.5,
-        "pd": 19.4,
-        "pa": 12.2,
+        "ph": 60.2,
+        "pd": 22.4,
+        "pa": 17.5,
         "xhg": 2.12,
         "xag": 0.89,
-        "o25": 56.9,
-        "btts": 51.5,
+        "o25": 56.2,
+        "btts": 53.4,
         "score": "2-0",
-        "conf": 0.68
+        "conf": 0.6
       }
     },
     {
@@ -3790,9 +4705,25 @@ var FOOTYFIXTURES = {
       "time": "15:15",
       "home": "Mallorca",
       "away": "Castellon",
-      "odds": null,
+      "odds": {
+        "h": 2.23,
+        "d": 3.33,
+        "a": 2.95
+      },
       "event_id": 214939,
       "round": 16,
+      "btts": {
+        "yes": 1.56,
+        "no": 2.3
+      },
+      "ou": {
+        "o15": 1.2,
+        "u15": 4.37,
+        "o25": 1.71,
+        "u25": 2.14,
+        "o35": 2.63,
+        "u35": 1.48
+      },
       "venue": "Estadi de Son Moix",
       "inj": {
         "h": 6,
@@ -3818,9 +4749,25 @@ var FOOTYFIXTURES = {
       "time": "17:30",
       "home": "Cadiz",
       "away": "Cordoba",
-      "odds": null,
+      "odds": {
+        "h": 2.9,
+        "d": 3.57,
+        "a": 2.12
+      },
       "event_id": 214934,
       "round": 16,
+      "btts": {
+        "yes": 1.45,
+        "no": 2.6
+      },
+      "ou": {
+        "o15": 1.15,
+        "u15": 5.24,
+        "o25": 1.52,
+        "u25": 2.48,
+        "o35": 2.29,
+        "u35": 1.64
+      },
       "venue": "JP Financial Estadio",
       "inj": {
         "h": 2,
@@ -3828,13 +4775,13 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 38.0,
+        "ph": 37.9,
         "pd": 25.2,
         "pa": 36.8,
         "xhg": 1.54,
-        "xag": 1.5,
+        "xag": 1.51,
         "o25": 57.7,
-        "btts": 58.6,
+        "btts": 58.7,
         "score": "1-1",
         "conf": 0.38
       }
@@ -3846,9 +4793,25 @@ var FOOTYFIXTURES = {
       "time": "20:00",
       "home": "Almeria",
       "away": "Sp Gijon",
-      "odds": null,
+      "odds": {
+        "h": 1.66,
+        "d": 3.79,
+        "a": 4.52
+      },
       "event_id": 214932,
       "round": 16,
+      "btts": {
+        "yes": 1.72,
+        "no": 2.02
+      },
+      "ou": {
+        "o15": 1.21,
+        "u15": 4.19,
+        "o25": 1.73,
+        "u25": 2.11,
+        "o35": 2.75,
+        "u35": 1.44
+      },
       "venue": "UD Almeria Stadium",
       "inj": {
         "h": 1,
@@ -3925,6 +4888,29 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 2,
         "a": 1
+      },
+      "api_h2h": {
+        "n": 2,
+        "w": 1,
+        "d": 0,
+        "l": 1,
+        "m": [
+          [
+            "15/02/2014",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "14/09/2013",
+            1,
+            1,
+            0,
+            "W"
+          ]
+        ],
+        "ag": 1.0
       }
     },
     {
@@ -4072,6 +5058,54 @@ var FOOTYFIXTURES = {
       }
     },
     {
+      "div": "SP2",
+      "league": "La Liga 2",
+      "date": "09/12/2026",
+      "time": "20:00",
+      "home": "Andorra",
+      "away": "Mallorca",
+      "odds": null,
+      "event_id": 655347,
+      "round": 13,
+      "venue": "Estadi de la FAF",
+      "inj": {
+        "h": 2,
+        "a": 6
+      }
+    },
+    {
+      "div": "SP2",
+      "league": "La Liga 2",
+      "date": "09/12/2026",
+      "time": "20:00",
+      "home": "Castellon",
+      "away": "Eibar",
+      "odds": null,
+      "event_id": 655348,
+      "round": 13,
+      "venue": "Estadio Municipal Castalia",
+      "inj": {
+        "h": 1,
+        "a": 1
+      }
+    },
+    {
+      "div": "SP2",
+      "league": "La Liga 2",
+      "date": "09/12/2026",
+      "time": "20:00",
+      "home": "Granada",
+      "away": "Tenerife",
+      "odds": null,
+      "event_id": 655447,
+      "round": 13,
+      "venue": "Estadio Nuevo Los Carmenes",
+      "inj": {
+        "h": 1,
+        "a": 0
+      }
+    },
+    {
       "div": "E2",
       "league": "League One",
       "date": "26/11/2026",
@@ -4079,37 +5113,38 @@ var FOOTYFIXTURES = {
       "home": "Doncaster",
       "away": "Huddersfield",
       "odds": {
-        "h": 4.09,
-        "d": 4.07,
-        "a": 1.72
+        "h": 4.17,
+        "d": 4.06,
+        "a": 1.71
       },
       "event_id": 224242,
       "round": 17,
       "btts": {
         "yes": 1.54,
-        "no": 2.38
+        "no": 2.36
       },
       "ou": {
-        "o15": 1.16,
-        "u15": 4.81,
-        "o25": 1.53,
-        "u25": 2.38,
-        "o35": 2.38,
-        "u35": 1.54
+        "o15": 1.17,
+        "u15": 4.63,
+        "o25": 1.55,
+        "u25": 2.33,
+        "o35": 2.42,
+        "u35": 1.52
       },
       "venue": "Eco-Power Stadium",
+      "derby": true,
       "ai_preview": "**Doncaster host Huddersfield in a Thursday night League One clash where both teams are searching for consistency.** Neither side has found real groove lately — Rovers are bleeding goals, Town can't quite string wins together. 🔴\n\nDoncaster's last three have been rough (0-3, 1-6 heavy losses), but they did grab a draw at Bradford most recently. Huddersfield have won their last two before back-to-back home defeats to Leicester and Exeter, so they're fragile too.\n\nKey storylines:\n\n- **Doncaster's defence** is creaking badly — giving up 9 goals in three games is a full-blown crisis.\n- **Huddersfield's away form** has them here as the slight edge despite midweek travel and recent wobbles at home.\n- **H2H leans Rovers' way** (2 wins in four), but form trumps history tonight.\n\nExpected lineups:\n\n- **Doncaster Rovers**: T. Simkin, J. Husband, S. Grehan, J. McGrath, L. Ayinde, O. Bailey, R. Gotts, A. May, N. Byrne, B. Hanlan, W. Keane\n- **Huddersfield Town**: M. Young, S. Roughan, I. Bowat, R. Balker, I. Bronkhorst, A. Collins, C. Humphreys, E. Brierley, B. Mumba, J. Taylor, D. S. Fernandes\n\nPrediction:\n\n**1-1 draw**. Huddersfield have the slight lean, but Doncaster's unpredictability and home turf keep this tight — a stalemate feels right. ⚽",
       "ai_pred": {
         "res": "A",
-        "ph": 22.8,
-        "pd": 22.9,
-        "pa": 54.3,
+        "ph": 22.4,
+        "pd": 23.0,
+        "pa": 54.6,
         "xhg": 1.32,
         "xag": 1.5,
-        "o25": 60.5,
-        "btts": 60.2,
+        "o25": 59.7,
+        "btts": 60.0,
         "score": "1-1",
-        "conf": 0.54
+        "conf": 0.55
       }
     },
     {
@@ -4141,15 +5176,15 @@ var FOOTYFIXTURES = {
       "venue": "Stadium MK",
       "ai_pred": {
         "res": "H",
-        "ph": 53.4,
-        "pd": 25.1,
-        "pa": 21.5,
+        "ph": 49.9,
+        "pd": 24.6,
+        "pa": 25.5,
         "xhg": 1.66,
         "xag": 1.29,
-        "o25": 55.3,
-        "btts": 55.8,
+        "o25": 54.5,
+        "btts": 55.7,
         "score": "1-1",
-        "conf": 0.53
+        "conf": 0.5
       }
     },
     {
@@ -4184,16 +5219,67 @@ var FOOTYFIXTURES = {
         "a": 0
       },
       "ai_pred": {
-        "res": "A",
-        "ph": 34.9,
-        "pd": 25.0,
-        "pa": 40.1,
+        "res": "H",
+        "ph": 42.2,
+        "pd": 25.1,
+        "pa": 32.8,
         "xhg": 1.39,
         "xag": 1.4,
-        "o25": 59.6,
-        "btts": 61.8,
+        "o25": 60.8,
+        "btts": 63.6,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.42
+      },
+      "api_h2h": {
+        "n": 6,
+        "w": 5,
+        "d": 0,
+        "l": 1,
+        "m": [
+          [
+            "15/03/2025",
+            0,
+            0,
+            1,
+            "W"
+          ],
+          [
+            "09/11/2024",
+            1,
+            6,
+            1,
+            "W"
+          ],
+          [
+            "24/02/2024",
+            0,
+            0,
+            1,
+            "W"
+          ],
+          [
+            "11/11/2023",
+            1,
+            5,
+            0,
+            "W"
+          ],
+          [
+            "15/04/2023",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "29/10/2022",
+            1,
+            1,
+            0,
+            "W"
+          ]
+        ],
+        "ag": 2.83
       }
     },
     {
@@ -4204,36 +5290,36 @@ var FOOTYFIXTURES = {
       "home": "AFC Wimbledon",
       "away": "Barnsley",
       "odds": {
-        "h": 2.43,
-        "d": 3.65,
-        "a": 2.54
+        "h": 2.64,
+        "d": 3.66,
+        "a": 2.37
       },
       "event_id": 224240,
       "round": 17,
       "btts": {
-        "yes": 1.51,
-        "no": 2.42
+        "yes": 1.48,
+        "no": 2.49
       },
       "ou": {
-        "o15": 1.17,
-        "u15": 4.1,
-        "o25": 1.61,
-        "u25": 2.21,
-        "o35": 2.45,
-        "u35": 1.45
+        "o15": 1.15,
+        "u15": 4.61,
+        "o25": 1.56,
+        "u25": 2.33,
+        "o35": 2.3,
+        "u35": 1.54
       },
       "venue": "Cherry Red Records Stadium",
       "ai_pred": {
-        "res": "A",
-        "ph": 36.8,
-        "pd": 26.3,
-        "pa": 36.9,
-        "xhg": 1.44,
-        "xag": 1.43,
-        "o25": 54.2,
-        "btts": 56.4,
+        "res": "H",
+        "ph": 38.1,
+        "pd": 25.4,
+        "pa": 36.5,
+        "xhg": 1.46,
+        "xag": 1.42,
+        "o25": 57.7,
+        "btts": 61.1,
         "score": "1-1",
-        "conf": 0.37
+        "conf": 0.38
       }
     },
     {
@@ -4244,36 +5330,36 @@ var FOOTYFIXTURES = {
       "home": "Bromley",
       "away": "Burton",
       "odds": {
-        "h": 2.17,
-        "d": 3.5,
-        "a": 3.04
+        "h": 2.28,
+        "d": 3.53,
+        "a": 2.86
       },
       "event_id": 224241,
       "round": 17,
       "btts": {
         "yes": 1.56,
-        "no": 2.29
+        "no": 2.27
       },
       "ou": {
-        "o15": 1.21,
-        "u15": 3.73,
-        "o25": 1.67,
-        "u25": 2.09,
-        "o35": 2.59,
+        "o15": 1.22,
+        "u15": 3.8,
+        "o25": 1.7,
+        "u25": 2.08,
+        "o35": 2.72,
         "u35": 1.4
       },
       "venue": "Hayes Lane",
       "ai_pred": {
         "res": "H",
-        "ph": 46.5,
-        "pd": 26.2,
-        "pa": 27.3,
+        "ph": 42.9,
+        "pd": 26.6,
+        "pa": 30.6,
         "xhg": 1.59,
-        "xag": 1.2,
-        "o25": 52.2,
-        "btts": 54.4,
+        "xag": 1.19,
+        "o25": 55.4,
+        "btts": 59.0,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.43
       }
     },
     {
@@ -4284,36 +5370,36 @@ var FOOTYFIXTURES = {
       "home": "Leicester",
       "away": "Mansfield",
       "odds": {
-        "h": 1.63,
-        "d": 4.17,
-        "a": 4.5
+        "h": 1.52,
+        "d": 4.41,
+        "a": 5.26
       },
       "event_id": 224243,
       "round": 17,
       "btts": {
-        "yes": 1.5,
-        "no": 2.45
+        "yes": 1.55,
+        "no": 2.3
       },
       "ou": {
-        "o15": 1.1,
-        "u15": 5.1,
-        "o25": 1.44,
-        "u25": 2.56,
-        "o35": 2.13,
-        "u35": 1.67
+        "o15": 1.12,
+        "u15": 5.18,
+        "o25": 1.46,
+        "u25": 2.55,
+        "o35": 2.21,
+        "u35": 1.65
       },
       "venue": "King Power Stadium",
       "ai_pred": {
         "res": "H",
-        "ph": 39.7,
-        "pd": 26.1,
-        "pa": 34.2,
-        "xhg": 1.51,
-        "xag": 1.39,
-        "o25": 54.8,
-        "btts": 56.7,
+        "ph": 57.0,
+        "pd": 22.3,
+        "pa": 20.7,
+        "xhg": 1.53,
+        "xag": 1.38,
+        "o25": 63.5,
+        "btts": 61.5,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.57
       }
     },
     {
@@ -4345,15 +5431,15 @@ var FOOTYFIXTURES = {
       "venue": "Kenilworth Road",
       "ai_pred": {
         "res": "H",
-        "ph": 51.4,
-        "pd": 25.3,
-        "pa": 23.3,
+        "ph": 53.4,
+        "pd": 23.7,
+        "pa": 22.9,
         "xhg": 1.68,
         "xag": 1.11,
-        "o25": 52.5,
-        "btts": 53.8,
+        "o25": 58.2,
+        "btts": 57.8,
         "score": "1-1",
-        "conf": 0.51
+        "conf": 0.53
       }
     },
     {
@@ -4364,36 +5450,36 @@ var FOOTYFIXTURES = {
       "home": "Sheffield Weds",
       "away": "Reading",
       "odds": {
-        "h": 2.29,
-        "d": 3.58,
-        "a": 2.77
+        "h": 2.35,
+        "d": 3.66,
+        "a": 2.67
       },
       "event_id": 224245,
       "round": 17,
       "btts": {
-        "yes": 1.51,
-        "no": 2.42
+        "yes": 1.49,
+        "no": 2.47
       },
       "ou": {
-        "o15": 1.18,
-        "u15": 4.05,
-        "o25": 1.61,
-        "u25": 2.21,
-        "o35": 2.44,
-        "u35": 1.46
+        "o15": 1.16,
+        "u15": 4.47,
+        "o25": 1.57,
+        "u25": 2.27,
+        "o35": 2.42,
+        "u35": 1.52
       },
       "venue": "Hillsborough Stadium",
       "ai_pred": {
-        "res": "A",
-        "ph": 26.4,
-        "pd": 25.8,
-        "pa": 47.8,
+        "res": "H",
+        "ph": 40.6,
+        "pd": 25.9,
+        "pa": 33.5,
         "xhg": 1.21,
-        "xag": 1.62,
-        "o25": 53.2,
-        "btts": 55.0,
+        "xag": 1.6,
+        "o25": 57.6,
+        "btts": 60.9,
         "score": "1-1",
-        "conf": 0.48
+        "conf": 0.41
       }
     },
     {
@@ -4404,36 +5490,36 @@ var FOOTYFIXTURES = {
       "home": "Stevenage",
       "away": "Blackpool",
       "odds": {
-        "h": 1.86,
-        "d": 3.49,
-        "a": 3.91
+        "h": 1.97,
+        "d": 3.46,
+        "a": 3.58
       },
       "event_id": 224246,
       "round": 17,
       "btts": {
-        "yes": 1.82,
-        "no": 1.91
+        "yes": 1.76,
+        "no": 1.97
       },
       "ou": {
-        "o15": 1.27,
-        "u15": 3.19,
-        "o25": 1.94,
-        "u25": 1.79,
-        "o35": 3.09,
-        "u35": 1.29
+        "o15": 1.26,
+        "u15": 3.42,
+        "o25": 1.9,
+        "u25": 1.86,
+        "o35": 3.05,
+        "u35": 1.32
       },
       "venue": "Broadhall Way",
       "ai_pred": {
         "res": "H",
-        "ph": 45.3,
-        "pd": 28.7,
-        "pa": 26.0,
-        "xhg": 1.41,
-        "xag": 1.04,
-        "o25": 44.8,
-        "btts": 49.6,
+        "ph": 49.8,
+        "pd": 26.5,
+        "pa": 23.7,
+        "xhg": 1.42,
+        "xag": 1.03,
+        "o25": 47.8,
+        "btts": 51.0,
         "score": "1-1",
-        "conf": 0.45
+        "conf": 0.5
       }
     },
     {
@@ -4465,15 +5551,15 @@ var FOOTYFIXTURES = {
       "venue": "Edgeley Park",
       "ai_pred": {
         "res": "H",
-        "ph": 57.4,
-        "pd": 23.4,
-        "pa": 19.2,
+        "ph": 67.4,
+        "pd": 18.8,
+        "pa": 13.8,
         "xhg": 1.85,
         "xag": 1.06,
-        "o25": 54.8,
-        "btts": 54.0,
+        "o25": 64.6,
+        "btts": 57.1,
         "score": "1-1",
-        "conf": 0.57
+        "conf": 0.67
       }
     },
     {
@@ -4505,13 +5591,13 @@ var FOOTYFIXTURES = {
       "venue": "The Brick Community Stadium",
       "ai_pred": {
         "res": "H",
-        "ph": 37.4,
+        "ph": 36.6,
         "pd": 27.1,
-        "pa": 35.5,
-        "xhg": 1.4,
+        "pa": 36.3,
+        "xhg": 1.41,
         "xag": 1.36,
-        "o25": 51.7,
-        "btts": 54.8,
+        "o25": 56.4,
+        "btts": 60.7,
         "score": "1-1",
         "conf": 0.37
       }
@@ -4524,36 +5610,36 @@ var FOOTYFIXTURES = {
       "home": "Wycombe",
       "away": "Bradford",
       "odds": {
-        "h": 2.45,
-        "d": 3.28,
-        "a": 2.77
+        "h": 2.36,
+        "d": 3.38,
+        "a": 2.83
       },
       "event_id": 224249,
       "round": 17,
       "btts": {
-        "yes": 1.76,
-        "no": 1.98
+        "yes": 1.64,
+        "no": 2.14
       },
       "ou": {
-        "o15": 1.28,
-        "u15": 3.08,
-        "o25": 2.02,
-        "u25": 1.75,
-        "o35": 3.34,
-        "u35": 1.24
+        "o15": 1.23,
+        "u15": 3.71,
+        "o25": 1.83,
+        "u25": 1.96,
+        "o35": 2.96,
+        "u35": 1.34
       },
       "venue": "Adams Park",
       "ai_pred": {
         "res": "H",
-        "ph": 35.9,
-        "pd": 29.1,
-        "pa": 35.0,
-        "xhg": 1.26,
-        "xag": 1.23,
-        "o25": 45.7,
-        "btts": 50.9,
+        "ph": 38.0,
+        "pd": 28.4,
+        "pa": 33.6,
+        "xhg": 1.25,
+        "xag": 1.25,
+        "o25": 46.4,
+        "btts": 52.8,
         "score": "1-1",
-        "conf": 0.36
+        "conf": 0.38
       }
     },
     {
@@ -4570,6 +5656,69 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 0,
         "a": 3
+      },
+      "ai_pred": {
+        "res": "H",
+        "ph": 50.7,
+        "pd": 24.1,
+        "pa": 25.2,
+        "xhg": 1.79,
+        "xag": 1.25,
+        "o25": 57.6,
+        "btts": 57.4,
+        "score": "1-1",
+        "conf": 0.51
+      },
+      "api_h2h": {
+        "n": 16,
+        "w": 4,
+        "d": 5,
+        "l": 7,
+        "m": [
+          [
+            "14/03/2026",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "26/12/2025",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "18/01/2025",
+            0,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "24/09/2024",
+            1,
+            2,
+            2,
+            "D"
+          ],
+          [
+            "01/04/2024",
+            1,
+            1,
+            2,
+            "L"
+          ],
+          [
+            "16/09/2023",
+            0,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.75
       }
     },
     {
@@ -4582,7 +5731,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224250,
       "round": 18,
-      "venue": "Oakwell Ground"
+      "venue": "Oakwell Ground",
+      "ai_pred": {
+        "res": "A",
+        "ph": 34.6,
+        "pd": 24.7,
+        "pa": 40.7,
+        "xhg": 1.51,
+        "xag": 1.61,
+        "o25": 59.2,
+        "btts": 59.6,
+        "score": "1-1",
+        "conf": 0.41
+      }
     },
     {
       "div": "E2",
@@ -4594,7 +5755,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224251,
       "round": 18,
-      "venue": "Bloomfield Road"
+      "venue": "Bloomfield Road",
+      "ai_pred": {
+        "res": "A",
+        "ph": 31.9,
+        "pd": 26.0,
+        "pa": 42.1,
+        "xhg": 1.35,
+        "xag": 1.54,
+        "o25": 54.5,
+        "btts": 56.5,
+        "score": "1-1",
+        "conf": 0.42
+      }
     },
     {
       "div": "E2",
@@ -4606,7 +5779,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224252,
       "round": 18,
-      "venue": "Valley Parade"
+      "venue": "Valley Parade",
+      "ai_pred": {
+        "res": "H",
+        "ph": 44.6,
+        "pd": 27.5,
+        "pa": 27.9,
+        "xhg": 1.48,
+        "xag": 1.15,
+        "o25": 48.8,
+        "btts": 52.4,
+        "score": "1-1",
+        "conf": 0.45
+      }
     },
     {
       "div": "E2",
@@ -4618,7 +5803,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224253,
       "round": 18,
-      "venue": "Pirelli Stadium"
+      "venue": "Pirelli Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 39.6,
+        "pd": 28.6,
+        "pa": 31.7,
+        "xhg": 1.35,
+        "xag": 1.19,
+        "o25": 46.8,
+        "btts": 51.5,
+        "score": "1-1",
+        "conf": 0.4
+      }
     },
     {
       "div": "E2",
@@ -4630,7 +5827,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224254,
       "round": 18,
-      "venue": "Cledara Abbey Stadium"
+      "venue": "Cledara Abbey Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 45.2,
+        "pd": 26.9,
+        "pa": 27.9,
+        "xhg": 1.53,
+        "xag": 1.18,
+        "o25": 50.6,
+        "btts": 53.5,
+        "score": "1-1",
+        "conf": 0.45
+      }
     },
     {
       "div": "E2",
@@ -4642,7 +5851,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224255,
       "round": 18,
-      "venue": "Accu Stadium"
+      "venue": "Accu Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 49.5,
+        "pd": 27.9,
+        "pa": 22.6,
+        "xhg": 1.49,
+        "xag": 0.97,
+        "o25": 45.0,
+        "btts": 49.0,
+        "score": "1-1",
+        "conf": 0.49
+      }
     },
     {
       "div": "E2",
@@ -4654,7 +5875,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224257,
       "round": 18,
-      "venue": "One Call Stadium"
+      "venue": "One Call Stadium",
+      "ai_pred": {
+        "res": "A",
+        "ph": 31.7,
+        "pd": 26.4,
+        "pa": 41.9,
+        "xhg": 1.32,
+        "xag": 1.51,
+        "o25": 53.3,
+        "btts": 55.7,
+        "score": "1-1",
+        "conf": 0.42
+      }
     },
     {
       "div": "E2",
@@ -4666,7 +5899,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224258,
       "round": 18,
-      "venue": "Meadow Lane"
+      "venue": "Meadow Lane",
+      "ai_pred": {
+        "res": "H",
+        "ph": 59.8,
+        "pd": 23.8,
+        "pa": 16.4,
+        "xhg": 1.79,
+        "xag": 0.91,
+        "o25": 50.4,
+        "btts": 50.1,
+        "score": "1-0",
+        "conf": 0.6
+      }
     },
     {
       "div": "E2",
@@ -4678,7 +5923,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224259,
       "round": 18,
-      "venue": "Kassam Stadium"
+      "venue": "Kassam Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 51.8,
+        "pd": 25.7,
+        "pa": 22.5,
+        "xhg": 1.65,
+        "xag": 1.07,
+        "o25": 50.8,
+        "btts": 52.5,
+        "score": "1-1",
+        "conf": 0.52
+      }
     },
     {
       "div": "E2",
@@ -4690,7 +5947,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224260,
       "round": 18,
-      "venue": "Home Park"
+      "venue": "Home Park",
+      "ai_pred": {
+        "res": "H",
+        "ph": 48.8,
+        "pd": 24.5,
+        "pa": 26.8,
+        "xhg": 1.74,
+        "xag": 1.28,
+        "o25": 57.3,
+        "btts": 57.5,
+        "score": "1-1",
+        "conf": 0.49
+      }
     },
     {
       "div": "E2",
@@ -4702,7 +5971,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224261,
       "round": 18,
-      "venue": "Select Car Leasing Stadium"
+      "venue": "Select Car Leasing Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 53.8,
+        "pd": 24.4,
+        "pa": 21.8,
+        "xhg": 1.76,
+        "xag": 1.11,
+        "o25": 54.0,
+        "btts": 54.4,
+        "score": "1-1",
+        "conf": 0.54
+      }
     },
     {
       "div": "E2",
@@ -4718,6 +5999,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 3,
         "a": 0
+      },
+      "api_h2h": {
+        "n": 19,
+        "w": 6,
+        "d": 4,
+        "l": 9,
+        "m": [
+          [
+            "13/08/2024",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "08/05/2024",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "04/05/2024",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "13/04/2024",
+            0,
+            5,
+            0,
+            "L"
+          ],
+          [
+            "09/12/2023",
+            1,
+            3,
+            0,
+            "W"
+          ],
+          [
+            "01/04/2023",
+            1,
+            0,
+            0,
+            "D"
+          ]
+        ],
+        "ag": 2.42
       }
     },
     {
@@ -4728,9 +6060,9 @@ var FOOTYFIXTURES = {
       "home": "Bristol Rvs",
       "away": "Tranmere",
       "odds": {
-        "h": 1.88,
-        "d": 3.6,
-        "a": 3.78
+        "h": 1.89,
+        "d": 3.61,
+        "a": 3.69
       },
       "event_id": 224739,
       "round": 17,
@@ -4749,15 +6081,15 @@ var FOOTYFIXTURES = {
       "venue": "Memorial Stadium",
       "ai_pred": {
         "res": "H",
-        "ph": 51.5,
-        "pd": 25.9,
-        "pa": 22.7,
-        "xhg": 1.57,
+        "ph": 49.1,
+        "pd": 25.7,
+        "pa": 25.2,
+        "xhg": 1.56,
         "xag": 1.18,
-        "o25": 53.8,
-        "btts": 55.5,
+        "o25": 54.1,
+        "btts": 56.3,
         "score": "1-1",
-        "conf": 0.51
+        "conf": 0.49
       }
     },
     {
@@ -4768,9 +6100,9 @@ var FOOTYFIXTURES = {
       "home": "Exeter",
       "away": "Crawley Town",
       "odds": {
-        "h": 1.82,
-        "d": 3.58,
-        "a": 3.92
+        "h": 1.86,
+        "d": 3.57,
+        "a": 3.75
       },
       "event_id": 224740,
       "round": 17,
@@ -4779,23 +6111,23 @@ var FOOTYFIXTURES = {
         "no": 2.08
       },
       "ou": {
-        "o15": 1.21,
-        "u15": 3.88,
-        "o25": 1.78,
+        "o15": 1.22,
+        "u15": 3.86,
+        "o25": 1.79,
         "u25": 1.99,
-        "o35": 2.79,
-        "u35": 1.36
+        "o35": 2.84,
+        "u35": 1.37
       },
       "venue": "St James Park",
       "ai_pred": {
         "res": "H",
-        "ph": 50.4,
+        "ph": 49.6,
         "pd": 25.8,
-        "pa": 23.8,
-        "xhg": 1.49,
-        "xag": 1.0,
-        "o25": 52.3,
-        "btts": 55.1,
+        "pa": 24.6,
+        "xhg": 1.47,
+        "xag": 0.98,
+        "o25": 52.2,
+        "btts": 54.7,
         "score": "1-1",
         "conf": 0.5
       }
@@ -4808,9 +6140,9 @@ var FOOTYFIXTURES = {
       "home": "Colchester",
       "away": "York",
       "odds": {
-        "h": 2.92,
-        "d": 3.46,
-        "a": 2.24
+        "h": 2.91,
+        "d": 3.48,
+        "a": 2.21
       },
       "event_id": 224741,
       "round": 17,
@@ -4829,15 +6161,15 @@ var FOOTYFIXTURES = {
       "venue": "Jobserve Community Stadium",
       "ai_pred": {
         "res": "A",
-        "ph": 25.6,
-        "pd": 27.2,
-        "pa": 47.2,
+        "ph": 31.8,
+        "pd": 26.8,
+        "pa": 41.4,
         "xhg": 1.11,
         "xag": 1.51,
-        "o25": 48.8,
-        "btts": 52.1,
+        "o25": 55.6,
+        "btts": 59.2,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.41
       }
     },
     {
@@ -4848,9 +6180,9 @@ var FOOTYFIXTURES = {
       "home": "Crewe",
       "away": "Grimsby",
       "odds": {
-        "h": 3.06,
-        "d": 3.58,
-        "a": 2.13
+        "h": 3.11,
+        "d": 3.59,
+        "a": 2.08
       },
       "event_id": 224742,
       "round": 17,
@@ -4869,15 +6201,15 @@ var FOOTYFIXTURES = {
       "venue": "Alexandra Stadium",
       "ai_pred": {
         "res": "A",
-        "ph": 36.3,
-        "pd": 26.2,
-        "pa": 37.4,
-        "xhg": 1.44,
-        "xag": 1.45,
-        "o25": 54.4,
-        "btts": 56.5,
+        "ph": 30.4,
+        "pd": 26.0,
+        "pa": 43.6,
+        "xhg": 1.43,
+        "xag": 1.44,
+        "o25": 56.3,
+        "btts": 59.5,
         "score": "1-1",
-        "conf": 0.37
+        "conf": 0.44
       }
     },
     {
@@ -4890,7 +6222,7 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 2.0,
         "d": 3.36,
-        "a": 3.57
+        "a": 3.49
       },
       "event_id": 224743,
       "round": 17,
@@ -4909,15 +6241,15 @@ var FOOTYFIXTURES = {
       "venue": "Highbury Stadium",
       "ai_pred": {
         "res": "H",
-        "ph": 47.4,
-        "pd": 27.2,
-        "pa": 25.4,
+        "ph": 46.4,
+        "pd": 27.6,
+        "pa": 26.0,
         "xhg": 1.52,
         "xag": 1.09,
-        "o25": 48.6,
-        "btts": 51.9,
+        "o25": 49.7,
+        "btts": 53.8,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.46
       }
     },
     {
@@ -4929,8 +6261,8 @@ var FOOTYFIXTURES = {
       "away": "Newport County",
       "odds": {
         "h": 1.85,
-        "d": 3.55,
-        "a": 3.9
+        "d": 3.52,
+        "a": 3.84
       },
       "event_id": 224744,
       "round": 17,
@@ -4939,25 +6271,25 @@ var FOOTYFIXTURES = {
         "no": 2.02
       },
       "ou": {
-        "o15": 1.23,
-        "u15": 3.55,
-        "o25": 1.81,
-        "u25": 1.92,
-        "o35": 2.94,
-        "u35": 1.33
+        "o15": 1.25,
+        "u15": 3.54,
+        "o25": 1.84,
+        "u25": 1.91,
+        "o35": 3.1,
+        "u35": 1.32
       },
       "venue": "Vale Park",
       "ai_pred": {
         "res": "H",
-        "ph": 42.3,
-        "pd": 28.1,
-        "pa": 29.5,
+        "ph": 50.1,
+        "pd": 26.1,
+        "pa": 23.8,
         "xhg": 1.41,
         "xag": 1.16,
-        "o25": 47.6,
-        "btts": 51.8,
+        "o25": 51.2,
+        "btts": 53.9,
         "score": "1-1",
-        "conf": 0.42
+        "conf": 0.5
       }
     },
     {
@@ -4968,35 +6300,35 @@ var FOOTYFIXTURES = {
       "home": "Rochdale",
       "away": "Barnet",
       "odds": {
-        "h": 4.04,
-        "d": 3.91,
-        "a": 1.74
+        "h": 3.76,
+        "d": 3.76,
+        "a": 1.82
       },
       "event_id": 224745,
       "round": 17,
       "btts": {
-        "yes": 1.55,
-        "no": 2.3
+        "yes": 1.54,
+        "no": 2.32
       },
       "ou": {
-        "o15": 1.14,
-        "u15": 4.4,
-        "o25": 1.57,
-        "u25": 2.32,
-        "o35": 2.33,
-        "u35": 1.48
+        "o15": 1.16,
+        "u15": 4.5,
+        "o25": 1.58,
+        "u25": 2.31,
+        "o35": 2.42,
+        "u35": 1.5
       },
       "ai_pred": {
         "res": "A",
-        "ph": 35.6,
-        "pd": 25.7,
-        "pa": 38.7,
-        "xhg": 1.46,
-        "xag": 1.51,
-        "o25": 56.0,
-        "btts": 57.6,
+        "ph": 23.0,
+        "pd": 23.7,
+        "pa": 53.3,
+        "xhg": 1.44,
+        "xag": 1.48,
+        "o25": 59.4,
+        "btts": 59.5,
         "score": "1-1",
-        "conf": 0.39
+        "conf": 0.53
       }
     },
     {
@@ -5007,8 +6339,8 @@ var FOOTYFIXTURES = {
       "home": "Rotherham",
       "away": "Oldham",
       "odds": {
-        "h": 2.61,
-        "d": 3.41,
+        "h": 2.6,
+        "d": 3.39,
         "a": 2.46
       },
       "event_id": 224746,
@@ -5028,15 +6360,52 @@ var FOOTYFIXTURES = {
       "venue": "New York Stadium",
       "ai_pred": {
         "res": "A",
-        "ph": 27.3,
-        "pd": 28.1,
-        "pa": 44.5,
+        "ph": 35.4,
+        "pd": 27.1,
+        "pa": 37.5,
         "xhg": 1.11,
-        "xag": 1.43,
-        "o25": 46.8,
-        "btts": 51.1,
+        "xag": 1.42,
+        "o25": 52.6,
+        "btts": 57.7,
         "score": "1-1",
-        "conf": 0.45
+        "conf": 0.38
+      },
+      "api_h2h": {
+        "n": 4,
+        "w": 3,
+        "d": 1,
+        "l": 0,
+        "m": [
+          [
+            "13/01/2018",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "23/09/2017",
+            1,
+            5,
+            1,
+            "W"
+          ],
+          [
+            "11/03/2014",
+            0,
+            0,
+            2,
+            "W"
+          ],
+          [
+            "14/09/2013",
+            1,
+            3,
+            2,
+            "W"
+          ]
+        ],
+        "ag": 3.75
       }
     },
     {
@@ -5047,9 +6416,9 @@ var FOOTYFIXTURES = {
       "home": "Salford",
       "away": "Gillingham",
       "odds": {
-        "h": 1.48,
-        "d": 4.35,
-        "a": 5.86
+        "h": 1.47,
+        "d": 4.34,
+        "a": 5.78
       },
       "event_id": 224747,
       "round": 17,
@@ -5068,15 +6437,15 @@ var FOOTYFIXTURES = {
       "venue": "Peninsula",
       "ai_pred": {
         "res": "H",
-        "ph": 59.5,
-        "pd": 23.3,
-        "pa": 17.2,
-        "xhg": 1.84,
+        "ph": 62.8,
+        "pd": 21.4,
+        "pa": 15.9,
+        "xhg": 1.83,
         "xag": 0.96,
-        "o25": 52.6,
-        "btts": 51.8,
+        "o25": 55.8,
+        "btts": 52.5,
         "score": "1-1",
-        "conf": 0.6
+        "conf": 0.63
       }
     },
     {
@@ -5088,8 +6457,8 @@ var FOOTYFIXTURES = {
       "away": "Cheltenham",
       "odds": {
         "h": 1.93,
-        "d": 3.36,
-        "a": 3.85
+        "d": 3.35,
+        "a": 3.81
       },
       "event_id": 224748,
       "round": 17,
@@ -5102,21 +6471,21 @@ var FOOTYFIXTURES = {
         "u15": 3.28,
         "o25": 1.95,
         "u25": 1.8,
-        "o35": 3.41,
-        "u35": 1.26
+        "o35": 3.37,
+        "u35": 1.28
       },
       "venue": "Croud Meadow",
       "ai_pred": {
         "res": "H",
-        "ph": 40.3,
-        "pd": 26.2,
-        "pa": 33.5,
+        "ph": 48.2,
+        "pd": 27.7,
+        "pa": 24.1,
         "xhg": 1.51,
         "xag": 1.36,
-        "o25": 54.2,
-        "btts": 56.3,
+        "o25": 48.3,
+        "btts": 52.7,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.48
       }
     },
     {
@@ -5127,9 +6496,9 @@ var FOOTYFIXTURES = {
       "home": "Swindon",
       "away": "Chesterfield",
       "odds": {
-        "h": 3.99,
-        "d": 3.99,
-        "a": 1.74
+        "h": 3.93,
+        "d": 3.96,
+        "a": 1.73
       },
       "event_id": 224749,
       "round": 17,
@@ -5148,15 +6517,15 @@ var FOOTYFIXTURES = {
       "venue": "County Ground",
       "ai_pred": {
         "res": "A",
-        "ph": 35.5,
-        "pd": 26.0,
-        "pa": 38.5,
+        "ph": 23.3,
+        "pd": 23.3,
+        "pa": 53.4,
         "xhg": 1.44,
-        "xag": 1.49,
-        "o25": 55.2,
-        "btts": 57.0,
+        "xag": 1.48,
+        "o25": 61.9,
+        "btts": 62.2,
         "score": "1-1",
-        "conf": 0.39
+        "conf": 0.53
       }
     },
     {
@@ -5167,36 +6536,36 @@ var FOOTYFIXTURES = {
       "home": "Walsall",
       "away": "Northampton",
       "odds": {
-        "h": 2.24,
-        "d": 3.26,
-        "a": 3.04
+        "h": 2.31,
+        "d": 3.4,
+        "a": 2.83
       },
       "event_id": 224750,
       "round": 17,
       "btts": {
-        "yes": 1.71,
-        "no": 2.02
+        "yes": 1.62,
+        "no": 2.16
       },
       "ou": {
-        "o15": 1.27,
-        "u15": 3.29,
-        "o25": 1.91,
-        "u25": 1.83,
-        "o35": 3.22,
-        "u35": 1.28
+        "o15": 1.22,
+        "u15": 3.71,
+        "o25": 1.79,
+        "u25": 1.95,
+        "o35": 2.93,
+        "u35": 1.34
       },
       "venue": "Bescot Stadium",
       "ai_pred": {
         "res": "H",
-        "ph": 58.7,
-        "pd": 25.1,
-        "pa": 16.2,
-        "xhg": 1.69,
+        "ph": 41.2,
+        "pd": 28.3,
+        "pa": 30.4,
+        "xhg": 1.67,
         "xag": 0.85,
-        "o25": 46.6,
-        "btts": 47.7,
+        "o25": 48.8,
+        "btts": 53.5,
         "score": "1-0",
-        "conf": 0.59
+        "conf": 0.41
       }
     },
     {
@@ -5209,7 +6578,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224751,
       "round": 18,
-      "venue": "The Crown Ground"
+      "venue": "The Crown Ground",
+      "ai_pred": {
+        "res": "H",
+        "ph": 39.9,
+        "pd": 27.4,
+        "pa": 32.7,
+        "xhg": 1.43,
+        "xag": 1.28,
+        "o25": 50.4,
+        "btts": 53.9,
+        "score": "1-1",
+        "conf": 0.4
+      }
     },
     {
       "div": "E3",
@@ -5221,7 +6602,70 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224752,
       "round": 18,
-      "venue": "The Hive Stadium"
+      "venue": "The Hive Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 70.7,
+        "pd": 18.4,
+        "pa": 10.9,
+        "xhg": 2.18,
+        "xag": 0.84,
+        "o25": 57.2,
+        "btts": 50.7,
+        "score": "2-0",
+        "conf": 0.71
+      },
+      "api_h2h": {
+        "n": 10,
+        "w": 3,
+        "d": 4,
+        "l": 3,
+        "m": [
+          [
+            "12/01/2013",
+            0,
+            0,
+            2,
+            "W"
+          ],
+          [
+            "22/09/2012",
+            1,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "03/03/2012",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "20/08/2011",
+            0,
+            2,
+            2,
+            "D"
+          ],
+          [
+            "05/03/2011",
+            0,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "18/09/2010",
+            1,
+            1,
+            4,
+            "L"
+          ]
+        ],
+        "ag": 2.6
+      }
     },
     {
       "div": "E3",
@@ -5233,7 +6677,70 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224753,
       "round": 18,
-      "venue": "Whaddon Road"
+      "venue": "Whaddon Road",
+      "ai_pred": {
+        "res": "A",
+        "ph": 31.7,
+        "pd": 25.5,
+        "pa": 42.8,
+        "xhg": 1.38,
+        "xag": 1.59,
+        "o25": 56.2,
+        "btts": 57.5,
+        "score": "1-1",
+        "conf": 0.43
+      },
+      "api_h2h": {
+        "n": 6,
+        "w": 1,
+        "d": 1,
+        "l": 4,
+        "m": [
+          [
+            "26/04/2014",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "19/10/2013",
+            1,
+            1,
+            2,
+            "L"
+          ],
+          [
+            "25/01/2013",
+            1,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "21/12/2012",
+            0,
+            4,
+            1,
+            "L"
+          ],
+          [
+            "23/01/2010",
+            1,
+            1,
+            4,
+            "L"
+          ],
+          [
+            "18/08/2009",
+            0,
+            0,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 2.67
+      }
     },
     {
       "div": "E3",
@@ -5245,7 +6752,70 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224754,
       "round": 18,
-      "venue": "SMH Group  Stadium"
+      "venue": "SMH Group  Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 54.2,
+        "pd": 25.8,
+        "pa": 20.0,
+        "xhg": 1.65,
+        "xag": 0.97,
+        "o25": 48.7,
+        "btts": 50.5,
+        "score": "1-1",
+        "conf": 0.54
+      },
+      "api_h2h": {
+        "n": 11,
+        "w": 6,
+        "d": 1,
+        "l": 4,
+        "m": [
+          [
+            "30/11/2024",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "17/04/2018",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "18/11/2017",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "18/04/2014",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "20/12/2013",
+            0,
+            0,
+            2,
+            "W"
+          ],
+          [
+            "27/04/2013",
+            1,
+            4,
+            0,
+            "W"
+          ]
+        ],
+        "ag": 2.73
+      }
     },
     {
       "div": "E3",
@@ -5257,7 +6827,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224755,
       "round": 18,
-      "venue": "Broadfield Stadium"
+      "venue": "Broadfield Stadium",
+      "ai_pred": {
+        "res": "H",
+        "ph": 37.6,
+        "pd": 29.3,
+        "pa": 33.0,
+        "xhg": 1.28,
+        "xag": 1.18,
+        "o25": 45.1,
+        "btts": 50.5,
+        "score": "1-1",
+        "conf": 0.38
+      }
     },
     {
       "div": "E3",
@@ -5269,7 +6851,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224756,
       "round": 18,
-      "venue": "Priestfield Stadium"
+      "venue": "Priestfield Stadium",
+      "ai_pred": {
+        "res": "A",
+        "ph": 36.4,
+        "pd": 26.8,
+        "pa": 36.8,
+        "xhg": 1.4,
+        "xag": 1.4,
+        "o25": 52.6,
+        "btts": 55.4,
+        "score": "1-1",
+        "conf": 0.37
+      }
     },
     {
       "div": "E3",
@@ -5281,7 +6875,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224757,
       "round": 18,
-      "venue": "Blundell Park"
+      "venue": "Blundell Park",
+      "ai_pred": {
+        "res": "H",
+        "ph": 51.6,
+        "pd": 25.9,
+        "pa": 22.6,
+        "xhg": 1.64,
+        "xag": 1.06,
+        "o25": 50.5,
+        "btts": 52.4,
+        "score": "1-1",
+        "conf": 0.52
+      }
     },
     {
       "div": "E3",
@@ -5293,7 +6899,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224758,
       "round": 18,
-      "venue": "Rodney Parade"
+      "venue": "Rodney Parade",
+      "ai_pred": {
+        "res": "A",
+        "ph": 34.2,
+        "pd": 27.6,
+        "pa": 38.3,
+        "xhg": 1.31,
+        "xag": 1.38,
+        "o25": 50.2,
+        "btts": 53.8,
+        "score": "1-1",
+        "conf": 0.38
+      }
     },
     {
       "div": "E3",
@@ -5305,7 +6923,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224759,
       "round": 18,
-      "venue": "PTS Academy Stadium"
+      "venue": "PTS Academy Stadium",
+      "ai_pred": {
+        "res": "A",
+        "ph": 29.9,
+        "pd": 29.7,
+        "pa": 40.4,
+        "xhg": 1.11,
+        "xag": 1.29,
+        "o25": 43.6,
+        "btts": 49.4,
+        "score": "1-1",
+        "conf": 0.4
+      }
     },
     {
       "div": "E3",
@@ -5317,7 +6947,19 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 224760,
       "round": 18,
-      "venue": "Boundary Park"
+      "venue": "Boundary Park",
+      "ai_pred": {
+        "res": "H",
+        "ph": 51.5,
+        "pd": 26.6,
+        "pa": 22.0,
+        "xhg": 1.59,
+        "xag": 1.01,
+        "o25": 48.1,
+        "btts": 50.7,
+        "score": "1-1",
+        "conf": 0.51
+      }
     },
     {
       "div": "E3",
@@ -5328,7 +6970,49 @@ var FOOTYFIXTURES = {
       "away": "Shrewsbury",
       "odds": null,
       "event_id": 224762,
-      "round": 18
+      "round": 18,
+      "ai_pred": {
+        "res": "H",
+        "ph": 73.9,
+        "pd": 17.0,
+        "pa": 9.1,
+        "xhg": 2.27,
+        "xag": 0.79,
+        "o25": 57.9,
+        "btts": 49.4,
+        "score": "2-0",
+        "conf": 0.74
+      },
+      "api_h2h": {
+        "n": 3,
+        "w": 0,
+        "d": 0,
+        "l": 3,
+        "m": [
+          [
+            "05/11/2022",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "18/04/2015",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "18/10/2014",
+            1,
+            0,
+            1,
+            "L"
+          ]
+        ],
+        "ag": 1.67
+      }
     },
     {
       "div": "E3",
@@ -5362,9 +7046,9 @@ var FOOTYFIXTURES = {
       "home": "Brest",
       "away": "Paris FC",
       "odds": {
-        "h": 3.18,
-        "d": 3.41,
-        "a": 2.19
+        "h": 3.2,
+        "d": 3.42,
+        "a": 2.2
       },
       "event_id": 210543,
       "round": 12,
@@ -5375,7 +7059,7 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.26,
         "u15": 3.82,
-        "o25": 1.85,
+        "o25": 1.86,
         "u25": 1.98,
         "o35": 3.07,
         "u35": 1.39
@@ -5385,6 +7069,7 @@ var FOOTYFIXTURES = {
         "h": 3,
         "a": 2
       },
+      "ai_preview": "**Brest hosting one of Ligue 1's hottest teams** — Paris FC are flying, but Stade Brestois have quietly built their own run and won't roll over at home. 🔥\n\nBrest's last five reads like a defensive masterclass: three wins, clean sheets against Lyon and Lorient. Paris FC are the other story entirely — four wins in five, including a demolition of Monaco. This is **form vs. form**, and both squads are genuinely sharp right now.\n\nKey storylines:\n\n- **L. Ajorque and L. Koleosho** will carry the attacking load — two strikers looking to puncture defenses that are both running hot\n- **H. Magnetti** (Brest midfield) faces a Paris FC press that's been suffocating opponents; control in the middle wins this\n- Brest's missing **K. Lala and R. L. Guen** — defensive depth tested against a rampant away side\n\nExpected lineups:\n\n- **Stade Brestois**: E. Selvik, B. Locko, J. Chotard, G. Lloris, L. Zogbé, H. Magnetti, L. Tousart, P. Mboup, K. Doumbia, N. Edjouma, L. Ajorque\n- **Paris FC**: K. Trapp, D. Coppola, S. S. Chergui, H. Traoré, Otávio, M. López, P. Lees Melou, P. Pagis, I. Kebbal, L. Sinayoko, L. Koleosho\n\nPrediction:\n\n**1-1 draw**. Both defenses are locked in; goals are hard to come by even for teams this in-form. Classic Friday night stalemate.",
       "ai_pred": {
         "res": "A",
         "ph": 29.5,
@@ -5392,7 +7077,7 @@ var FOOTYFIXTURES = {
         "pa": 42.9,
         "xhg": 1.44,
         "xag": 1.45,
-        "o25": 51.8,
+        "o25": 51.7,
         "btts": 56.9,
         "score": "1-1",
         "conf": 0.43
@@ -5406,40 +7091,40 @@ var FOOTYFIXTURES = {
       "home": "Angers",
       "away": "Lens",
       "odds": {
-        "h": 4.41,
-        "d": 4.02,
-        "a": 1.7
+        "h": 4.46,
+        "d": 4.05,
+        "a": 1.69
       },
       "event_id": 210536,
       "round": 12,
       "btts": {
         "yes": 1.61,
-        "no": 2.21
+        "no": 2.2
       },
       "ou": {
         "o15": 1.18,
         "u15": 4.66,
         "o25": 1.65,
-        "u25": 2.27,
-        "o35": 2.58,
+        "u25": 2.28,
+        "o35": 2.57,
         "u35": 1.52
       },
       "venue": "Stade Raymond Kopa",
       "inj": {
         "h": 1,
-        "a": 5
+        "a": 4
       },
       "ai_pred": {
         "res": "A",
-        "ph": 22.9,
-        "pd": 23.5,
-        "pa": 53.5,
-        "xhg": 1.22,
-        "xag": 1.83,
-        "o25": 57.8,
-        "btts": 57.1,
+        "ph": 21.3,
+        "pd": 23.4,
+        "pa": 55.3,
+        "xhg": 1.23,
+        "xag": 1.82,
+        "o25": 57.9,
+        "btts": 57.8,
         "score": "1-1",
-        "conf": 0.54
+        "conf": 0.55
       }
     },
     {
@@ -5450,7 +7135,7 @@ var FOOTYFIXTURES = {
       "home": "Le Havre",
       "away": "Strasbourg",
       "odds": {
-        "h": 3.01,
+        "h": 2.98,
         "d": 3.63,
         "a": 2.21
       },
@@ -5475,15 +7160,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 28.5,
-        "pd": 25.2,
-        "pa": 46.3,
+        "ph": 31.3,
+        "pd": 26.0,
+        "pa": 42.7,
         "xhg": 1.31,
         "xag": 1.65,
-        "o25": 56.0,
-        "btts": 57.1,
+        "o25": 57.8,
+        "btts": 60.8,
         "score": "1-1",
-        "conf": 0.46
+        "conf": 0.43
       }
     },
     {
@@ -5494,15 +7179,15 @@ var FOOTYFIXTURES = {
       "home": "Le Mans",
       "away": "Lille",
       "odds": {
-        "h": 3.69,
-        "d": 3.4,
-        "a": 2.0
+        "h": 3.67,
+        "d": 3.38,
+        "a": 2.01
       },
       "event_id": 210539,
       "round": 12,
       "btts": {
-        "yes": 1.82,
-        "no": 1.92
+        "yes": 1.8,
+        "no": 1.94
       },
       "ou": {
         "o15": 1.34,
@@ -5518,16 +7203,67 @@ var FOOTYFIXTURES = {
         "a": 3
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 45.2,
-        "pd": 26.7,
-        "pa": 28.1,
+        "res": "A",
+        "ph": 25.4,
+        "pd": 27.6,
+        "pa": 46.9,
         "xhg": 1.54,
         "xag": 1.2,
-        "o25": 51.1,
-        "btts": 53.9,
+        "o25": 46.8,
+        "btts": 51.6,
         "score": "1-1",
-        "conf": 0.45
+        "conf": 0.47
+      },
+      "api_h2h": {
+        "n": 13,
+        "w": 2,
+        "d": 6,
+        "l": 5,
+        "m": [
+          [
+            "06/01/2018",
+            1,
+            2,
+            4,
+            "L"
+          ],
+          [
+            "24/04/2010",
+            1,
+            1,
+            2,
+            "L"
+          ],
+          [
+            "20/12/2009",
+            0,
+            3,
+            0,
+            "L"
+          ],
+          [
+            "17/02/2009",
+            1,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "16/08/2008",
+            0,
+            1,
+            3,
+            "W"
+          ],
+          [
+            "23/01/2008",
+            0,
+            3,
+            1,
+            "L"
+          ]
+        ],
+        "ag": 2.77
       }
     },
     {
@@ -5562,16 +7298,16 @@ var FOOTYFIXTURES = {
         "a": 1
       },
       "ai_pred": {
-        "res": "A",
-        "ph": 34.6,
-        "pd": 26.1,
-        "pa": 39.4,
+        "res": "H",
+        "ph": 56.5,
+        "pd": 23.4,
+        "pa": 20.0,
         "xhg": 1.41,
         "xag": 1.49,
-        "o25": 54.9,
-        "btts": 56.8,
+        "o25": 57.2,
+        "btts": 55.9,
         "score": "1-1",
-        "conf": 0.39
+        "conf": 0.57
       }
     },
     {
@@ -5607,15 +7343,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 66.6,
-        "pd": 19.5,
-        "pa": 13.9,
+        "ph": 77.6,
+        "pd": 14.1,
+        "pa": 8.3,
         "xhg": 2.15,
         "xag": 0.99,
-        "o25": 59.6,
-        "btts": 54.3,
+        "o25": 65.5,
+        "btts": 48.4,
         "score": "2-0",
-        "conf": 0.67
+        "conf": 0.78
       }
     },
     {
@@ -5651,15 +7387,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 32.0,
-        "pd": 25.0,
-        "pa": 43.0,
+        "ph": 24.9,
+        "pd": 24.3,
+        "pa": 50.8,
         "xhg": 1.42,
         "xag": 1.63,
-        "o25": 57.7,
-        "btts": 58.5,
+        "o25": 59.3,
+        "btts": 60.1,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.51
       }
     },
     {
@@ -5669,9 +7405,25 @@ var FOOTYFIXTURES = {
       "time": "16:15",
       "home": "Toulouse",
       "away": "Rennes",
-      "odds": null,
+      "odds": {
+        "h": 2.53,
+        "d": 3.63,
+        "a": 2.54
+      },
       "event_id": 210544,
       "round": 12,
+      "btts": {
+        "yes": 1.48,
+        "no": 2.51
+      },
+      "ou": {
+        "o15": 1.16,
+        "u15": 4.93,
+        "o25": 1.63,
+        "u25": 2.31,
+        "o35": 2.53,
+        "u35": 1.54
+      },
       "venue": "Stadium de Toulouse",
       "inj": {
         "h": 1,
@@ -5681,8 +7433,8 @@ var FOOTYFIXTURES = {
         "res": "H",
         "ph": 41.8,
         "pd": 24.8,
-        "pa": 33.4,
-        "xhg": 1.65,
+        "pa": 33.5,
+        "xhg": 1.64,
         "xag": 1.46,
         "o25": 58.9,
         "btts": 59.3,
@@ -5697,9 +7449,25 @@ var FOOTYFIXTURES = {
       "time": "19:45",
       "home": "Lyon",
       "away": "Monaco",
-      "odds": null,
+      "odds": {
+        "h": 2.36,
+        "d": 3.36,
+        "a": 2.94
+      },
       "event_id": 210541,
       "round": 12,
+      "btts": {
+        "yes": 1.7,
+        "no": 2.07
+      },
+      "ou": {
+        "o15": 1.3,
+        "u15": 3.54,
+        "o25": 1.96,
+        "u25": 1.87,
+        "o35": 3.34,
+        "u35": 1.33
+      },
       "venue": "Groupama Stadium",
       "inj": {
         "h": 5,
@@ -5715,7 +7483,7 @@ var FOOTYFIXTURES = {
         "o25": 56.2,
         "btts": 57.1,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.46
       }
     },
     {
@@ -5762,7 +7530,7 @@ var FOOTYFIXTURES = {
       "round": 13,
       "venue": "Stade Bollaert-Delelis",
       "inj": {
-        "h": 5,
+        "h": 4,
         "a": 4
       }
     },
@@ -5978,23 +7746,23 @@ var FOOTYFIXTURES = {
       "home": "Boreham Wood",
       "away": "Aldershot",
       "odds": {
-        "h": 1.17,
-        "d": 7.08,
-        "a": 11.4
+        "h": 1.18,
+        "d": 6.82,
+        "a": 10.37
       },
       "event_id": 588325,
       "round": 19,
       "btts": {
-        "yes": 1.7,
-        "no": 2.03
+        "yes": 1.68,
+        "no": 2.07
       },
       "ou": {
         "o15": 1.05,
         "u15": 8.22,
-        "o25": 1.25,
-        "u25": 3.62,
-        "o35": 1.71,
-        "u35": 2.04
+        "o25": 1.26,
+        "u25": 3.59,
+        "o35": 1.72,
+        "u35": 2.03
       },
       "venue": "Meadow Park",
       "funfacts": [
@@ -6005,15 +7773,15 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Boreham Wood are running hot at home**, and Aldershot just got hammered 7-2 at Barnsley — this looks like a mismatch on paper. 🔥\n\nBoreham Wood's won three of their last five and look sharp at Meadow Park, while Aldershot are bleeding form with three losses in five. The head-to-head is level (8-8), but recent momentum is all Wood's.\n\nKey storylines:\n\n- **Boreham Wood's attack** has looked dangerous — they beat Southend 3-2 away and drew 2-2 with Yeovil, suggesting they can break down defenses\n- **Aldershot's defensive fragility** on show after that 7-2 hammering; they'll need K. Oshilaja and the back four to tighten up fast\n- **J. Bird and B. Whitfield** up top for Wood have the platform to punish any slip-ups\n\nExpected lineups:\n\n- **Boreham Wood**: T. Curd, O. Bainbridge, C. O'Connell, C. Bush, J. Clarke, T. White, M. Marshall, D. Cashman, Z. Brunt, B. Whitfield, J. Bird\n- **Aldershot Town**: N. Hayes, O. Harfield, J. Matton, K. Oshilaja, M. Efete, J. Borgnis, D. Odusanya, A. Lewis, B. Peart, T. Abrahams, Tuma\n\nPrediction:\n\n**Boreham Wood 2-1 Aldershot Town**\n\nWood should have enough firepower and home advantage to edge this one. Aldershot's shaky defense looks ripe for the picking.",
       "ai_pred": {
         "res": "H",
-        "ph": 78.9,
-        "pd": 13.0,
-        "pa": 8.1,
+        "ph": 77.7,
+        "pd": 13.5,
+        "pa": 8.8,
         "xhg": 2.44,
         "xag": 1.15,
-        "o25": 74.0,
-        "btts": 54.9,
+        "o25": 73.7,
+        "btts": 55.6,
         "score": "2-1",
-        "conf": 0.79
+        "conf": 0.78
       }
     },
     {
@@ -6024,21 +7792,21 @@ var FOOTYFIXTURES = {
       "home": "Harrogate",
       "away": "Kidderminster",
       "odds": {
-        "h": 1.59,
-        "d": 3.89,
-        "a": 4.79
+        "h": 1.58,
+        "d": 3.85,
+        "a": 4.84
       },
       "event_id": 588326,
       "round": 19,
       "btts": {
-        "yes": 1.73,
-        "no": 1.99
+        "yes": 1.74,
+        "no": 1.98
       },
       "ou": {
         "o15": 1.21,
-        "u15": 4.02,
+        "u15": 4.03,
         "o25": 1.71,
-        "u25": 2.06,
+        "u25": 2.05,
         "o35": 2.78,
         "u35": 1.39
       },
@@ -6051,15 +7819,15 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Harrogate host Kidderminster in a midweek clash that screams stalemate vibes** — both sides are streaky and defensively solid enough to frustrate. 🔒\n\nHarrogate are all over the place form-wise: hammered Altrincham 4-0 at home, then shipped four to Fylde and two to Worthing. Kidderminster, meanwhile, are the draw specialists — three of their last five ended level, and they carved out a clean sheet against Doncaster. Neither team looks like they're in a hurry to blow anyone away.\n\nKey storylines:\n\n- **Harrogate's home-field instability** makes this tricky; they can explode (4-0 demolition) or implode (1-4 collapse) in the same fixture run\n- **Kidderminster's defensive discipline under J. Wint** has kept them grinding through draws with Halifax and Fylde\n- **Wide play collision**: S. Dreyer and G. Thomson for Harrogate vs L. Walker's work rate in Kidderminster's midfield could decide tempo\n\nExpected lineups:\n\n- **Harrogate Town**: R. Watson, A. Baptiste, L. Cass, M. Craig, S. Dreyer, E. Taylor, G. Thomson, B. Dolaghan\n- **Kidderminster Harriers**: J. Wint, L. Giles, A. MacDonald, C. Harries, B. Crompton, D. Davis, C. Hargreaves, R. Devine\n\nPrediction:\n\n**1-1 draw**. Both defenses are compact enough to hold, and the expected goals tell the story — perfectly balanced and forgettable. 📌",
       "ai_pred": {
         "res": "H",
-        "ph": 57.5,
-        "pd": 23.5,
-        "pa": 19.1,
+        "ph": 57.6,
+        "pd": 23.6,
+        "pa": 18.8,
         "xhg": 1.31,
         "xag": 1.35,
-        "o25": 54.4,
-        "btts": 53.5,
+        "o25": 54.3,
+        "btts": 53.2,
         "score": "1-1",
-        "conf": 0.57
+        "conf": 0.58
       }
     },
     {
@@ -6070,22 +7838,22 @@ var FOOTYFIXTURES = {
       "home": "Hartlepool",
       "away": "Solihull",
       "odds": {
-        "h": 2.07,
-        "d": 3.58,
-        "a": 3.0
+        "h": 2.05,
+        "d": 3.56,
+        "a": 3.03
       },
       "event_id": 588327,
       "round": 19,
       "btts": {
-        "yes": 1.54,
-        "no": 2.31
+        "yes": 1.55,
+        "no": 2.3
       },
       "ou": {
         "o15": 1.19,
-        "u15": 4.36,
-        "o25": 1.63,
+        "u15": 4.37,
+        "o25": 1.64,
         "u25": 2.17,
-        "o35": 2.57,
+        "o35": 2.58,
         "u35": 1.45
       },
       "venue": "Suit Direct Stadium",
@@ -6097,13 +7865,13 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Hartlepool host a red-hot Solihull side looking to crash the party** — the Moors have won four of their last five, while the Pool are stuck in neutral. This could get spicy. ⚽\n\nHartlepool's form is decidedly mixed (2W-1D-2L), but they've got the head-to-head edge historically and home advantage at the Suit Direct. Solihull, though, are the in-form team and arrive on a **four-win streak** that makes them genuinely dangerous.\n\nKey storylines:\n\n- **Hartlepool's attack** (Hugill, Popov, Charman) needs to find rhythm against a Solihull defence that's tightened up considerably\n- **Solihull's momentum** vs a Pool side playing for pride on home turf — classic banana-skin setup\n- **Head-to-head history** slightly favours Hartlepool, but current form says otherwise\n\nExpected lineups:\n\n- **Hartlepool United**: N. Fisher, B. Ilunga, R. McNally, J. Hunter, J. Nolan, C. Deeming, N. Sheron, J. Miley, L. Charman, C. Popov, J. Hugill\n- **Solihull Moors**: N. Ford, M. Carson, A. Whitmore, C. Pinnington, O. Rutherford, J. Andrews, S. High, R. Woods, J. Wakeling, J. Sbarra, F. Hoti\n\nPrediction:\n\n**1-1 draw** — Hartlepool edge this one on balance, but expect the Moors to make it a proper contest.",
       "ai_pred": {
         "res": "H",
-        "ph": 44.1,
-        "pd": 25.5,
-        "pa": 30.4,
+        "ph": 44.4,
+        "pd": 25.6,
+        "pa": 30.0,
         "xhg": 1.76,
         "xag": 1.37,
-        "o25": 57.2,
-        "btts": 59.9,
+        "o25": 57.1,
+        "btts": 59.7,
         "score": "1-1",
         "conf": 0.44
       }
@@ -6123,6 +7891,7 @@ var FOOTYFIXTURES = {
       "event_id": 588328,
       "round": 20,
       "venue": "Glanford Park",
+      "ai_preview": "**Scunthorpe's desperate run meets Wealdstone's hot-and-cold form** — both teams need a result, but neither looks rock-solid right now. 🔥\n\nScunthorpe are winless in five and bleeding goals at home, while Wealdstone just got turned over 3-0 at Altrincham after demolishing Hornchurch the week before. Classic National League chaos: neither side inspiring confidence.\n\nKey storylines:\n\n- **Scunthorpe's attack** needs to click with J. Norwood and H. Parker leading the line, but the backline keeps leaking chances\n- **Wealdstone's inconsistency** is the real story — they flip between blowouts and blanks; F. Okenabirhie and L. Norris have to stay sharp\n- **Head-to-head is split** (1-1-1 in the last three), so expect another tight affair\n\nExpected lineups:\n\n- **Scunthorpe United**: M. Campbell, T. Denton, S. Ashbee, W. Evans, J. Starbuck, D. Batty, J. Richards, L. Brennan, P. Jones, J. Norwood, H. Parker\n- **Wealdstone**: D. Baptiste, A. Kanu, A. F. Clarke, J. Cook, C. McAvoy, J. Newton, D. Kadji, J. Wells-Morrison, R. Maher, F. Okenabirhie, L. Norris\n\nPrediction:\n\n**1-1 draw.** Scunthorpe edge the xG and home advantage, but both defenses are shaky enough that a share feels most likely. 🤝",
       "ai_pred": {
         "res": "H",
         "ph": 48.4,
@@ -6144,24 +7913,87 @@ var FOOTYFIXTURES = {
       "home": "AFC Fylde",
       "away": "Aldershot",
       "odds": {
-        "h": 1.53,
-        "d": 4.2,
-        "a": 4.75
+        "h": 1.51,
+        "d": 4.21,
+        "a": 4.97
       },
       "event_id": 588329,
       "round": 20,
+      "btts": {
+        "yes": 1.48,
+        "no": 2.49
+      },
+      "ou": {
+        "o15": 1.08,
+        "u15": 5.97,
+        "o25": 1.41,
+        "u25": 2.67,
+        "o35": 1.98,
+        "u35": 1.71
+      },
       "venue": "Mill Farm",
       "ai_pred": {
         "res": "H",
-        "ph": 55.4,
-        "pd": 21.4,
-        "pa": 23.2,
-        "xhg": 2.07,
-        "xag": 1.36,
-        "o25": 64.9,
-        "btts": 61.5,
+        "ph": 60.2,
+        "pd": 21.6,
+        "pa": 18.3,
+        "xhg": 2.01,
+        "xag": 1.39,
+        "o25": 65.4,
+        "btts": 62.6,
         "score": "1-1",
-        "conf": 0.55
+        "conf": 0.6
+      },
+      "api_h2h": {
+        "n": 10,
+        "w": 6,
+        "d": 1,
+        "l": 3,
+        "m": [
+          [
+            "01/04/2025",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "05/10/2024",
+            1,
+            5,
+            2,
+            "W"
+          ],
+          [
+            "13/02/2024",
+            0,
+            0,
+            5,
+            "W"
+          ],
+          [
+            "09/09/2023",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "14/03/2020",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "03/08/2019",
+            0,
+            1,
+            2,
+            "W"
+          ]
+        ],
+        "ag": 3.4
       }
     },
     {
@@ -6172,24 +8004,36 @@ var FOOTYFIXTURES = {
       "home": "Woking",
       "away": "Barrow",
       "odds": {
-        "h": 2.5,
-        "d": 3.5,
-        "a": 2.45
+        "h": 2.6,
+        "d": 3.39,
+        "a": 2.41
       },
       "event_id": 588330,
       "round": 20,
+      "btts": {
+        "yes": 1.54,
+        "no": 2.33
+      },
+      "ou": {
+        "o15": 1.19,
+        "u15": 4.14,
+        "o25": 1.68,
+        "u25": 2.08,
+        "o35": 2.59,
+        "u35": 1.43
+      },
       "venue": "Kingfield Stadium",
       "ai_pred": {
-        "res": "H",
-        "ph": 46.7,
-        "pd": 25.0,
-        "pa": 28.3,
+        "res": "A",
+        "ph": 35.1,
+        "pd": 27.0,
+        "pa": 37.9,
         "xhg": 1.69,
-        "xag": 1.3,
-        "o25": 56.5,
-        "btts": 57.3,
+        "xag": 1.33,
+        "o25": 55.4,
+        "btts": 60.0,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.38
       }
     },
     {
@@ -6200,24 +8044,36 @@ var FOOTYFIXTURES = {
       "home": "Altrincham",
       "away": "Worthing",
       "odds": {
-        "h": 2.45,
-        "d": 3.6,
-        "a": 2.45
+        "h": 2.19,
+        "d": 3.64,
+        "a": 2.77
       },
       "event_id": 588331,
       "round": 20,
+      "btts": {
+        "yes": 1.42,
+        "no": 2.67
+      },
+      "ou": {
+        "o15": 1.13,
+        "u15": 5.04,
+        "o25": 1.49,
+        "u25": 2.43,
+        "o35": 2.21,
+        "u35": 1.59
+      },
       "venue": "Moss Lane",
       "ai_pred": {
         "res": "H",
-        "ph": 40.4,
-        "pd": 23.6,
-        "pa": 36.0,
-        "xhg": 1.72,
-        "xag": 1.61,
-        "o25": 63.2,
-        "btts": 62.1,
+        "ph": 37.3,
+        "pd": 25.4,
+        "pa": 37.3,
+        "xhg": 1.81,
+        "xag": 1.63,
+        "o25": 65.2,
+        "btts": 63.4,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.37
       }
     },
     {
@@ -6228,24 +8084,36 @@ var FOOTYFIXTURES = {
       "home": "Boreham Wood",
       "away": "Gateshead",
       "odds": {
-        "h": 1.08,
-        "d": 10.0,
-        "a": 21.0
+        "h": 1.07,
+        "d": 9.43,
+        "a": 20.5
       },
       "event_id": 588332,
       "round": 20,
+      "btts": {
+        "yes": 1.99,
+        "no": 1.73
+      },
+      "ou": {
+        "o15": 1.03,
+        "u15": 7.6,
+        "o25": 1.22,
+        "u25": 3.89,
+        "o35": 1.6,
+        "u35": 2.16
+      },
       "venue": "Meadow Park",
       "ai_pred": {
         "res": "H",
-        "ph": 82.6,
-        "pd": 11.2,
-        "pa": 6.2,
-        "xhg": 2.91,
-        "xag": 0.87,
-        "o25": 70.6,
-        "btts": 53.7,
+        "ph": 86.2,
+        "pd": 9.3,
+        "pa": 4.4,
+        "xhg": 2.87,
+        "xag": 0.89,
+        "o25": 70.3,
+        "btts": 54.2,
         "score": "2-0",
-        "conf": 0.83
+        "conf": 0.86
       }
     },
     {
@@ -6256,36 +8124,36 @@ var FOOTYFIXTURES = {
       "home": "Boston Utd",
       "away": "Kidderminster",
       "odds": {
-        "h": 2.25,
-        "d": 3.4,
-        "a": 2.8
+        "h": 2.24,
+        "d": 3.31,
+        "a": 2.84
       },
       "event_id": 588333,
       "round": 20,
       "btts": {
-        "yes": 1.67,
-        "no": 2.1
+        "yes": 1.62,
+        "no": 2.17
       },
       "ou": {
         "o15": 1.22,
-        "u15": 4.0,
-        "o25": 1.8,
-        "u25": 2.0,
-        "o35": 3.0,
-        "u35": 1.36
+        "u15": 3.79,
+        "o25": 1.77,
+        "u25": 1.95,
+        "o35": 2.94,
+        "u35": 1.34
       },
       "venue": "York Street",
       "ai_pred": {
-        "res": "A",
-        "ph": 33.7,
-        "pd": 28.1,
-        "pa": 38.3,
-        "xhg": 1.27,
+        "res": "H",
+        "ph": 40.6,
+        "pd": 26.8,
+        "pa": 32.6,
+        "xhg": 1.25,
         "xag": 1.35,
-        "o25": 48.7,
-        "btts": 52.8,
+        "o25": 52.4,
+        "btts": 55.4,
         "score": "1-1",
-        "conf": 0.38
+        "conf": 0.41
       }
     },
     {
@@ -6296,36 +8164,36 @@ var FOOTYFIXTURES = {
       "home": "Carlisle",
       "away": "Sutton",
       "odds": {
-        "h": 1.55,
-        "d": 4.0,
-        "a": 5.0
+        "h": 1.46,
+        "d": 4.22,
+        "a": 5.6
       },
       "event_id": 588334,
       "round": 20,
       "btts": {
-        "yes": 1.67,
-        "no": 2.1
+        "yes": 1.63,
+        "no": 2.15
       },
       "ou": {
-        "o15": 1.18,
-        "u15": 4.5,
-        "o25": 1.6,
-        "u25": 2.3,
-        "o35": 2.5,
-        "u35": 1.5
+        "o15": 1.15,
+        "u15": 4.72,
+        "o25": 1.54,
+        "u25": 2.34,
+        "o35": 2.39,
+        "u35": 1.53
       },
       "venue": "Brunton Park",
       "ai_pred": {
         "res": "H",
-        "ph": 60.6,
-        "pd": 22.0,
-        "pa": 17.5,
-        "xhg": 1.96,
+        "ph": 58.9,
+        "pd": 22.8,
+        "pa": 18.3,
+        "xhg": 1.91,
         "xag": 1.05,
-        "o25": 57.0,
-        "btts": 54.6,
+        "o25": 58.8,
+        "btts": 55.6,
         "score": "1-1",
-        "conf": 0.61
+        "conf": 0.59
       }
     },
     {
@@ -6336,24 +8204,36 @@ var FOOTYFIXTURES = {
       "home": "Eastleigh",
       "away": "Halifax",
       "odds": {
-        "h": 3.0,
-        "d": 3.6,
-        "a": 2.1
+        "h": 3.4,
+        "d": 3.63,
+        "a": 1.92
       },
       "event_id": 588335,
       "round": 20,
+      "btts": {
+        "yes": 1.51,
+        "no": 2.43
+      },
+      "ou": {
+        "o15": 1.17,
+        "u15": 4.44,
+        "o25": 1.59,
+        "u25": 2.24,
+        "o35": 2.44,
+        "u35": 1.47
+      },
       "venue": "Silverlake Stadium",
       "ai_pred": {
         "res": "A",
-        "ph": 31.6,
-        "pd": 25.2,
-        "pa": 43.1,
-        "xhg": 1.4,
-        "xag": 1.61,
-        "o25": 57.0,
-        "btts": 58.0,
+        "ph": 30.7,
+        "pd": 25.6,
+        "pa": 43.8,
+        "xhg": 1.35,
+        "xag": 1.66,
+        "o25": 57.1,
+        "btts": 57.9,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.44
       }
     },
     {
@@ -6364,22 +8244,34 @@ var FOOTYFIXTURES = {
       "home": "Forest Green",
       "away": "Tamworth",
       "odds": {
-        "h": 1.6,
-        "d": 4.1,
-        "a": 4.5
+        "h": 1.54,
+        "d": 4.28,
+        "a": 4.83
       },
       "event_id": 588336,
       "round": 20,
+      "btts": {
+        "yes": 1.44,
+        "no": 2.58
+      },
+      "ou": {
+        "o15": 1.07,
+        "u15": 6.57,
+        "o25": 1.36,
+        "u25": 2.87,
+        "o35": 1.9,
+        "u35": 1.8
+      },
       "venue": "The New Lawn",
       "ai_pred": {
         "res": "H",
-        "ph": 56.8,
-        "pd": 21.5,
-        "pa": 21.7,
-        "xhg": 2.05,
-        "xag": 1.28,
-        "o25": 63.3,
-        "btts": 60.0,
+        "ph": 57.3,
+        "pd": 22.4,
+        "pa": 20.4,
+        "xhg": 1.99,
+        "xag": 1.32,
+        "o25": 62.8,
+        "btts": 60.2,
         "score": "1-1",
         "conf": 0.57
       }
@@ -6392,24 +8284,36 @@ var FOOTYFIXTURES = {
       "home": "Harrogate",
       "away": "Yeovil",
       "odds": {
-        "h": 1.8,
-        "d": 3.75,
-        "a": 3.8
+        "h": 1.75,
+        "d": 3.68,
+        "a": 3.9
       },
       "event_id": 588337,
       "round": 20,
+      "btts": {
+        "yes": 1.54,
+        "no": 2.3
+      },
+      "ou": {
+        "o15": 1.14,
+        "u15": 4.65,
+        "o25": 1.58,
+        "u25": 2.24,
+        "o35": 2.38,
+        "u35": 1.48
+      },
       "venue": "EnviroVent Stadium",
       "ai_pred": {
         "res": "H",
-        "ph": 40.5,
-        "pd": 24.3,
-        "pa": 35.3,
-        "xhg": 1.66,
-        "xag": 1.54,
-        "o25": 60.8,
-        "btts": 60.6,
+        "ph": 51.2,
+        "pd": 24.6,
+        "pa": 24.2,
+        "xhg": 1.64,
+        "xag": 1.58,
+        "o25": 61.0,
+        "btts": 60.8,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.51
       }
     },
     {
@@ -6420,24 +8324,36 @@ var FOOTYFIXTURES = {
       "home": "Hornchurch",
       "away": "Solihull",
       "odds": {
-        "h": 2.15,
-        "d": 3.5,
-        "a": 2.8
+        "h": 2.13,
+        "d": 3.43,
+        "a": 2.92
       },
       "event_id": 588338,
       "round": 20,
+      "btts": {
+        "yes": 1.57,
+        "no": 2.25
+      },
+      "ou": {
+        "o15": 1.19,
+        "u15": 4.0,
+        "o25": 1.67,
+        "u25": 2.07,
+        "o35": 2.59,
+        "u35": 1.4
+      },
       "venue": "Hornchurch Stadium",
       "ai_pred": {
         "res": "H",
-        "ph": 44.1,
-        "pd": 24.6,
-        "pa": 31.4,
-        "xhg": 1.69,
-        "xag": 1.42,
-        "o25": 59.0,
-        "btts": 59.2,
+        "ph": 42.0,
+        "pd": 25.8,
+        "pa": 32.2,
+        "xhg": 1.63,
+        "xag": 1.38,
+        "o25": 57.1,
+        "btts": 58.0,
         "score": "1-1",
-        "conf": 0.44
+        "conf": 0.42
       }
     },
     {
@@ -6447,21 +8363,37 @@ var FOOTYFIXTURES = {
       "time": "17:30",
       "home": "Hartlepool",
       "away": "Southend",
-      "odds": null,
+      "odds": {
+        "h": 3.79,
+        "d": 3.73,
+        "a": 1.77
+      },
       "event_id": 588339,
       "round": 20,
+      "btts": {
+        "yes": 1.46,
+        "no": 2.52
+      },
+      "ou": {
+        "o15": 1.12,
+        "u15": 5.03,
+        "o25": 1.49,
+        "u25": 2.42,
+        "o35": 2.18,
+        "u35": 1.58
+      },
       "venue": "Suit Direct Stadium",
       "ai_pred": {
         "res": "A",
-        "ph": 25.7,
-        "pd": 23.1,
-        "pa": 51.2,
-        "xhg": 1.35,
-        "xag": 1.87,
-        "o25": 60.9,
-        "btts": 59.7,
+        "ph": 24.8,
+        "pd": 23.0,
+        "pa": 52.2,
+        "xhg": 1.32,
+        "xag": 1.88,
+        "o25": 60.7,
+        "btts": 59.3,
         "score": "1-1",
-        "conf": 0.51
+        "conf": 0.52
       }
     },
     {
@@ -6594,7 +8526,23 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 588353,
       "round": 22,
-      "venue": "Silverlake Stadium"
+      "venue": "Silverlake Stadium",
+      "api_h2h": {
+        "n": 1,
+        "w": 0,
+        "d": 0,
+        "l": 1,
+        "m": [
+          [
+            "10/10/2026",
+            0,
+            2,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 2.0
+      }
     },
     {
       "div": "EC",
@@ -6606,7 +8554,30 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 588354,
       "round": 22,
-      "venue": "EnviroVent Stadium"
+      "venue": "EnviroVent Stadium",
+      "api_h2h": {
+        "n": 2,
+        "w": 1,
+        "d": 0,
+        "l": 1,
+        "m": [
+          [
+            "10/10/2026",
+            0,
+            0,
+            1,
+            "W"
+          ],
+          [
+            "10/08/2019",
+            0,
+            1,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 1.0
+      }
     },
     {
       "div": "EC",
@@ -6630,7 +8601,22 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 588356,
       "round": 22,
-      "venue": "Aggborough"
+      "venue": "Aggborough",
+      "api_h2h": {
+        "n": 1,
+        "w": 0,
+        "d": 1,
+        "l": 0,
+        "m": [
+          [
+            "10/10/2026",
+            0,
+            0,
+            0,
+            "D"
+          ]
+        ]
+      }
     },
     {
       "div": "EC",
@@ -6642,7 +8628,23 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 588358,
       "round": 22,
-      "venue": "Damson Park"
+      "venue": "Damson Park",
+      "api_h2h": {
+        "n": 1,
+        "w": 0,
+        "d": 0,
+        "l": 1,
+        "m": [
+          [
+            "10/10/2026",
+            0,
+            5,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 5.0
+      }
     },
     {
       "div": "EC",
@@ -6657,6 +8659,121 @@ var FOOTYFIXTURES = {
       "venue": "Roots Hall"
     },
     {
+      "div": "EC",
+      "league": "National League",
+      "date": "09/12/2026",
+      "time": "19:45",
+      "home": "Barrow",
+      "away": "Tamworth",
+      "odds": null,
+      "event_id": 588361,
+      "round": 22,
+      "venue": "Holker Street",
+      "api_h2h": {
+        "n": 11,
+        "w": 7,
+        "d": 2,
+        "l": 2,
+        "m": [
+          [
+            "10/10/2026",
+            0,
+            1,
+            2,
+            "W"
+          ],
+          [
+            "02/03/2013",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "20/10/2012",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "08/09/2012",
+            0,
+            1,
+            3,
+            "W"
+          ],
+          [
+            "21/01/2012",
+            0,
+            2,
+            3,
+            "W"
+          ],
+          [
+            "13/08/2011",
+            1,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.91
+      }
+    },
+    {
+      "div": "EC",
+      "league": "National League",
+      "date": "09/12/2026",
+      "time": "19:45",
+      "home": "Gateshead",
+      "away": "Halifax",
+      "odds": null,
+      "event_id": 588362,
+      "round": 22,
+      "venue": "Gateshead International Stadium"
+    },
+    {
+      "div": "EC",
+      "league": "National League",
+      "date": "09/12/2026",
+      "time": "19:45",
+      "home": "Scunthorpe",
+      "away": "AFC Fylde",
+      "odds": null,
+      "event_id": 588357,
+      "round": 22,
+      "venue": "Glanford Park",
+      "api_h2h": {
+        "n": 1,
+        "w": 0,
+        "d": 0,
+        "l": 1,
+        "m": [
+          [
+            "10/10/2026",
+            0,
+            2,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 2.0
+      }
+    },
+    {
+      "div": "EC",
+      "league": "National League",
+      "date": "09/12/2026",
+      "time": "19:45",
+      "home": "Yeovil",
+      "away": "Wealdstone",
+      "odds": null,
+      "event_id": 588363,
+      "round": 22,
+      "venue": "Huish Park"
+    },
+    {
       "div": "E0",
       "league": "Premier League",
       "date": "27/11/2026",
@@ -6666,7 +8783,7 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 2.56,
         "d": 3.43,
-        "a": 2.6
+        "a": 2.63
       },
       "event_id": 209653,
       "round": 12,
@@ -6675,10 +8792,10 @@ var FOOTYFIXTURES = {
         "no": 2.29
       },
       "ou": {
-        "o15": 1.24,
-        "u15": 3.9,
-        "o25": 1.74,
-        "u25": 2.09,
+        "o15": 1.23,
+        "u15": 3.92,
+        "o25": 1.75,
+        "u25": 2.08,
         "o35": 2.78,
         "u35": 1.43
       },
@@ -6687,14 +8804,15 @@ var FOOTYFIXTURES = {
         "h": 3,
         "a": 4
       },
+      "ai_preview": "**Nottingham Forest and Chelsea are both limping in with identical 1W-1D-3L records**, and that's the kind of symmetry that screams coin flip — except the hosts have something the visitors don't: **home advantage at the City Ground**. 🔥\n\nForest just shocked Manchester City 3-1 but followed it up with back-to-back road losses. Chelsea's form is messier — they've dropped points to Sunderland at home and got hammered by Leeds, though they did beat Man United. Both teams are dealing with injury headaches that'll reshape tactics.\n\nKey storylines:\n\n- **Nottingham Forest's defensive stability** (Murillo and Williams anchoring a 3-man line) vs Chelsea's makeshift backline scrambled by injuries to Reece James and other options\n\n- **Liam Delap and Morgan Gibbs-White** trying to unlock space for Forest's attack while Chelsea leans on Cole Palmer's creativity in midfield\n\n- Forest's home record and recent shock win over City could energize them, but Chelsea's proven they can nick draws in tight spots\n\nExpected lineups:\n\n- **Nottingham Forest**: M. Sels, N. Williams, Murillo, Jair, O. Aina, J. McAtee, X. Schlager, R. Yates, D. Ndoye, L. Delap, M. Gibbs-White\n\n- **Chelsea**: E. Martínez, J. Hato, L. Colwill, J. Acheampong, W. Fofana, M. Rogers, C. Palmer, J. Gittens, P. Neto, D. Welbeck, E. Emegha\n\nPrediction:\n\n**1-1 draw**. Both teams are fragile and injury-hit; expect cautious football and a share of the spoils.",
       "ai_pred": {
         "res": "H",
-        "ph": 36.6,
-        "pd": 27.3,
-        "pa": 36.0,
+        "ph": 36.8,
+        "pd": 27.4,
+        "pa": 35.8,
         "xhg": 1.41,
         "xag": 1.43,
-        "o25": 54.5,
+        "o25": 54.3,
         "btts": 59.0,
         "score": "1-1",
         "conf": 0.37
@@ -6710,20 +8828,20 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 1.47,
         "d": 4.53,
-        "a": 6.03
+        "a": 5.99
       },
       "event_id": 209651,
       "round": 12,
       "btts": {
-        "yes": 1.75,
-        "no": 2.0
+        "yes": 1.74,
+        "no": 2.01
       },
       "ou": {
         "o15": 1.19,
-        "u15": 4.2,
+        "u15": 4.22,
         "o25": 1.64,
         "u25": 2.26,
-        "o35": 2.54,
+        "o35": 2.53,
         "u35": 1.5
       },
       "venue": "Elland Road",
@@ -6733,15 +8851,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 46.8,
-        "pd": 24.7,
-        "pa": 28.5,
+        "ph": 63.8,
+        "pd": 20.7,
+        "pa": 15.5,
         "xhg": 1.71,
         "xag": 1.33,
-        "o25": 57.5,
-        "btts": 57.9,
+        "o25": 57.9,
+        "btts": 53.8,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.64
       }
     },
     {
@@ -6752,8 +8870,8 @@ var FOOTYFIXTURES = {
       "home": "Man United",
       "away": "Brentford",
       "odds": {
-        "h": 2.06,
-        "d": 3.74,
+        "h": 2.08,
+        "d": 3.73,
         "a": 3.2
       },
       "event_id": 209652,
@@ -6766,7 +8884,7 @@ var FOOTYFIXTURES = {
         "o15": 1.16,
         "u15": 4.57,
         "o25": 1.55,
-        "u25": 2.39,
+        "u25": 2.38,
         "o35": 2.39,
         "u35": 1.59
       },
@@ -6777,15 +8895,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 39.6,
-        "pd": 24.7,
-        "pa": 35.8,
+        "ph": 45.6,
+        "pd": 25.1,
+        "pa": 29.3,
         "xhg": 1.61,
         "xag": 1.52,
-        "o25": 59.4,
-        "btts": 59.7,
+        "o25": 60.6,
+        "btts": 63.2,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.46
       }
     },
     {
@@ -6796,9 +8914,9 @@ var FOOTYFIXTURES = {
       "home": "Ipswich",
       "away": "Aston Villa",
       "odds": {
-        "h": 3.45,
+        "h": 3.46,
         "d": 3.83,
-        "a": 1.95
+        "a": 1.94
       },
       "event_id": 209650,
       "round": 12,
@@ -6820,16 +8938,16 @@ var FOOTYFIXTURES = {
         "a": 4
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 43.3,
-        "pd": 25.1,
-        "pa": 31.6,
-        "xhg": 1.64,
-        "xag": 1.39,
-        "o25": 57.4,
-        "btts": 58.2,
+        "res": "A",
+        "ph": 27.3,
+        "pd": 24.5,
+        "pa": 48.2,
+        "xhg": 1.63,
+        "xag": 1.38,
+        "o25": 61.3,
+        "btts": 62.7,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.48
       }
     },
     {
@@ -6840,22 +8958,22 @@ var FOOTYFIXTURES = {
       "home": "Everton",
       "away": "Liverpool",
       "odds": {
-        "h": 3.79,
-        "d": 3.67,
-        "a": 1.89
+        "h": 3.89,
+        "d": 3.72,
+        "a": 1.86
       },
       "event_id": 209648,
       "round": 12,
       "btts": {
         "yes": 1.59,
-        "no": 2.26
+        "no": 2.25
       },
       "ou": {
-        "o15": 1.22,
+        "o15": 1.21,
         "u15": 3.92,
         "o25": 1.67,
-        "u25": 2.2,
-        "o35": 2.65,
+        "u25": 2.21,
+        "o35": 2.64,
         "u35": 1.47
       },
       "venue": "Hill Dickinson Stadium",
@@ -6865,15 +8983,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 28.5,
-        "pd": 26.6,
-        "pa": 44.9,
+        "ph": 24.8,
+        "pd": 25.6,
+        "pa": 49.7,
         "xhg": 1.22,
         "xag": 1.53,
-        "o25": 51.5,
-        "btts": 54.2,
+        "o25": 56.6,
+        "btts": 58.3,
         "score": "1-1",
-        "conf": 0.45
+        "conf": 0.5
       }
     },
     {
@@ -6909,15 +9027,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 55.8,
-        "pd": 23.4,
-        "pa": 20.8,
+        "ph": 60.6,
+        "pd": 21.4,
+        "pa": 18.0,
         "xhg": 1.85,
         "xag": 1.12,
-        "o25": 56.3,
-        "btts": 55.4,
+        "o25": 61.4,
+        "btts": 58.3,
         "score": "1-1",
-        "conf": 0.56
+        "conf": 0.61
       }
     },
     {
@@ -6928,9 +9046,9 @@ var FOOTYFIXTURES = {
       "home": "Crystal Palace",
       "away": "Hull",
       "odds": {
-        "h": 1.84,
-        "d": 3.72,
-        "a": 3.94
+        "h": 1.85,
+        "d": 3.73,
+        "a": 3.89
       },
       "event_id": 209647,
       "round": 12,
@@ -6953,15 +9071,66 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 49.7,
-        "pd": 25.1,
-        "pa": 25.1,
+        "ph": 51.0,
+        "pd": 25.2,
+        "pa": 23.8,
         "xhg": 1.69,
         "xag": 1.19,
-        "o25": 54.3,
-        "btts": 55.3,
+        "o25": 54.9,
+        "btts": 56.9,
         "score": "1-1",
-        "conf": 0.5
+        "conf": 0.51
+      },
+      "api_h2h": {
+        "n": 12,
+        "w": 5,
+        "d": 5,
+        "l": 2,
+        "m": [
+          [
+            "14/05/2017",
+            1,
+            4,
+            0,
+            "W"
+          ],
+          [
+            "10/12/2016",
+            0,
+            3,
+            3,
+            "D"
+          ],
+          [
+            "25/04/2015",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "04/10/2014",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "28/01/2014",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "23/11/2013",
+            0,
+            0,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 2.08
       }
     },
     {
@@ -6974,21 +9143,21 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 2.6,
         "d": 3.47,
-        "a": 2.53
+        "a": 2.54
       },
       "event_id": 209649,
       "round": 12,
       "btts": {
-        "yes": 1.58,
-        "no": 2.27
+        "yes": 1.57,
+        "no": 2.29
       },
       "ou": {
         "o15": 1.23,
         "u15": 3.76,
-        "o25": 1.75,
-        "u25": 2.08,
-        "o35": 2.83,
-        "u35": 1.42
+        "o25": 1.76,
+        "u25": 2.06,
+        "o35": 2.84,
+        "u35": 1.41
       },
       "venue": "Craven Cottage",
       "inj": {
@@ -6997,15 +9166,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 32.2,
-        "pd": 27.1,
-        "pa": 40.7,
+        "ph": 36.0,
+        "pd": 27.0,
+        "pa": 37.0,
         "xhg": 1.29,
         "xag": 1.44,
-        "o25": 51.2,
-        "btts": 54.4,
+        "o25": 54.1,
+        "btts": 58.5,
         "score": "1-1",
-        "conf": 0.41
+        "conf": 0.37
       }
     },
     {
@@ -7016,23 +9185,23 @@ var FOOTYFIXTURES = {
       "home": "Sunderland",
       "away": "Tottenham",
       "odds": {
-        "h": 3.43,
-        "d": 3.37,
+        "h": 3.48,
+        "d": 3.36,
         "a": 2.08
       },
       "event_id": 209654,
       "round": 12,
       "btts": {
         "yes": 1.75,
-        "no": 2.01
+        "no": 2.0
       },
       "ou": {
-        "o15": 1.3,
-        "u15": 3.36,
-        "o25": 1.96,
-        "u25": 1.86,
-        "o35": 3.32,
-        "u35": 1.32
+        "o15": 1.31,
+        "u15": 3.35,
+        "o25": 1.98,
+        "u25": 1.83,
+        "o35": 3.34,
+        "u35": 1.31
       },
       "venue": "Stadium of Light",
       "inj": {
@@ -7040,16 +9209,16 @@ var FOOTYFIXTURES = {
         "a": 7
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 40.2,
-        "pd": 28.0,
-        "pa": 31.9,
-        "xhg": 1.4,
+        "res": "A",
+        "ph": 27.3,
+        "pd": 27.8,
+        "pa": 45.0,
+        "xhg": 1.39,
         "xag": 1.23,
-        "o25": 48.6,
-        "btts": 52.7,
+        "o25": 48.7,
+        "btts": 53.4,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.45
       }
     },
     {
@@ -7059,19 +9228,35 @@ var FOOTYFIXTURES = {
       "time": "16:30",
       "home": "Arsenal",
       "away": "Man City",
-      "odds": null,
+      "odds": {
+        "h": 1.98,
+        "d": 3.65,
+        "a": 3.53
+      },
       "event_id": 209645,
       "round": 12,
+      "btts": {
+        "yes": 1.6,
+        "no": 2.23
+      },
+      "ou": {
+        "o15": 1.23,
+        "u15": 3.84,
+        "o25": 1.73,
+        "u25": 2.11,
+        "o35": 2.79,
+        "u35": 1.43
+      },
       "venue": "Emirates Stadium",
       "inj": {
         "h": 3,
-        "a": 2
+        "a": 1
       },
       "ai_pred": {
         "res": "H",
-        "ph": 47.3,
+        "ph": 47.4,
         "pd": 27.1,
-        "pa": 25.6,
+        "pa": 25.5,
         "xhg": 1.53,
         "xag": 1.1,
         "o25": 48.8,
@@ -7094,6 +9279,18 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 7,
         "a": 1
+      },
+      "ai_pred": {
+        "res": "H",
+        "ph": 50.6,
+        "pd": 23.0,
+        "pa": 26.4,
+        "xhg": 1.89,
+        "xag": 1.37,
+        "o25": 61.8,
+        "btts": 60.2,
+        "score": "1-1",
+        "conf": 0.51
       }
     },
     {
@@ -7156,7 +9353,7 @@ var FOOTYFIXTURES = {
       "round": 13,
       "venue": "Etihad Stadium",
       "inj": {
-        "h": 2,
+        "h": 1,
         "a": 1
       }
     },
@@ -7318,6 +9515,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 10,
         "a": 7
+      },
+      "api_h2h": {
+        "n": 19,
+        "w": 16,
+        "d": 2,
+        "l": 1,
+        "m": [
+          [
+            "21/04/2024",
+            0,
+            3,
+            3,
+            "D"
+          ],
+          [
+            "14/04/2001",
+            1,
+            4,
+            2,
+            "W"
+          ],
+          [
+            "04/11/2000",
+            0,
+            1,
+            2,
+            "W"
+          ],
+          [
+            "05/02/2000",
+            1,
+            3,
+            2,
+            "W"
+          ],
+          [
+            "25/08/1999",
+            0,
+            1,
+            2,
+            "W"
+          ],
+          [
+            "20/02/1999",
+            0,
+            0,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 3.11
       }
     },
     {
@@ -7349,7 +9597,7 @@ var FOOTYFIXTURES = {
       "venue": "Brentford Community Stadium",
       "inj": {
         "h": 7,
-        "a": 2
+        "a": 1
       }
     },
     {
@@ -7431,6 +9679,7 @@ var FOOTYFIXTURES = {
         "h": 0,
         "a": 1
       },
+      "ai_preview": "**Marítimo and Nacional collide in a classic Madeira derby where **neither side can afford another slip-up** — both are searching for consistent form in a congested mid-table scrap.** 🔥\n\nMarítimo have been stuttering at home (1W 1D 3L lately), while Nacional's away woes are even sharper (winless on the road in their last five). The H2H is a perfect mirror — 9-9 wins, 10 draws — so expect a tightly wound affair on the Madeira pitch.\n\nKey storylines:\n\n- **Marítimo's home form** will be tested against a Nacional side that's found it hard to grind out points in hostile territory\n- **Nacional's missing F. Soares** (broken ankle) means they'll lean on **M. Jensen** and **A. K. Njoya** to carry the attacking load\n- Expect a **cagey, low-scoring affair** given both teams' recent defensive solidity\n\nExpected lineups:\n\n- **CS Marítimo**: F. Vieites, P. Henrique, R. Correia, R. Fernandes, I. Julião, R. Guzzo, M. Tejón, A. Butzke\n- **CD Nacional**: R. B. Marin, W. Kokolo, Zé Vitor, F. Gonçalves, Wesley Gasolina, C. Labidi, M. Baeza, M. Jensen\n\nPrediction:\n\n**1-1 draw**. Marítimo edge the balance at home, but Nacional's resilience and Nacional's ability to nick one away-ish keeps this locked up tight.",
       "ai_pred": {
         "res": "H",
         "ph": 43.8,
@@ -7454,7 +9703,7 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 1.68,
         "d": 3.72,
-        "a": 4.81
+        "a": 4.8
       },
       "event_id": 215577,
       "round": 12,
@@ -7473,15 +9722,15 @@ var FOOTYFIXTURES = {
       "venue": "Estádio Municipal de Arouca",
       "ai_pred": {
         "res": "H",
-        "ph": 55.2,
-        "pd": 25.5,
-        "pa": 19.3,
+        "ph": 55.5,
+        "pd": 25.1,
+        "pa": 19.4,
         "xhg": 1.67,
         "xag": 0.95,
-        "o25": 48.6,
-        "btts": 50.2,
+        "o25": 49.2,
+        "btts": 50.5,
         "score": "1-1",
-        "conf": 0.55
+        "conf": 0.56
       }
     },
     {
@@ -7492,9 +9741,9 @@ var FOOTYFIXTURES = {
       "home": "Moreirense",
       "away": "Santa Clara",
       "odds": {
-        "h": 3.3,
-        "d": 3.05,
-        "a": 2.26
+        "h": 3.27,
+        "d": 3.04,
+        "a": 2.27
       },
       "event_id": 215580,
       "round": 12,
@@ -7517,15 +9766,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 26.4,
-        "pd": 31.1,
-        "pa": 42.6,
+        "ph": 28.2,
+        "pd": 30.6,
+        "pa": 41.2,
         "xhg": 0.97,
         "xag": 1.25,
-        "o25": 39.1,
-        "btts": 46.1,
+        "o25": 38.8,
+        "btts": 46.2,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.41
       }
     },
     {
@@ -7561,15 +9810,45 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 48.6,
-        "pd": 27.2,
-        "pa": 24.2,
+        "ph": 36.7,
+        "pd": 29.7,
+        "pa": 33.6,
         "xhg": 1.53,
         "xag": 1.06,
-        "o25": 47.9,
-        "btts": 51.2,
+        "o25": 47.4,
+        "btts": 53.4,
         "score": "1-1",
-        "conf": 0.49
+        "conf": 0.37
+      },
+      "api_h2h": {
+        "n": 3,
+        "w": 2,
+        "d": 1,
+        "l": 0,
+        "m": [
+          [
+            "09/02/2025",
+            1,
+            2,
+            2,
+            "D"
+          ],
+          [
+            "30/08/2024",
+            0,
+            0,
+            4,
+            "W"
+          ],
+          [
+            "30/09/2018",
+            0,
+            0,
+            3,
+            "W"
+          ]
+        ],
+        "ag": 3.67
       }
     },
     {
@@ -7603,9 +9882,25 @@ var FOOTYFIXTURES = {
       "time": "18:00",
       "home": "Gil Vicente",
       "away": "Estoril",
-      "odds": null,
+      "odds": {
+        "h": 1.82,
+        "d": 3.55,
+        "a": 4.1
+      },
       "event_id": 215579,
       "round": 12,
+      "btts": {
+        "yes": 1.79,
+        "no": 1.94
+      },
+      "ou": {
+        "o15": 1.3,
+        "u15": 3.37,
+        "o25": 1.95,
+        "u25": 1.86,
+        "o35": 3.32,
+        "u35": 1.31
+      },
       "venue": "Estádio Cidade de Barcelos",
       "inj": {
         "h": 2,
@@ -7631,9 +9926,25 @@ var FOOTYFIXTURES = {
       "time": "20:30",
       "home": "Porto",
       "away": "Sp Lisbon",
-      "odds": null,
+      "odds": {
+        "h": 1.93,
+        "d": 3.32,
+        "a": 3.97
+      },
       "event_id": 215578,
       "round": 12,
+      "btts": {
+        "yes": 1.72,
+        "no": 2.01
+      },
+      "ou": {
+        "o15": 1.26,
+        "u15": 3.66,
+        "o25": 1.89,
+        "u25": 1.91,
+        "o35": 3.09,
+        "u35": 1.35
+      },
       "venue": "Estádio do Dragão",
       "inj": {
         "h": 3,
@@ -7641,13 +9952,13 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 39.7,
-        "pd": 29.0,
-        "pa": 31.4,
-        "xhg": 1.33,
-        "xag": 1.17,
-        "o25": 45.8,
-        "btts": 50.8,
+        "ph": 39.6,
+        "pd": 29.1,
+        "pa": 31.3,
+        "xhg": 1.32,
+        "xag": 1.16,
+        "o25": 45.4,
+        "btts": 50.6,
         "score": "1-1",
         "conf": 0.4
       }
@@ -7707,6 +10018,18 @@ var FOOTYFIXTURES = {
     {
       "div": "P1",
       "league": "Primeira Liga",
+      "date": "04/12/2026",
+      "time": "20:15",
+      "home": "Sp Lisbon",
+      "away": "Maritimo",
+      "odds": null,
+      "event_id": 215590,
+      "round": 13,
+      "venue": "Estádio José Alvalade"
+    },
+    {
+      "div": "P1",
+      "league": "Primeira Liga",
       "date": "05/12/2026",
       "time": "15:30",
       "home": "Nacional",
@@ -7747,18 +10070,6 @@ var FOOTYFIXTURES = {
       "event_id": 215589,
       "round": 13,
       "venue": "Estádio Municipal de Braga"
-    },
-    {
-      "div": "P1",
-      "league": "Primeira Liga",
-      "date": "06/12/2026",
-      "time": "11:00",
-      "home": "Sp Lisbon",
-      "away": "Maritimo",
-      "odds": null,
-      "event_id": 215590,
-      "round": 13,
-      "venue": "Estádio José Alvalade"
     },
     {
       "div": "P1",
@@ -7814,7 +10125,58 @@ var FOOTYFIXTURES = {
       "odds": null,
       "event_id": 215586,
       "round": 13,
-      "venue": "Estádio Municipal de Famalicão"
+      "venue": "Estádio Municipal de Famalicão",
+      "api_h2h": {
+        "n": 9,
+        "w": 5,
+        "d": 3,
+        "l": 1,
+        "m": [
+          [
+            "26/11/2022",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "16/02/2019",
+            1,
+            3,
+            2,
+            "W"
+          ],
+          [
+            "23/09/2018",
+            0,
+            3,
+            4,
+            "W"
+          ],
+          [
+            "25/03/2018",
+            0,
+            0,
+            1,
+            "W"
+          ],
+          [
+            "21/10/2017",
+            1,
+            0,
+            1,
+            "L"
+          ],
+          [
+            "14/05/2017",
+            1,
+            2,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 2.44
+      }
     },
     {
       "div": "P1",
@@ -7840,40 +10202,40 @@ var FOOTYFIXTURES = {
       "home": "Aberdeen",
       "away": "Dundee",
       "odds": {
-        "h": 1.87,
-        "d": 3.79,
-        "a": 3.73
+        "h": 1.86,
+        "d": 3.76,
+        "a": 3.78
       },
       "event_id": 211189,
       "round": 15,
       "btts": {
-        "yes": 1.59,
-        "no": 2.22
+        "yes": 1.57,
+        "no": 2.26
       },
       "ou": {
-        "o15": 1.17,
-        "u15": 4.25,
+        "o15": 1.18,
+        "u15": 4.35,
         "o25": 1.65,
-        "u25": 2.15,
+        "u25": 2.18,
         "o35": 2.58,
-        "u35": 1.42
+        "u35": 1.45
       },
       "venue": "Pittodrie Stadium",
       "inj": {
         "h": 5,
-        "a": 4
+        "a": 3
       },
       "ai_pred": {
         "res": "H",
-        "ph": 45.7,
-        "pd": 25.4,
-        "pa": 28.9,
-        "xhg": 1.64,
-        "xag": 1.3,
-        "o25": 55.5,
-        "btts": 56.7,
+        "ph": 50.1,
+        "pd": 24.7,
+        "pa": 25.1,
+        "xhg": 1.65,
+        "xag": 1.32,
+        "o25": 56.5,
+        "btts": 58.1,
         "score": "1-1",
-        "conf": 0.46
+        "conf": 0.5
       }
     },
     {
@@ -7885,22 +10247,22 @@ var FOOTYFIXTURES = {
       "away": "St Johnstone",
       "odds": {
         "h": 1.66,
-        "d": 4.17,
+        "d": 4.16,
         "a": 4.41
       },
       "event_id": 211190,
       "round": 15,
       "btts": {
         "yes": 1.5,
-        "no": 2.44
+        "no": 2.45
       },
       "ou": {
         "o15": 1.12,
-        "u15": 5.38,
-        "o25": 1.47,
-        "u25": 2.57,
-        "o35": 2.17,
-        "u35": 1.64
+        "u15": 5.5,
+        "o25": 1.46,
+        "u25": 2.58,
+        "o35": 2.16,
+        "u35": 1.65
       },
       "venue": "Tannadice Park",
       "inj": {
@@ -7909,15 +10271,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 53.4,
-        "pd": 23.9,
-        "pa": 22.7,
-        "xhg": 1.8,
+        "ph": 56.4,
+        "pd": 22.4,
+        "pa": 21.2,
+        "xhg": 1.81,
         "xag": 1.17,
-        "o25": 56.2,
-        "btts": 56.0,
+        "o25": 63.2,
+        "btts": 61.4,
         "score": "1-1",
-        "conf": 0.53
+        "conf": 0.56
       }
     },
     {
@@ -7929,22 +10291,22 @@ var FOOTYFIXTURES = {
       "away": "Falkirk",
       "odds": {
         "h": 1.24,
-        "d": 5.98,
-        "a": 9.97
+        "d": 6.35,
+        "a": 9.87
       },
       "event_id": 211193,
       "round": 15,
       "btts": {
-        "yes": 1.84,
-        "no": 1.9
+        "yes": 1.74,
+        "no": 2.0
       },
       "ou": {
-        "o15": 1.1,
-        "u15": 5.65,
-        "o25": 1.41,
-        "u25": 2.71,
-        "o35": 2.04,
-        "u35": 1.69
+        "o15": 1.08,
+        "u15": 6.43,
+        "o25": 1.35,
+        "u25": 2.97,
+        "o35": 1.92,
+        "u35": 1.82
       },
       "venue": "Ibrox",
       "inj": {
@@ -7953,15 +10315,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 64.0,
-        "pd": 20.2,
-        "pa": 15.8,
-        "xhg": 2.12,
+        "ph": 75.1,
+        "pd": 15.6,
+        "pa": 9.3,
+        "xhg": 2.15,
         "xag": 1.06,
-        "o25": 60.3,
-        "btts": 55.8,
+        "o25": 65.5,
+        "btts": 51.3,
         "score": "2-1",
-        "conf": 0.64
+        "conf": 0.75
       }
     },
     {
@@ -7972,8 +10334,8 @@ var FOOTYFIXTURES = {
       "home": "St Mirren",
       "away": "Kilmarnock",
       "odds": {
-        "h": 2.1,
-        "d": 3.65,
+        "h": 2.11,
+        "d": 3.64,
         "a": 3.14
       },
       "event_id": 211194,
@@ -7987,8 +10349,8 @@ var FOOTYFIXTURES = {
         "u15": 4.7,
         "o25": 1.58,
         "u25": 2.31,
-        "o35": 2.37,
-        "u35": 1.52
+        "o35": 2.38,
+        "u35": 1.51
       },
       "venue": "St. Mirren Park",
       "inj": {
@@ -7997,15 +10359,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 44.1,
-        "pd": 25.7,
-        "pa": 30.2,
-        "xhg": 1.6,
+        "ph": 44.6,
+        "pd": 25.6,
+        "pa": 29.8,
+        "xhg": 1.61,
         "xag": 1.31,
-        "o25": 55.1,
-        "btts": 56.6,
+        "o25": 59.2,
+        "btts": 61.4,
         "score": "1-1",
-        "conf": 0.44
+        "conf": 0.45
       }
     },
     {
@@ -8016,23 +10378,23 @@ var FOOTYFIXTURES = {
       "home": "Motherwell",
       "away": "Hibernian",
       "odds": {
-        "h": 2.56,
-        "d": 3.62,
-        "a": 2.51
+        "h": 2.52,
+        "d": 3.61,
+        "a": 2.54
       },
       "event_id": 211192,
       "round": 15,
       "btts": {
-        "yes": 1.54,
-        "no": 2.35
+        "yes": 1.49,
+        "no": 2.49
       },
       "ou": {
-        "o15": 1.16,
-        "u15": 4.15,
-        "o25": 1.64,
-        "u25": 2.18,
-        "o35": 2.52,
-        "u35": 1.41
+        "o15": 1.15,
+        "u15": 4.76,
+        "o25": 1.6,
+        "u25": 2.29,
+        "o35": 2.39,
+        "u35": 1.52
       },
       "venue": "Fir Park",
       "inj": {
@@ -8040,16 +10402,16 @@ var FOOTYFIXTURES = {
         "a": 3
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 42.9,
-        "pd": 25.8,
-        "pa": 31.4,
-        "xhg": 1.58,
+        "res": "A",
+        "ph": 36.7,
+        "pd": 25.9,
+        "pa": 37.4,
+        "xhg": 1.59,
         "xag": 1.34,
-        "o25": 55.2,
-        "btts": 56.8,
+        "o25": 57.0,
+        "btts": 60.1,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.37
       }
     },
     {
@@ -8060,21 +10422,21 @@ var FOOTYFIXTURES = {
       "home": "Hearts",
       "away": "Celtic",
       "odds": {
-        "h": 3.49,
-        "d": 4.07,
-        "a": 1.86
+        "h": 3.53,
+        "d": 4.02,
+        "a": 1.85
       },
       "event_id": 211191,
       "round": 15,
       "btts": {
         "yes": 1.42,
-        "no": 2.68
+        "no": 2.71
       },
       "ou": {
         "o15": 1.11,
         "u15": 5.7,
-        "o25": 1.42,
-        "u25": 2.71,
+        "o25": 1.41,
+        "u25": 2.77,
         "o35": 2.13,
         "u35": 1.69
       },
@@ -8085,15 +10447,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 29.8,
-        "pd": 23.2,
-        "pa": 46.9,
-        "xhg": 1.48,
+        "ph": 26.8,
+        "pd": 23.0,
+        "pa": 50.2,
+        "xhg": 1.49,
         "xag": 1.83,
-        "o25": 62.8,
-        "btts": 61.5,
+        "o25": 65.5,
+        "btts": 65.0,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.5
       }
     },
     {
@@ -8108,7 +10470,7 @@ var FOOTYFIXTURES = {
       "round": 16,
       "venue": "Dens Park",
       "inj": {
-        "h": 4,
+        "h": 3,
         "a": 2
       }
     },
@@ -8236,7 +10598,7 @@ var FOOTYFIXTURES = {
       "round": 17,
       "venue": "Dens Park",
       "inj": {
-        "h": 4,
+        "h": 3,
         "a": 5
       }
     },
@@ -8296,8 +10658,8 @@ var FOOTYFIXTURES = {
       "home": "Venezia",
       "away": "Bologna",
       "odds": {
-        "h": 3.31,
-        "d": 3.32,
+        "h": 3.35,
+        "d": 3.31,
         "a": 2.17
       },
       "event_id": 210186,
@@ -8308,10 +10670,10 @@ var FOOTYFIXTURES = {
       },
       "ou": {
         "o15": 1.31,
-        "u15": 3.39,
-        "o25": 2.0,
+        "u15": 3.37,
+        "o25": 2.02,
         "u25": 1.81,
-        "o35": 3.35,
+        "o35": 3.37,
         "u35": 1.32
       },
       "venue": "Stadio Pierluigi Penzo",
@@ -8319,14 +10681,15 @@ var FOOTYFIXTURES = {
         "h": 3,
         "a": 4
       },
+      "ai_preview": "**Bologna's rolling, Venezia's limping — this feels like a classic trap-game setup at the Penzo.** 🎭 The visitors have won four of their last five, but they're banged up and headed to one of Serie A's trickiest atmospheres.\n\nVenezia grabbed a clutch home win over Udinese recently, so they're not completely flat. Bologna, though, has **the form edge** — they're unbeaten in their last five and have owned this matchup historically (7 wins in 12). But the injury list for both sides is long enough to make you squint.\n\nKey storylines:\n\n- **Venezia's attacking hopes rest on J. Yeboah and A. Adams** in a narrow 3-5-2; they'll need pace and pressing to disrupt Bologna's rhythm\n- **Bologna's midfield (L. Ferguson, T. Pobega) anchors a team that's been clinical**, but missing E. Holm, J. Miranda, and O. El Azzouzi leaves them short on depth\n- **Head-to-head says Bologna owns this fixture (7-2-3)**, but Venetian home resilience means underestimating the locals is risky\n\nExpected lineups:\n\n- **Venezia**: F. Stanković, M. Moreno, J. Jesus, A. Gomes, A. Hainaut, S. Sohm, K. Pérez, A. Adams, J. Yeboah\n- **Bologna**: Ł. Skorupski, A. Theate, N. Zortea, T. Heggem, L. Ferguson, T. Pobega, J. Odgaard, F. Bernardeschi, N. Cambiaghi\n\nPrediction:\n\n**1-1 draw.** Bologna has the pedigree and form, but Venezia's grit at home plus Bologna's injury toll should cancel out the visitors' edge — a cagey affair feels most likely. ⚽",
       "ai_pred": {
         "res": "A",
-        "ph": 28.4,
-        "pd": 28.3,
-        "pa": 43.3,
+        "ph": 28.1,
+        "pd": 28.5,
+        "pa": 43.4,
         "xhg": 1.57,
         "xag": 1.34,
-        "o25": 47.9,
+        "o25": 47.7,
         "btts": 53.2,
         "score": "1-1",
         "conf": 0.43
@@ -8341,8 +10704,8 @@ var FOOTYFIXTURES = {
       "away": "Parma",
       "odds": {
         "h": 1.52,
-        "d": 4.61,
-        "a": 5.25
+        "d": 4.63,
+        "a": 5.31
       },
       "event_id": 210180,
       "round": 13,
@@ -8353,8 +10716,8 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.12,
         "u15": 5.54,
-        "o25": 1.41,
-        "u25": 2.82,
+        "o25": 1.4,
+        "u25": 2.83,
         "o35": 2.04,
         "u35": 1.79
       },
@@ -8365,15 +10728,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 62.9,
-        "pd": 22.2,
-        "pa": 14.9,
+        "ph": 61.9,
+        "pd": 20.3,
+        "pa": 17.7,
         "xhg": 2.14,
         "xag": 0.93,
-        "o25": 65.2,
-        "btts": 60.1,
+        "o25": 66.5,
+        "btts": 61.9,
         "score": "2-0",
-        "conf": 0.63
+        "conf": 0.62
       }
     },
     {
@@ -8384,8 +10747,8 @@ var FOOTYFIXTURES = {
       "home": "Torino",
       "away": "Lazio",
       "odds": {
-        "h": 3.4,
-        "d": 3.44,
+        "h": 3.41,
+        "d": 3.43,
         "a": 2.09
       },
       "event_id": 210184,
@@ -8409,15 +10772,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 27.9,
-        "pd": 27.8,
-        "pa": 44.4,
+        "ph": 27.7,
+        "pd": 27.3,
+        "pa": 45.0,
         "xhg": 1.15,
         "xag": 1.45,
-        "o25": 48.1,
-        "btts": 52.0,
+        "o25": 50.4,
+        "btts": 54.4,
         "score": "1-1",
-        "conf": 0.44
+        "conf": 0.45
       }
     },
     {
@@ -8453,15 +10816,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 66.4,
-        "pd": 20.4,
-        "pa": 13.2,
+        "ph": 71.4,
+        "pd": 17.8,
+        "pa": 10.8,
         "xhg": 2.05,
         "xag": 0.9,
-        "o25": 55.7,
-        "btts": 51.6,
+        "o25": 59.5,
+        "btts": 49.4,
         "score": "2-0",
-        "conf": 0.66
+        "conf": 0.71
       }
     },
     {
@@ -8472,7 +10835,7 @@ var FOOTYFIXTURES = {
       "home": "Udinese",
       "away": "Fiorentina",
       "odds": {
-        "h": 2.99,
+        "h": 3.02,
         "d": 3.54,
         "a": 2.23
       },
@@ -8493,19 +10856,19 @@ var FOOTYFIXTURES = {
       "venue": "Bluenergy Stadium",
       "inj": {
         "h": 3,
-        "a": 3
+        "a": 2
       },
       "ai_pred": {
         "res": "A",
-        "ph": 30.2,
-        "pd": 25.7,
-        "pa": 44.1,
+        "ph": 31.4,
+        "pd": 26.5,
+        "pa": 42.1,
         "xhg": 1.33,
         "xag": 1.59,
-        "o25": 55.1,
-        "btts": 56.7,
+        "o25": 55.5,
+        "btts": 58.7,
         "score": "1-1",
-        "conf": 0.44
+        "conf": 0.42
       }
     },
     {
@@ -8517,7 +10880,7 @@ var FOOTYFIXTURES = {
       "away": "Napoli",
       "odds": {
         "h": 4.56,
-        "d": 4.14,
+        "d": 4.17,
         "a": 1.67
       },
       "event_id": 210183,
@@ -8529,10 +10892,10 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.15,
         "u15": 4.99,
-        "o25": 1.54,
-        "u25": 2.44,
-        "o35": 2.45,
-        "u35": 1.62
+        "o25": 1.55,
+        "u25": 2.43,
+        "o35": 2.48,
+        "u35": 1.61
       },
       "venue": "Mapei Stadium",
       "inj": {
@@ -8541,15 +10904,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 28.6,
-        "pd": 25.1,
-        "pa": 46.4,
+        "ph": 20.7,
+        "pd": 22.8,
+        "pa": 56.5,
         "xhg": 1.32,
         "xag": 1.66,
-        "o25": 56.4,
-        "btts": 57.3,
+        "o25": 61.0,
+        "btts": 59.5,
         "score": "1-1",
-        "conf": 0.46
+        "conf": 0.57
       }
     },
     {
@@ -8559,13 +10922,29 @@ var FOOTYFIXTURES = {
       "time": "17:00",
       "home": "Roma",
       "away": "Monza",
-      "odds": null,
+      "odds": {
+        "h": 1.2,
+        "d": 7.28,
+        "a": 11.53
+      },
       "event_id": 210177,
       "round": 13,
+      "btts": {
+        "yes": 1.79,
+        "no": 1.94
+      },
+      "ou": {
+        "o15": 1.08,
+        "u15": 7.0,
+        "o25": 1.33,
+        "u25": 3.29,
+        "o35": 1.92,
+        "u35": 1.97
+      },
       "venue": "Stadio Olimpico",
       "inj": {
         "h": 3,
-        "a": 3
+        "a": 2
       },
       "ai_pred": {
         "res": "H",
@@ -8587,9 +10966,25 @@ var FOOTYFIXTURES = {
       "time": "19:45",
       "home": "Como",
       "away": "Juventus",
-      "odds": null,
+      "odds": {
+        "h": 2.08,
+        "d": 3.5,
+        "a": 3.33
+      },
       "event_id": 210179,
       "round": 13,
+      "btts": {
+        "yes": 1.62,
+        "no": 2.19
+      },
+      "ou": {
+        "o15": 1.25,
+        "u15": 3.75,
+        "o25": 1.81,
+        "u25": 2.01,
+        "o35": 2.93,
+        "u35": 1.39
+      },
       "venue": "Stadio Giuseppe Sinigaglia",
       "inj": {
         "h": 5,
@@ -8597,13 +10992,13 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 42.0,
-        "pd": 27.5,
-        "pa": 30.5,
-        "xhg": 1.45,
-        "xag": 1.22,
-        "o25": 49.7,
-        "btts": 53.2,
+        "ph": 42.2,
+        "pd": 27.7,
+        "pa": 30.1,
+        "xhg": 1.44,
+        "xag": 1.2,
+        "o25": 49.2,
+        "btts": 52.9,
         "score": "1-1",
         "conf": 0.42
       }
@@ -8655,7 +11050,7 @@ var FOOTYFIXTURES = {
         "res": "A",
         "ph": 21.3,
         "pd": 24.5,
-        "pa": 54.3,
+        "pa": 54.2,
         "xhg": 1.09,
         "xag": 1.75,
         "o25": 53.5,
@@ -8692,7 +11087,7 @@ var FOOTYFIXTURES = {
       "round": 14,
       "venue": "U-Power Stadium",
       "inj": {
-        "h": 3,
+        "h": 2,
         "a": 5
       }
     },
@@ -8820,7 +11215,7 @@ var FOOTYFIXTURES = {
       "round": 14,
       "venue": "Stadio Artemio Franchi",
       "inj": {
-        "h": 3,
+        "h": 2,
         "a": 8
       }
     },
@@ -8832,28 +11227,28 @@ var FOOTYFIXTURES = {
       "home": "Cremonese",
       "away": "Avellino",
       "odds": {
-        "h": 1.97,
-        "d": 3.22,
-        "a": 3.79
+        "h": 1.98,
+        "d": 3.2,
+        "a": 3.78
       },
       "event_id": 605722,
       "round": 13,
       "btts": {
         "yes": 1.82,
-        "no": 1.91
+        "no": 1.9
       },
       "ou": {
-        "o15": 1.31,
-        "u15": 3.18,
-        "o25": 2.05,
+        "o15": 1.33,
+        "u15": 3.13,
+        "o25": 2.06,
         "u25": 1.74,
-        "o35": 3.58,
-        "u35": 1.26
+        "o35": 3.63,
+        "u35": 1.25
       },
       "venue": "Stadio Giovanni Zini",
       "inj": {
         "h": 2,
-        "a": 4
+        "a": 5
       },
       "funfacts": [
         "Federico Bonazzoli is Cremonese's top scorer with 6 goals. Raffaele Russo has scored 5 times for Avellino."
@@ -8861,15 +11256,52 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Cremonese's hot streak meets Avellino's rock-solid defense** — this is a Serie B clash where form and tactical nous are about to collide. 🔥\n\nCremonese have won three of their last five and demolished Vicenza 4-1, but they just took a rare L to Südtirol. Avellino? Dead steady — two wins and two draws lately, riding an 11-game unbeaten run. This screams **banana skin territory** for the hosts.\n\nKey storylines:\n\n- **F. Bonazzoli** leads a Cremonese attack that can click on their day, but Avellino's back three of **A. Izzo**, **P. Enrici**, and **M. Venturi** have been miserly all season\n- **W. Cheddira** and **R. Russo** are sharp up top for the Irpini, and they'll prey on any sloppy Cremonese possession\n- Home advantage at Stadio Giovanni Zini has been decisive for Cremonese, but Avellino don't rattle easily — the classic draw-or-steal scenario\n\nExpected lineups:\n\n- **Cremonese**: A. Fulignati, Y. Rocchetti, F. Baschirotto, S. Luperto, T. Barbieri, S. L. Tessadri, F. Gerli, J. Vandeputte\n- **US Avellino 1912**: T. Martinelli, P. Enrici, M. Venturi, A. Izzo, B. Moruzzi, M. Palumbo, R. Russo, W. Cheddira\n\nPrediction:\n\n**1-1 draw**. Cremonese pours pressure but Avellino's defensive discipline keeps them in it — classic deadlock.",
       "ai_pred": {
         "res": "H",
-        "ph": 46.9,
-        "pd": 28.7,
+        "ph": 46.7,
+        "pd": 28.9,
         "pa": 24.4,
         "xhg": 1.37,
         "xag": 1.21,
-        "o25": 46.0,
-        "btts": 51.3,
+        "o25": 45.9,
+        "btts": 51.2,
         "score": "1-1",
         "conf": 0.47
+      },
+      "api_h2h": {
+        "n": 4,
+        "w": 1,
+        "d": 2,
+        "l": 1,
+        "m": [
+          [
+            "27/01/2018",
+            0,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "03/09/2017",
+            1,
+            3,
+            1,
+            "W"
+          ],
+          [
+            "17/02/1985",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "07/10/1984",
+            1,
+            0,
+            0,
+            "D"
+          ]
+        ],
+        "ag": 1.5
       }
     },
     {
@@ -8881,26 +11313,26 @@ var FOOTYFIXTURES = {
       "away": "Arezzo",
       "odds": {
         "h": 1.65,
-        "d": 3.76,
-        "a": 4.74
+        "d": 3.78,
+        "a": 4.75
       },
       "event_id": 605725,
       "round": 13,
       "btts": {
-        "yes": 1.76,
-        "no": 1.96
+        "yes": 1.73,
+        "no": 2.0
       },
       "ou": {
         "o15": 1.22,
-        "u15": 3.9,
+        "u15": 3.92,
         "o25": 1.79,
         "u25": 2.0,
-        "o35": 2.96,
+        "o35": 2.94,
         "u35": 1.36
       },
       "venue": "Stadio Danilo Martelli",
       "inj": {
-        "h": 0,
+        "h": 1,
         "a": 1
       },
       "funfacts": [
@@ -8911,15 +11343,52 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Mantova's treading water while Arezzo's in free fall** — this mid-table clash has the feel of a stalemate waiting to happen. 🏟️\n\nMantova bounced back from that 4-1 shellacking with a couple of steadying draws, while Arezzo hasn't won in five and looks properly rattled. The hosts should have the edge at the Martelli, but Arezzo's compact 4-1-4-1 shape can frustrate.\n\nKey storylines:\n\n- **Mantova's attack** (Gliozzi, Ruocco, Bragantini) needs to punish Arezzo's shaky run-in\n- **Arezzo's midfield cushion** with Ioniță anchoring — holding the line is their best bet without Chierico\n- **Mantova's home record** vs Arezzo's away woes — slight advantage to the hosts, but nothing dramatic\n\nExpected lineups:\n\n- **Mantova**: Bardi, Castellini, Tomašević, Cella, Del Lungo, Benaissa-Yahia, Silva, Wieser, Ruocco, Gliozzi, Bragantini\n- **Arezzo**: Nunziante, Coppolaro, Renzi, Gilli, Righetti, Ioniță, Sala, Shaka Mawuli, Viviani, Iaccarino, Olivieri\n\nPrediction:\n\n**1-1 draw** — Mantova's slight lean at home, but Arezzo's defensive shape and injury headwinds conspire to grind this into a stalemate.",
       "ai_pred": {
         "res": "H",
-        "ph": 56.0,
-        "pd": 24.6,
+        "ph": 56.1,
+        "pd": 24.5,
         "pa": 19.5,
         "xhg": 1.35,
         "xag": 1.41,
         "o25": 52.7,
-        "btts": 52.9,
+        "btts": 53.7,
         "score": "1-1",
         "conf": 0.56
+      },
+      "api_h2h": {
+        "n": 4,
+        "w": 1,
+        "d": 1,
+        "l": 2,
+        "m": [
+          [
+            "03/03/2021",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "25/11/2020",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "16/02/2015",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "28/09/2014",
+            1,
+            0,
+            1,
+            "L"
+          ]
+        ],
+        "ag": 1.5
       }
     },
     {
@@ -8930,9 +11399,9 @@ var FOOTYFIXTURES = {
       "home": "Padova",
       "away": "Sampdoria",
       "odds": {
-        "h": 2.92,
-        "d": 3.1,
-        "a": 2.4
+        "h": 3.0,
+        "d": 3.11,
+        "a": 2.34
       },
       "event_id": 605726,
       "round": 13,
@@ -8944,13 +11413,13 @@ var FOOTYFIXTURES = {
         "o15": 1.33,
         "u15": 3.1,
         "o25": 2.08,
-        "u25": 1.71,
-        "o35": 3.72,
+        "u25": 1.72,
+        "o35": 3.73,
         "u35": 1.24
       },
       "venue": "Stadio Comunale Euganeo",
       "inj": {
-        "h": 0,
+        "h": 2,
         "a": 5
       },
       "funfacts": [
@@ -8961,12 +11430,12 @@ var FOOTYFIXTURES = {
       "ai_preview": "**Padova's looking to extend their unbeaten run**, but they're facing a Sampdoria side that's just demolished the competition in recent weeks. 🔥 This one's got draw written all over it.\n\nPadova are five games without a loss—three draws and two wins—while Sampdoria have rattled off three straight victories. The away side's missing key players including **L. Insigne** and **F. Depaoli**, which could blunt their usual attacking edge.\n\nKey storylines:\n\n- **Padova's defensive solidity** (1-1-1-1 across last three) meets **Sampdoria's red-hot finishing**, but the visitors' injury list is a real handicap\n- **K. Lasagna** and **T. Lauritsen** will be the focal points in a battle of competing frontlines\n- Home advantage at Euganeo could be the difference in a tight, cagey affair\n\nExpected lineups:\n\n- **Padova**: A. Sorrentino, A. Dellavalle, M. Lovato, F. Sgarbi, C. Pastina, E. Silletti, E. Zuelli, L. Carissoni, A. Capelli, L. Moro, K. Lasagna\n- **Sampdoria**: A. Krastev, M. Cicconi, F. Delli Carri, S. Gartenmann, K. Mbabu, O. Abildgaard, L. Henderson, A. Makoumbou, T. Begić, T. Lauritsen, Y. Karamoh\n\nPrediction:\n\n**1-1 draw** — both sides have the quality to find the net, but neither can quite seal it. Slight edge to Padova's home form and Sampdoria's absences evening out the equation.",
       "ai_pred": {
         "res": "A",
-        "ph": 31.7,
-        "pd": 29.8,
-        "pa": 38.5,
+        "ph": 30.8,
+        "pd": 29.7,
+        "pa": 39.5,
         "xhg": 1.47,
         "xag": 0.98,
-        "o25": 45.1,
+        "o25": 45.2,
         "btts": 51.6,
         "score": "1-1",
         "conf": 0.39
@@ -8981,22 +11450,22 @@ var FOOTYFIXTURES = {
       "away": "Modena",
       "odds": {
         "h": 2.3,
-        "d": 3.24,
+        "d": 3.25,
         "a": 2.93
       },
       "event_id": 605728,
       "round": 13,
       "btts": {
         "yes": 1.6,
-        "no": 2.22
+        "no": 2.21
       },
       "ou": {
         "o15": 1.22,
-        "u15": 3.93,
+        "u15": 3.94,
         "o25": 1.78,
         "u25": 2.01,
-        "o35": 2.9,
-        "u35": 1.37
+        "o35": 2.91,
+        "u35": 1.38
       },
       "venue": "Arena Garibaldi-Romeo Anconetani",
       "inj": {
@@ -9017,7 +11486,7 @@ var FOOTYFIXTURES = {
         "xhg": 1.25,
         "xag": 1.41,
         "o25": 52.8,
-        "btts": 57.6,
+        "btts": 57.5,
         "score": "1-1",
         "conf": 0.4
       }
@@ -9030,23 +11499,23 @@ var FOOTYFIXTURES = {
       "home": "Ascoli",
       "away": "Virtus Entella",
       "odds": {
-        "h": 1.95,
-        "d": 3.28,
-        "a": 3.76
+        "h": 1.91,
+        "d": 3.34,
+        "a": 3.83
       },
       "event_id": 605731,
       "round": 14,
       "btts": {
         "yes": 1.76,
-        "no": 1.98
+        "no": 1.96
       },
       "ou": {
-        "o15": 1.27,
-        "u15": 3.37,
+        "o15": 1.28,
+        "u15": 3.36,
         "o25": 1.95,
-        "u25": 1.82,
-        "o35": 3.27,
-        "u35": 1.29
+        "u25": 1.81,
+        "o35": 3.36,
+        "u35": 1.28
       },
       "venue": "Cino e Lillo Del Duca",
       "inj": {
@@ -9055,15 +11524,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 50.2,
+        "ph": 48.3,
         "pd": 27.6,
-        "pa": 22.2,
+        "pa": 24.1,
         "xhg": 1.67,
-        "xag": 0.86,
-        "o25": 47.3,
-        "btts": 51.6,
+        "xag": 0.9,
+        "o25": 48.1,
+        "btts": 52.3,
         "score": "1-0",
-        "conf": 0.5
+        "conf": 0.48
       }
     },
     {
@@ -9074,23 +11543,23 @@ var FOOTYFIXTURES = {
       "home": "Carrarese",
       "away": "Juve Stabia",
       "odds": {
-        "h": 2.37,
-        "d": 3.22,
-        "a": 2.83
+        "h": 2.14,
+        "d": 3.16,
+        "a": 3.35
       },
       "event_id": 605732,
       "round": 14,
       "btts": {
-        "yes": 1.64,
-        "no": 2.15
+        "yes": 1.69,
+        "no": 2.05
       },
       "ou": {
-        "o15": 1.23,
-        "u15": 3.62,
-        "o25": 1.83,
-        "u25": 1.94,
-        "o35": 3.06,
-        "u35": 1.33
+        "o15": 1.25,
+        "u15": 3.55,
+        "o25": 1.87,
+        "u25": 1.88,
+        "o35": 3.16,
+        "u35": 1.32
       },
       "venue": "Stadio dei Marmi",
       "inj": {
@@ -9099,15 +11568,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 40.8,
-        "pd": 28.7,
-        "pa": 30.6,
-        "xhg": 1.32,
-        "xag": 1.09,
-        "o25": 50.9,
-        "btts": 55.1,
+        "ph": 43.2,
+        "pd": 29.2,
+        "pa": 27.6,
+        "xhg": 1.36,
+        "xag": 1.06,
+        "o25": 49.8,
+        "btts": 54.3,
         "score": "1-1",
-        "conf": 0.41
+        "conf": 0.43
       }
     },
     {
@@ -9118,23 +11587,23 @@ var FOOTYFIXTURES = {
       "home": "Empoli",
       "away": "Verona",
       "odds": {
-        "h": 3.41,
-        "d": 3.33,
-        "a": 2.04
+        "h": 3.87,
+        "d": 3.49,
+        "a": 1.87
       },
       "event_id": 605734,
       "round": 14,
       "btts": {
-        "yes": 1.67,
+        "yes": 1.66,
         "no": 2.1
       },
       "ou": {
-        "o15": 1.23,
-        "u15": 3.73,
-        "o25": 1.82,
-        "u25": 1.95,
-        "o35": 2.92,
-        "u35": 1.35
+        "o15": 1.22,
+        "u15": 3.88,
+        "o25": 1.77,
+        "u25": 2.01,
+        "o35": 2.87,
+        "u35": 1.37
       },
       "venue": "Carlo Castellani",
       "inj": {
@@ -9143,15 +11612,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 25.1,
-        "pd": 27.4,
-        "pa": 47.4,
+        "ph": 23.9,
+        "pd": 26.5,
+        "pa": 49.5,
         "xhg": 1.39,
-        "xag": 1.14,
-        "o25": 51.1,
-        "btts": 54.3,
+        "xag": 1.18,
+        "o25": 52.9,
+        "btts": 55.4,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.5
       }
     },
     {
@@ -9182,20 +11651,71 @@ var FOOTYFIXTURES = {
       },
       "venue": "Stadio Romeo Menti",
       "inj": {
-        "h": 2,
+        "h": 1,
         "a": 0
       },
       "ai_pred": {
         "res": "H",
-        "ph": 59.1,
-        "pd": 23.1,
-        "pa": 17.8,
-        "xhg": 1.86,
-        "xag": 1.0,
-        "o25": 53.9,
-        "btts": 52.9,
+        "ph": 39.4,
+        "pd": 28.2,
+        "pa": 32.4,
+        "xhg": 1.83,
+        "xag": 1.04,
+        "o25": 52.7,
+        "btts": 57.3,
         "score": "1-1",
-        "conf": 0.59
+        "conf": 0.39
+      },
+      "api_h2h": {
+        "n": 14,
+        "w": 4,
+        "d": 7,
+        "l": 3,
+        "m": [
+          [
+            "23/02/2020",
+            0,
+            1,
+            3,
+            "W"
+          ],
+          [
+            "07/10/2019",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "04/03/2017",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "09/10/2016",
+            1,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "09/04/2016",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "21/11/2015",
+            1,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.5
       }
     },
     {
@@ -9206,23 +11726,23 @@ var FOOTYFIXTURES = {
       "home": "Palermo",
       "away": "Benevento",
       "odds": {
-        "h": 1.69,
-        "d": 3.79,
-        "a": 4.45
+        "h": 1.79,
+        "d": 3.64,
+        "a": 4.1
       },
       "event_id": 605737,
       "round": 14,
       "btts": {
-        "yes": 1.58,
-        "no": 2.26
+        "yes": 1.55,
+        "no": 2.3
       },
       "ou": {
-        "o15": 1.14,
-        "u15": 4.45,
-        "o25": 1.58,
-        "u25": 2.31,
-        "o35": 2.26,
-        "u35": 1.51
+        "o15": 1.16,
+        "u15": 4.51,
+        "o25": 1.6,
+        "u25": 2.25,
+        "o35": 2.42,
+        "u35": 1.5
       },
       "venue": "Renzo Barbera",
       "inj": {
@@ -9231,15 +11751,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 44.3,
-        "pd": 25.9,
-        "pa": 29.9,
-        "xhg": 1.59,
-        "xag": 1.29,
-        "o25": 54.4,
-        "btts": 56.2,
+        "ph": 55.0,
+        "pd": 24.4,
+        "pa": 20.7,
+        "xhg": 1.6,
+        "xag": 1.32,
+        "o25": 59.2,
+        "btts": 58.6,
         "score": "1-1",
-        "conf": 0.44
+        "conf": 0.55
       }
     },
     {
@@ -9249,25 +11769,41 @@ var FOOTYFIXTURES = {
       "time": "14:00",
       "home": "Modena",
       "away": "Padova",
-      "odds": null,
+      "odds": {
+        "h": 1.52,
+        "d": 3.99,
+        "a": 5.71
+      },
       "event_id": 605736,
       "round": 14,
+      "btts": {
+        "yes": 1.75,
+        "no": 1.99
+      },
+      "ou": {
+        "o15": 1.17,
+        "u15": 3.95,
+        "o25": 1.69,
+        "u25": 2.09,
+        "o35": 2.62,
+        "u35": 1.38
+      },
       "venue": "Alberto Braglia",
       "inj": {
         "h": 6,
-        "a": 0
+        "a": 2
       },
       "ai_pred": {
         "res": "H",
-        "ph": 53.4,
-        "pd": 26.6,
-        "pa": 20.0,
-        "xhg": 1.59,
+        "ph": 60.7,
+        "pd": 23.1,
+        "pa": 16.2,
+        "xhg": 1.6,
         "xag": 0.94,
-        "o25": 46.4,
-        "btts": 49.1,
+        "o25": 54.8,
+        "btts": 52.8,
         "score": "1-1",
-        "conf": 0.53
+        "conf": 0.61
       }
     },
     {
@@ -9277,25 +11813,41 @@ var FOOTYFIXTURES = {
       "time": "14:00",
       "home": "Sudtirol",
       "away": "Mantova",
-      "odds": null,
+      "odds": {
+        "h": 2.74,
+        "d": 3.13,
+        "a": 2.48
+      },
       "event_id": 605739,
       "round": 14,
+      "btts": {
+        "yes": 1.75,
+        "no": 1.99
+      },
+      "ou": {
+        "o15": 1.26,
+        "u15": 3.2,
+        "o25": 1.97,
+        "u25": 1.8,
+        "o35": 3.28,
+        "u35": 1.25
+      },
       "venue": "Stadio Druso",
       "inj": {
-        "h": 3,
-        "a": 0
+        "h": 2,
+        "a": 1
       },
       "ai_pred": {
-        "res": "H",
-        "ph": 43.1,
-        "pd": 27.6,
-        "pa": 29.4,
+        "res": "A",
+        "ph": 33.6,
+        "pd": 29.4,
+        "pa": 37.1,
         "xhg": 1.46,
-        "xag": 1.19,
-        "o25": 49.2,
-        "btts": 52.8,
+        "xag": 1.21,
+        "o25": 47.9,
+        "btts": 53.2,
         "score": "1-1",
-        "conf": 0.43
+        "conf": 0.37
       }
     },
     {
@@ -9305,9 +11857,25 @@ var FOOTYFIXTURES = {
       "time": "16:15",
       "home": "Sampdoria",
       "away": "Cremonese",
-      "odds": null,
+      "odds": {
+        "h": 2.46,
+        "d": 3.12,
+        "a": 2.76
+      },
       "event_id": 605738,
       "round": 14,
+      "btts": {
+        "yes": 1.74,
+        "no": 2.0
+      },
+      "ou": {
+        "o15": 1.25,
+        "u15": 3.28,
+        "o25": 1.99,
+        "u25": 1.78,
+        "o35": 3.2,
+        "u35": 1.26
+      },
       "venue": "Luigi Ferraris",
       "inj": {
         "h": 5,
@@ -9315,13 +11883,13 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 38.9,
-        "pd": 29.6,
-        "pa": 31.5,
-        "xhg": 1.29,
+        "ph": 39.2,
+        "pd": 29.5,
+        "pa": 31.4,
+        "xhg": 1.3,
         "xag": 1.14,
-        "o25": 44.2,
-        "btts": 49.8,
+        "o25": 44.5,
+        "btts": 50.0,
         "score": "1-1",
         "conf": 0.39
       }
@@ -9333,9 +11901,25 @@ var FOOTYFIXTURES = {
       "time": "18:30",
       "home": "Arezzo",
       "away": "Pisa",
-      "odds": null,
+      "odds": {
+        "h": 3.77,
+        "d": 3.4,
+        "a": 1.88
+      },
       "event_id": 605730,
       "round": 14,
+      "btts": {
+        "yes": 1.69,
+        "no": 2.06
+      },
+      "ou": {
+        "o15": 1.19,
+        "u15": 3.74,
+        "o25": 1.81,
+        "u25": 1.96,
+        "o35": 2.83,
+        "u35": 1.33
+      },
       "venue": "Stadio Città di Arezzo",
       "inj": {
         "h": 1,
@@ -9343,15 +11927,66 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 58.7,
-        "pd": 23.6,
-        "pa": 17.6,
-        "xhg": 1.81,
+        "ph": 59.1,
+        "pd": 23.5,
+        "pa": 17.5,
+        "xhg": 1.82,
         "xag": 0.97,
-        "o25": 52.2,
-        "btts": 51.8,
+        "o25": 52.5,
+        "btts": 51.9,
         "score": "1-1",
         "conf": 0.59
+      },
+      "api_h2h": {
+        "n": 7,
+        "w": 3,
+        "d": 2,
+        "l": 2,
+        "m": [
+          [
+            "23/01/2019",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "25/09/2018",
+            0,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "28/04/2018",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "10/12/2017",
+            0,
+            2,
+            3,
+            "W"
+          ],
+          [
+            "07/02/2016",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "26/09/2015",
+            1,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 1.86
       }
     },
     {
@@ -9367,19 +12002,19 @@ var FOOTYFIXTURES = {
       "venue": "Stadio Nicola Ceravolo",
       "inj": {
         "h": 0,
-        "a": 4
+        "a": 5
       },
       "ai_pred": {
         "res": "H",
-        "ph": 44.4,
-        "pd": 25.8,
-        "pa": 29.8,
-        "xhg": 1.6,
-        "xag": 1.3,
-        "o25": 54.6,
-        "btts": 56.3,
+        "ph": 45.5,
+        "pd": 25.6,
+        "pa": 28.9,
+        "xhg": 1.63,
+        "xag": 1.28,
+        "o25": 54.9,
+        "btts": 56.4,
         "score": "1-1",
-        "conf": 0.44
+        "conf": 0.45
       }
     },
     {
@@ -9422,8 +12057,45 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "Stadio Danilo Martelli",
       "inj": {
-        "h": 0,
+        "h": 1,
         "a": 1
+      },
+      "api_h2h": {
+        "n": 4,
+        "w": 0,
+        "d": 2,
+        "l": 2,
+        "m": [
+          [
+            "06/02/2010",
+            1,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "06/09/2009",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "17/02/2009",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "23/09/2008",
+            1,
+            0,
+            0,
+            "D"
+          ]
+        ],
+        "ag": 1.25
       }
     },
     {
@@ -9440,6 +12112,29 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 6,
         "a": 1
+      },
+      "api_h2h": {
+        "n": 2,
+        "w": 2,
+        "d": 0,
+        "l": 0,
+        "m": [
+          [
+            "03/04/2021",
+            1,
+            3,
+            1,
+            "W"
+          ],
+          [
+            "13/12/2020",
+            0,
+            0,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 2.5
       }
     },
     {
@@ -9454,8 +12149,59 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "Stadio Comunale Euganeo",
       "inj": {
-        "h": 0,
-        "a": 2
+        "h": 2,
+        "a": 1
+      },
+      "api_h2h": {
+        "n": 20,
+        "w": 9,
+        "d": 6,
+        "l": 5,
+        "m": [
+          [
+            "10/08/2025",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "16/02/2025",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "06/10/2024",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "06/03/2024",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "29/10/2023",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "08/01/2023",
+            0,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.1
       }
     },
     {
@@ -9486,8 +12232,8 @@ var FOOTYFIXTURES = {
       "round": 15,
       "venue": "Partenio-Adriano Lombardi",
       "inj": {
-        "h": 4,
-        "a": 3
+        "h": 5,
+        "a": 2
       }
     },
     {
@@ -9520,6 +12266,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 2,
         "a": 3
+      },
+      "api_h2h": {
+        "n": 14,
+        "w": 5,
+        "d": 4,
+        "l": 5,
+        "m": [
+          [
+            "08/04/2019",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "23/11/2018",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "15/05/2016",
+            0,
+            3,
+            2,
+            "L"
+          ],
+          [
+            "10/01/2016",
+            1,
+            0,
+            1,
+            "L"
+          ],
+          [
+            "01/02/2015",
+            0,
+            2,
+            1,
+            "L"
+          ],
+          [
+            "15/09/2014",
+            1,
+            2,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 1.86
       }
     },
     {
@@ -9551,7 +12348,30 @@ var FOOTYFIXTURES = {
       "venue": "Stadio Ciro Vigorito",
       "inj": {
         "h": 1,
-        "a": 0
+        "a": 2
+      },
+      "api_h2h": {
+        "n": 2,
+        "w": 1,
+        "d": 1,
+        "l": 0,
+        "m": [
+          [
+            "05/05/2019",
+            1,
+            3,
+            3,
+            "D"
+          ],
+          [
+            "27/12/2018",
+            0,
+            0,
+            1,
+            "W"
+          ]
+        ],
+        "ag": 3.5
       }
     },
     {
@@ -9578,8 +12398,59 @@ var FOOTYFIXTURES = {
       "round": 16,
       "venue": "Stadio Romeo Menti",
       "inj": {
-        "h": 2,
-        "a": 0
+        "h": 1,
+        "a": 1
+      },
+      "api_h2h": {
+        "n": 14,
+        "w": 7,
+        "d": 4,
+        "l": 3,
+        "m": [
+          [
+            "14/04/2024",
+            0,
+            1,
+            2,
+            "W"
+          ],
+          [
+            "08/12/2023",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "19/02/2023",
+            0,
+            2,
+            6,
+            "W"
+          ],
+          [
+            "20/10/2022",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "27/03/2010",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "26/10/2009",
+            1,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.29
       }
     },
     {
@@ -9615,6 +12486,181 @@ var FOOTYFIXTURES = {
       }
     },
     {
+      "div": "I2",
+      "league": "Serie B",
+      "date": "09/12/2026",
+      "time": "18:00",
+      "home": "Verona",
+      "away": "Avellino",
+      "odds": null,
+      "event_id": 605756,
+      "round": 16,
+      "venue": "Stadio Marcantonio Bentegodi",
+      "inj": {
+        "h": 2,
+        "a": 5
+      },
+      "api_h2h": {
+        "n": 17,
+        "w": 7,
+        "d": 2,
+        "l": 8,
+        "m": [
+          [
+            "13/08/2017",
+            1,
+            3,
+            1,
+            "W"
+          ],
+          [
+            "11/02/2017",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "17/09/2016",
+            1,
+            3,
+            1,
+            "W"
+          ],
+          [
+            "31/01/1988",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "20/09/1987",
+            1,
+            4,
+            1,
+            "W"
+          ],
+          [
+            "08/03/1987",
+            0,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.94
+      }
+    },
+    {
+      "div": "I2",
+      "league": "Serie B",
+      "date": "09/12/2026",
+      "time": "19:00",
+      "home": "Arezzo",
+      "away": "Cesena",
+      "odds": null,
+      "event_id": 605750,
+      "round": 16,
+      "venue": "Stadio Città di Arezzo",
+      "inj": {
+        "h": 1,
+        "a": 0
+      },
+      "api_h2h": {
+        "n": 5,
+        "w": 0,
+        "d": 0,
+        "l": 5,
+        "m": [
+          [
+            "13/02/2024",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "09/10/2023",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "02/05/2021",
+            0,
+            3,
+            1,
+            "L"
+          ],
+          [
+            "16/01/2021",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "07/08/2016",
+            0,
+            2,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 2.2
+      }
+    },
+    {
+      "div": "I2",
+      "league": "Serie B",
+      "date": "09/12/2026",
+      "time": "19:00",
+      "home": "Catanzaro",
+      "away": "Virtus Entella",
+      "odds": null,
+      "event_id": 605754,
+      "round": 16,
+      "venue": "Stadio Nicola Ceravolo",
+      "inj": {
+        "h": 0,
+        "a": 1
+      }
+    },
+    {
+      "div": "I2",
+      "league": "Serie B",
+      "date": "09/12/2026",
+      "time": "19:00",
+      "home": "Empoli",
+      "away": "Sudtirol",
+      "odds": null,
+      "event_id": 605755,
+      "round": 16,
+      "venue": "Carlo Castellani",
+      "inj": {
+        "h": 1,
+        "a": 2
+      }
+    },
+    {
+      "div": "I2",
+      "league": "Serie B",
+      "date": "09/12/2026",
+      "time": "19:00",
+      "home": "Palermo",
+      "away": "Cremonese",
+      "odds": null,
+      "event_id": 605758,
+      "round": 16,
+      "venue": "Renzo Barbera",
+      "inj": {
+        "h": 3,
+        "a": 2
+      }
+    },
+    {
       "div": "G1",
       "league": "Super League Greece",
       "date": "28/11/2026",
@@ -9643,15 +12689,52 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 47.5,
-        "pd": 27.9,
-        "pa": 24.6,
+        "ph": 50.5,
+        "pd": 26.5,
+        "pa": 23.1,
         "xhg": 1.48,
         "xag": 1.04,
-        "o25": 46.2,
-        "btts": 50.2,
+        "o25": 45.4,
+        "btts": 48.2,
         "score": "1-1",
-        "conf": 0.47
+        "conf": 0.5
+      },
+      "api_h2h": {
+        "n": 4,
+        "w": 1,
+        "d": 1,
+        "l": 2,
+        "m": [
+          [
+            "23/04/2017",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "11/12/2016",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "17/04/2016",
+            1,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "20/12/2015",
+            0,
+            2,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 1.75
       }
     },
     {
@@ -9662,9 +12745,9 @@ var FOOTYFIXTURES = {
       "home": "Volos NFC",
       "away": "Asteras Tripolis",
       "odds": {
-        "h": 2.48,
+        "h": 2.49,
         "d": 3.18,
-        "a": 2.66
+        "a": 2.65
       },
       "event_id": 219820,
       "round": 12,
@@ -9687,15 +12770,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 39.8,
-        "pd": 29.1,
-        "pa": 31.1,
+        "ph": 36.9,
+        "pd": 28.7,
+        "pa": 34.4,
         "xhg": 1.32,
         "xag": 1.15,
-        "o25": 45.3,
-        "btts": 50.5,
+        "o25": 43.0,
+        "btts": 51.1,
         "score": "1-1",
-        "conf": 0.4
+        "conf": 0.37
       }
     },
     {
@@ -9707,7 +12790,7 @@ var FOOTYFIXTURES = {
       "away": "Kalamata",
       "odds": {
         "h": 1.83,
-        "d": 3.45,
+        "d": 3.44,
         "a": 3.99
       },
       "event_id": 219816,
@@ -9731,15 +12814,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 50.8,
-        "pd": 25.0,
-        "pa": 24.2,
+        "ph": 50.3,
+        "pd": 26.7,
+        "pa": 23.1,
         "xhg": 1.71,
         "xag": 1.16,
-        "o25": 54.0,
-        "btts": 55.0,
+        "o25": 48.3,
+        "btts": 52.5,
         "score": "1-1",
-        "conf": 0.51
+        "conf": 0.5
       }
     },
     {
@@ -9749,9 +12832,25 @@ var FOOTYFIXTURES = {
       "time": "15:00",
       "home": "Atromitos",
       "away": "Panathinaikos",
-      "odds": null,
+      "odds": {
+        "h": 6.44,
+        "d": 4.27,
+        "a": 1.42
+      },
       "event_id": 219818,
       "round": 12,
+      "btts": {
+        "yes": 1.96,
+        "no": 1.79
+      },
+      "ou": {
+        "o15": 1.23,
+        "u15": 3.68,
+        "o25": 1.78,
+        "u25": 2.01,
+        "o35": 2.9,
+        "u35": 1.35
+      },
       "venue": "Peristeri Stadium",
       "inj": {
         "h": 0,
@@ -9777,9 +12876,25 @@ var FOOTYFIXTURES = {
       "time": "15:30",
       "home": "OFI Crete",
       "away": "Levadeiakos",
-      "odds": null,
+      "odds": {
+        "h": 1.96,
+        "d": 3.34,
+        "a": 3.53
+      },
       "event_id": 219821,
       "round": 12,
+      "btts": {
+        "yes": 1.84,
+        "no": 1.9
+      },
+      "ou": {
+        "o15": 1.34,
+        "u15": 2.97,
+        "o25": 2.13,
+        "u25": 1.68,
+        "o35": 3.75,
+        "u35": 1.23
+      },
       "venue": "Theodoros Vardinogiannis Stadium",
       "inj": {
         "h": 4,
@@ -9791,7 +12906,7 @@ var FOOTYFIXTURES = {
         "pd": 27.5,
         "pa": 30.8,
         "xhg": 1.44,
-        "xag": 1.23,
+        "xag": 1.22,
         "o25": 49.7,
         "btts": 53.3,
         "score": "1-1",
@@ -9805,9 +12920,25 @@ var FOOTYFIXTURES = {
       "time": "17:00",
       "home": "Aris",
       "away": "Olympiakos",
-      "odds": null,
+      "odds": {
+        "h": 4.18,
+        "d": 3.5,
+        "a": 1.77
+      },
       "event_id": 219819,
       "round": 12,
+      "btts": {
+        "yes": 1.83,
+        "no": 1.9
+      },
+      "ou": {
+        "o15": 1.29,
+        "u15": 3.25,
+        "o25": 1.97,
+        "u25": 1.82,
+        "o35": 3.32,
+        "u35": 1.28
+      },
       "venue": "Kleanthis Vikelides",
       "inj": {
         "h": 2,
@@ -9820,7 +12951,7 @@ var FOOTYFIXTURES = {
         "pa": 44.7,
         "xhg": 1.01,
         "xag": 1.34,
-        "o25": 42.4,
+        "o25": 42.3,
         "btts": 48.1,
         "score": "1-1",
         "conf": 0.45
@@ -9833,9 +12964,25 @@ var FOOTYFIXTURES = {
       "time": "19:00",
       "home": "AEK",
       "away": "PAOK",
-      "odds": null,
+      "odds": {
+        "h": 1.61,
+        "d": 4.01,
+        "a": 4.57
+      },
       "event_id": 219817,
       "round": 12,
+      "btts": {
+        "yes": 1.69,
+        "no": 2.07
+      },
+      "ou": {
+        "o15": 1.17,
+        "u15": 4.48,
+        "o25": 1.64,
+        "u25": 2.21,
+        "o35": 2.55,
+        "u35": 1.45
+      },
       "venue": "Allwyn Arena",
       "inj": {
         "h": 5,
@@ -9843,15 +12990,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 52.8,
-        "pd": 25.1,
-        "pa": 22.1,
-        "xhg": 1.71,
+        "ph": 51.9,
+        "pd": 25.4,
+        "pa": 22.7,
+        "xhg": 1.68,
         "xag": 1.09,
-        "o25": 52.4,
-        "btts": 53.5,
+        "o25": 52.0,
+        "btts": 53.4,
         "score": "1-1",
-        "conf": 0.53
+        "conf": 0.52
       }
     },
     {
@@ -9884,6 +13031,22 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 5,
         "a": 2
+      },
+      "api_h2h": {
+        "n": 1,
+        "w": 1,
+        "d": 0,
+        "l": 0,
+        "m": [
+          [
+            "24/07/2026",
+            0,
+            1,
+            3,
+            "W"
+          ]
+        ],
+        "ag": 4.0
       }
     },
     {
@@ -9932,6 +13095,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 4,
         "a": 2
+      },
+      "api_h2h": {
+        "n": 54,
+        "w": 21,
+        "d": 9,
+        "l": 24,
+        "m": [
+          [
+            "11/01/2009",
+            1,
+            2,
+            3,
+            "L"
+          ],
+          [
+            "13/09/2008",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "30/03/2008",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "16/12/2007",
+            1,
+            2,
+            0,
+            "W"
+          ],
+          [
+            "21/01/2007",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "10/09/2006",
+            0,
+            2,
+            3,
+            "W"
+          ]
+        ],
+        "ag": 2.72
       }
     },
     {
@@ -9974,7 +13188,7 @@ var FOOTYFIXTURES = {
       "home": "Alanyaspor",
       "away": "Konyaspor",
       "odds": {
-        "h": 2.52,
+        "h": 2.5,
         "d": 3.24,
         "a": 2.71
       },
@@ -9987,9 +13201,9 @@ var FOOTYFIXTURES = {
       "ou": {
         "o15": 1.32,
         "u15": 3.21,
-        "o25": 1.99,
+        "o25": 1.98,
         "u25": 1.82,
-        "o35": 3.37,
+        "o35": 3.33,
         "u35": 1.3
       },
       "venue": "Bahcesehir Okullari Stadium",
@@ -9997,14 +13211,15 @@ var FOOTYFIXTURES = {
         "h": 2,
         "a": 2
       },
+      "ai_preview": "**Both teams are limping in with a 1-4 record over their last five—this is a battle between two sides desperately hunting for momentum.** 🔥 Alanyaspor at least has a strong home edge, sitting 11-3 up in the head-to-head on their own patch.\n\nKonyaspor's form is dire: hammered 0-4 at home by Galatasaray and 0-1 away to Samsunspor. Alanyaspor aren't exactly thriving either, but they've got the familiarity of Bahcesehir Stadium working for them.\n\nKey storylines:\n\n- **H. Ui-Jo** leads Alanyaspor's attack from the wing, but expect plenty of creativity from **R. Pereira Duarte** in midfield\n- **J. Dompé** will carry Konyaspor's creative load in a 4-2-3-1 shape—they need him sharp against a volatile home crowd\n- **P. Fernandes** out with a muscle injury means Alanyaspor lean even more on their wide threats and set-piece moments\n\nExpected lineups:\n\n- **Alanyaspor**: P. Victor, N. Lima, F. Aksoy, B. Özyurt, E. Demir, B. Demirağ, F. Hadergjonaj, R. Pereira Duarte, İ. Kaya, M. Elia, H. Ui-Jo\n- **Konyaspor**: B. H. Güngördü, A. Masuaku, R. Baniya, C. Awaziem, U. Yazğılı, M. Ibrahimoglu, D. Türüç, J. Muleka, R. Tóth, J. Dompé, M. Mohamed\n\nPrediction:\n\n**1-1.** A coin flip that leans **Alanyaspor's** way at home, but neither side has the ruthlessness to put this to bed.",
       "ai_pred": {
         "res": "H",
-        "ph": 36.9,
-        "pd": 28.7,
-        "pa": 34.3,
+        "ph": 37.1,
+        "pd": 28.6,
+        "pa": 34.2,
         "xhg": 1.51,
         "xag": 1.09,
-        "o25": 47.8,
+        "o25": 47.9,
         "btts": 53.6,
         "score": "1-1",
         "conf": 0.37
@@ -10018,8 +13233,8 @@ var FOOTYFIXTURES = {
       "home": "Rizespor",
       "away": "Kasimpasa",
       "odds": {
-        "h": 1.9,
-        "d": 3.66,
+        "h": 1.89,
+        "d": 3.67,
         "a": 3.67
       },
       "event_id": 216062,
@@ -10030,7 +13245,7 @@ var FOOTYFIXTURES = {
       },
       "ou": {
         "o15": 1.22,
-        "u15": 3.98,
+        "u15": 4.0,
         "o25": 1.7,
         "u25": 2.13,
         "o35": 2.67,
@@ -10041,10 +13256,11 @@ var FOOTYFIXTURES = {
         "h": 4,
         "a": 3
       },
+      "ai_preview": "**Kasımpaşa rolls in hot, but Rize's home fortress could spoil the party.** 🔥 The visitors are on a **four-game winning streak**, yet Çaykur Rizespor's last five reads solid too — and they've got the head-to-head edge historically.\n\nKasımpaşa's ruthless form (four wins in five) is the headline, but Rize showed grit with back-to-back wins over Amedspor and Erzurumspor. The wrinkle: Rize are missing **C. Bozdoğan** and **H. Aliqulov**, while Kasımpaşa lose **A. Karapo** to suspension. Both squads have some gaps to fill.\n\nKey storylines:\n\n- **Kasımpaşa's attack** (led by **A. Benedyczak** and **H. Hajradinović**) tested Beşiktaş and Gaziantep already — but Rize's defense at home is no pushover\n- **Q. Laci** and **T. Antalyalı** will be key to Rize's midfield control in front of **Y. Fofana**\n- **K. Demirbay** anchoring Kasımpaşa's shape against a hungry home side\n\nExpected lineups:\n\n- **Çaykur Rizespor**: Y. Fofana, Z. Ariss, M. Sagnan, A. Mocsi, M. Pala, T. Antalyalı, Q. Laci, I. Olawoyin, M. Diakité, A. Mebude, A. Sowe\n- **Kasımpaşa**: A. Gianniotis, C. Winck, E. Mendes, K. Mouanga, M. Ilie, K. Demirbay, J. Rak-Sakyi, A. Benedyczak, H. Hajradinović, A. Kol, G. Yalçın\n\nPrediction:\n\n**1–1 draw.** Rize's home form and injury depth keep this tight; Kasımpaşa's streak meets a stubborn wall.",
       "ai_pred": {
         "res": "H",
-        "ph": 49.1,
-        "pd": 25.5,
+        "ph": 49.3,
+        "pd": 25.4,
         "pa": 25.4,
         "xhg": 1.56,
         "xag": 1.17,
@@ -10062,8 +13278,8 @@ var FOOTYFIXTURES = {
       "home": "Samsunspor",
       "away": "Genclerbirligi",
       "odds": {
-        "h": 1.87,
-        "d": 3.55,
+        "h": 1.86,
+        "d": 3.53,
         "a": 3.88
       },
       "event_id": 216061,
@@ -10083,19 +13299,19 @@ var FOOTYFIXTURES = {
       "venue": "Samsun Yeni 19 Mayıs Stadyumu",
       "inj": {
         "h": 2,
-        "a": 4
+        "a": 5
       },
       "ai_pred": {
         "res": "H",
-        "ph": 48.8,
-        "pd": 25.9,
-        "pa": 25.2,
+        "ph": 49.8,
+        "pd": 26.3,
+        "pa": 23.9,
         "xhg": 1.55,
         "xag": 1.16,
-        "o25": 50.7,
-        "btts": 53.4,
+        "o25": 51.3,
+        "btts": 54.1,
         "score": "1-1",
-        "conf": 0.49
+        "conf": 0.5
       }
     },
     {
@@ -10118,7 +13334,7 @@ var FOOTYFIXTURES = {
       },
       "ou": {
         "o15": 1.21,
-        "u15": 4.1,
+        "u15": 4.12,
         "o25": 1.68,
         "u25": 2.16,
         "o35": 2.65,
@@ -10131,15 +13347,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 22.4,
-        "pd": 24.3,
-        "pa": 53.3,
-        "xhg": 1.15,
+        "ph": 28.0,
+        "pd": 25.9,
+        "pa": 46.2,
+        "xhg": 1.14,
         "xag": 1.76,
-        "o25": 54.8,
-        "btts": 55.1,
+        "o25": 56.2,
+        "btts": 58.9,
         "score": "1-1",
-        "conf": 0.53
+        "conf": 0.46
       }
     },
     {
@@ -10152,7 +13368,7 @@ var FOOTYFIXTURES = {
       "odds": {
         "h": 1.89,
         "d": 3.44,
-        "a": 3.93
+        "a": 3.91
       },
       "event_id": 216063,
       "round": 13,
@@ -10175,15 +13391,59 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 48.8,
-        "pd": 27.4,
-        "pa": 23.9,
+        "ph": 49.2,
+        "pd": 27.1,
+        "pa": 23.7,
         "xhg": 1.52,
         "xag": 1.04,
-        "o25": 47.2,
-        "btts": 50.7,
+        "o25": 48.9,
+        "btts": 52.6,
         "score": "1-1",
         "conf": 0.49
+      },
+      "api_h2h": {
+        "n": 5,
+        "w": 1,
+        "d": 1,
+        "l": 3,
+        "m": [
+          [
+            "15/02/2025",
+            0,
+            2,
+            0,
+            "L"
+          ],
+          [
+            "22/09/2024",
+            1,
+            0,
+            2,
+            "L"
+          ],
+          [
+            "16/05/2024",
+            1,
+            2,
+            1,
+            "W"
+          ],
+          [
+            "07/04/2024",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "12/11/2023",
+            0,
+            2,
+            1,
+            "L"
+          ]
+        ],
+        "ag": 2.4
       }
     },
     {
@@ -10194,9 +13454,9 @@ var FOOTYFIXTURES = {
       "home": "Eyupspor",
       "away": "Buyuksehyr",
       "odds": {
-        "h": 5.37,
-        "d": 4.29,
-        "a": 1.53
+        "h": 5.36,
+        "d": 4.28,
+        "a": 1.52
       },
       "event_id": 216057,
       "round": 13,
@@ -10219,15 +13479,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "A",
-        "ph": 25.3,
-        "pd": 25.4,
-        "pa": 49.4,
+        "ph": 17.4,
+        "pd": 21.7,
+        "pa": 60.9,
         "xhg": 1.19,
         "xag": 1.66,
-        "o25": 53.6,
-        "btts": 55.0,
+        "o25": 58.6,
+        "btts": 56.2,
         "score": "1-1",
-        "conf": 0.49
+        "conf": 0.61
       }
     },
     {
@@ -10247,15 +13507,52 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 51.6,
+        "ph": 51.7,
         "pd": 25.3,
         "pa": 23.0,
         "xhg": 1.68,
-        "xag": 1.11,
+        "xag": 1.1,
         "o25": 52.3,
         "btts": 53.6,
         "score": "1-1",
         "conf": 0.52
+      },
+      "api_h2h": {
+        "n": 4,
+        "w": 3,
+        "d": 1,
+        "l": 0,
+        "m": [
+          [
+            "03/05/2021",
+            1,
+            3,
+            1,
+            "W"
+          ],
+          [
+            "11/01/2021",
+            0,
+            0,
+            3,
+            "W"
+          ],
+          [
+            "20/05/2019",
+            0,
+            0,
+            1,
+            "W"
+          ],
+          [
+            "17/12/2018",
+            1,
+            2,
+            2,
+            "D"
+          ]
+        ],
+        "ag": 3.0
       }
     },
     {
@@ -10275,7 +13572,7 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 44.1,
+        "ph": 44.2,
         "pd": 25.9,
         "pa": 29.9,
         "xhg": 1.58,
@@ -10303,15 +13600,15 @@ var FOOTYFIXTURES = {
       },
       "ai_pred": {
         "res": "H",
-        "ph": 47.6,
-        "pd": 24.5,
+        "ph": 47.4,
+        "pd": 24.7,
         "pa": 27.9,
-        "xhg": 1.73,
-        "xag": 1.32,
-        "o25": 57.8,
-        "btts": 58.0,
+        "xhg": 1.71,
+        "xag": 1.31,
+        "o25": 57.2,
+        "btts": 57.6,
         "score": "1-1",
-        "conf": 0.48
+        "conf": 0.47
       }
     },
     {
@@ -10360,6 +13657,22 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 2,
         "a": 2
+      },
+      "api_h2h": {
+        "n": 1,
+        "w": 0,
+        "d": 1,
+        "l": 0,
+        "m": [
+          [
+            "23/07/2026",
+            1,
+            1,
+            1,
+            "D"
+          ]
+        ],
+        "ag": 2.0
       }
     },
     {
@@ -10392,6 +13705,57 @@ var FOOTYFIXTURES = {
       "inj": {
         "h": 0,
         "a": 1
+      },
+      "api_h2h": {
+        "n": 6,
+        "w": 1,
+        "d": 3,
+        "l": 2,
+        "m": [
+          [
+            "01/02/2025",
+            1,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "23/08/2024",
+            0,
+            1,
+            0,
+            "L"
+          ],
+          [
+            "02/03/2024",
+            1,
+            0,
+            0,
+            "D"
+          ],
+          [
+            "06/10/2023",
+            0,
+            1,
+            1,
+            "D"
+          ],
+          [
+            "01/05/2022",
+            1,
+            1,
+            0,
+            "W"
+          ],
+          [
+            "10/12/2021",
+            0,
+            2,
+            0,
+            "L"
+          ]
+        ],
+        "ag": 1.33
       }
     },
     {
@@ -10422,7 +13786,7 @@ var FOOTYFIXTURES = {
       "round": 14,
       "venue": "Eryaman Stadyumu",
       "inj": {
-        "h": 4,
+        "h": 5,
         "a": 2
       }
     },
