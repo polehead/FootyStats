@@ -2045,6 +2045,42 @@ dialog::backdrop {
   font-weight: 700;
 }
 
+.fixture-rank-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.2px;
+  color: #b8c5db;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 3px;
+  padding: 1px 5px;
+  line-height: 1.25;
+  flex-shrink: 0;
+}
+
+.fixture-rank-pill.rank-leader {
+  color: #52ff88;
+  background: rgba(57, 255, 20, 0.1);
+  border-color: rgba(57, 255, 20, 0.28);
+}
+
+.fixture-rank-pill.rank-top {
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.08);
+  border-color: rgba(0, 240, 255, 0.24);
+}
+
+.fixture-rank-pill.rank-bottom {
+  color: #ff9f6b;
+  background: rgba(255, 106, 0, 0.1);
+  border-color: rgba(255, 106, 0, 0.26);
+}
+
 .fixture-inj-tag {
   font-family: var(--font-mono);
   font-size: 0.59rem;

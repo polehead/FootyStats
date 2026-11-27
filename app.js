@@ -645,6 +645,136 @@ const FootyDialogs = (function () {
     }
   }
 
+  // ── Live 26/27 League Standings (Points -> GD -> GF -> Name) ──
+  const LEAGUE_STANDINGS_2627 = {};
+
+  function computeLeagueStandings2627() {
+    for (const k of Object.keys(LEAGUE_STANDINGS_2627)) {
+      delete LEAGUE_STANDINGS_2627[k];
+    }
+    if (!D || !D.m || !D.m.length) return;
+
+    const raw = {};
+    for (let i = 0, len = D.m.length; i < len; i++) {
+      const m = D.m[i];
+      const lgName = D.l[m[M.LG]] || "";
+      if (!lgName.includes("26/27")) continue;
+      const bl = baseLeague(lgName);
+      const tbl = raw[bl] || (raw[bl] = {});
+      const h = teamName(m[M.HOME]);
+      const a = teamName(m[M.AWAY]);
+      const hg = m[M.FTHG] || 0;
+      const ag = m[M.FTAG] || 0;
+
+      if (!tbl[h]) tbl[h] = { name: h, p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
+      if (!tbl[a]) tbl[a] = { name: a, p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
+
+      tbl[h].p++;
+      tbl[a].p++;
+      tbl[h].gf += hg;
+      tbl[h].ga += ag;
+      tbl[a].gf += ag;
+      tbl[a].ga += hg;
+
+      if (hg > ag) {
+        tbl[h].w++;
+        tbl[h].pts += 3;
+        tbl[a].l++;
+      } else if (ag > hg) {
+        tbl[a].w++;
+        tbl[a].pts += 3;
+        tbl[h].l++;
+      } else {
+        tbl[h].d++;
+        tbl[a].d++;
+        tbl[h].pts += 1;
+        tbl[a].pts += 1;
+      }
+    }
+
+    Object.keys(raw).forEach((bl) => {
+      const rows = Object.values(raw[bl]).sort(
+        (x, y) =>
+          y.pts - x.pts ||
+          (y.gf - y.ga) - (x.gf - x.ga) ||
+          y.gf - x.gf ||
+          x.name.localeCompare(y.name),
+      );
+      const map = {};
+      const total = rows.length;
+      for (let i = 0; i < total; i++) {
+        const r = rows[i];
+        map[r.name] = {
+          rank: i + 1,
+          total: total,
+          pts: r.pts,
+          p: r.p,
+          w: r.w,
+          d: r.d,
+          l: r.l,
+          gd: r.gf - r.ga,
+        };
+      }
+      LEAGUE_STANDINGS_2627[bl] = map;
+    });
+  }
+
+  function formatOrdinal(n) {
+    var mod100 = n % 100;
+    if (mod100 >= 11 && mod100 <= 13) return n + "th";
+    var mod10 = n % 10;
+    if (mod10 === 1) return n + "st";
+    if (mod10 === 2) return n + "nd";
+    if (mod10 === 3) return n + "rd";
+    return n + "th";
+  }
+
+  function renderLeagueRankPill(leagueName, team) {
+    var bl = baseLeague(leagueName || "");
+    var tbl = LEAGUE_STANDINGS_2627[bl];
+    var info = tbl && tbl[team];
+    if (!info) return "";
+
+    var ord = formatOrdinal(info.rank);
+    var zoneCls = "";
+    if (info.rank === 1) {
+      zoneCls = " rank-leader";
+    } else if (info.rank <= 4) {
+      zoneCls = " rank-top";
+    } else if (info.total >= 6 && info.rank >= info.total - 2) {
+      zoneCls = " rank-bottom";
+    }
+
+    var gdStr = info.gd > 0 ? "+" + info.gd : String(info.gd);
+    var titleAttr =
+      ord +
+      " in " +
+      bl +
+      " (26/27) \u00b7 " +
+      info.pts +
+      " pts (P" +
+      info.p +
+      " \u00b7 " +
+      info.w +
+      "W-" +
+      info.d +
+      "D-" +
+      info.l +
+      "L \u00b7 GD " +
+      gdStr +
+      ")";
+
+    return (
+      '<span class="fixture-rank-pill' +
+      zoneCls +
+      '" title="' +
+      esc(titleAttr) +
+      '">' +
+      ord +
+      "</span>"
+    );
+  }
+
   // ── Predictive Model: 1X2 Outright Probabilities (xG + Elo + Dixon-Coles + BSD AI Ensemble) ──
   function predictMatchOutright(homeTeam, awayTeam, h2h, odds, ctx) {
     ctx = ctx || {};
@@ -1494,6 +1624,7 @@ const FootyDialogs = (function () {
   (function init() {
     computeTeamStats();
     computeModelRatings();
+    computeLeagueStandings2627();
     computeWins2PlusStats();
     computeCorners10PlusStats();
     loadCouponSlip();
@@ -4111,6 +4242,8 @@ const FootyDialogs = (function () {
 
     var homeStats = renderVenueFormHint(home, true);
     var awayStats = renderVenueFormHint(away, false);
+    var homeRankHtml = renderLeagueRankPill(fix.league, home);
+    var awayRankHtml = renderLeagueRankPill(fix.league, away);
     var injH = fix.inj && fix.inj.h ? Number(fix.inj.h) : 0;
     var injA = fix.inj && fix.inj.a ? Number(fix.inj.a) : 0;
     var homeInjHtml =
@@ -4413,8 +4546,8 @@ const FootyDialogs = (function () {
       esc(home) +
       "</span>" +
       "</div>" +
-      (homeStats || homeInjHtml
-        ? '<div class="fixture-team-meta">' + homeStats + homeInjHtml + "</div>"
+      (homeRankHtml || homeStats || homeInjHtml
+        ? '<div class="fixture-team-meta">' + homeRankHtml + homeStats + homeInjHtml + "</div>"
         : "") +
       "</div>" +
       '<div class="fixture-vs" aria-hidden="true">VS</div>' +
@@ -4425,8 +4558,8 @@ const FootyDialogs = (function () {
       "</span>" +
       getTeamBadgeHtml(away, "fixture-team-badge") +
       "</div>" +
-      (awayStats || awayInjHtml
-        ? '<div class="fixture-team-meta">' + awayInjHtml + awayStats + "</div>"
+      (awayRankHtml || awayStats || awayInjHtml
+        ? '<div class="fixture-team-meta">' + awayInjHtml + awayStats + awayRankHtml + "</div>"
         : "") +
       "</div>" +
       "</div>" +
