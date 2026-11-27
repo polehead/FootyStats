@@ -7,7 +7,7 @@
 | Season                                        | Source                                                | How it is generated                                             |
 | --------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
 | 26/27 results, stats, xG                      | [Bzzoiro Sports Data API](https://sports.bzzoiro.com) | `python footyapi.py --export-results` → `data.js`, `bsd_cache/` |
-| 26/27 upcoming fixtures, odds, AI predictions | Bzzoiro Sports Data API                               | `python footyapi.py --export-fixtures` → `fixtures.js`          |
+| 26/27 upcoming fixtures, odds, my modelled predictions | Bzzoiro Sports Data API                               | `python footyapi.py --export-fixtures` → `fixtures.js`          |
 | 19/20 – 25/26 history                         | football-data.co.uk (static cached CSVs)              | `./csv_cache/` (read by `footyapi.py`)                          |
 
 ## Automation
