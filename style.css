@@ -4937,7 +4937,7 @@ dialog::backdrop {
 .results-container {
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 0 36px;
+  padding: 18px 0 36px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -5932,6 +5932,7 @@ dialog::backdrop {
 
 @media (max-width: 768px) {
   .results-container {
+    padding: 12px 0 32px;
     gap: 12px;
   }
 

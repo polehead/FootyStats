@@ -288,6 +288,7 @@ const FootyDialogs = (function () {
   const $ftPreview = $("ft-score-preview");
   const $clearFt = $("btn-clear-ft");
   const $filterBar = $("filter-bar");
+  const $searchPanel = document.querySelector(".search-panel");
   const $filterCount = $("filter-active-count");
   const $customBanner = $("custom-result-banner");
   const $customCount = $("custom-result-count");
@@ -2225,6 +2226,13 @@ const FootyDialogs = (function () {
 
   // ── Render ────────────────────────────────────────────────────
   function render() {
+    const isResults = activeTab === "results";
+    if ($searchPanel) {
+      $searchPanel.style.display = isResults ? "none" : "";
+    }
+    if ($stats) {
+      $stats.style.display = isResults ? "none" : "";
+    }
     if (activeTab === "coupon") {
       renderCouponView();
       return;
@@ -3453,9 +3461,9 @@ const FootyDialogs = (function () {
   function renderResultsView(fullRebuild) {
     $filterBar.style.display = "none";
     $customBanner.classList.remove("visible");
+    if ($stats) $stats.innerHTML = "";
 
     if (!D || !D.m || !D.m.length) {
-      $stats.innerHTML = '<div class="stat-chip">0 results evaluated</div>';
       $main.innerHTML =
         '<div class="empty-state"><h2>DATA NOT LOADED</h2><p>Could not find match data in data.js.</p></div>';
       return;
@@ -3485,8 +3493,6 @@ const FootyDialogs = (function () {
     }
 
     if (!matches2627.length) {
-      $stats.innerHTML =
-        '<div class="stat-chip">0 completed 26/27 matches</div>';
       $main.innerHTML =
         '<div class="empty-state"><h2>NO 26/27 MATCHES FOUND</h2><p>No completed matches were found for the 26/27 season.</p></div>';
       return;
@@ -3508,9 +3514,8 @@ const FootyDialogs = (function () {
       return item.lgName === rLeague || baseLeague(item.lgName) === rLeague;
     });
 
-    // 3. Search filtering (supports both inline results search and top header search bar)
-    const searchLow = (rSearch || fTeam || "").trim().toLowerCase();
-    const oppLow = (fOpp || "").trim().toLowerCase();
+    // 3. Search filtering (uses inline results search bar)
+    const searchLow = (rSearch || "").trim().toLowerCase();
     const evaluatedAll = [];
 
     inLeague.forEach((item) => {
@@ -3522,12 +3527,6 @@ const FootyDialogs = (function () {
         const hMatch = home.toLowerCase().includes(searchLow);
         const aMatch = away.toLowerCase().includes(searchLow);
         if (!hMatch && !aMatch) return;
-      }
-
-      if (oppLow) {
-        const hOpp = home.toLowerCase().includes(oppLow);
-        const aOpp = away.toLowerCase().includes(oppLow);
-        if (!hOpp && !aOpp) return;
       }
 
       const matchKey = item.lgName + "|" + m[M.DATE] + "|" + home + "|" + away;
@@ -3653,13 +3652,6 @@ const FootyDialogs = (function () {
 
     // Sort newest first
     displayMatches.sort((a, b) => b.ts - a.ts);
-
-    // Update stats bar strip
-    $stats.innerHTML =
-      `<div class="stat-chip">Evaluated: <strong>${totalEval}</strong> matches</div>` +
-      `<div class="stat-chip">Model Accuracy: <strong>${accPct}%</strong> (${hitsCount}/${totalEval})</div>` +
-      `<div class="stat-chip">High Confidence: <strong>${hcPct}%</strong> (${hcHits}/${hcMatches.length})</div>` +
-      `<div class="stat-chip">1st Half Goals: <strong>${htPct}%</strong> (${htHits}/${htPicks.length})</div>`;
 
     // 6. Build KPI Grid HTML
     const kpisGridHtml =
