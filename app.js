@@ -3838,107 +3838,115 @@ const FootyDialogs = (function () {
     }
   }
 
-  function renderResultMatchCard(res) {
+  function renderResultMatchCard(res, idx) {
     const isHit = res.isHit;
     const verdictClass = isHit ? "verdict-hit" : "verdict-miss";
     const verdictIcon = isHit ? "✓" : "✕";
     const verdictText = isHit ? "HIT" : "MISS";
+    const deferredCls =
+      typeof idx === "number" && idx >= 6 ? " result-card-deferred" : "";
 
     const homeCrestHtml = getResultTeamCrestHtml(res.home);
     const awayCrestHtml = getResultTeamCrestHtml(res.away);
-    const displayDate = formatResultDisplayDate(res.m[M.DATE]);
+    const fullDate = formatResultDisplayDate(res.m[M.DATE]);
+    const shortDate = formatFixtureDateShort(res.m[M.DATE]) || fullDate;
     const lgNameClean = baseLeague(res.lgName);
 
     // Probability segments
     const pH = res.pred.probH;
     const pD = res.pred.probD;
     const pA = res.pred.probA;
+    const actualFtr = res.m[M.FTR];
 
     const isHighConfBadge = res.isHighConf
-      ? `<span class="result-highconf-badge" title="High confidence prediction (≥50% probability)">★ High Conf (${res.pickProb}%)</span>`
+      ? `<span class="result-highconf-badge" title="High confidence prediction (≥50% probability)">★ HC ${res.pickProb}%</span>`
       : "";
 
     // Submarket chips
     const actualHtText = res.actualHtGoal
-      ? `Yes (HT ${res.hthg}-${res.htag})`
-      : "No (HT 0-0)";
+      ? `Yes (${res.hthg}-${res.htag})`
+      : "0-0";
     const htPickBadge = res.htGoalPick
       ? res.actualHtGoal
-        ? `<span class="res-sub-badge hit">✓ Pick Hit</span>`
-        : `<span class="res-sub-badge miss">✕ Pick Miss</span>`
+        ? `<span class="res-sub-badge hit" title="1st Half Goal pick hit">✓</span>`
+        : `<span class="res-sub-badge miss" title="1st Half Goal pick miss">✕</span>`
       : "";
 
     const actualC10Text = `${res.totalCorners} (${res.hc}-${res.ac})`;
     const c10PickBadge = res.c10Pick
       ? res.actualC10
-        ? `<span class="res-sub-badge hit">✓ 10+ Hit</span>`
-        : `<span class="res-sub-badge miss">✕ 10+ Miss</span>`
+        ? `<span class="res-sub-badge hit" title="10+ Corners pick hit">✓ 10+</span>`
+        : `<span class="res-sub-badge miss" title="10+ Corners pick miss">✕ 10+</span>`
       : "";
 
     return (
-      `<div class="result-match-card ${verdictClass}">` +
-      // Top header row: League, Date, Verdict Badge
+      `<article class="result-match-card ${verdictClass}${deferredCls}">` +
+      // Top header row: League, Date, HC badge, Verdict Pill
       `<div class="result-match-header">` +
       `<div class="result-match-meta">` +
-      `<span class="result-league-badge">${getLeagueCrestHtml(lgNameClean, "result-league-logo")}${esc(lgNameClean)}</span>` +
-      `<span class="result-match-date">${esc(displayDate)}</span>` +
+      `<span class="result-league-badge">${getLeagueCrestHtml(lgNameClean, "result-league-logo")}<span class="result-league-text">${esc(lgNameClean)}</span></span>` +
+      `<span class="result-match-date" title="${esc(fullDate)}">${esc(shortDate)}</span>` +
       isHighConfBadge +
       `</div>` +
       `<div class="result-verdict-pill ${verdictClass}">` +
-      `<span class="result-verdict-icon">${verdictIcon}</span>` +
+      `<span class="result-verdict-icon" aria-hidden="true">${verdictIcon}</span>` +
       `<span class="result-verdict-text">${verdictText}</span>` +
       `</div>` +
       `</div>` +
-      // Scoreboard matchup row
+      // Dead-center grid scoreboard
       `<div class="result-scoreboard">` +
       `<div class="result-team home">` +
       `<span class="result-team-name">${esc(res.home)}</span>` +
       homeCrestHtml +
       `</div>` +
       `<div class="result-score-block">` +
-      `<div class="result-ft-score">${res.fthg} - ${res.ftag}</div>` +
-      `<div class="result-ht-score">HT ${res.hthg}-${res.htag}</div>` +
+      `<div class="result-ft-score">${res.fthg}–${res.ftag}</div>` +
+      `<div class="result-ht-score">HT ${res.hthg}–${res.htag}</div>` +
       `</div>` +
       `<div class="result-team away">` +
       awayCrestHtml +
       `<span class="result-team-name">${esc(res.away)}</span>` +
       `</div>` +
       `</div>` +
-      // Prediction Banner
+      // Prediction calibration panel
       `<div class="result-pred-banner">` +
       `<div class="result-pred-line">` +
-      `<span class="result-pred-tag">Model Pick:</span>` +
-      `<strong class="result-pred-pick-name">${esc(res.pickLabel)} (${res.pickProb}%)</strong>` +
-      `<span class="result-actual-line">Actual Result: <strong>${esc(res.actualLabel)}</strong></span>` +
+      `<div class="result-pred-pick-group">` +
+      `<span class="result-pred-tag">Pick</span>` +
+      `<strong class="result-pred-pick-name">${esc(res.pickLabel)} <span class="result-pred-pct">${res.pickProb}%</span></strong>` +
       `</div>` +
-      // 1X2 Probability bar (with flex-shrink and proportionality)
-      `<div class="result-prob-bar-container">` +
-      `<div class="result-prob-bar">` +
-      `<div class="result-prob-segment seg-h${res.pick === "H" ? " selected" : ""}" style="width:${pH}%;flex:${pH} 1 0%;" title="Home: ${pH}%">` +
-      `<span>H ${pH}%</span>` +
+      `<div class="result-actual-line">` +
+      `<span class="result-pred-tag">Actual</span>` +
+      `<strong>${esc(res.actualLabel)}</strong>` +
       `</div>` +
-      `<div class="result-prob-segment seg-d${res.pick === "D" ? " selected" : ""}" style="width:${pD}%;flex:${pD} 1 0%;" title="Draw: ${pD}%">` +
-      `<span>D ${pD}%</span>` +
       `</div>` +
-      `<div class="result-prob-segment seg-a${res.pick === "A" ? " selected" : ""}" style="width:${pA}%;flex:${pA} 1 0%;" title="Away: ${pA}%">` +
-      `<span>A ${pA}%</span>` +
+      // Precision 4px proportional bar + unclipped 3-column tabular legend
+      `<div class="result-prob-wrap">` +
+      `<div class="result-prob-bar" aria-hidden="true">` +
+      `<div class="result-prob-segment seg-h${res.pick === "H" ? " selected" : ""}" style="flex:${pH} 1 0%;"></div>` +
+      `<div class="result-prob-segment seg-d${res.pick === "D" ? " selected" : ""}" style="flex:${pD} 1 0%;"></div>` +
+      `<div class="result-prob-segment seg-a${res.pick === "A" ? " selected" : ""}" style="flex:${pA} 1 0%;"></div>` +
       `</div>` +
+      `<div class="result-prob-legend">` +
+      `<span class="result-prob-cell seg-h${res.pick === "H" ? " selected" : ""}${actualFtr === "H" ? " is-actual" : ""}">1 <strong>${pH}%</strong></span>` +
+      `<span class="result-prob-cell seg-d${res.pick === "D" ? " selected" : ""}${actualFtr === "D" ? " is-actual" : ""}">X <strong>${pD}%</strong></span>` +
+      `<span class="result-prob-cell seg-a${res.pick === "A" ? " selected" : ""}${actualFtr === "A" ? " is-actual" : ""}">2 <strong>${pA}%</strong></span>` +
       `</div>` +
       `</div>` +
       // Sub-markets detail strip
       `<div class="result-submarkets-strip">` +
       `<div class="result-sub-item">` +
-      `<span class="sub-dim">xG:</span> <strong>${res.pred.lambda.toFixed(2)} - ${res.pred.mu.toFixed(2)}</strong>` +
+      `<span class="sub-dim">xG</span><strong>${res.pred.lambda.toFixed(2)}–${res.pred.mu.toFixed(2)}</strong>` +
       `</div>` +
       `<div class="result-sub-item">` +
-      `<span class="sub-dim">1st Half Goal:</span> <strong>${actualHtText}</strong>${htPickBadge}` +
+      `<span class="sub-dim">1H</span><strong>${actualHtText}</strong>${htPickBadge}` +
       `</div>` +
       `<div class="result-sub-item">` +
-      `<span class="sub-dim">Corners:</span> <strong>${actualC10Text}</strong>${c10PickBadge}` +
+      `<span class="sub-dim">Crn</span><strong>${actualC10Text}</strong>${c10PickBadge}` +
       `</div>` +
       `</div>` +
       `</div>` +
-      `</div>`
+      `</article>`
     );
   }
 
