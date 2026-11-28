@@ -7,7 +7,7 @@
 | Season                                        | Source                                                | How it is generated                                             |
 | --------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
 | 26/27 results, stats, xG                      | [Bzzoiro Sports Data API](https://sports.bzzoiro.com) | `python footyapi.py --export-results` → `data.js`, `bsd_cache/` |
-| 26/27 upcoming fixtures, odds, AI predictions | Bzzoiro Sports Data API                               | `python footyapi.py --export-fixtures` → `fixtures.js`          |
+| 26/27 upcoming fixtures, odds, my modelled predictions | Bzzoiro Sports Data API                               | `python footyapi.py --export-fixtures` → `fixtures.js`          |
 | 19/20 – 25/26 history                         | football-data.co.uk (static cached CSVs)              | `./csv_cache/` (read by `footyapi.py`)                          |
 
 ## Automation
@@ -1144,5 +1144,192 @@ Filter for 5+ seasons of consistency: console.table(window.comboMatchups.filter(
 
   console.log(`Found ${issues.length} fixture data edge cases:`);
   console.table(issues);
+})();
+```
+## Random corner picks
+
+```js
+(() => {
+  const MIN_PCT = 60; // set your minimum percentage
+  const PICK_COUNT = 6; // set the amount of fixtures you want to display
+  const TODAY_ONLY = false; // set to true to limit picks to today's fixtures
+
+  if (typeof FOOTYDATA === "undefined" || typeof FOOTYFIXTURES === "undefined") {
+    console.error("FOOTYDATA or FOOTYFIXTURES not found — run this on the FootyStats page.");
+    return;
+  }
+
+  const D = FOOTYDATA;
+  const teams = D.t;
+  const homeStats = {};
+  const awayStats = {};
+  const h2hStats = {};
+
+  for (const m of D.m) {
+    const h = teams[m[1]];
+    const a = teams[m[2]];
+    const c10 = m[13] === 1 || (m[8] || 0) + (m[9] || 0) >= 10 ? 1 : 0;
+
+    (homeStats[h] ||= { n: 0, c10: 0 }).n++;
+    homeStats[h].c10 += c10;
+
+    (awayStats[a] ||= { n: 0, c10: 0 }).n++;
+    awayStats[a].c10 += c10;
+
+    const k = `${h}|${a}`;
+    (h2hStats[k] ||= { n: 0, c10: 0 }).n++;
+    h2hStats[k].c10 += c10;
+  }
+
+  const now = new Date();
+  const todayStr =
+    String(now.getDate()).padStart(2, "0") +
+    "/" +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    "/" +
+    now.getFullYear();
+
+  const qualifying = [];
+  for (const fix of FOOTYFIXTURES.fixtures || []) {
+    if (TODAY_ONLY && fix.date !== todayStr) continue;
+
+    const hs = homeStats[fix.home];
+    const as = awayStats[fix.away];
+    const h2h = h2hStats[`${fix.home}|${fix.away}`];
+
+    let wSum = 0;
+    let valSum = 0;
+    if (hs && hs.n >= 3) {
+      valSum += (hs.c10 / hs.n) * 0.4;
+      wSum += 0.4;
+    }
+    if (as && as.n >= 3) {
+      valSum += (as.c10 / as.n) * 0.4;
+      wSum += 0.4;
+    }
+    if (h2h && h2h.n >= 2) {
+      valSum += (h2h.c10 / h2h.n) * 0.2;
+      wSum += 0.2;
+    }
+    if (!wSum) continue;
+
+    const pct = Math.round((valSum / wSum) * 100);
+    if (pct >= MIN_PCT) {
+      qualifying.push({
+        League: fix.league,
+        Date: fix.date,
+        Time: fix.time || "TBD",
+        Match: `${fix.home} vs ${fix.away}`,
+        "10+ Corners %": `${pct}%`,
+        "Data (H / A / H2H)": `${hs?.n || 0} / ${as?.n || 0} / ${h2h?.n || 0}`,
+      });
+    }
+  }
+
+  // Fisher-Yates shuffle for uniform random picks
+  for (let i = qualifying.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [qualifying[i], qualifying[j]] = [qualifying[j], qualifying[i]];
+  }
+
+  const picks = qualifying.slice(0, PICK_COUNT);
+  console.log(
+    `Found ${qualifying.length} upcoming fixtures >= ${MIN_PCT}% for 10+ corners — showing ${picks.length} random picks:`,
+  );
+  console.table(picks);
+})();
+```
+
+## First-Half goals 6 random picks 80% plus
+
+```js
+(() => {
+  const MIN_PCT = 80; // set your minimum percentage
+  const PICK_COUNT = 6; // set the amount of fixtures you want to display
+  const TODAY_ONLY = false; // set to true to limit picks to today's fixtures
+
+  if (typeof FOOTYDATA === "undefined" || typeof FOOTYFIXTURES === "undefined") {
+    console.error("FOOTYDATA or FOOTYFIXTURES not found — run this on the FootyStats page.");
+    return;
+  }
+
+  const D = FOOTYDATA;
+  const teams = D.t;
+  const homeStats = {};
+  const awayStats = {};
+  const h2hStats = {};
+
+  for (const m of D.m) {
+    const h = teams[m[1]];
+    const a = teams[m[2]];
+    const htGoal = (m[6] || 0) + (m[7] || 0) > 0 ? 1 : 0;
+
+    (homeStats[h] ||= { n: 0, ht: 0 }).n++;
+    homeStats[h].ht += htGoal;
+
+    (awayStats[a] ||= { n: 0, ht: 0 }).n++;
+    awayStats[a].ht += htGoal;
+
+    const k = `${h}|${a}`;
+    (h2hStats[k] ||= { n: 0, ht: 0 }).n++;
+    h2hStats[k].ht += htGoal;
+  }
+
+  const now = new Date();
+  const todayStr =
+    String(now.getDate()).padStart(2, "0") +
+    "/" +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    "/" +
+    now.getFullYear();
+
+  const qualifying = [];
+  for (const fix of FOOTYFIXTURES.fixtures || []) {
+    if (TODAY_ONLY && fix.date !== todayStr) continue;
+
+    const hs = homeStats[fix.home];
+    const as = awayStats[fix.away];
+    const h2h = h2hStats[`${fix.home}|${fix.away}`];
+
+    let wSum = 0;
+    let valSum = 0;
+    if (hs && hs.n >= 3) {
+      valSum += (hs.ht / hs.n) * 0.4;
+      wSum += 0.4;
+    }
+    if (as && as.n >= 3) {
+      valSum += (as.ht / as.n) * 0.4;
+      wSum += 0.4;
+    }
+    if (h2h && h2h.n >= 2) {
+      valSum += (h2h.ht / h2h.n) * 0.2;
+      wSum += 0.2;
+    }
+    if (!wSum) continue;
+
+    const pct = Math.round((valSum / wSum) * 100);
+    if (pct >= MIN_PCT) {
+      qualifying.push({
+        League: fix.league,
+        Date: fix.date,
+        Time: fix.time || "TBD",
+        Match: `${fix.home} vs ${fix.away}`,
+        "1st Half Goal %": `${pct}%`,
+        "Data (H / A / H2H)": `${hs?.n || 0} / ${as?.n || 0} / ${h2h?.n || 0}`,
+      });
+    }
+  }
+
+  // Fisher-Yates shuffle for uniform random picks
+  for (let i = qualifying.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [qualifying[i], qualifying[j]] = [qualifying[j], qualifying[i]];
+  }
+
+  const picks = qualifying.slice(0, PICK_COUNT);
+  console.log(
+    `Found ${qualifying.length} upcoming fixtures >= ${MIN_PCT}% for a 1st half goal — showing ${picks.length} random picks:`,
+  );
+  console.table(picks);
 })();
 ```
